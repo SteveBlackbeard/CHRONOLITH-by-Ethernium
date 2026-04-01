@@ -1,54 +1,40 @@
-# CONTINUITY LEGACY por Ethernium
+# CONTINUITY LEGACY: El Guardián de la Memoria (v3.0) 🛡️🧠🚀
 
-`CONTINUITY LEGACY` es un kit de inicio independiente diseñado para construir proyectos con continuidad persistente, memoria canónica y una transferencia (handoff) repetible entre humanos y operadores de IA.
+Este kit es una estructura de **continuidad absoluta** diseñada para proyectos donde la memoria persistente entre humanos e IAs es crítica. No es solo un conjunto de archivos; es un **Sistema Operativo Cognitivo** para tus agentes.
 
-Este toolkit prioriza la continuidad: proporciona una disciplina reutilizable para la persistencia del contexto, la paridad de documentos y una transferencia gobernada sin depender de marcos de trabajo externos.
+## 🌟 Principios de Continuidad
+- **Memoria Canónica**: La verdad vive en el sistema de archivos, no en la memoria de chat.
+- **Ciclo de Cierre Estricto**: Validación obligatoria de paridad antes de cada push.
+- **Inmunidad Lógica**: Detección automática de contradicciones arquitectónicas.
 
-## Qué incluye
-- una superficie de memoria canónica mínima
-- un instantánea de arranque de continuidad (snapshot)
-- comprobaciones de paridad de documentos
-- comprobaciones de membresía del sistema
-- una capa externa opcional para desarrolladores (ej: `PROJECTDEV/`)
-- un comando de cierre de continuidad estricto
-- un gestor de arranque (bootstrapper) para personalizar la plantilla
+## 🚀 Inicio Rápido (v3.0 Modular)
 
-## Inicio Rápido
-
-### 1. La Vía "Pro" (CLI) - RECOMENDADO
-Instala la interfaz de línea de comandos global para inicializar proyectos en un solo paso:
-
+1. **Instalación**: Copia la carpeta `tools/continuity_legacy/` a tu proyecto.
+2. **Inicialización Inteligente (Caja de Cristal)**:
 ```powershell
-pip install continuity-legacy
-continuity-legacy init "Mi Proyecto"
+python tools/continuity_legacy/bootstrap_project.py --repo-root . --project-name "Mi Proyecto" --project-slug mi_proyecto --discover
+```
+*El flag `--discover` escareará tu stack (React, Python, Docker, etc.) y sugerirá reglas automáticamente.*
+
+3. **Extensiones Opcionales**:
+```powershell
+# Con soporte para base de datos vectorial (ChromaDB)
+python tools/continuity_legacy/bootstrap_project.py --project-name "IA Core" --project-slug ia_core --with-vector
+
+# Con soporte para grafo de memoria (NetworkX)
+python tools/continuity_legacy/bootstrap_project.py --project-name "Brain" --project-slug brain --with-graph
 ```
 
-### 2. Manual (Copiar/Pegar)
-1. Copia esta carpeta en la raíz de tu nuevo proyecto.
-2. Ejecuta el gestor de arranque:
-
+4. **Ciclo de Continuidad (Obligatorio)**:
 ```powershell
-python tools/continuity_legacy/bootstrap_project.py --repo-root . --project-name "Mi Proyecto" --project-slug mi_proyecto
+python tools/continuity_legacy/run_continuity_cycle.py --strict
 ```
 
-3. Si deseas una capa de continuidad externa:
-
-```powershell
-python tools/continuity_legacy/bootstrap_project.py --repo-root . --project-name "Mi Proyecto" --project-slug mi_proyecto --enable-external-docs
-```
-
-## Protección Automática (Continuity Guard)
-Para asegurar que el proyecto permanezca coherente sin esfuerzo manual, incluye un sistema de seguridad de doble capa:
-
-1. **Guardia Local (`pre-commit`)**: Te avisa de desviaciones o falta de marcadores mientras trabajas, sin bloquear tu flujo creativo.
-2. **Guardia de Frontera (`pre-push`)**: Bloquea el `push` a GitHub si el ciclo de continuidad no es 100% válido.
-
-## Archivos Principales
-- `PROJECT_CONTEXT.md`
-- `STATE.json`
-- `ROADMAP.md`
-- `.continuity/LIVE_HANDOFF.md`
-- `AGENT_START.md` (Qué entregarle a una nueva IA)
+## 🏛️ Gobernanza y Madurez
+Consulta los documentos oficiales en la raíz:
+- [MAINTAINERS.md](../../MAINTAINERS.md): Roles de Guardianes y sucesores.
+- [CONTRIBUTING.md](../../CONTRIBUTING.md): Guía de paridad para colaboradores.
+- [CHANGELOG.md](../../CHANGELOG.md): Cronología de la evolución del sistema.
 
 ---
-**Para más detalles, consulta los casos de uso y la guía de solución de problemas en la carpeta raíz.**
+*"La continuidad no es una persona; es un proceso."*

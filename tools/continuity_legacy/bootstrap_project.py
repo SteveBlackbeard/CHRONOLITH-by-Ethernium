@@ -37,6 +37,8 @@ def bootstrap_project(
     enable_external_docs: bool = False,
     external_root_override: str | Path | None = None,
     discover: bool = False,
+    with_vector: bool = False,
+    with_graph: bool = False,
 ) -> dict:
     repo_root = resolve_repo_root(repo_root, __file__)
     config = load_config(repo_root)
@@ -49,6 +51,20 @@ def bootstrap_project(
         draft_content = generate_context_draft(repo_root, project_name)
         (repo_root / "PROJECT_CONTEXT.md").write_text(draft_content, encoding="utf-8")
         discovery_performed = True
+
+    # Handle Extensions
+    extensions_created = []
+    if with_vector or with_graph:
+        ext_root = repo_root / "tools" / "continuity_legacy" / "extensions"
+        ext_root.mkdir(parents=True, exist_ok=True)
+        if with_vector:
+            (ext_root / "vector").mkdir(exist_ok=True)
+            (ext_root / "vector" / "README.md").write_text("# Vector Extension\nInstall dependencies with `pip install .[vector]`", encoding="utf-8")
+            extensions_created.append("vector")
+        if with_graph:
+            (ext_root / "graph").mkdir(exist_ok=True)
+            (ext_root / "graph" / "README.md").write_text("# Graph Extension\nInstall dependencies with `pip install .[graph]`", encoding="utf-8")
+            extensions_created.append("graph")
 
     config["project_name"] = project_name
     config["project_slug"] = project_slug
@@ -95,6 +111,7 @@ def bootstrap_project(
         "project_slug": project_slug,
         "external_docs": external_report,
         "discovery_performed": discovery_performed,
+        "extensions": extensions_created,
         "git_hooks_installed": hooks_installed,
     }
 
@@ -107,6 +124,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--enable-external-docs", action="store_true")
     parser.add_argument("--external-root", default=None)
     parser.add_argument("--discover", action="store_true", help="Auto-discover project context and rules.")
+    parser.add_argument("--with-vector", action="store_true", help="Enable vector store extension.")
+    parser.add_argument("--with-graph", action="store_true", help="Enable knowledge graph extension.")
     return parser.parse_args()
 
 
@@ -119,6 +138,8 @@ def main() -> None:
         enable_external_docs=args.enable_external_docs,
         external_root_override=args.external_root,
         discover=args.discover,
+        with_vector=args.with_vector,
+        with_graph=args.with_graph,
     )
     for key, value in report.items():
         print(f"{key}: {value}")

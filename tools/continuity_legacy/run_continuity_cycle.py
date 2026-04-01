@@ -73,6 +73,34 @@ def _collect_path_status(base_root: Path, repo_root: Path, rel_paths: list[str])
     ]
 
 
+def check_logical_immunity(repo_root: Path) -> dict:
+    context_path = repo_root / "PROJECT_CONTEXT.md"
+    decisions_path = repo_root / ".continuity" / "DECISIONS_LOG.md"
+    
+    if not context_path.exists() or not decisions_path.exists():
+        return {"status": "ok", "reason": "files_missing_for_check"}
+
+    context = context_path.read_text(encoding="utf-8")
+    decisions = decisions_path.read_text(encoding="utf-8")
+    
+    # Heuristic: Check if 'forbidden' markers in context appear in recent decisions
+    # or if 'required' markers are being negated.
+    issues = []
+    
+    # Example: Look for explicit "REMOVED" or "DEPRECATED" for keywords that are in PROJECT_CONTEXT
+    # (This is a simplified zero-deps logic that can be expanded)
+    for line in context.splitlines():
+        if "MUST:" in line or "ALWAYS:" in line:
+            keyword = line.split(":", 1)[1].strip().split()[0] # Take the first word
+            if f"REMOVE {keyword}" in decisions.upper() or f"DEPRECATE {keyword}" in decisions.upper():
+                issues.append(f"Potential contradiction: Context requires '{keyword}' but decisions mention its removal.")
+
+    return {
+        "status": "ok" if not issues else "attention_required",
+        "issues": issues
+    }
+
+
 def run_continuity_cycle(repo_root: str | Path, external_root_override: str | Path | None = None) -> dict:
     repo_root = resolve_repo_root(repo_root, __file__)
     config = load_config(repo_root)
@@ -85,6 +113,7 @@ def run_continuity_cycle(repo_root: str | Path, external_root_override: str | Pa
     doc_parity = check_doc_parity(str(repo_root))
     membership = check_system_membership(str(repo_root))
     external_sync = sync_external_dev_context(repo_root, external_root_override)
+    logical_immunity = check_logical_immunity(repo_root)
 
     internal_paths = _collect_path_status(repo_root, repo_root, INTERNAL_REQUIRED)
     internal_missing = [item["relative_path"] for item in internal_paths if not item["exists"]]
@@ -118,6 +147,7 @@ def run_continuity_cycle(repo_root: str | Path, external_root_override: str | Pa
     statuses = {
         "doc_parity_status": doc_parity["status"],
         "membership_status": membership["status"],
+        "logical_immunity_status": logical_immunity["status"],
         "internal_paths_status": "ok" if not internal_missing else "attention_required",
         "external_sync_status": external_sync["status"],
         "external_paths_status": "ok" if not external_missing else ("skipped" if not external_paths else "attention_required"),
@@ -128,6 +158,7 @@ def run_continuity_cycle(repo_root: str | Path, external_root_override: str | Pa
     blocking_statuses = [
         statuses["doc_parity_status"],
         statuses["membership_status"],
+        statuses["logical_immunity_status"],
         statuses["internal_paths_status"],
     ]
     if statuses["external_sync_status"] == "ok":
