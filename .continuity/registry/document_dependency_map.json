@@ -134,7 +134,7 @@
       "refresh_triggers": [
         "activation_protocol_change"
       ],
-      "severity": "warning"
+      "severity": "info"
     }
   ]
 }

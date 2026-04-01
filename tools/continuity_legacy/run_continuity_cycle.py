@@ -172,14 +172,6 @@ def run_continuity_cycle(repo_root: str | Path, external_root_override: str | Pa
     return report
 
 
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run the strict continuity closeout for this project.")
-    parser.add_argument("--repo-root", default=None)
-    parser.add_argument("--external-root", default=None)
-    parser.add_argument("--strict", action="store_true")
-    return parser.parse_args()
-
-
 def main() -> None:
     args = parse_args()
     report = run_continuity_cycle(args.repo_root, args.external_root)
@@ -191,7 +183,19 @@ def main() -> None:
     echo(f"Phase:  {report['phase']}")
     echo(f"Report: {report['report']}")
 
-    if report["status"] != "ok":
+    # Handle Bypass
+    bypassed = False
+    if args.bypass and report["status"] != "ok":
+        repo_root = resolve_repo_root(args.repo_root, __file__)
+        log_path = repo_root / ".continuity" / "BYPASS_LOG.md"
+        if log_path.exists():
+            with open(log_path, "a", encoding="utf-8") as f:
+                date = utc_now_iso().split("T")[0]
+                f.write(f"| {date} | Global Cycle | {args.bypass} | Operator |\n")
+            echo(f"\n[!] BYPASS ACTIVATED: {args.bypass}", Color.CYAN)
+            bypassed = True
+
+    if report["status"] != "ok" and not bypassed:
         if args.strict:
             echo("\n[!] STRICT MODE: Inconsistencies detected. Blocking execution.", Color.RED)
             raise SystemExit(1)
@@ -199,7 +203,19 @@ def main() -> None:
             echo("\n[⚠] WARNING: Project state has drift. Run with --strict to enforce parity.", Color.YELLOW)
             echo("[*] Use 'python tools/continuity_legacy/continuity_status.py' for details.")
     else:
-        echo("\n[✔] Project state is canonical and valid.", Color.GREEN)
+        if bypassed:
+            echo("\n[✔] Project state is CANONICAL (Bypassed).", Color.GREEN)
+        else:
+            echo("\n[✔] Project state is canonical and valid.", Color.GREEN)
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Run the strict continuity closeout for this project.")
+    parser.add_argument("--repo-root", default=None)
+    parser.add_argument("--external-root", default=None)
+    parser.add_argument("--strict", action="store_true")
+    parser.add_argument("--bypass", help="Bypass strict mode by providing a reason.")
+    return parser.parse_args()
 
 
 if __name__ == "__main__":

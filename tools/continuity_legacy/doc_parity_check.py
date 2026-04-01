@@ -17,6 +17,7 @@ def check_doc_parity(repo_root: str) -> dict:
     dependency_map = load_dependency_map(root)
     errors: list[str] = []
     warnings: list[str] = []
+    infos: list[str] = []
     stale_references: list[dict] = []
     docs_requiring_refresh: list[dict] = []
 
@@ -33,6 +34,8 @@ def check_doc_parity(repo_root: str) -> dict:
             message = f"Missing parity-tracked document: {rel_path}"
             if severity == "error":
                 errors.append(message)
+            elif severity == "info":
+                infos.append(message)
             else:
                 warnings.append(message)
             continue
@@ -52,6 +55,8 @@ def check_doc_parity(repo_root: str) -> dict:
             message = f"Document parity drift in `{rel_path}`: missing {len(missing_required)} required markers."
             if severity == "error":
                 errors.append(message)
+            elif severity == "info":
+                infos.append(message)
             else:
                 warnings.append(message)
 
@@ -66,6 +71,8 @@ def check_doc_parity(repo_root: str) -> dict:
             message = f"Document parity drift in `{rel_path}`: found {len(forbidden_hits)} forbidden markers."
             if severity == "error":
                 errors.append(message)
+            elif severity == "info":
+                infos.append(message)
             else:
                 warnings.append(message)
 
@@ -77,6 +84,7 @@ def check_doc_parity(repo_root: str) -> dict:
         "documents_checked": len(dependency_map.get("documents", [])),
         "errors": errors,
         "warnings": warnings,
+        "infos": infos,
         "stale_references": stale_references,
         "docs_requiring_refresh": docs_requiring_refresh,
     }

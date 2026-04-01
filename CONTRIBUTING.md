@@ -20,15 +20,27 @@ We are always looking for better ways to:
 1.  Fork the repository.
 2.  Create a new branch for your feature or fix (e.g., `git checkout -b feat/my-new-feature`).
 3.  Make your changes.
-4.  **Run the tests!** (See the `tests/` directory).
-5.  Commit your changes with a clear message.
-6.  Push to your fork and open a Pull Request to the `Ethernium` branch.
+4.  **Run the Continuity Cycle!** (See `tools/continuity_legacy/run_continuity_cycle.py`).
+5.  **Continuity Proof**: Your PR must include a `outputs/continuity/continuity_cycle_report.json` showing a `status: ok` as proof of alignment.
+6.  Commit your changes with a clear message.
+7.  Push to your fork and open a Pull Request to the `Ethernium` branch.
 
-## Code Style
+## 🏛️ Governance
+This project follows a merit-based governance model. Total project alignment is tracked via the continuity system itself. See [MAINTAINERS.md](file:///d:/Experimentos/CONTINUITY_LEGACY/MAINTAINERS.md) for more information on roles and leadership.
+
+## ⚖️ Flexible Validation (v2.2)
+We support different severity levels for documentation parity:
+- **Error**: Mandatory. Blocks commit/push.
+- **Warning**: Recommended. Notified but non-blocking locally.
+- **Info**: Informative feedback.
+
+For critical exceptions, use the `BYPASS_LOG.md` to document why a rule was temporarily waived.
+
+## 🎨 Code Style
 -   Use Python 3.8+ compatible code.
 -   Be strict with `utf-8` encoding.
 -   Always prioritize readability and continuity over clever shortcuts.
 -   Follow the existing path resolution and security patterns.
 
 ---
-**Thank you for helping us build better continuity!**
+**Thank you for helping us build better, persistent continuity!**
