@@ -54,8 +54,10 @@ def build_context_snapshot(
     config = load_config(repo_root)
     documents: dict[str, dict] = {}
 
+    import os
     for key, full_path, mode in _iter_internal_docs(repo_root, config):
-        entry = {"path": str(full_path), "exists": full_path.exists(), "mode": mode}
+        rel_path_str = os.path.relpath(full_path, repo_root).replace("\\", "/")
+        entry = {"path": rel_path_str, "exists": full_path.exists(), "mode": mode}
         if full_path.exists():
             if mode == "json":
                 entry["parsed"] = _read_json(full_path)
@@ -69,15 +71,18 @@ def build_context_snapshot(
     if ext_root and Path(ext_root).exists():
         for key, rel_path, mode in EXTERNAL_BOOT_DOCS:
             full_path = Path(ext_root) / rel_path
-            entry = {"path": str(full_path), "exists": full_path.exists(), "mode": mode}
+            rel_path_str = os.path.relpath(full_path, repo_root).replace("\\", "/")
+            entry = {"path": rel_path_str, "exists": full_path.exists(), "mode": mode}
             if full_path.exists():
                 entry["excerpt"] = read_text(full_path)[:4000]
             documents[key] = entry
 
     state = documents.get("state", {}).get("parsed", {})
-    return {
+    metadata = config.get("metadata", {})
+    
+    snapshot = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "repo_root": str(repo_root),
+        "repo_root": ".",
         "date": state.get("date"),
         "phase": state.get("status"),
         "next_actions": state.get("next_actions", []),
@@ -85,11 +90,17 @@ def build_context_snapshot(
         "truth": state.get("truth", {}),
         "documents": documents,
         "template_name": config.get("template_name"),
-        "author_signature": config.get("author_signature"),
         "project_name": config.get("project_name"),
         "project_slug": config.get("project_slug"),
-        "external_root": str(ext_root) if ext_root else "",
+        "external_root": os.path.relpath(ext_root, repo_root).replace("\\", "/") if ext_root else "",
     }
+    if metadata.get("include_in_reports"):
+        snapshot["metadata"] = {
+            "generated_by": metadata.get("generated_by"),
+            "tool_version": metadata.get("tool_version"),
+            "creator": metadata.get("creator"),
+        }
+    return snapshot
 
 
 def summarize_snapshot(snapshot: dict) -> str:

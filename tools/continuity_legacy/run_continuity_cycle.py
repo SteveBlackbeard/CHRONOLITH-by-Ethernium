@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 
 from core.automation_common import (
@@ -60,10 +61,11 @@ def _extract_first_numbered_action(text: str) -> str | None:
     return None
 
 
-def _collect_path_status(base_root: Path, rel_paths: list[str]) -> list[dict]:
+def _collect_path_status(base_root: Path, repo_root: Path, rel_paths: list[str]) -> list[dict]:
+    import os
     return [
         {
-            "path": str(base_root / rel_path),
+            "path": os.path.relpath(base_root / rel_path, repo_root).replace("\\", "/"),
             "relative_path": rel_path,
             "exists": (base_root / rel_path).exists(),
         }
@@ -84,7 +86,7 @@ def run_continuity_cycle(repo_root: str | Path, external_root_override: str | Pa
     membership = check_system_membership(str(repo_root))
     external_sync = sync_external_dev_context(repo_root, external_root_override)
 
-    internal_paths = _collect_path_status(repo_root, INTERNAL_REQUIRED)
+    internal_paths = _collect_path_status(repo_root, repo_root, INTERNAL_REQUIRED)
     internal_missing = [item["relative_path"] for item in internal_paths if not item["exists"]]
 
     external_paths: list[dict] = []
@@ -94,7 +96,7 @@ def run_continuity_cycle(repo_root: str | Path, external_root_override: str | Pa
 
     if external_sync.get("status") == "ok":
         ext_root = Path(external_sync["external_root"])
-        external_paths = _collect_path_status(ext_root, EXTERNAL_REQUIRED)
+        external_paths = _collect_path_status(ext_root, repo_root, EXTERNAL_REQUIRED)
         external_missing = [item["relative_path"] for item in external_paths if not item["exists"]]
         state = json.loads(state_path(repo_root, config).read_text(encoding="utf-8"))
         current_state_text = read_text(ext_root / "01_STATE" / "CURRENT_STATE.txt")
@@ -134,7 +136,6 @@ def run_continuity_cycle(repo_root: str | Path, external_root_override: str | Pa
         "generated_at": utc_now_iso(),
         "status": overall_status,
         "phase": snapshot.get("phase", "unknown"),
-        "author_signature": config.get("author_signature"),
         "next_action_1": snapshot.get("next_actions", ["none"])[0],
         "project_name": snapshot.get("project_name"),
         "doc_parity_status": doc_parity["status"],
@@ -146,9 +147,16 @@ def run_continuity_cycle(repo_root: str | Path, external_root_override: str | Pa
         "external_next_action_status": statuses["external_next_action_status"],
         "internal_missing_paths": internal_missing,
         "external_missing_paths": external_missing,
-        "bootstrap_summary": str(bootstrap_path),
-        "report": str(continuity_report_path(repo_root, config)),
+        "bootstrap_summary": os.path.relpath(bootstrap_path, repo_root).replace("\\", "/"),
+        "report": os.path.relpath(continuity_report_path(repo_root, config), repo_root).replace("\\", "/"),
     }
+    metadata = config.get("metadata", {})
+    if metadata.get("include_in_reports"):
+        report["metadata"] = {
+            "generated_by": metadata.get("generated_by"),
+            "tool_version": metadata.get("tool_version"),
+            "creator": metadata.get("creator"),
+        }
 
     report_path = continuity_report_path(repo_root, config)
     report_path.parent.mkdir(parents=True, exist_ok=True)

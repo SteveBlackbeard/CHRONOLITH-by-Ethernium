@@ -47,6 +47,20 @@ python tools/continuity_legacy/run_continuity_cycle.py --repo-root D:\Experiment
 - `.continuity/TIMELINE.md`
 - `continuity_legacy.json`
 
+## Configuration & Metadata
+The `continuity_legacy.json` file controls paths and project identity.
+
+By default, generated reports and snapshots include **provenance metadata** to indicate they were generated with Continuity Legacy. You can disable this by setting `"include_in_reports": false` under the `"metadata"` key in the config file.
+
+```json
+  "metadata": {
+    "generated_by": "Continuity Legacy by Ethernium",
+    "tool_version": "1.0.0",
+    "creator": "@Steveblackbeard",
+    "include_in_reports": true
+  }
+```
+
 ## Folder Map
 - `/.continuity`
   Canonical continuity memory, handoff, timeline, decisions, and boot rules.
