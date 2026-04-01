@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONTINUITY LEGACY | Ethernium Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Outfit:wght@200;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --text: #ffffff;
+            --accent: #ffffff;
+            --danger: #ff4444;
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --card-bg: #111111;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        header {
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .banner {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.1));
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 200;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: -10px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid #222;
+            padding: 30px;
+            border-radius: 4px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #444;
+        }
+
+        .card h2 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .status-val {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .status-ok { color: var(--success); }
+        .status-bad { color: var(--danger); }
+        .status-warn { color: var(--warning); }
+
+        .btn-refresh {
+            margin-top: 40px;
+            padding: 12px 30px;
+            background: #fff;
+            color: #000;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .btn-refresh:hover {
+            background: #000;
+            color: #fff;
+            outline: 1px solid #fff;
+        }
+
+        .footer {
+            margin-top: 60px;
+            font-size: 0.7rem;
+            color: #444;
+            letter-spacing: 1px;
+        }
+
+        #error-msg {
+            color: var(--danger);
+            font-size: 0.8rem;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/Ethernium/docs/assets/banner_ethernium.png" alt="Ethernium Banner" class="banner" id="main-banner">
+        <h1>Autonomic Context Governance System v4.0</h1>
+    </header>
+
+    <div class="container" id="dashboard-container">
+        <!-- Dyn Cards -->
+        <div class="card">
+            <h2>Overall Status</h2>
+            <div class="status-val" id="overall-status">LOADING</div>
+        </div>
+        <div class="card">
+            <h2>Doc Parity</h2>
+            <div class="status-val" id="parity-status">...</div>
+        </div>
+        <div class="card">
+            <h2>Logical Immunity</h2>
+            <div class="status-val" id="immunity-status">...</div>
+        </div>
+        <div class="card">
+            <h2>Security</h2>
+            <div class="status-val" id="security-status">...</div>
+        </div>
+    </div>
+
+    <p id="error-msg">Report not found. Ensure 'outputs/continuity/continuity_cycle_report.json' exists.</p>
+
+    <button class="btn-refresh" onclick="fetchReport()">Refresh Protocol</button>
+
+    <div class="footer">
+        © 2026 ETHERNIUM | CONTINUITY LEGACY UNIVERSAL CORE
+    </div>
+
+    <script>
+        async function fetchReport() {
+            try {
+                const response = await fetch('outputs/continuity/continuity_cycle_report.json');
+                if (!response.ok) throw new Error('Report missing');
+                const data = await response.json();
+                
+                updateUI(data);
+                document.getElementById('error-msg').style.display = 'none';
+            } catch (err) {
+                console.error(err);
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+
+        function updateUI(data) {
+            const overall = document.getElementById('overall-status');
+            const parity = document.getElementById('parity-status');
+            const immunity = document.getElementById('immunity-status');
+            const security = document.getElementById('security-status');
+
+            overall.innerText = data.status.toUpperCase();
+            overall.className = 'status-val ' + (data.status === 'ok' ? 'status-ok' : 'status-bad');
+
+            parity.innerText = data.doc_parity_status.toUpperCase();
+            parity.className = 'status-val ' + (data.doc_parity_status === 'ok' ? 'status-ok' : 'status-warn');
+
+            // Handle Logical Immunity from report if exists
+            immunity.innerText = (data.logical_immunity_status || 'OK').toUpperCase();
+            immunity.className = 'status-val ' + ((data.logical_immunity_status || 'ok') === 'ok' ? 'status-ok' : 'status-warn');
+
+            security.innerText = (data.security_status || 'OK').toUpperCase();
+            security.className = 'status-val ' + ((data.security_status || 'ok') === 'ok' ? 'status-ok' : 'status-bad');
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            // Update banner with local path if possible or keep the remote one as fallback
+            const banner = document.getElementById('main-banner');
+            // Try local path first
+            banner.onerror = function() {
+                this.src = 'https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/Ethernium/docs/assets/banner_ethernium.png';
+            };
+            
+            fetchReport();
+        });
+    </script>
+</body>
+</html>

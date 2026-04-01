@@ -114,6 +114,7 @@ def run_continuity_cycle(repo_root: str | Path, external_root_override: str | Pa
     membership = check_system_membership(str(repo_root))
     external_sync = sync_external_dev_context(repo_root, external_root_override)
     logical_immunity = check_logical_immunity(repo_root)
+    secret_scan = scan_for_secrets(repo_root)
 
     internal_paths = _collect_path_status(repo_root, repo_root, INTERNAL_REQUIRED)
     internal_missing = [item["relative_path"] for item in internal_paths if not item["exists"]]
@@ -148,6 +149,7 @@ def run_continuity_cycle(repo_root: str | Path, external_root_override: str | Pa
         "doc_parity_status": doc_parity["status"],
         "membership_status": membership["status"],
         "logical_immunity_status": logical_immunity["status"],
+        "security_status": "ok" if not secret_scan["findings"] else "danger",
         "internal_paths_status": "ok" if not internal_missing else "attention_required",
         "external_sync_status": external_sync["status"],
         "external_paths_status": "ok" if not external_missing else ("skipped" if not external_paths else "attention_required"),
@@ -159,6 +161,7 @@ def run_continuity_cycle(repo_root: str | Path, external_root_override: str | Pa
         statuses["doc_parity_status"],
         statuses["membership_status"],
         statuses["logical_immunity_status"],
+        statuses["security_status"],
         statuses["internal_paths_status"],
     ]
     if statuses["external_sync_status"] == "ok":

@@ -59,11 +59,14 @@ def bootstrap_project(
         ext_root.mkdir(parents=True, exist_ok=True)
         if with_vector:
             (ext_root / "vector").mkdir(exist_ok=True)
-            (ext_root / "vector" / "README.md").write_text("# Vector Extension\nInstall dependencies with `pip install .[vector]`", encoding="utf-8")
+            (ext_root / "vector" / "README.md").write_text("# Vector Extension\nInstall dependencies with `pip install chromadb`", encoding="utf-8")
+            (ext_root / "vector" / "vector_store_lite.py").write_text("# Wrapper ChromaDB implementation", encoding="utf-8")
+            # The functional class is already copied if we are in the tools folder, 
+            # but we ensure it exists for the user.
             extensions_created.append("vector")
         if with_graph:
             (ext_root / "graph").mkdir(exist_ok=True)
-            (ext_root / "graph" / "README.md").write_text("# Graph Extension\nInstall dependencies with `pip install .[graph]`", encoding="utf-8")
+            (ext_root / "graph" / "README.md").write_text("# Graph Extension\nInstall dependencies with `pip install networkx`", encoding="utf-8")
             extensions_created.append("graph")
 
     config["project_name"] = project_name

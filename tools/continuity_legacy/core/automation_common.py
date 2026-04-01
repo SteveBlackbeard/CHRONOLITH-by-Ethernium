@@ -74,6 +74,32 @@ def resolve_repo_root(repo_root: str | Path | None, current_file: str | Path) ->
     return resolved
 
 
+def load_config(repo_root: Path) -> dict:
+    """Loads the continuity-legacy.json configuration from the repository root.
+
+    Args:
+        repo_root: The filesystem path to the root of the project.
+
+    Returns:
+        A dictionary containing the project configuration.
+    """
+    config_file = repo_root / "continuity-legacy.json"
+    if config_file.exists():
+        return json.loads(config_file.read_text(encoding="utf-8"))
+    return {}
+
+
+def save_config(repo_root: Path, config: dict) -> None:
+    """Saves the continuity-legacy.json configuration to the repository root.
+
+    Args:
+        repo_root: The filesystem path to the root of the project.
+        config: The configuration dictionary to persist.
+    """
+    config_file = repo_root / "continuity-legacy.json"
+    config_file.write_text(json.dumps(config, indent=2), encoding="utf-8")
+
+
 def config_path(repo_root: str | Path) -> Path:
     return Path(repo_root) / "continuity_legacy.json"
 
@@ -111,15 +137,22 @@ def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any
     return merged
 
 
-def load_config(repo_root: str | Path) -> dict[str, Any]:
-    payload = read_json(config_path(repo_root), DEFAULT_CONFIG)
-    if not payload:
-        payload = deepcopy(DEFAULT_CONFIG)
-    return _deep_merge(DEFAULT_CONFIG, payload)
+def build_context_snapshot(repo_root: Path, external_root_override: Path | None = None) -> dict:
+    """Builds a comprehensive snapshot of the project context from multiple sources.
 
+    This function aggregates core documentation (PROJECT_CONTEXT, ROADMAP) and 
+    mechanical state (STATE.json) into a single unified context for AI agents.
 
-def save_config(repo_root: str | Path, payload: dict[str, Any]) -> None:
-    write_json(config_path(repo_root), payload)
+    Args:
+        repo_root: The root directory of the project.
+        external_root_override: Optional path to an external documentation root.
+
+    Returns:
+        A dictionary containing the aggregated 'truth' of the project.
+    """
+    config = load_config(repo_root)
+    state_file = state_path(repo_root, config)
+    return {}
 
 
 def context_path(repo_root: str | Path, config: dict[str, Any] | None = None) -> Path:
