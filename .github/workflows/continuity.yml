@@ -1,17 +1,15 @@
-name: CONTINUITY LEGACY Validation
+name: CONTINUITY LEGACY Validation & Release
 
 on:
   push:
-    branches:
-      - '**'
+    branches: ["**"]
+    tags: ["v*"]
   pull_request:
-    branches:
-      - '**'
+    branches: ["**"]
 
 jobs:
   validate-continuity:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -23,10 +21,28 @@ jobs:
 
       - name: Run Continuity Legacy Cycle
         run: |
-          # The main tool logic is in Python with zero dependencies
           python tools/continuity_legacy/run_continuity_cycle.py --repo-root . --strict
 
-      - name: Report Status
-        if: always()
+  pypi-release:
+    name: Publish to PyPI
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: validate-continuity
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Build Package
         run: |
-          echo "Continuity validation finished."
+          python -m pip install --upgrade build
+          python -m build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

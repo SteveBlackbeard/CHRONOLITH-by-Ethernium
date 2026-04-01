@@ -229,9 +229,13 @@ def main() -> None:
     if report["status"] != "ok" and not bypassed:
         if args.strict:
             echo("\n[!] STRICT MODE: Inconsistencies detected. Blocking execution.", Color.RED)
+            if report["doc_parity_status"] != "ok":
+                echo("[*] Some document errors might be healable. Try: 'python tools/continuity_legacy/heal_parity.py'", Color.CYAN)
             raise SystemExit(1)
         else:
             echo("\n[⚠] WARNING: Project state has drift. Run with --strict to enforce parity.", Color.YELLOW)
+            if report["doc_parity_status"] != "ok":
+                echo("[*] Some document errors might be healable. Try: 'python tools/continuity_legacy/heal_parity.py'", Color.CYAN)
             echo("[*] Use 'python tools/continuity_legacy/continuity_status.py' for details.")
     else:
         if bypassed:

@@ -1,17 +1,10 @@
-# CHANGELOG: CONTINUITY LEGACY 🛡️🚀
+## [3.1.0] - 2026-04-01: The Professional Pillar 🏛️🛡️🚀
+- **Added**: `tools/continuity_legacy/heal_parity.py` - Self-healing engine for document markers.
+- **Improved**: `run_continuity_cycle.py` with actionable healing suggestions and detailed notifications.
+- **Added**: Automated PyPI release workflow in `.github/workflows/continuity.yml`.
+- **Added**: `tests/test_logic.py` - Core reliability suite with unit tests for parity checks.
 
-All notable changes to this project will be documented in this file.
-
-## [2.3.0] - 2026-04-01: Glass Box Discovery 🔍
-- **Added**: `tools/continuity_legacy/discover_project.py` - Automated discovery engine.
-- **Improved**: `bootstrap_project.py` with `--discover` flag to auto-suggest context and rules for existing projects.
-- **Improved**: Logic to detect `camelCase` vs `snake_case` in existing code bases.
-
-## [2.2.0] - 2026-04-01: Maturity & Governance ⚖️
-- **Added**: `MAINTAINERS.md` - Formal governance and succession plan.
-- **Improved**: `CONTRIBUTING.md` with "Continuity Proof" PR requirements.
-- **Added**: `doc_parity_check.py` now supports `info`, `warning`, and `error` severity levels.
-- **Added**: `--bypass "reason"` flag in `run_continuity_cycle.py` with automatic logging in `.continuity/BYPASS_LOG.md`.
+## [3.0.0] - 2026-04-01: Modular Heritage 🏗️🧠🛡️
 
 ## [2.1.0] - 2026-04-01: Global Expansion 🌍
 - **Added**: `OTHER_LANGUAGES/` folder with documentation in 9 languages (ES, JA, RU, ZH, FR, IT, DE, NL, EN).
