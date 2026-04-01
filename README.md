@@ -163,3 +163,19 @@ Check your dashboard:
 ```powershell
 python tools/continuity_legacy/continuity_status.py
 ```
+
+## International Versions 🌍
+Access the documentation in your preferred language:
+
+- [English (EN)](file:///d:/Experimentos/CONTINUITY_LEGACY/OTHER_LANGUAGES/en/README.md)
+- [Español (ES)](file:///d:/Experimentos/CONTINUITY_LEGACY/OTHER_LANGUAGES/es/README.md)
+- [日本語 (JA)](file:///d:/Experimentos/CONTINUITY_LEGACY/OTHER_LANGUAGES/ja/README.md)
+- [Русский (RU)](file:///d:/Experimentos/CONTINUITY_LEGACY/OTHER_LANGUAGES/ru/README.md)
+- [中文 (ZH)](file:///d:/Experimentos/CONTINUITY_LEGACY/OTHER_LANGUAGES/zh/README.md)
+- [Français (FR)](file:///d:/Experimentos/CONTINUITY_LEGACY/OTHER_LANGUAGES/fr/README.md)
+- [Italiano (IT)](file:///d:/Experimentos/CONTINUITY_LEGACY/OTHER_LANGUAGES/it/README.md)
+- [Deutsch (DE)](file:///d:/Experimentos/CONTINUITY_LEGACY/OTHER_LANGUAGES/de/README.md)
+- [Nederlands (NL)](file:///d:/Experimentos/CONTINUITY_LEGACY/OTHER_LANGUAGES/nl/README.md)
+
+---
+*Created by Ethernium. Optimized for AI-Human pair programming.*
