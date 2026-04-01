@@ -113,6 +113,13 @@ For a real agent handoff, use this boot packet:
 
 If you must give only one file first, give `PROJECT_CONTEXT.md`, but the next file should immediately be `.continuity/BOOT_SEQUENCE.md`.
 
+### Resuming an Existing Project
+If the project already has code and active implementation:
+1.  Hand the new agent `AGENT_START.md`.
+2.  The agent will detect the existing `STATE.json` and `.continuity/` folder.
+3.  The agent will calculate the exact stopping point from `LIVE_HANDOFF.md`.
+4.  The agent is required to re-state the **Next Exact Action** to confirm alignment before writing any new code.
+
 ## Commands
 ```powershell
 python tools/continuity_legacy/bootstrap_project.py --repo-root <repo>

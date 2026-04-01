@@ -3,7 +3,7 @@
 If you can give a new agent only one file first, give this one.
 
 ## What this toolkit is
-`CONTINUITY LEGACY` is a continuity-first starter for projects that need persistent memory, canonical handoff, and strict closeout between human and AI operators.
+`CONTINUITY LEGACY by Ethernium` is a continuity-first starter for projects that need persistent memory, canonical handoff, and strict closeout between human and AI operators.
 
 ## Immediate Read Order
 1. `PROJECT_CONTEXT.md`
@@ -19,6 +19,9 @@ Before editing, the agent should be able to answer:
 - next exact action
 - current target zone
 - active risks
+
+## Resuming an Active Project (Continuity Mode)
+If this is an existing project, do not try to "start over" or "re-innovate" from scratch. Your priority is strictly to rebuild the context from the files above. If there is a `LIVE_HANDOFF.md` or a `STATE.json`, those are your true source of truth, not your initial chat imagination.
 
 ## Main Commands
 Bootstrap a copied starter:
