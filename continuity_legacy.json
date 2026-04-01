@@ -1,7 +1,7 @@
 {
   "template_name": "CONTINUITY LEGACY",
-  "project_name": "YOUR_PROJECT",
-  "project_slug": "your_project",
+  "project_name": "CONTINUITY LEGACY",
+  "project_slug": "continuity_legacy",
   "context_file": "PROJECT_CONTEXT.md",
   "state_file": "STATE.json",
   "roadmap_file": "ROADMAP.md",
@@ -9,7 +9,7 @@
   "outputs_dir": "outputs/continuity",
   "external_docs": {
     "enabled": false,
-    "folder_name": "YOUR_PROJECTDEV",
+    "folder_name": "CONTINUITY_LEGACYDEV",
     "root_override": ""
   },
   "metadata": {

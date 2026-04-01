@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from core.automation_common import load_config, resolve_repo_root, save_config, write_text
+from core.hook_utils import install_pre_commit_hook
 from sync_external_dev_context import sync_external_dev_context
 
 
@@ -71,12 +72,16 @@ def bootstrap_project(
     else:
         external_report = {"status": "skipped", "reason": "external_docs_disabled"}
 
+    # Install Git Hooks for automation by default
+    hooks_installed = install_pre_commit_hook(repo_root)
+
     return {
         "status": "ok",
         "repo_root": str(repo_root),
         "project_name": project_name,
         "project_slug": project_slug,
         "external_docs": external_report,
+        "git_hooks_installed": hooks_installed,
     }
 
 

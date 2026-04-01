@@ -1,4 +1,4 @@
-# YOUR_PROJECT Context
+# CONTINUITY LEGACY Context
 
 SYSTEM ROLE:
 Continuity-first project operating context.

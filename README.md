@@ -72,6 +72,12 @@ By default, generated reports and snapshots include **provenance metadata** to i
   }
 ```
 
+## Automation & Safety (Continuity Guard)
+To ensure the project remains coherent without manual effort, `CONTINUITY LEGACY` includes two safety layers:
+
+1. **Local Guard (Git Hooks)**: Every project bootstrapped with this tool automatically installs a Git `pre-commit` hook. If your `STATE.json` or handoff documents are inconsistent with the rules, Git will block the commit and ask you to fix it.
+2. **Cloud Guard (GitHub Actions)**: A built-in workflow validates the continuity cycle on every push to GitHub, ensuring that the repository's "source of truth" is always valid.
+
 ## Folder Map
 - `/.continuity`
   Canonical continuity memory, handoff, timeline, decisions, and boot rules.

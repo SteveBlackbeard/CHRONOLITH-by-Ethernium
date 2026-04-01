@@ -1,6 +1,6 @@
 {
   "date": "2026-03-31",
-  "status": "phase_00_template_ready",
+  "status": "phase_00_bootstrapped",
   "method": [
     "analyze",
     "implement",
@@ -8,10 +8,10 @@
     "continuity_sync"
   ],
   "truth": {
-    "project_shape": "starter_template",
+    "project_shape": "active_project",
     "continuity_mode": "continuity_first",
     "external_docs": "optional",
-    "current_focus": "bootstrap_project_identity"
+    "current_focus": "first_real_milestone_definition"
   },
   "priority_zones": [
     {
@@ -26,8 +26,8 @@
     }
   ],
   "next_actions": [
-    "Set the real project name and slug with bootstrap_project.py before the first active implementation batch.",
-    "Review PROJECT_CONTEXT.md and tighten any project-specific laws or construction rules.",
+    "Define the first real milestone for the project and tighten the roadmap around it.",
+    "Update the live handoff and decisions log as soon as the first real architectural choice is made.",
     "Run the strict continuity cycle after the first relevant change."
   ],
   "continuity_automation": {

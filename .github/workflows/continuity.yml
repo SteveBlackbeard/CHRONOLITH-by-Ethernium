@@ -1,0 +1,32 @@
+name: CONTINUITY LEGACY Validation
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  validate-continuity:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Run Continuity Legacy Cycle
+        run: |
+          # The main tool logic is in Python with zero dependencies
+          python tools/continuity_legacy/run_continuity_cycle.py --repo-root . --strict
+
+      - name: Report Status
+        if: always()
+        run: |
+          echo "Continuity validation finished."
