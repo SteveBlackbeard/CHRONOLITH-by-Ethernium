@@ -103,6 +103,9 @@ def build_context_snapshot(
             documents[key] = entry
 
     state = documents.get("state", {}).get("parsed", {})
+    if not isinstance(state, dict):
+        state = {}
+        
     metadata = config.get("metadata", {})
     
     snapshot = {

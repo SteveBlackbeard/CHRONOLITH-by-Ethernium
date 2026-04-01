@@ -73,7 +73,8 @@ def bootstrap_project(
         external_report = {"status": "skipped", "reason": "external_docs_disabled"}
 
     # Install Git Hooks for automation by default
-    hooks_installed = install_pre_commit_hook(repo_root)
+    from core.hook_utils import install_pre_commit_hook, install_pre_push_hook
+    hooks_installed = install_pre_commit_hook(repo_root) and install_pre_push_hook(repo_root)
 
     return {
         "status": "ok",

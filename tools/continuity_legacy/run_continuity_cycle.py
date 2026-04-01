@@ -98,14 +98,22 @@ def run_continuity_cycle(repo_root: str | Path, external_root_override: str | Pa
         ext_root = Path(external_sync["external_root"])
         external_paths = _collect_path_status(ext_root, repo_root, EXTERNAL_REQUIRED)
         external_missing = [item["relative_path"] for item in external_paths if not item["exists"]]
-        state = json.loads(state_path(repo_root, config).read_text(encoding="utf-8"))
-        current_state_text = read_text(ext_root / "01_STATE" / "CURRENT_STATE.txt")
-        next_actions_text = read_text(ext_root / "01_STATE" / "NEXT_ACTIONS.txt")
-        external_phase = _extract_prefixed_value(current_state_text, "phase:")
-        external_next_action = _extract_first_numbered_action(next_actions_text)
-        external_phase_status = "ok" if external_phase == state.get("status") else "attention_required"
-        expected_next_action = state.get("next_actions", [None])[0]
-        external_next_action_status = "ok" if external_next_action == expected_next_action else "attention_required"
+        
+        state_file = state_path(repo_root, config)
+        if state_file.exists():
+            state = json.loads(state_file.read_text(encoding="utf-8"))
+            current_state_text = read_text(ext_root / "01_STATE" / "CURRENT_STATE.txt")
+            next_actions_text = read_text(ext_root / "01_STATE" / "NEXT_ACTIONS.txt")
+            external_phase = _extract_prefixed_value(current_state_text, "phase:")
+            external_next_action = _extract_first_numbered_action(next_actions_text)
+            external_phase_status = "ok" if external_phase == state.get("status") else "attention_required"
+            
+            actions = state.get("next_actions", [])
+            expected_next_action = actions[0] if actions else None
+            external_next_action_status = "ok" if external_next_action == expected_next_action else "attention_required"
+        else:
+            external_phase_status = "error_missing_state"
+            external_next_action_status = "error_missing_state"
 
     statuses = {
         "doc_parity_status": doc_parity["status"],
@@ -136,7 +144,7 @@ def run_continuity_cycle(repo_root: str | Path, external_root_override: str | Pa
         "generated_at": utc_now_iso(),
         "status": overall_status,
         "phase": snapshot.get("phase", "unknown"),
-        "next_action_1": snapshot.get("next_actions", ["none"])[0],
+        "next_action_1": snapshot.get("next_actions", ["none"])[0] if snapshot.get("next_actions") else "none",
         "project_name": snapshot.get("project_name"),
         "doc_parity_status": doc_parity["status"],
         "membership_status": membership["status"],

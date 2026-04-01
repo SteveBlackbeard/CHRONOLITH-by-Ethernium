@@ -6,12 +6,13 @@ This toolkit is continuity-first: it provides a reusable discipline for context 
 
 ## What this includes
 - a minimal canonical memory surface
-- a continuity bootstrap snapshot
-- document parity checks
-- system membership checks
+- a minimal canonical memory surface
+- a continuity [bootstrap snapshot](file:///d:/Experimentos/CONTINUITY_LEGACY/outputs/continuity/context_bootstrap_summary.json)
+- document [parity checks](file:///d:/Experimentos/CONTINUITY_LEGACY/tools/continuity_legacy/doc_parity_check.py)
+- system [membership checks](file:///d:/Experimentos/CONTINUITY_LEGACY/tools/continuity_legacy/system_membership_check.py)
 - an optional external developer layer like `PROJECTDEV/`
-- a strict continuity closeout command
-- a bootstrapper to personalize the template for a new project
+- a strict continuity [closeout command](file:///d:/Experimentos/CONTINUITY_LEGACY/tools/continuity_legacy/run_continuity_cycle.py)
+- a [bootstrapper](file:///d:/Experimentos/CONTINUITY_LEGACY/tools/continuity_legacy/bootstrap_project.py) to personalize the template
 
 ## Quick Start
 
@@ -73,12 +74,17 @@ By default, generated reports and snapshots include **provenance metadata** to i
 ```
 
 ## Automation & Safety (Continuity Guard)
-To ensure the project remains coherent without manual effort, `CONTINUITY LEGACY` includes two safety layers:
+To ensure the project remains coherent without manual effort, `CONTINUITY LEGACY` includes a double-layered safety system:
 
-1. **Local Guard (Git Hooks)**: Every project bootstrapped with this tool automatically installs a Git `pre-commit` hook. If your `STATE.json` or handoff documents are inconsistent with the rules, Git will block the commit and ask you to fix it.
-2. **Cloud Guard (GitHub Actions)**: A built-in workflow validates the continuity cycle on every push to GitHub, ensuring that the repository's "source of truth" is always valid.
+1. **Local Guard (`pre-commit`)**: Installed by default. Uses **Soft Mode** to warn you about drift or missing markers while you work, without blocking your creative flow.
+2. **Border Guard (`pre-push`)**: Installed by default. Uses **Strict Mode** to **block the push** to GitHub if the continuity cycle is not 100% valid. This ensures the master/main branch is always canonical.
+3. **Cloud Guard (GitHub Actions)**: Validates the continuity cycle on every PR or push to the server.
 
-## Folder Map
+## Resources
+- [🚀 Real-world Use Cases](file:///d:/Experimentos/CONTINUITY_LEGACY/USE_CASES.md)
+- [🛠️ Troubleshooting Guide](file:///d:/Experimentos/CONTINUITY_LEGACY/TROUBLESHOOTING.md)
+- [🛡️ Security Policy](file:///d:/Experimentos/CONTINUITY_LEGACY/SECURITY.md)
+- [🤝 Contributing Guide](file:///d:/Experimentos/CONTINUITY_LEGACY/CONTRIBUTING.md)
 - `/.continuity`
   Canonical continuity memory, handoff, timeline, decisions, and boot rules.
 - `/.continuity/registry`
