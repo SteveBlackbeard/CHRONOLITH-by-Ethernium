@@ -21,19 +21,19 @@ Manually for mor control
 2. Run the bootstrapper:
 
 ```powershell
-python tools/continuity_legacy/bootstrap_project.py --repo-root . --project-name "My Project" --project-slug my_project
+python tools/continuity_legacy/bootstrap_project.py --repo-root D:\Experimentos\CONTINUITY_LEGACY --project-name "My Project" --project-slug my_project
 ```
 
 3. If you want an external continuity layer:
 
 ```powershell
-python tools/continuity_legacy/bootstrap_project.py --repo-root . --project-name "My Project" --project-slug my_project --enable-external-docs
+python tools/continuity_legacy/bootstrap_project.py --repo-root D:\Experimentos\CONTINUITY_LEGACY --project-name "My Project" --project-slug my_project --enable-external-docs
 ```
 
 4. Run the strict closeout:
 
 ```powershell
-python tools/continuity_legacy/run_continuity_cycle.py --repo-root . --strict
+python tools/continuity_legacy/run_continuity_cycle.py --repo-root D:\Experimentos\CONTINUITY_LEGACY --strict
 ```
 
 ## Core Files

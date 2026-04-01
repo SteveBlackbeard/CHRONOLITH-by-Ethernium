@@ -47,8 +47,19 @@ def resolve_repo_root(repo_root: str | Path | None, current_file: str | Path) ->
     return Path(current_file).resolve().parents[2]
 
 
+def safe_resolve(base_root: str | Path, sub_path: str | Path) -> Path:
+    """Safely resolve a sub_path ensuring it does not escape the base_root."""
+    base = Path(base_root).resolve()
+    target = (base / sub_path).resolve()
+    try:
+        target.relative_to(base)
+    except ValueError:
+        raise ValueError(f"Security Policy Violation: Path traversal attempt. '{sub_path}' escapes '{base_root}'")
+    return target
+
+
 def config_path(repo_root: str | Path) -> Path:
-    return Path(repo_root) / "continuity_legacy.json"
+    return safe_resolve(repo_root, "continuity_legacy.json")
 
 
 def read_text(path: str | Path) -> str:
@@ -97,31 +108,31 @@ def save_config(repo_root: str | Path, payload: dict[str, Any]) -> None:
 
 def context_path(repo_root: str | Path, config: dict[str, Any] | None = None) -> Path:
     config = config or load_config(repo_root)
-    return Path(repo_root) / config["context_file"]
+    return safe_resolve(repo_root, config["context_file"])
 
 
 def state_path(repo_root: str | Path, config: dict[str, Any] | None = None) -> Path:
     config = config or load_config(repo_root)
-    return Path(repo_root) / config["state_file"]
+    return safe_resolve(repo_root, config["state_file"])
 
 
 def roadmap_path(repo_root: str | Path, config: dict[str, Any] | None = None) -> Path:
     config = config or load_config(repo_root)
-    return Path(repo_root) / config["roadmap_file"]
+    return safe_resolve(repo_root, config["roadmap_file"])
 
 
 def continuity_dir(repo_root: str | Path, config: dict[str, Any] | None = None) -> Path:
     config = config or load_config(repo_root)
-    return Path(repo_root) / config["continuity_dir"]
+    return safe_resolve(repo_root, config["continuity_dir"])
 
 
 def continuity_doc_path(repo_root: str | Path, name: str, config: dict[str, Any] | None = None) -> Path:
-    return continuity_dir(repo_root, config) / name
+    return safe_resolve(continuity_dir(repo_root, config), name)
 
 
 def outputs_dir(repo_root: str | Path, config: dict[str, Any] | None = None) -> Path:
     config = config or load_config(repo_root)
-    return Path(repo_root) / config["outputs_dir"]
+    return safe_resolve(repo_root, config["outputs_dir"])
 
 
 def bootstrap_output_path(repo_root: str | Path, config: dict[str, Any] | None = None) -> Path:
@@ -133,11 +144,11 @@ def continuity_report_path(repo_root: str | Path, config: dict[str, Any] | None 
 
 
 def dependency_map_path(repo_root: str | Path, config: dict[str, Any] | None = None) -> Path:
-    return continuity_dir(repo_root, config) / "registry" / "document_dependency_map.json"
+    return safe_resolve(continuity_dir(repo_root, config), Path("registry") / "document_dependency_map.json")
 
 
 def membership_registry_path(repo_root: str | Path, config: dict[str, Any] | None = None) -> Path:
-    return continuity_dir(repo_root, config) / "registry" / "system_membership_registry.json"
+    return safe_resolve(continuity_dir(repo_root, config), Path("registry") / "system_membership_registry.json")
 
 
 def load_dependency_map(repo_root: str | Path, config: dict[str, Any] | None = None) -> dict[str, Any]:
