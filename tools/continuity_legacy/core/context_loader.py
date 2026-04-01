@@ -85,6 +85,7 @@ def build_context_snapshot(
         "truth": state.get("truth", {}),
         "documents": documents,
         "template_name": config.get("template_name"),
+        "author_signature": config.get("author_signature"),
         "project_name": config.get("project_name"),
         "project_slug": config.get("project_slug"),
         "external_root": str(ext_root) if ext_root else "",

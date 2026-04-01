@@ -134,6 +134,7 @@ def run_continuity_cycle(repo_root: str | Path, external_root_override: str | Pa
         "generated_at": utc_now_iso(),
         "status": overall_status,
         "phase": snapshot.get("phase", "unknown"),
+        "author_signature": config.get("author_signature"),
         "next_action_1": snapshot.get("next_actions", ["none"])[0],
         "project_name": snapshot.get("project_name"),
         "doc_parity_status": doc_parity["status"],

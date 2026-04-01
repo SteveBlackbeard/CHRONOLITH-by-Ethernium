@@ -11,6 +11,7 @@ DEFAULT_CONFIG = {
     "template_name": "CONTINUITY LEGACY",
     "project_name": "YOUR_PROJECT",
     "project_slug": "your_project",
+    "author_signature": "Ethernium (X: @SteveBlackbeard)",
     "context_file": "PROJECT_CONTEXT.md",
     "state_file": "STATE.json",
     "roadmap_file": "ROADMAP.md",

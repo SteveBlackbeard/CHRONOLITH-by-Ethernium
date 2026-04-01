@@ -1,4 +1,4 @@
-# CONTINUITY LEGACY
+# CONTINUITY LEGACY by Ethernium
 
 `CONTINUITY LEGACY` is a standalone starter toolkit for building projects with persistent continuity, canonical memory, and repeatable handoff between humans and AI operators.
 
@@ -13,14 +13,10 @@ This toolkit is continuity-first: it provides a reusable discipline for context 
 - a strict continuity closeout command
 - a bootstrapper to personalize the template for a new project
 
-## What this does not include
-- symbolic runtime layers
-- mind-governance layers
-- daemon governance
-- runtime diagrams
-- bounded-live or autonomy reviews
-
 ## Quick Start
+Fast step five to the new agent `AGENT_START.md` (One step)
+or 
+Manually for mor control
 1. Copy this folder to the root of your new project.
 2. Run the bootstrapper:
 
