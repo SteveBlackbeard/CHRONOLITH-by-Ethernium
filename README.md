@@ -14,9 +14,20 @@ This toolkit is continuity-first: it provides a reusable discipline for context 
 - a bootstrapper to personalize the template for a new project
 
 ## Quick Start
+
+### 1. The "Pro" Way (CLI) - RECOMMENDED
+Install the global CLI to initialize projects in one step:
+
+```powershell
+pip install continuity-legacy
+continuity-legacy init "My Project"
+```
+
+### 2. Fast Step
 Fast step five to the new agent `AGENT_START.md` (One step)
 or 
-Manually for mor control
+
+### 3. Manual Control (Copy/Paste)
 1. Copy this folder to the root of your new project.
 2. Run the bootstrapper:
 
