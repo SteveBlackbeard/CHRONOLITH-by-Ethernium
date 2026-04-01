@@ -36,10 +36,19 @@ def bootstrap_project(
     project_slug: str,
     enable_external_docs: bool = False,
     external_root_override: str | Path | None = None,
+    discover: bool = False,
 ) -> dict:
     repo_root = resolve_repo_root(repo_root, __file__)
     config = load_config(repo_root)
     external_folder_name = f"{project_slug.upper()}DEV"
+
+    # Run Discovery if enabled
+    discovery_performed = False
+    if discover:
+        from discover_project import generate_context_draft
+        draft_content = generate_context_draft(repo_root, project_name)
+        (repo_root / "PROJECT_CONTEXT.md").write_text(draft_content, encoding="utf-8")
+        discovery_performed = True
 
     config["project_name"] = project_name
     config["project_slug"] = project_slug
@@ -53,6 +62,9 @@ def bootstrap_project(
         "YOUR_PROJECT": project_name,
     }
     for rel_path in TOKEN_FILES:
+        # Avoid overwriting PROJECT_CONTEXT.md if discovery already wrote it
+        if discover and rel_path == "PROJECT_CONTEXT.md":
+            continue
         _replace_tokens(repo_root / rel_path, replacements)
 
     state_path = repo_root / "STATE.json"
@@ -61,7 +73,7 @@ def bootstrap_project(
     state["truth"]["project_shape"] = "active_project"
     state["truth"]["current_focus"] = "first_real_milestone_definition"
     state["next_actions"] = [
-        "Define the first real milestone for the project and tighten the roadmap around it.",
+        "Review the discover-generated PROJECT_CONTEXT.md and refine it." if discover else "Define the first real milestone for the project and tighten the roadmap around it.",
         "Update the live handoff and decisions log as soon as the first real architectural choice is made.",
         "Run the strict continuity cycle after the first relevant change.",
     ]
@@ -82,6 +94,7 @@ def bootstrap_project(
         "project_name": project_name,
         "project_slug": project_slug,
         "external_docs": external_report,
+        "discovery_performed": discovery_performed,
         "git_hooks_installed": hooks_installed,
     }
 
@@ -93,6 +106,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--project-slug", required=True)
     parser.add_argument("--enable-external-docs", action="store_true")
     parser.add_argument("--external-root", default=None)
+    parser.add_argument("--discover", action="store_true", help="Auto-discover project context and rules.")
     return parser.parse_args()
 
 
@@ -104,6 +118,7 @@ def main() -> None:
         project_slug=args.project_slug,
         enable_external_docs=args.enable_external_docs,
         external_root_override=args.external_root,
+        discover=args.discover,
     )
     for key, value in report.items():
         print(f"{key}: {value}")

@@ -42,6 +42,12 @@ python tools/continuity_legacy/bootstrap_project.py --repo-root . --project-name
 python tools/continuity_legacy/bootstrap_project.py --repo-root . --project-name "My Project" --project-slug my_project --enable-external-docs
 ```
 
+4. **New: Discovery Mode (Glass Box)**: If you are integrating into an existing project, use `--discover` to automatically scan your stack and suggest a context draft:
+
+```powershell
+python tools/continuity_legacy/bootstrap_project.py --repo-root . --project-name "My Project" --project-slug my_project --discover
+```
+
 4. Run the strict closeout:
 
 ```powershell
