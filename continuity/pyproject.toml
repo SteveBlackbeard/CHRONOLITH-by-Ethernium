@@ -1,0 +1,38 @@
+﻿[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "continuity"
+version = "5.0.0"
+authors = [
+  { name = "SteveBlackbeard" },
+]
+description = "CLI starter for building projects with persistent continuity and AI-human context-driven handoff."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = []
+
+[project.optional-dependencies]
+vector = ["chromadb>=0.4.0", "sentence-transformers"]
+graph = ["networkx", "rdflib"]
+all = ["chromadb>=0.4.0", "sentence-transformers", "networkx", "rdflib"]
+
+[project.urls]
+"Homepage" = "https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium"
+"Bug Tracker" = "https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/issues"
+
+[project.scripts]
+continuity = "continuity_pro.continuity_legacy.run_continuity_cycle:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["continuity_pro*"]
+
+

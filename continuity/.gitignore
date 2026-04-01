@@ -1,0 +1,9 @@
+﻿# CONTINUITY LEGACY: Local Ignore
+__pycache__/
+*.py[cod]
+*.class
+dist/
+build/
+*.egg-info/
+.continuity/omega_index/
+outputs/continuity/
