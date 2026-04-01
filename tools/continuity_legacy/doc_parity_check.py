@@ -3,7 +3,13 @@ from __future__ import annotations
 import argparse
 import json
 
-from core.automation_common import load_dependency_map, read_text, resolve_repo_root, utc_now_iso
+from core.automation_common import (
+    is_ignored,
+    load_dependency_map,
+    read_text,
+    resolve_repo_root,
+    utc_now_iso,
+)
 
 
 def check_doc_parity(repo_root: str) -> dict:
@@ -16,6 +22,9 @@ def check_doc_parity(repo_root: str) -> dict:
 
     for document in dependency_map.get("documents", []):
         rel_path = document.get("path")
+        if is_ignored(root, rel_path):
+            continue
+            
         severity = document.get("severity", "warning")
         full_path = root / rel_path
         if not full_path.exists():

@@ -7,6 +7,27 @@ from pathlib import Path
 from typing import Any
 
 
+class Color:
+    PURPLE = "\033[95m"
+    CYAN = "\033[96m"
+    DARKCYAN = "\033[36m"
+    BLUE = "\033[94m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    RED = "\033[91m"
+    WHITE = "\033[97m"
+    BOLD = "\033[1m"
+    UNDERLINE = "\033[4m"
+    END = "\033[0m"
+
+
+def echo(text: str, color: str = "") -> None:
+    if color:
+        print(f"{color}{text}{Color.END}")
+    else:
+        print(text)
+
+
 DEFAULT_CONFIG = {
     "template_name": "CONTINUITY LEGACY",
     "project_name": "YOUR_PROJECT",
@@ -166,6 +187,19 @@ def load_membership_registry(repo_root: str | Path, config: dict[str, Any] | Non
         "allowed_statuses": ALLOWED_MEMBERSHIP_STATUSES,
         "entries": [],
     }
+
+
+def is_ignored(repo_root: str | Path, rel_path: str) -> bool:
+    ignore_file = Path(repo_root) / ".continuityignore"
+    if not ignore_file.exists():
+        return False
+    
+    import fnmatch
+    patterns = [line.strip() for line in ignore_file.read_text(encoding="utf-8").splitlines() if line.strip() and not line.startswith("#")]
+    for pattern in patterns:
+        if fnmatch.fnmatch(rel_path, pattern):
+            return True
+    return False
 
 
 def external_root(

@@ -28,8 +28,31 @@ def _read_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _process_includes(text: str, repo_root: Path, depth: int = 0) -> str:
+    if depth > 5:  # Prevent infinite recursion
+        return text
+        
+    import re
+    # Match [include: path/to/file.md]
+    pattern = r"\[include:\s*([^\]]+)\]"
+    
+    def replacer(match):
+        rel_path = match.group(1).strip()
+        include_path = (repo_root / rel_path).resolve()
+        if include_path.exists() and include_path.is_file():
+            # Security check: must be inside repo_root
+            if str(include_path).startswith(str(repo_root.resolve())):
+                content = include_path.read_text(encoding="utf-8", errors="ignore")
+                return _process_includes(content, repo_root, depth + 1)
+        return f"[Error: Include not found or invalid: {rel_path}]"
+
+    return re.sub(pattern, replacer, text)
+
+
 def _tail_lines(path: Path, limit: int = 40) -> str:
-    lines = path.read_text(encoding="utf-8", errors="ignore").splitlines()
+    content = path.read_text(encoding="utf-8", errors="ignore")
+    # We dont process includes for tails to keep them compact
+    lines = content.splitlines()
     return "\n".join(lines[-limit:])
 
 
@@ -62,7 +85,9 @@ def build_context_snapshot(
             if mode == "json":
                 entry["parsed"] = _read_json(full_path)
             else:
-                entry["excerpt"] = read_text(full_path)[:4000]
+                raw_text = read_text(full_path)
+                processed_text = _process_includes(raw_text, repo_root)
+                entry["excerpt"] = processed_text[:8000] # Increased limit for modular context
                 if key in {"decisions_log", "timeline"}:
                     entry["tail"] = _tail_lines(full_path)
         documents[key] = entry

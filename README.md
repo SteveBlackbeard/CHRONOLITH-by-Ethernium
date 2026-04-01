@@ -120,19 +120,40 @@ If the project already has code and active implementation:
 3.  The agent will calculate the exact stopping point from `LIVE_HANDOFF.md`.
 4.  The agent is required to re-state the **Next Exact Action** to confirm alignment before writing any new code.
 
-## Commands
+## Survival Guide: How to keep Continuity alive
+Continuity is a living system. If ignored, its value degrades.
+
+1. **Be Honest in `STATE.json`**: If you just broke something, update the state to reflect it. Don't hide debt.
+2. **Next Exact Action is Sacred**: The next agent needs to know exactly where to click or what to write first.
+3. **Commit often, Cycle often**: Running the cycle is fast. Use it to catch drift early.
+
+## Anti-Patterns: What NOT to do
+- ✘ **The "Just this once" skip**: Skipping the cycle when you're in a hurry is the first step toward project amnesia.
+- ✘ **Markdown Overload**: Don't treat `PROJECT_CONTEXT.md` as a wiki. Keep it as governing rules. Use the `[include: path/to/file.md]` feature for modularity.
+- ✘ **Ignoring the Hook**: If the Git Hook warns you, don't ignore it. It's your safety net.
+
+## Commands (v2.0)
 ```powershell
-python tools/continuity_legacy/bootstrap_project.py --repo-root <repo>
-python tools/continuity_legacy/bootstrap_context.py --repo-root <repo>
-python tools/continuity_legacy/doc_parity_check.py --repo-root <repo> --strict
-python tools/continuity_legacy/system_membership_check.py --repo-root <repo> --strict
-python tools/continuity_legacy/sync_external_dev_context.py --repo-root <repo>
-python tools/continuity_legacy/run_continuity_cycle.py --repo-root <repo> --strict
+# High-level health dashboard
+python tools/continuity_legacy/continuity_status.py
+
+# Assisted updates based on git changes
+python tools/continuity_legacy/continuity_suggest.py
+
+# Standard cycles & checks
+python tools/continuity_legacy/run_continuity_cycle.py --repo-root . --strict
+python tools/continuity_legacy/bootstrap_project.py --repo-root .
 ```
+-   `--strict`: Block on any inconsistency.
+-   `--soft` (default): Warn but continue.
 
 ## Usage Rule
 After any relevant structural, canonical, or continuity change, finish with:
 
 ```powershell
-python tools/continuity_legacy/run_continuity_cycle.py --repo-root <repo> --strict
+python tools/continuity_legacy/run_continuity_cycle.py --repo-root .
+```
+Check your dashboard:
+```powershell
+python tools/continuity_legacy/continuity_status.py
 ```

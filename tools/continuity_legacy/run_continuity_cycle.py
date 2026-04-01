@@ -175,23 +175,23 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     report = run_continuity_cycle(args.repo_root, args.external_root)
-    print("CONTINUITY LEGACY CYCLE")
-    for key in [
-        "status",
-        "phase",
-        "next_action_1",
-        "doc_parity_status",
-        "membership_status",
-        "internal_paths_status",
-        "external_sync_status",
-        "external_paths_status",
-        "external_phase_status",
-        "external_next_action_status",
-        "report",
-    ]:
-        print(f"{key}: {report.get(key)}")
-    if args.strict and report["status"] != "ok":
-        raise SystemExit(1)
+    
+    from core.automation_common import Color, echo
+    
+    echo("\nCONTINUITY LEGACY: Cycle completed.", Color.BOLD)
+    echo(f"Status: {report['status'].upper()}")
+    echo(f"Phase:  {report['phase']}")
+    echo(f"Report: {report['report']}")
+
+    if report["status"] != "ok":
+        if args.strict:
+            echo("\n[!] STRICT MODE: Inconsistencies detected. Blocking execution.", Color.RED)
+            raise SystemExit(1)
+        else:
+            echo("\n[⚠] WARNING: Project state has drift. Run with --strict to enforce parity.", Color.YELLOW)
+            echo("[*] Use 'python tools/continuity_legacy/continuity_status.py' for details.")
+    else:
+        echo("\n[✔] Project state is canonical and valid.", Color.GREEN)
 
 
 if __name__ == "__main__":
