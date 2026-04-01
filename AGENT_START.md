@@ -2,7 +2,7 @@
 
 If you are a new AI agent entering this project, **read this file first**. It is the bridge between your general knowledge and this project's canonical truth.
 
-## 1. Canonical Truth Reconstruction (Think Slow) 🔍
+## 1. Canonical Truth Reconstruction (Immediate Read Order) 🔍
 Before taking any action, you must reconstruct the project's state. DO NOT assume anything from your training data or the current chat context alone.
 
 **Primary Truth Sources (In Order):**
