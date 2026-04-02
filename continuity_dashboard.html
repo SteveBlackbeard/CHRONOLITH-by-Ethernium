@@ -209,6 +209,12 @@
             <div class="status-val" id="phase-status">...</div>
             <div class="meta-info" id="next-action">Next Action: Definition Pending</div>
         </div>
+
+        <div class="card grid-full">
+            <h2>Strategic Decision (v5.0 Alpha)</h2>
+            <div class="status-val" id="decision-proposed">NO PROPOSAL YET</div>
+            <div class="meta-info" id="decision-rationale">The Decision Engine has not been engaged for this cycle.</div>
+        </div>
     </div>
 
     <p id="error-msg">Protocol Sync Failed. Check Report Source.</p>
@@ -222,11 +228,21 @@
     <script>
         async function fetchReport() {
             try {
-                const response = await fetch('outputs/continuity/continuity_cycle_report.json');
-                if (!response.ok) throw new Error('Report missing');
-                const data = await response.json();
-                
-                updateUI(data);
+                const [cycleRes, decisionRes] = await Promise.all([
+                    fetch('outputs/continuity/continuity_cycle_report.json'),
+                    fetch('outputs/continuity/strategic_decision.json')
+                ]);
+
+                if (cycleRes.ok) {
+                    const cycleData = await cycleRes.json();
+                    updateUI(cycleData);
+                }
+
+                if (decisionRes.ok) {
+                    const decisionData = await decisionRes.json();
+                    updateDecisionUI(decisionData);
+                }
+
                 document.getElementById('error-msg').style.display = 'none';
             } catch (err) {
                 console.error(err);
@@ -246,7 +262,7 @@
             overall.innerText = data.status.toUpperCase();
             overall.className = 'status-val ' + (data.status === 'ok' ? 'status-ok' : 'status-bad');
 
-            parity.innerText = data.doc_parity_status.toUpperCase();
+            parity.innerText = (data.doc_parity_status || 'OK').toUpperCase();
             parity.className = 'status-val ' + (data.doc_parity_status === 'ok' ? 'status-ok' : 'status-warn');
 
             immunity.innerText = (data.logical_immunity_status || 'OK').toUpperCase();
@@ -260,6 +276,14 @@
             
             meta.innerHTML = `<span class="pulse"></span> System generated at: ${data.generated_at}`;
             action.innerText = `Next Action: ${data.next_action_1 || 'All milestones complete'}`;
+        }
+
+        function updateDecisionUI(data) {
+            const proposed = document.getElementById('decision-proposed');
+            const rationale = document.getElementById('decision-rationale');
+
+            proposed.innerText = (data.proposed_action || 'NO PROPOSAL').toUpperCase();
+            rationale.innerText = data.rationale || 'The Decision Engine has not been engaged for this cycle.';
         }
 
         window.addEventListener('load', fetchReport);

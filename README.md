@@ -1,11 +1,27 @@
-# CONTINUITY LEGACY by Ethernium
+# CONTINUITY LEGACY v5.0 (Platinum) 🏛️🧬
 
-`CONTINUITY LEGACY` is a standalone starter toolkit for building projects with persistent continuity, canonical memory, and repeatable handoff between humans and AI operators.
+> **The AI Continuity Engine & Operating System Layer.**
+> *Preserving the Soul of the Project across Infinite AI Sessions.*
 
-This toolkit is continuity-first: it provides a reusable discipline for context persistence, document parity, and governed handoff without depending on any external framework.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/release/python-380/)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY)
+
+**CONTINUITY LEGACY** es un motor de gobernanza e inteligencia diseñado para que humanos e IAs colaboren en proyectos de largo plazo sin perder el contexto, la visión o la verdad canónica. No es solo un protocolo de handoff; es la **Capa de Memoria Persistente** para el desarrollo asistido por IA.
+
+---
+
+## ⚡ El Salto a la v5.0: Universal Core Platinum
+
+Esta versión transforma el framework en un sistema activo e inteligente:
+
+- **Decision Engine Alpha**: El sistema ahora *piensa* y propone el siguiente paso estratégico.
+- **Security Guardian**: Detector de secretos integrado que bloquea fugas de API Keys.
+- **Ethernium Hub**: Un Dashboard visual dinámico en Blanco y Negro corporativo para monitoreo en tiempo real.
+- **Version LITE**: Una implementación de 60 segundos para prototipado rápido en `/lite/`.
+- **Extensiones Reales**: Soporte funcional para BBDD Vectoriales (ChromaDB) y Grafos de Memoria (NetworkX).
 
 ## What this includes
-- a minimal canonical memory surface
 - a minimal canonical memory surface
 - a continuity [bootstrap snapshot](file:///d:/Experimentos/CONTINUITY_LEGACY/outputs/continuity/context_bootstrap_summary.json)
 - document [parity checks](file:///d:/Experimentos/CONTINUITY_LEGACY/tools/continuity_legacy/doc_parity_check.py)

@@ -2,6 +2,19 @@
 
 If you are a new AI agent entering this project, **read this file first**. It is the bridge between your general knowledge and this project's canonical truth.
 
+## 🧬 0. PROTOCOLO DE DECISIÓN COGNITIVA (v5.0)
+
+Antes de realizar cualquier cambio estructural o propositivo, el agente **DEBE**:
+1.  Ejecutar el `decision_engine.py`: 
+    ```bash
+    python tools/continuity_legacy/decision_engine.py
+    ```
+2.  Leer el archivo `outputs/continuity/strategic_decision.json`.
+3.  Validar que su plan actual sea coherente con la `proposed_action` y el `rationale` del motor. 
+4.  Si hay una discrepancia estratégica, notificar al humano antes de proceder.
+
+---
+
 ## 1. Canonical Truth Reconstruction (Immediate Read Order) 🔍
 Before taking any action, you must reconstruct the project's state. DO NOT assume anything from your training data or the current chat context alone.
 
