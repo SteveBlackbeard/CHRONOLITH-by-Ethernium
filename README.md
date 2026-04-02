@@ -1,4 +1,18 @@
-# CONTINUITY LEGACY v5.0 (Platinum) 🏛️🧬
+# CONTINUITY LEGACY 🏛️🧬
+
+<!-- CONTINUITY_LEGACY: VISION
+Preserving the Soul of the Project across Infinite AI Sessions via a Decentralized, Cognitive OS Layer.
+-->
+
+<!-- CONTINUITY_LEGACY: RULES
+1. Never break the 'Truth Documents' (CONTEXT/STATE/ROADMAP).
+2. Every major decision must be logged in the Decision Engine.
+3. Dashboards must reflect real-time parity.
+-->
+
+<!-- CONTINUITY_LEGACY: STACK
+Python-Native, Zero-Dependency Core, HTML/CSS Visual Layer, Vector/Graph Extensions.
+-->
 
 > **The AI Continuity Engine & Operating System Layer.**
 > *Preserving the Soul of the Project across Infinite AI Sessions.*
