@@ -12,7 +12,16 @@ from core.automation_common import (
 )
 
 
-def check_doc_parity(repo_root: str) -> dict:
+def check_doc_parity(repo_root: str | Path) -> dict:
+    """Analyzes the repository for document synchronization and parity.
+
+    Args:
+        repo_root: The filesystem path to the project root.
+
+    Returns:
+        A dictionary containing the parity report, including health status,
+        missing files, and marker synchronization errors.
+    """
     root = resolve_repo_root(repo_root, __file__)
     dependency_map = load_dependency_map(root)
     errors: list[str] = []

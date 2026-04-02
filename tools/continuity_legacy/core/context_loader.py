@@ -73,6 +73,19 @@ def build_context_snapshot(
     repo_root: str | Path,
     external_root_override: str | Path | None = None,
 ) -> dict:
+    """Builds a comprehensive snapshot of the project context from multiple sources.
+
+    This function aggregates core documentation (PROJECT_CONTEXT, ROADMAP) and 
+    mechanical state (STATE.json) into a single unified context for AI agents.
+
+    Args:
+        repo_root: The root directory of the project.
+        external_root_override: Optional path to an external documentation root.
+
+    Returns:
+        A dictionary containing the aggregated 'truth' of the project, including
+        phase, next actions, and content summaries.
+    """
     repo_root = Path(repo_root).resolve()
     config = load_config(repo_root)
     documents: dict[str, dict] = {}

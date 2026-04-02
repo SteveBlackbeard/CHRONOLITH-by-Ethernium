@@ -8,6 +8,7 @@ from typing import Any
 
 
 class Color:
+    """Terminal color constants for standardized elite CLI feedback."""
     PURPLE = "\033[95m"
     CYAN = "\033[96m"
     DARKCYAN = "\033[36m"
@@ -22,6 +23,12 @@ class Color:
 
 
 def echo(text: str, color: str = "") -> None:
+    """Prints text to the console with optional color formatting.
+
+    Args:
+        text: The string to be printed.
+        color: The ANSI color code to apply (e.g., Color.GREEN).
+    """
     if color:
         print(f"{color}{text}{Color.END}")
     else:
@@ -75,18 +82,20 @@ def resolve_repo_root(repo_root: str | Path | None, current_file: str | Path) ->
 
 
 def load_config(repo_root: Path) -> dict:
-    """Loads the continuity-legacy.json configuration from the repository root.
+    """Loads and merges the continuity-legacy.json configuration.
 
     Args:
         repo_root: The filesystem path to the root of the project.
 
     Returns:
-        A dictionary containing the project configuration.
+        A dictionary containing the merged project configuration.
     """
     config_file = repo_root / "continuity-legacy.json"
+    payload = {}
     if config_file.exists():
-        return json.loads(config_file.read_text(encoding="utf-8"))
-    return {}
+        payload = json.loads(config_file.read_text(encoding="utf-8"))
+    
+    return _deep_merge(DEFAULT_CONFIG, payload)
 
 
 def save_config(repo_root: Path, config: dict) -> None:
@@ -140,9 +149,6 @@ def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any
 def build_context_snapshot(repo_root: Path, external_root_override: Path | None = None) -> dict:
     """Builds a comprehensive snapshot of the project context from multiple sources.
 
-    This function aggregates core documentation (PROJECT_CONTEXT, ROADMAP) and 
-    mechanical state (STATE.json) into a single unified context for AI agents.
-
     Args:
         repo_root: The root directory of the project.
         external_root_override: Optional path to an external documentation root.
@@ -151,8 +157,20 @@ def build_context_snapshot(repo_root: Path, external_root_override: Path | None 
         A dictionary containing the aggregated 'truth' of the project.
     """
     config = load_config(repo_root)
-    state_file = state_path(repo_root, config)
-    return {}
+    state = read_json(state_path(repo_root, config), {})
+    context_text = read_text(context_path(repo_root, config))
+    roadmap_text = read_text(roadmap_path(repo_root, config))
+
+    return {
+        "project_name": config.get("project_name"),
+        "project_slug": config.get("project_slug"),
+        "phase": state.get("status", "unknown"),
+        "next_actions": state.get("next_actions", []),
+        "context_summary": context_text[:2000],
+        "roadmap_summary": roadmap_text[:2000],
+        "last_decision": state.get("last_decision", "none"),
+        "timestamp": utc_now_iso(),
+    }
 
 
 def context_path(repo_root: str | Path, config: dict[str, Any] | None = None) -> Path:

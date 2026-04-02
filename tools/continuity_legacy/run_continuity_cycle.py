@@ -18,6 +18,7 @@ from core.context_loader import build_context_snapshot
 from doc_parity_check import check_doc_parity
 from sync_external_dev_context import sync_external_dev_context
 from system_membership_check import check_system_membership
+from secret_detector import scan_for_secrets
 
 
 INTERNAL_REQUIRED = [

@@ -10,10 +10,11 @@
             --bg: #000000;
             --text: #ffffff;
             --accent: #ffffff;
-            --danger: #ff4444;
-            --success: #00ff88;
-            --warning: #ffaa00;
+            --danger: #ff4400;
+            --success: #00ffcc;
+            --warning: #ffcc00;
             --card-bg: #111111;
+            --border: #222222;
         }
 
         * {
@@ -30,143 +31,191 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding-bottom: 50px;
+            padding-bottom: 80px;
+            overflow-x: hidden;
         }
 
         header {
             width: 100%;
             max-width: 1200px;
             text-align: center;
-            padding: 40px 20px;
+            padding: 60px 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
         }
 
         .banner {
             width: 100%;
-            max-width: 800px;
+            max-width: 650px;
             height: auto;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 20px rgba(255,255,255,0.1));
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 30px rgba(255,255,255,0.05));
         }
 
         h1 {
             font-family: 'Outfit', sans-serif;
             font-weight: 200;
-            letter-spacing: 5px;
+            letter-spacing: 8px;
             text-transform: uppercase;
-            font-size: 0.9rem;
-            color: #888;
-            margin-top: -10px;
+            font-size: 0.75rem;
+            color: #555;
+            margin-top: 10px;
         }
 
         .container {
             width: 90%;
-            max-width: 1000px;
+            max-width: 1100px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
         }
 
         .card {
             background: var(--card-bg);
-            border: 1px solid #222;
-            padding: 30px;
-            border-radius: 4px;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 2px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            border-color: #444;
+            border-color: #555;
+            transform: translateY(-4px);
         }
 
         .card h2 {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #666;
-            margin-bottom: 15px;
+            letter-spacing: 3px;
+            color: #777;
+            margin-bottom: 25px;
+            font-weight: 400;
         }
 
         .status-val {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: 3rem;
+            font-weight: 600;
             font-family: 'Outfit', sans-serif;
+            line-height: 1;
         }
 
         .status-ok { color: var(--success); }
         .status-bad { color: var(--danger); }
         .status-warn { color: var(--warning); }
 
+        .meta-info {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
         .btn-refresh {
-            margin-top: 40px;
-            padding: 12px 30px;
+            margin-top: 60px;
+            padding: 16px 48px;
             background: #fff;
             color: #000;
             border: none;
             font-family: 'Inter', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
         }
 
         .btn-refresh:hover {
             background: #000;
             color: #fff;
-            outline: 1px solid #fff;
+            box-shadow: 0 0 0 1px #fff;
         }
 
         .footer {
-            margin-top: 60px;
-            font-size: 0.7rem;
-            color: #444;
-            letter-spacing: 1px;
+            margin-top: 100px;
+            font-size: 0.65rem;
+            color: #333;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         #error-msg {
             color: var(--danger);
             font-size: 0.8rem;
-            margin-top: 20px;
+            margin-top: 30px;
             display: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .grid-full {
+            grid-column: 1 / -1;
+        }
+
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+            animation: pulse-animation 2s infinite;
+        }
+
+        @keyframes pulse-animation {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 255, 204, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 204, 0); }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/Ethernium/docs/assets/banner_ethernium.png" alt="Ethernium Banner" class="banner" id="main-banner">
-        <h1>Autonomic Context Governance System v4.0</h1>
+        <img src="C:/Users/esenc/.gemini/antigravity/brain/b15eaf6b-208c-40a4-95ba-75eba0ba0001/continuity_legacy_banner_1775010136544.png" alt="Ethernium Banner" class="banner" id="main-banner">
+        <h1>Contextual Integrity Protocol v4.0 Platinum</h1>
     </header>
 
     <div class="container" id="dashboard-container">
-        <!-- Dyn Cards -->
-        <div class="card">
-            <h2>Overall Status</h2>
-            <div class="status-val" id="overall-status">LOADING</div>
+        <div class="card grid-full">
+            <h2>System Health Snapshot</h2>
+            <div class="status-val" id="overall-status">INITIALIZING</div>
+            <div class="meta-info" id="system-meta">Waiting for protocol pulse...</div>
         </div>
+        
         <div class="card">
             <h2>Doc Parity</h2>
             <div class="status-val" id="parity-status">...</div>
+            <div class="meta-info">Ensuring documentation remains in sync with the core timeline.</div>
         </div>
+        
         <div class="card">
             <h2>Logical Immunity</h2>
             <div class="status-val" id="immunity-status">...</div>
+            <div class="meta-info">Detecting contradictions between context rules and decisions.</div>
         </div>
+        
         <div class="card">
-            <h2>Security</h2>
+            <h2>Security Scan</h2>
             <div class="status-val" id="security-status">...</div>
+            <div class="meta-info">Proactive detection of leaked secrets or credentials.</div>
+        </div>
+        
+        <div class="card">
+            <h2>Active Phase</h2>
+            <div class="status-val" id="phase-status">...</div>
+            <div class="meta-info" id="next-action">Next Action: Definition Pending</div>
         </div>
     </div>
 
-    <p id="error-msg">Report not found. Ensure 'outputs/continuity/continuity_cycle_report.json' exists.</p>
+    <p id="error-msg">Protocol Sync Failed. Check Report Source.</p>
 
-    <button class="btn-refresh" onclick="fetchReport()">Refresh Protocol</button>
+    <button class="btn-refresh" onclick="fetchReport()">Synchronize State</button>
 
     <div class="footer">
-        © 2026 ETHERNIUM | CONTINUITY LEGACY UNIVERSAL CORE
+        © 2026 ETHERNIUM | CONTINUITY LEGACY | UNIVERSAL CORE PLATINUM
     </div>
 
     <script>
@@ -189,6 +238,9 @@
             const parity = document.getElementById('parity-status');
             const immunity = document.getElementById('immunity-status');
             const security = document.getElementById('security-status');
+            const phase = document.getElementById('phase-status');
+            const meta = document.getElementById('system-meta');
+            const action = document.getElementById('next-action');
 
             overall.innerText = data.status.toUpperCase();
             overall.className = 'status-val ' + (data.status === 'ok' ? 'status-ok' : 'status-bad');
@@ -196,25 +248,20 @@
             parity.innerText = data.doc_parity_status.toUpperCase();
             parity.className = 'status-val ' + (data.doc_parity_status === 'ok' ? 'status-ok' : 'status-warn');
 
-            // Handle Logical Immunity from report if exists
             immunity.innerText = (data.logical_immunity_status || 'OK').toUpperCase();
             immunity.className = 'status-val ' + ((data.logical_immunity_status || 'ok') === 'ok' ? 'status-ok' : 'status-warn');
 
             security.innerText = (data.security_status || 'OK').toUpperCase();
             security.className = 'status-val ' + ((data.security_status || 'ok') === 'ok' ? 'status-ok' : 'status-bad');
+
+            phase.innerText = data.phase.split('_').slice(-1)[0].toUpperCase();
+            phase.className = 'status-val';
+            
+            meta.innerHTML = `<span class="pulse"></span> System generated at: ${data.generated_at}`;
+            action.innerText = `Next Action: ${data.next_action_1 || 'All milestones complete'}`;
         }
 
-        // Initialize on load
-        window.addEventListener('load', () => {
-            // Update banner with local path if possible or keep the remote one as fallback
-            const banner = document.getElementById('main-banner');
-            // Try local path first
-            banner.onerror = function() {
-                this.src = 'https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/Ethernium/docs/assets/banner_ethernium.png';
-            };
-            
-            fetchReport();
-        });
+        window.addEventListener('load', fetchReport);
     </script>
 </body>
 </html>

@@ -40,6 +40,21 @@ def bootstrap_project(
     with_vector: bool = False,
     with_graph: bool = False,
 ) -> dict:
+    """Initializes a new CONTINUITY LEGACY repository structure.
+
+    Args:
+        repo_root: The filesystem path where the project will be initialized.
+        project_name: The human-readable name of the project.
+        project_slug: The URL-friendly slug for the project.
+        enable_external_docs: Whether to enable external documentation sync.
+        external_root_override: Optional path override for external docs.
+        discover: If True, attempts to auto-discover context from existing files.
+        with_vector: Whether to initialize the Vector extension wrapper.
+        with_graph: Whether to initialize the Graph extension wrapper.
+
+    Returns:
+        A dictionary containing the status and details of the initialization.
+    """
     repo_root = resolve_repo_root(repo_root, __file__)
     config = load_config(repo_root)
     external_folder_name = f"{project_slug.upper()}DEV"
