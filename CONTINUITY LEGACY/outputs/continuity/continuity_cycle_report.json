@@ -1,0 +1,23 @@
+{
+  "generated_at": "2026-04-02T03:05:55.062955+00:00",
+  "status": "attention_required",
+  "phase": "phase_00_bootstrapped",
+  "next_action_1": "Define the first real milestone for the project and tighten the roadmap around it.",
+  "project_name": "YOUR_PROJECT",
+  "doc_parity_status": "attention_required",
+  "membership_status": "ok",
+  "internal_paths_status": "ok",
+  "external_sync_status": "skipped",
+  "external_paths_status": "ok",
+  "external_phase_status": "skipped",
+  "external_next_action_status": "skipped",
+  "internal_missing_paths": [],
+  "external_missing_paths": [],
+  "bootstrap_summary": "outputs/continuity/context_bootstrap_summary.json",
+  "report": "outputs/continuity/continuity_cycle_report.json",
+  "metadata": {
+    "generated_by": "Continuity Legacy by Ethernium",
+    "tool_version": "1.0.0",
+    "creator": "@Steveblackbeard"
+  }
+}
