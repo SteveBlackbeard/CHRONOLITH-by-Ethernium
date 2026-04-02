@@ -7,30 +7,28 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/release/python-380/)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY)
 
-**CONTINUITY LEGACY** es una herramienta práctica diseñada para que humanos e IAs colaboren en proyectos manteniendo el contexto, la visión y una verdad canónica clara. Funciona como una capa de memoria persistente ligera para el desarrollo asistido por IA, asegurando que tu asistente no pierda el hilo tras un reinicio.
+**CONTINUITY LEGACY** is a practical tool designed for humans and AIs to collaborate on projects while maintaining context, vision, and a clear canonical truth. It acts as a lightweight persistent memory layer for AI-assisted development, ensuring your AI pair-programmer doesn't lose context after a restart.
 
 ---
 
-## ⚡ Novedades en la v5.0
+## ⚡ New in v5.0
+This version adds new utilities for the continuity cycle:
+- **Decision Engine Alpha**: The system now analyzes state and proposes the next strategic step.
+- **Security Guardian**: Integrated secret detection to prevent API key leaks.
 
-Esta versión añade nuevas utilidades para el ciclo de continuidad:
-
-- **Decision Engine Alpha**: El sistema ahora *piensa* y propone el siguiente paso estratégico.
-- **Security Guardian**: Detector de secretos integrado que bloquea fugas de API Keys.
-## 🏗️ Selecciona tu Edición
-
-Este repositorio incluye dos versiones prácticas, según el tamaño de tu proyecto:
+## 🏗️ Select Your Edition
+This repository includes two practical versions, depending on the size of your project:
 
 ### 🔱 [CONTINUITY LEGACY Pro](./CONTINUITY%20LEGACY%20Pro)
-La versión completa para usar en equipo o proyectos largos. Incluye comprobación de dependencias de documentos, historial de decisiones y protección contra descuidos.
-- Ideal para: Repositorios medianos/grandes.
-- Incluye: Panel visual (HTML) y scripts de validación estricta de contexto.
+The complete version for team usage or long-term projects. Includes document dependency checking, decision history, and drift protection.
+- **Ideal for**: Medium to large repositories.
+- **Includes**: A visual dashboard (HTML) and strict context validation scripts.
 
 ### ⚡ [CONTINUITY LEGACY Lite](./CONTINUITY%20LEGACY%20Lite)
-La versión ultraligera. Un solo script de Python sin dependencias externas. 
-- Ideal para: Prototipos rápidos o pequeños proyectos personales.
-- Incluye: Solo lo básico para asegurar que el agente lee tu archivo de estado y contexto.
-- a [bootstrapper](file:///d:/Experimentos/CONTINUITY_LEGACY/CONTINUITY%20LEGACY/tools/continuity_legacy/bootstrap_project.py) to personalize the template
+The ultra-lightweight version. A single Python script with no external dependencies.
+- **Ideal for**: Rapid prototypes or small personal projects.
+- **Includes**: Only the basics to ensure the agent reads your state and context file.
+
 
 ## Quick Start
 
