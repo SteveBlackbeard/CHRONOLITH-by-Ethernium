@@ -1,3 +1,9 @@
-﻿# CONTINUITY LEGACY: Фреймворк контекстной непрерывности
+﻿# CONTINUITY LEGACY: Contextual Continuity Framework
 
-Автономный движок, предназначенный для защиты контекста проекта и обеспечения полной точности при передаче от ИИ к человеку.
+##  Continuity Versions
+- **Lite**: Anatomy v2.0 + Parity v5.0
+- **Pro**: Anatomy v4.0 + Brain v5.0
+- **Omega**: Superior Edition (RAG & Graphs)
+
+---
+*CONTINUITY LEGACY: Protecting the logical lineage.*

@@ -1,3 +1,9 @@
 ﻿# CONTINUITY LEGACY: コンテキスト連続性フレームワーク
 
-プロジェクトのコンテキストを保護し、AIと人間の引き継ぎにおいて100%の忠実度を確保するために設計された自律型エンジン。
+##  Continuityのバージョン
+- **Lite**: 解剖学 v2.0 + パリティ v5.0
+- **Pro**: 解剖学 v4.0 + 頭脳 v5.0
+- **Omega**: 上位エディション (RAG & グラフ)
+
+---
+*CONTINUITY LEGACY: Protecting the logical lineage.*

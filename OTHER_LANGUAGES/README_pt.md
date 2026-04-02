@@ -1,3 +1,9 @@
-﻿# CONTINUITY LEGACY: Framework de Continuidade Contextual
+﻿# CONTINUITY LEGACY: Contextual Continuity Framework
 
-Motor autonômico projetado para proteger o contexto do projeto e garantir fidelidade total nas transferências IA-Humano.
+##  Continuity Versions
+- **Lite**: Anatomy v2.0 + Parity v5.0
+- **Pro**: Anatomy v4.0 + Brain v5.0
+- **Omega**: Superior Edition (RAG & Graphs)
+
+---
+*CONTINUITY LEGACY: Protecting the logical lineage.*

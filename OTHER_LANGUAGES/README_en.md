@@ -1,3 +1,9 @@
 ﻿# CONTINUITY LEGACY: Contextual Continuity Framework
 
-Autonomic engine designed to protect project context and ensure 100% fidelity during AI-to-Human handoffs.
+##  Continuity Versions
+- **Lite**: Anatomy v2.0 + Parity v5.0
+- **Pro**: Anatomy v4.0 + Brain v5.0
+- **Omega**: Superior Edition (RAG & Graphs)
+
+---
+*CONTINUITY LEGACY: Protecting the logical lineage.*
