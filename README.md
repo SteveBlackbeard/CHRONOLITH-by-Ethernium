@@ -1,18 +1,4 @@
-# CONTINUITY LEGACY 🏛️🧬
-
-<!-- CONTINUITY_LEGACY: VISION
-Preserving the Soul of the Project across Infinite AI Sessions via a Decentralized, Cognitive OS Layer.
--->
-
-<!-- CONTINUITY_LEGACY: RULES
-1. Never break the 'Truth Documents' (CONTEXT/STATE/ROADMAP).
-2. Every major decision must be logged in the Decision Engine.
-3. Dashboards must reflect real-time parity.
--->
-
-<!-- CONTINUITY_LEGACY: STACK
-Python-Native, Zero-Dependency Core, HTML/CSS Visual Layer, Vector/Graph Extensions.
--->
+# CONTINUITY LEGACY v5.0 (Platinum) 🏛️🧬
 
 > **The AI Continuity Engine & Operating System Layer.**
 > *Preserving the Soul of the Project across Infinite AI Sessions.*
@@ -32,17 +18,17 @@ Esta versión transforma el framework en un sistema activo e inteligente:
 - **Decision Engine Alpha**: El sistema ahora *piensa* y propone el siguiente paso estratégico.
 - **Security Guardian**: Detector de secretos integrado que bloquea fugas de API Keys.
 - **Ethernium Hub**: Un Dashboard visual dinámico en Blanco y Negro corporativo para monitoreo en tiempo real.
-- **Version LITE**: Una implementación de 60 segundos para prototipado rápido en `/lite/`.
+- **Version LITE**: Una implementación de 60 segundos para prototipado rápido en [CONTINUITY LEGACY Lite](./CONTINUITY%20LEGACY%20Lite/).
 - **Extensiones Reales**: Soporte funcional para BBDD Vectoriales (ChromaDB) y Grafos de Memoria (NetworkX).
 
 ## What this includes
 - a minimal canonical memory surface
-- a continuity [bootstrap snapshot](file:///d:/Experimentos/CONTINUITY_LEGACY/outputs/continuity/context_bootstrap_summary.json)
-- document [parity checks](file:///d:/Experimentos/CONTINUITY_LEGACY/tools/continuity_legacy/doc_parity_check.py)
-- system [membership checks](file:///d:/Experimentos/CONTINUITY_LEGACY/tools/continuity_legacy/system_membership_check.py)
+- a continuity [bootstrap snapshot](file:///d:/Experimentos/CONTINUITY_LEGACY/CONTINUITY%20LEGACY/outputs/continuity/context_bootstrap_summary.json)
+- document [parity checks](file:///d:/Experimentos/CONTINUITY_LEGACY/CONTINUITY%20LEGACY/tools/continuity_legacy/doc_parity_check.py)
+- system [membership checks](file:///d:/Experimentos/CONTINUITY_LEGACY/CONTINUITY%20LEGACY/tools/continuity_legacy/system_membership_check.py)
 - an optional external developer layer like `PROJECTDEV/`
-- a strict continuity [closeout command](file:///d:/Experimentos/CONTINUITY_LEGACY/tools/continuity_legacy/run_continuity_cycle.py)
-- a [bootstrapper](file:///d:/Experimentos/CONTINUITY_LEGACY/tools/continuity_legacy/bootstrap_project.py) to personalize the template
+- a strict continuity [closeout command](file:///d:/Experimentos/CONTINUITY_LEGACY/CONTINUITY%20LEGACY/tools/continuity_legacy/run_continuity_cycle.py)
+- a [bootstrapper](file:///d:/Experimentos/CONTINUITY_LEGACY/CONTINUITY%20LEGACY/tools/continuity_legacy/bootstrap_project.py) to personalize the template
 
 ## Quick Start
 
