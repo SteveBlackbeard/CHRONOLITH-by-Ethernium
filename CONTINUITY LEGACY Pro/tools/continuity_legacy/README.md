@@ -1,21 +1,18 @@
-# Continuity Legacy Commands
+# Tools Folder
 
-This folder contains the user-facing automation commands.
+This folder is the operational entry lane for `CONTINUITY LEGACY`.
 
-## Commands
-- `bootstrap_project.py`
-- `bootstrap_context.py`
-- `doc_parity_check.py`
-- `system_membership_check.py`
-- `sync_external_dev_context.py`
-- `run_continuity_cycle.py`
+## What lives here
+- bootstrap scripts
+- continuity validation scripts
+- sync scripts
 
 ## Canonical automation
-The main closeout command is:
+Start from:
 
 ```powershell
-python tools/continuity_legacy/run_continuity_cycle.py --repo-root <repo> --strict
+python tools/continuity_legacy/bootstrap_project.py --repo-root <repo> --project-name "<name>" --project-slug <slug>
 ```
 
 ## Agent rule
-Use this folder as the runtime interface of the toolkit. Do not start from `core/` unless you are changing the toolkit itself.
+If the project is already initialized, prefer `run_continuity_cycle.py` over ad hoc script execution.

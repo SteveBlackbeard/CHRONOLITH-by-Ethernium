@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-04-02T06:33:23.767580+00:00",
-  "repo_root": ".",
+  "generated_at": "2026-03-31T23:57:07.712667+00:00",
+  "repo_root": "D:\\Experimentos\\CONTINUITY_LEGACY",
   "date": "2026-03-31",
-  "phase": "phase_00_bootstrapped",
+  "phase": "phase_00_template_ready",
   "next_actions": [
-    "Define the first real milestone for the project and tighten the roadmap around it.",
-    "Update the live handoff and decisions log as soon as the first real architectural choice is made.",
+    "Set the real project name and slug with bootstrap_project.py before the first active implementation batch.",
+    "Review PROJECT_CONTEXT.md and tighten any project-specific laws or construction rules.",
     "Run the strict continuity cycle after the first relevant change."
   ],
   "priority_zones": [
@@ -21,25 +21,25 @@
     }
   ],
   "truth": {
-    "project_shape": "active_project",
+    "project_shape": "starter_template",
     "continuity_mode": "continuity_first",
     "external_docs": "optional",
-    "current_focus": "first_real_milestone_definition"
+    "current_focus": "bootstrap_project_identity"
   },
   "documents": {
     "context": {
-      "path": "PROJECT_CONTEXT.md",
+      "path": "D:\\Experimentos\\CONTINUITY_LEGACY\\PROJECT_CONTEXT.md",
       "exists": true,
       "mode": "text",
-      "excerpt": "# CONTINUITY LEGACY Context\n\nSYSTEM ROLE:\nContinuity-first project operating context.\n\nPRIMARY GOAL:\nKeep the project reconstructable, governed, and usable across multiple sessions, operators, and AI agents.\n\nEXECUTION MODE:\n- Think global before acting local.\n- Scan before moving.\n- Analyze before improving or innovating.\n- Improve only when the surrounding system is legible and the change raises coherence, quality, functionality, or code integrity.\n- Prefer reversible changes over destructive shortcuts.\n- Keep documentation, state, and handoff aligned with the codebase.\n\nCONTEXT CONTINUITY RULES:\n- Do not rely on chat memory as the primary source of context.\n- Reconstruct context from canonical files before structural work.\n- After every relevant change, update:\n  - `STATE.json`\n  - `ROADMAP.md`\n  - `.continuity/LIVE_HANDOFF.md`\n- When a lasting decision is made, also update:\n  - `.continuity/DECISIONS_LOG.md`\n- When a milestone is completed, also update:\n  - `.continuity/TIMELINE.md`\n\nCONSTRUCTION RULES:\n- Nothing is deleted without a replacement or an archive path.\n- Naming should describe purpose, not personal memory.\n- Do not optimize a structure that is still incoherent.\n- If a change increases entropy, it is incomplete.\n\nOPERATOR RULES:\n- Every new agent must read `.continuity/BOOT_SEQUENCE.md`.\n- The first response must reconstruct the current phase, last milestone, next action, target zone, and active risks.\n- If the boot sequence was not followed, the operator should not make structural changes.\n\nAUTOMATION RULE:\n- The canonical post-change command is `python tools/continuity_legacy/run_continuity_cycle.py --repo-root <repo> --strict`.\n\nEXTERNAL DOCS POLICY:\n- An external developer continuity layer is supported but optional.\n- If enabled, it should be synced from canonical repo memory instead of edited manually first.\n"
+      "excerpt": "# YOUR_PROJECT Context\n\nSYSTEM ROLE:\nContinuity-first project operating context.\n\nPRIMARY GOAL:\nKeep the project reconstructable, governed, and usable across multiple sessions, operators, and AI agents.\n\nEXECUTION MODE:\n- Think global before acting local.\n- Scan before moving.\n- Analyze before improving or innovating.\n- Improve only when the surrounding system is legible and the change raises coherence, quality, functionality, or code integrity.\n- Prefer reversible changes over destructive shortcuts.\n- Keep documentation, state, and handoff aligned with the codebase.\n\nCONTEXT CONTINUITY RULES:\n- Do not rely on chat memory as the primary source of context.\n- Reconstruct context from canonical files before structural work.\n- After every relevant change, update:\n  - `STATE.json`\n  - `ROADMAP.md`\n  - `.continuity/LIVE_HANDOFF.md`\n- When a lasting decision is made, also update:\n  - `.continuity/DECISIONS_LOG.md`\n- When a milestone is completed, also update:\n  - `.continuity/TIMELINE.md`\n\nCONSTRUCTION RULES:\n- Nothing is deleted without a replacement or an archive path.\n- Naming should describe purpose, not personal memory.\n- Do not optimize a structure that is still incoherent.\n- If a change increases entropy, it is incomplete.\n\nOPERATOR RULES:\n- Every new agent must read `.continuity/BOOT_SEQUENCE.md`.\n- The first response must reconstruct the current phase, last milestone, next action, target zone, and active risks.\n- If the boot sequence was not followed, the operator should not make structural changes.\n\nAUTOMATION RULE:\n- The canonical post-change command is `python tools/continuity_legacy/run_continuity_cycle.py --repo-root <repo> --strict`.\n\nEXTERNAL DOCS POLICY:\n- An external developer continuity layer is supported but optional.\n- If enabled, it should be synced from canonical repo memory instead of edited manually first.\n"
     },
     "state": {
-      "path": "STATE.json",
+      "path": "D:\\Experimentos\\CONTINUITY_LEGACY\\STATE.json",
       "exists": true,
       "mode": "json",
       "parsed": {
         "date": "2026-03-31",
-        "status": "phase_00_bootstrapped",
+        "status": "phase_00_template_ready",
         "method": [
           "analyze",
           "implement",
@@ -47,10 +47,10 @@
           "continuity_sync"
         ],
         "truth": {
-          "project_shape": "active_project",
+          "project_shape": "starter_template",
           "continuity_mode": "continuity_first",
           "external_docs": "optional",
-          "current_focus": "first_real_milestone_definition"
+          "current_focus": "bootstrap_project_identity"
         },
         "priority_zones": [
           {
@@ -65,8 +65,8 @@
           }
         ],
         "next_actions": [
-          "Define the first real milestone for the project and tighten the roadmap around it.",
-          "Update the live handoff and decisions log as soon as the first real architectural choice is made.",
+          "Set the real project name and slug with bootstrap_project.py before the first active implementation batch.",
+          "Review PROJECT_CONTEXT.md and tighten any project-specific laws or construction rules.",
           "Run the strict continuity cycle after the first relevant change."
         ],
         "continuity_automation": {
@@ -78,51 +78,46 @@
       }
     },
     "roadmap": {
-      "path": "ROADMAP.md",
+      "path": "D:\\Experimentos\\CONTINUITY_LEGACY\\ROADMAP.md",
       "exists": true,
       "mode": "text",
       "excerpt": "# ROADMAP\n\nDate: 2026-03-31\nStatus: phase_00_template_ready\n\n## Active Milestone\n- personalize the template with the real project identity\n- confirm the governing rules in `PROJECT_CONTEXT.md`\n- enable external continuity docs only if the project benefits from them\n- pass the first strict continuity cycle cleanly\n"
     },
     "continuity": {
-      "path": ".continuity/CONTEXT_CONTINUITY.md",
+      "path": "D:\\Experimentos\\CONTINUITY_LEGACY\\.continuity\\CONTEXT_CONTINUITY.md",
       "exists": true,
       "mode": "text",
       "excerpt": "# CONTEXT CONTINUITY\n\nDate: 2026-03-31\nStatus: canonical\n\n## Purpose\nMake the project reconstructable by any new human or AI operator, not only by the current chat or session.\n\n## Principle\nContext must be rebuilt from files, not guessed from conversation history.\n\n## Canonical Continuity Artifacts\n- `PROJECT_CONTEXT.md`\n- `STATE.json`\n- `ROADMAP.md`\n- `.continuity/BOOT_SEQUENCE.md`\n- `.continuity/LIVE_HANDOFF.md`\n- `.continuity/DECISIONS_LOG.md`\n- `.continuity/TIMELINE.md`\n- optional external developer docs layer\n\n## Context Layers\n### Stable Context\n- system rules\n- construction laws\n- naming rules\n- operator behavior\n\nPrimary source:\n- `PROJECT_CONTEXT.md`\n\n### Current State\n- current phase\n- current truth\n- priority zones\n- next actions\n\nPrimary sources:\n- `STATE.json`\n- `ROADMAP.md`\n\n### Handoff\n- exact stop point\n- completed work\n- active risks\n- next exact action\n\nPrimary source:\n- `.continuity/LIVE_HANDOFF.md`\n\n### History\n- decisions\n- milestones\n- sequence of changes\n\nPrimary sources:\n- `.continuity/DECISIONS_LOG.md`\n- `.continuity/TIMELINE.md`\n\n## Mandatory Update Rule\nEvery relevant structural, canonical, or continuity change must update:\n1. `STATE.json`\n2. `ROADMAP.md`\n3. `.continuity/LIVE_HANDOFF.md`\n\nIf the change sets a lasting rule or decision, also update:\n4. `.continuity/DECISIONS_LOG.md`\n\nIf the change completes a milestone, also update:\n5. `.continuity/TIMELINE.md`\n\n## Mandatory Automation Closeout\nAfter every relevant structural, canonical, or continuity change, run:\n- `python tools/continuity_legacy/run_continuity_cycle.py --repo-root <repo> --strict`\n"
     },
     "boot": {
-      "path": ".continuity/BOOT_SEQUENCE.md",
+      "path": "D:\\Experimentos\\CONTINUITY_LEGACY\\.continuity\\BOOT_SEQUENCE.md",
       "exists": true,
       "mode": "text",
       "excerpt": "# BOOT SEQUENCE\n\nDate: 2026-03-31\nStatus: canonical\n\n## Objective\nDefine the exact order any new operator or AI must follow when entering the project.\n\n## Read Order\n1. `PROJECT_CONTEXT.md`\n2. `STATE.json`\n3. `ROADMAP.md`\n4. `.continuity/CONTEXT_CONTINUITY.md`\n5. `.continuity/LIVE_HANDOFF.md`\n6. `.continuity/DECISIONS_LOG.md`\n7. `.continuity/TIMELINE.md`\n8. optional external continuity docs if enabled\n9. relevant zone-specific files for the active task\n\n## Required Reconstruction Output\nBefore editing, the operator should be able to answer:\n- what the project is\n- what phase it is in\n- what was completed last\n- what the exact next step is\n- what areas are risky\n- which files are canonical for the current task\n\n## Required First Response Pattern\nAny new operator should begin with:\n1. current phase\n2. last completed milestone\n3. current target zone\n4. next exact action\n5. active risks\n6. assumptions if any\n\n## Rule\nIf the boot sequence was not followed, the operator should not make structural changes.\n"
     },
     "handoff": {
-      "path": ".continuity/LIVE_HANDOFF.md",
+      "path": "D:\\Experimentos\\CONTINUITY_LEGACY\\.continuity\\LIVE_HANDOFF.md",
       "exists": true,
       "mode": "text",
       "excerpt": "# LIVE HANDOFF\n\nDate: 2026-03-31\nStatus: active\n\n## Current Phase\n- `phase_00_template_ready`\n\n## Last Completed Milestones\n- the continuity starter template exists\n- the bootstrapper is available\n\n## Next Exact Action\n- personalize the template with the real project name and slug\n\n## Current Target Zone\n- `PROJECT_CONTEXT.md`\n\n## Active Risks\n- placeholder identity has not been replaced yet\n- external docs may be enabled before the project actually needs them\n"
     },
     "decisions_log": {
-      "path": ".continuity/DECISIONS_LOG.md",
+      "path": "D:\\Experimentos\\CONTINUITY_LEGACY\\.continuity\\DECISIONS_LOG.md",
       "exists": true,
       "mode": "text",
       "excerpt": "# DECISIONS LOG\n\n## 2026-03-31\n- `CONTINUITY LEGACY` was created as a standalone starter template.\n- external developer docs were made optional rather than mandatory.\n",
       "tail": "# DECISIONS LOG\n\n## 2026-03-31\n- `CONTINUITY LEGACY` was created as a standalone starter template.\n- external developer docs were made optional rather than mandatory."
     },
     "timeline": {
-      "path": ".continuity/TIMELINE.md",
+      "path": "D:\\Experimentos\\CONTINUITY_LEGACY\\.continuity\\TIMELINE.md",
       "exists": true,
       "mode": "text",
       "excerpt": "# TIMELINE\n\n## 2026-03-31\n- the standalone continuity starter template was created\n- the project bootstrapper was added\n",
       "tail": "# TIMELINE\n\n## 2026-03-31\n- the standalone continuity starter template was created\n- the project bootstrapper was added"
     }
   },
-  "template_name": "CONTINUITY LEGACY",
+  "template_name": "CONTINUITY LEGACY by Ethernium",
   "project_name": "YOUR_PROJECT",
   "project_slug": "your_project",
-  "external_root": "",
-  "metadata": {
-    "generated_by": "Continuity Legacy by Ethernium",
-    "tool_version": "5.0.0",
-    "creator": "@Steveblackbeard"
-  }
+  "external_root": ""
 }

@@ -18,7 +18,7 @@
 - **Improved**: Modular context loading with `[include: path/to/file.md]` support.
 - **Improved**: `.continuityignore` support for parity checks.
 
-## [1.0.0] - 2026-03-31: Initial Release (Nivel 1) 💎
+## [1.0.0] - 2026-03-31: Initial Release () 💎
 - First manual framework for continuity and document parity.
 - Core logic for `STATE.json`, `ROADMAP.md`, and `.continuity/` surfaces.
 

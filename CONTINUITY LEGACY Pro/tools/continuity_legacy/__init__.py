@@ -1,1 +1,1 @@
-"""Continuity Legacy toolkit."""
+"""Core helpers for Continuity Legacy."""

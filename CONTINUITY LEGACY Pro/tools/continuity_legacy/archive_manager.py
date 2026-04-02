@@ -56,7 +56,7 @@ def rotate_logs(repo_root: Path):
     outputs_dir = repo_root / "outputs" / "continuity"
     if outputs_dir.exists():
         # Keep only the last 10 reports, archive the rest? Or just prune.
-        # For 'Platinum' we archive them.
+        # For '' we archive them.
         report_archive = archive_dir / "reports"
         report_archive.mkdir(exist_ok=True)
         
