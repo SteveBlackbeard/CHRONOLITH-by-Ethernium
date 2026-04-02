@@ -1,4 +1,4 @@
-# CONTINUITY LEGACY by Ethernium
+# CONTINUITY LEGACY Pro by Ethernium
 
 `CONTINUITY LEGACY` is a standalone starter toolkit for building projects with persistent continuity, canonical memory, and repeatable handoff between humans and AI operators.
 
@@ -49,6 +49,12 @@ To ensure the project remains coherent without manual effort, it includes a doub
 - `ROADMAP.md`
 - `.continuity/LIVE_HANDOFF.md`
 - `AGENT_START.md` (File to hand over to a new AI agent)
+
+## Execution
+Always end your sessions by running the validation cycle:
+```bash
+python tools/continuity_legacy/run_continuity_cycle.py --strict
+```
 
 ---
 **For more details, see the use cases and troubleshooting guide in the root directory.**
