@@ -17,17 +17,19 @@ Esta versión añade nuevas utilidades para el ciclo de continuidad:
 
 - **Decision Engine Alpha**: El sistema ahora *piensa* y propone el siguiente paso estratégico.
 - **Security Guardian**: Detector de secretos integrado que bloquea fugas de API Keys.
-- **Ethernium Hub**: Un Dashboard visual dinámico en Blanco y Negro corporativo para monitoreo en tiempo real.
-- **Version LITE**: Una implementación de 60 segundos para prototipado rápido en [CONTINUITY LEGACY Lite](./CONTINUITY%20LEGACY%20Lite/).
-- **Extensiones Reales**: Soporte funcional para BBDD Vectoriales (ChromaDB) y Grafos de Memoria (NetworkX).
+## 🏗️ Selecciona tu Edición
 
-## What this includes
-- a minimal canonical memory surface
-- a continuity [bootstrap snapshot](file:///d:/Experimentos/CONTINUITY_LEGACY/CONTINUITY%20LEGACY/outputs/continuity/context_bootstrap_summary.json)
-- document [parity checks](file:///d:/Experimentos/CONTINUITY_LEGACY/CONTINUITY%20LEGACY/tools/continuity_legacy/doc_parity_check.py)
-- system [membership checks](file:///d:/Experimentos/CONTINUITY_LEGACY/CONTINUITY%20LEGACY/tools/continuity_legacy/system_membership_check.py)
-- an optional external developer layer like `PROJECTDEV/`
-- a strict continuity [closeout command](file:///d:/Experimentos/CONTINUITY_LEGACY/CONTINUITY%20LEGACY/tools/continuity_legacy/run_continuity_cycle.py)
+Este repositorio incluye dos versiones prácticas, según el tamaño de tu proyecto:
+
+### 🔱 [CONTINUITY LEGACY Pro](./CONTINUITY%20LEGACY%20Pro)
+La versión completa para usar en equipo o proyectos largos. Incluye comprobación de dependencias de documentos, historial de decisiones y protección contra descuidos.
+- Ideal para: Repositorios medianos/grandes.
+- Incluye: Panel visual (HTML) y scripts de validación estricta de contexto.
+
+### ⚡ [CONTINUITY LEGACY Lite](./CONTINUITY%20LEGACY%20Lite)
+La versión ultraligera. Un solo script de Python sin dependencias externas. 
+- Ideal para: Prototipos rápidos o pequeños proyectos personales.
+- Incluye: Solo lo básico para asegurar que el agente lee tu archivo de estado y contexto.
 - a [bootstrapper](file:///d:/Experimentos/CONTINUITY_LEGACY/CONTINUITY%20LEGACY/tools/continuity_legacy/bootstrap_project.py) to personalize the template
 
 ## Quick Start
