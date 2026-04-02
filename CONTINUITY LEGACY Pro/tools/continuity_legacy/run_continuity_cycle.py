@@ -233,6 +233,14 @@ def main() -> None:
     import datetime
     report = run_continuity_cycle(args.repo_root, args.external_root)
     
+    # 3.5. Global Translation Health Check
+    try:
+        import sync_translations
+        echo("\n[*] Checking global translation health (9 languages)...", Color.CYAN)
+        sync_translations.sync_all(repo_root, auto_gen=False)
+    except Exception as e:
+        echo(f"[!] Warning: Translation sync check failed: {e}", Color.YELLOW)
+        
     # 4. Developer Intent Capture (Optional)
     from core.automation_common import Color, echo, resolve_repo_root
     echo("\n[*] [OPTIONAL] Any strategic ideas or intent for this session? (Enter to skip):", Color.CYAN)
