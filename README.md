@@ -6,19 +6,19 @@
 
 ## 🏗️ Choose Your Edition
 
-| Edition | Purpose | Complexity | Ideal For |
+| Edition | Technical Core | Purpose | Complexity |
 | :--- | :--- | :--- | :--- |
-| **[Lite](./CONTINUITY%20LEGACY%20Lite)** | Zero-dependency core logic | Minimalist | Rapid prototyping and solo devs |
-| **[Pro](./CONTINUITY%20LEGACY%20Pro)** | Strategic projection & automation | High-end Tooling | Professional production pipelines |
-| **[Omega](./CONTINUITY%20LEGACY%20Omega)** | Semantic RAG & Cognitive Graphs | Heavy Duty | Large-scale AI project governance |
+| **[Lite](./CONTINUITY%20LEGACY%20Lite)** | **Anatomía v2.0** + Parity v5.0 | Zero-dependency core logic | Minimalist |
+| **[Pro](./CONTINUITY%20LEGACY%20Pro)** | **Anatomía v4.0** + Brain v5.0 | Strategic projection (Decision & Archive) | Professional |
+| **[Omega](./CONTINUITY%20LEGACY%20Omega)** | **Edición Superior** (RAG & Graphs) | Deep Semantic Insight (ChromaDB/NetworkX) | Heavy Duty |
 
 ---
 
 ## 🏛️ Project Governance & Resilience
 
-This framework is built for longevity. To address maintainer risks and ensure long-term sustainability, we have established a formal governance model:
-- **[GOVERNANCE.md](./GOVERNANCE.md)**: Defining maintenance, succession, and the "Lifeboat" principle.
-- **[CONTRIBUTORS.md](./CONTRIBUTORS.md)**: Guidelines for joining the contextual development cycle.
+Para garantizar la longevidad y el mantenimiento del proyecto, hemos activado un modelo de gobernanza robusto:
+- **[GOVERNANCE.md](./GOVERNANCE.md)**: Define la toma de decisiones y el protocolo de sucesión.
+- **[CONTRIBUTORS.md](./CONTRIBUTORS.md)**: Guía técnica para unirse al ciclo de desarrollo.
 
 ## 🚀 Quick Activation
 
