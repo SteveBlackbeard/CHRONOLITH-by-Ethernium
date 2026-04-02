@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-04-02T03:05:55.062955+00:00",
+  "generated_at": "2026-04-02T03:10:44.816755+00:00",
   "status": "attention_required",
   "phase": "phase_00_bootstrapped",
   "next_action_1": "Define the first real milestone for the project and tighten the roadmap around it.",
   "project_name": "YOUR_PROJECT",
   "doc_parity_status": "attention_required",
-  "membership_status": "ok",
+  "membership_status": "attention_required",
   "internal_paths_status": "ok",
   "external_sync_status": "skipped",
   "external_paths_status": "ok",
