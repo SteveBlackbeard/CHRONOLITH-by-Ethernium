@@ -1,4 +1,4 @@
-[build-system]
+﻿[build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
@@ -15,7 +15,6 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
-    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = []
 
@@ -23,4 +22,8 @@ dependencies = []
 "Homepage" = "https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium"
 
 [project.scripts]
-continuity-legacy-lite = "run_continuity_lite:run_cycle"
+continuity-legacy-lite = "tools.continuity_legacy.run_continuity_lite:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tools*"]

@@ -1,4 +1,4 @@
-# CONTINUITY LEGACY Pro by Ethernium
+﻿# CONTINUITY LEGACY Pro by Ethernium
 
 `CONTINUITY LEGACY` is a standalone starter toolkit for building projects with persistent continuity, canonical memory, and repeatable handoff between humans and AI operators.
 

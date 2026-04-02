@@ -29,7 +29,8 @@ all = ["chromadb>=0.4.0", "sentence-transformers", "networkx", "rdflib"]
 "Bug Tracker" = "https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/issues"
 
 [project.scripts]
-continuity-legacy = "continuity_legacy_cli.cli:main"
+continuity-legacy = "tools.continuity_legacy.run_continuity_cycle:main"
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["."]
+include = ["tools*"]

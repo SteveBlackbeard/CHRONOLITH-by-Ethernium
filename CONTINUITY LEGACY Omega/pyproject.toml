@@ -1,4 +1,4 @@
-[build-system]
+﻿[build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
@@ -15,7 +15,6 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
     "chromadb>=0.4.0",
@@ -28,3 +27,7 @@ dependencies = [
 
 [project.scripts]
 continuity-legacy-omega = "tools.continuity_legacy.run_continuity_omega:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tools*"]

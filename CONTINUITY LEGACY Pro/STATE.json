@@ -35,5 +35,8 @@
     "command": "python tools/continuity_legacy/run_continuity_cycle.py --repo-root <repo> --strict",
     "report": "outputs/continuity/continuity_cycle_report.json",
     "bootstrap_summary": "outputs/continuity/context_bootstrap_summary.json"
+  },
+  "metadata": {
+    "last_updated": "2026-04-02T07:55:19.237951Z"
   }
 }
