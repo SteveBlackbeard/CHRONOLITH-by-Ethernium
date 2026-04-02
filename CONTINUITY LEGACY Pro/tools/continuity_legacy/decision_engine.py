@@ -73,7 +73,7 @@ def extract_tactical_directive(repo_root: Path) -> str:
     except Exception:
         return "Error reading LIVE_HANDOFF.md."
 
-def generate_strategy(repo_root: Path) -> dict:
+def generate_strategy(repo_root: Path, scenarios: bool = False) -> dict:
     """Orchestrates the decision engine analysis."""
     print("[*] Engine Initializing: Strategic Analysis...")
     
@@ -92,6 +92,16 @@ def generate_strategy(repo_root: Path) -> dict:
     elif "missing" in tactical.lower() or "error" in tactical.lower():
         recommendation = "PRIORITY: Re-establish the LIVE_HANDOFF.md to define the next exact action for the AI agent."
         
+    if scenarios:
+        print("\n[?] ** SCENARIOS PROJECTION **")
+        if momentum["score"] < 50:
+            print("    -> PATH A (Do nothing): Technical debt compounds. AI context loss expected.")
+            print("    -> PATH B (Follow priority): Momentum recovers. Handoffs remain clean.")
+        else:
+            print("    -> PATH A (Execute Current Next Action): Feature delivered smoothly.")
+            print("    -> PATH B (Pivot Roadmap): Moderate friction, but manageable due to high momentum.")
+        print()
+
     report = {
         "status": "success",
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
@@ -119,7 +129,8 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="CONTINUITY LEGACY Pro - Decision Engine")
     parser.add_argument("--repo-root", default=".", help="Root directory of the project")
+    parser.add_argument("--scenarios", action="store_true", help="Project alternative action paths")
     args = parser.parse_args()
     
     root_path = Path(args.repo_root).resolve()
-    generate_strategy(root_path)
+    generate_strategy(root_path, scenarios=args.scenarios)

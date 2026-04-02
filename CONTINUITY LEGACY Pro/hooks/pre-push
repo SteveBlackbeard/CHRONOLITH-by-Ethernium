@@ -1,0 +1,27 @@
+#!/bin/sh
+# CONTINUITY LEGACY PRE-PUSH HOOK
+# -------------------------------
+# Updated for v5.0 Platinum release structure.
+
+echo "[*] CONTINUITY LEGACY: Border Guard validating state before push..."
+
+# Consume stdin to prevent hang
+while read local_ref local_sha remote_ref remote_sha
+do
+  :
+done
+
+# Execute cycle in STRICT mode
+python "CONTINUITY LEGACY Pro/tools/continuity_legacy/run_continuity_cycle.py" --repo-root "CONTINUITY LEGACY Pro" --strict
+
+RESULT=True
+
+if [  -ne 0 ]; then
+  echo ""
+  echo "[!] CONTINUITY ERROR: Project state is inconsistent. Push blocked."
+  echo "[!] Please run: python \"CONTINUITY LEGACY Pro/tools/continuity_legacy/run_continuity_cycle.py\" --strict"
+  exit 1
+fi
+
+echo "[] CONTINUITY OK: Project state is valid. Proceeding with push."
+exit 0

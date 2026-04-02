@@ -51,7 +51,7 @@ DEFAULT_CONFIG = {
     },
     "metadata": {
         "generated_by": "Continuity Legacy by Ethernium",
-        "tool_version": "1.0.0",
+        "tool_version": "5.0.0",
         "creator": "@Steveblackbeard",
         "include_in_reports": True,
     },

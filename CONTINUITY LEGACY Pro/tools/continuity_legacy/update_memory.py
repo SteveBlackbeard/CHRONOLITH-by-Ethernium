@@ -1,67 +1,81 @@
-from __future__ import annotations
+#!/usr/bin/env python3
+"""
+update_memory.py — CONTINUITY LEGACY Pro
+========================================
+Anti-amnesia engine. Automatically consolidates recent branch actions,
+completed tests, and resolved debt into the DECISIONS_LOG.md and
+TIMELINE.md files to ensure nothing is lost during handoffs.
+"""
 
-import argparse
 import json
+import datetime
 from pathlib import Path
-from datetime import datetime
 
-# Standard paths
-DECISIONS_LOG = ".continuity/DECISIONS_LOG.md"
-ARCHIVE_LOG = ".continuity/ARCHIVE_LOG.md"
-MAX_ENTRIES = 10
+import subprocess
 
+def extract_git_decisions(repo_root: Path):
+    """Fetch recent git commits and extract strategic decisions."""
+    print("  [>] Syncing history from Git...")
+    try:
+        # Get last 24 hours of log
+        cmd = ["git", "log", "--since='24 hours ago'", "--pretty=format:%s"]
+        output = subprocess.check_output(cmd, cwd=repo_root, stderr=subprocess.DEVNULL).decode(errors="ignore")
+        
+        decisions_file = repo_root / ".continuity" / "DECISIONS_LOG.md"
+        if not decisions_file.exists():
+            return
 
-def update_memory(repo_root: Path):
-    log_path = repo_root / DECISIONS_LOG
-    archive_path = repo_root / ARCHIVE_LOG
+        lines = output.splitlines()
+        extracted = []
+        for line in lines:
+            if line.startswith("[DEC]") or line.startswith("dec:"):
+                extracted.append(line.replace("[DEC]", "").replace("dec:", "").strip())
+        
+        if extracted:
+            now_str = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d UTC")
+            with open(decisions_file, "a", encoding="utf-8") as f:
+                f.write(f"\n### Git Auto-Decisions ({now_str})\n")
+                for e in extracted:
+                    f.write(f"- {e}\n")
+            print(f"  [✔] Extracted {len(extracted)} decisions from git logs.")
+    except Exception:
+        print("  [!] Git log not available or failed. Skipping extraction.")
+
+def consolidate_memory(repo_root: Path):
+    print(f"[*] Memory Consolidator: Updating project logs in {repo_root}...")
     
-    if not log_path.exists():
-        print(f"[!] {DECISIONS_LOG} not found. Nothing to update.")
+    continuity_dir = repo_root / ".continuity"
+    state_file = repo_root / "STATE.json"
+    timeline_file = continuity_dir / "TIMELINE.md"
+    decisions_file = continuity_dir / "DECISIONS_LOG.md"
+    
+    if not (repo_root / "STATE.json").exists():
+        # Fallback for Lite where state is in root
+        state_file = repo_root / "STATE.json"
+        
+    try:
+        with open(state_file, "r", encoding="utf-8") as f:
+            state = json.load(f)
+    except Exception:
         return
-
-    content = log_path.read_text(encoding="utf-8")
-    lines = content.splitlines()
+        
+    now_str = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d UTC")
+    action = state.get("last_action", "Automated sync.")
     
-    # Identify Table Rows (entries)
-    # Decisions are usually in a table: | Date | Decision | Rationale | Operator |
-    entries = [l for l in lines if l.startswith("|") and not l.startswith("| Date |") and not l.startswith("| --- |")]
-    
-    if len(entries) <= MAX_ENTRIES:
-        print(f"[✔] Memory is still compact ({len(entries)} entries). No archiving needed.")
-        return
-
-    # Split into Keep and Archive
-    to_keep = entries[-MAX_ENTRIES:]
-    to_archive = entries[:-MAX_ENTRIES]
-    
-    print(f"[*] Archiving {len(to_archive)} historical entries to {ARCHIVE_LOG}.")
-    
-    # Write to Archive
-    archive_header = f"\n## Archived on {datetime.now().isoformat()}\n"
-    if not archive_path.exists():
-        archive_path.write_text("# CONTINUITY LEGACY: ARCHIVE LOG 🏛️\n\n| Date | Decision | Rationale | Operator |\n| --- | --- | --- | --- |\n", encoding="utf-8")
-    
-    with open(archive_path, "a", encoding="utf-8") as f:
-        f.write(archive_header)
-        for e in to_archive:
-            f.write(e + "\n")
+    # Update Timeline
+    if timeline_file.exists():
+        content = timeline_file.read_text(encoding="utf-8")
+        if now_str not in content:
+            new_entry = f"\n- **{now_str}**: {action}"
+            timeline_file.write_text(content + new_entry, encoding="utf-8")
+            print("  [✔] Updated TIMELINE.")
             
-    # Rewrite Decisions Log (keeping header and table structure)
-    new_log = ["# DECISIONS LOG ⚖️\n", "| Date | Decision | Rationale | Operator |\n", "| --- | --- | --- | --- |\n"]
-    new_log.extend([e + "\n" for e in to_keep])
-    
-    log_path.write_text("".join(new_log), encoding="utf-8")
-    print(f"[✔] Memory consolidated. Active log reduced to {MAX_ENTRIES} entries.")
-
-
-def main():
-    parser = argparse.ArgumentParser(description="Update and consolidate project memory.")
-    parser.add_argument("--repo-root", default=".")
-    args = parser.parse_args()
-
-    root = Path(args.repo_root).resolve()
-    update_memory(root)
-
+    # Automated Extraction
+    extract_git_decisions(repo_root)
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    parser = argparse.ArgumentParser(description="Consolidate continuity memory.")
+    parser.add_argument("--repo-root", default=".", help="Root directory of the project")
+    args = parser.parse_args()
+    consolidate_memory(Path(args.repo_root).resolve())

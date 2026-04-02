@@ -209,19 +209,36 @@ def run_continuity_cycle(repo_root: str | Path, external_root_override: str | Pa
 
 def main() -> None:
     args = parse_args()
-    report = run_continuity_cycle(args.repo_root, args.external_root)
     
-    from core.automation_common import Color, echo
+    from core.automation_common import Color, echo, resolve_repo_root
+    repo_root = resolve_repo_root(args.repo_root, __file__)
+    
+    # 1. Sanitize
+    if args.sanitize:
+        try:
+            import encoding_sanitizer
+            echo("[*] Running encoding sanitizer (Auto-Fix Mode)...", Color.CYAN)
+            encoding_sanitizer.run_sanitizer(repo_root, fix=True)
+        except ImportError:
+            echo("[!] Encoding sanitizer module not found. Skipping.", Color.YELLOW)
+
+    # 2. Archive / Rotate
+    try:
+        import archive_manager
+        archive_manager.rotate_logs(repo_root)
+    except ImportError:
+        pass
+    
+    # 3. Run Cycle
+    report = run_continuity_cycle(args.repo_root, args.external_root)
     
     echo("\nCONTINUITY LEGACY: Cycle completed.", Color.BOLD)
     echo(f"Status: {report['status'].upper()}")
     echo(f"Phase:  {report['phase']}")
-    echo(f"Report: {report['report']}")
 
     # Handle Bypass
     bypassed = False
     if args.bypass and report["status"] != "ok":
-        repo_root = resolve_repo_root(args.repo_root, __file__)
         log_path = repo_root / ".continuity" / "BYPASS_LOG.md"
         if log_path.exists():
             with open(log_path, "a", encoding="utf-8") as f:
@@ -232,15 +249,15 @@ def main() -> None:
 
     if report["status"] != "ok" and not bypassed:
         if args.strict:
-            echo("\n[!] STRICT MODE: Inconsistencies detected. Blocking execution.", Color.RED)
+            echo("\n[!] BORDER GUARD (Strict Mode): Inconsistencies detected. Action BLOCKED.", Color.RED)
             if report["doc_parity_status"] != "ok":
                 echo("[*] Some document errors might be healable. Try: 'python tools/continuity_legacy/heal_parity.py'", Color.CYAN)
             raise SystemExit(1)
         else:
-            echo("\n[⚠] WARNING: Project state has drift. Run with --strict to enforce parity.", Color.YELLOW)
+            echo("\n[⚠] CREATIVE FLOW (Soft Mode): Drift detected. Warning only.", Color.YELLOW)
+            echo("[*] Run with --strict to enforce parity before pushing to remote.", Color.WHITE)
             if report["doc_parity_status"] != "ok":
                 echo("[*] Some document errors might be healable. Try: 'python tools/continuity_legacy/heal_parity.py'", Color.CYAN)
-            echo("[*] Use 'python tools/continuity_legacy/continuity_status.py' for details.")
     else:
         if bypassed:
             echo("\n[✔] Project state is CANONICAL (Bypassed).", Color.GREEN)
@@ -253,6 +270,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--repo-root", default=None)
     parser.add_argument("--external-root", default=None)
     parser.add_argument("--strict", action="store_true")
+    parser.add_argument("--sanitize", action="store_true", help="Auto-fix mojibake encodings before cycle.")
     parser.add_argument("--bypass", help="Bypass strict mode by providing a reason.")
     return parser.parse_args()
 
