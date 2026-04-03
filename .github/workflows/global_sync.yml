@@ -7,6 +7,9 @@ on:
       - 'README.md'
       - 'RELEASE_NOTES_MANIFEST.md'
 
+permissions:
+  contents: write
+
 jobs:
   sync_and_verify:
     runs-on: ubuntu-latest
