@@ -65,10 +65,13 @@ graph TD
 ## 🏢 选择您的版本
 
 [![Continuity Legacy Lite](../assets/banners/LEGACYlite.png)](../continuity-lite)
+<p align="center"><sub><b>Continuity Legacy Lite</b>: Sincronización mínima local con síntesis de ADN.</sub></p>
 
 [![Continuity Legacy Pro](../assets/banners/LEGACYPRO.png)](../continuity)
+<p align="center"><sub><b>Continuity Legacy Pro</b>: Guardia fronterizo de grado industrial.</sub></p>
 
 [![Continuity Legacy Omega](../assets/banners/LEGACYOMEGA.png)](../continuity-omega)
+<p align="center"><sub><b>Continuity Legacy Omega</b>: RAG avanzado y análisis de impacto proactivo.</sub></p>
 
 ### 🧠 Omega 版本：认知洞察 *（开发中）*
 **Omega 版本**是我们的企业级层。它提供可视化、交互式的决策谱系和语义影响分析，以防止架构漂移。

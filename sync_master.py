@@ -1,60 +1,50 @@
 # -*- coding: utf-8 -*-
-import os
 import re
 from pathlib import Path
 
-# Metadata Master
 DEFS = {
-    "es": {"title": "Marco de Continuidad Global", "impact": "“La IA ya no olvida.”"},
-    "fr": {"title": "Cadre de Continuité Globale", "impact": "“L'IA n'oublie plus.”"},
-    "de": {"title": "Globaler Kontinuitätsrahmen", "impact": "“Die KI vergisst nicht mehr.”"},
-    "it": {"title": "Quadro di Continuità Globale", "impact": "“L'IA non dimentica più.”"},
-    "pt": {"title": "Estrutura de Continuidade Global", "impact": "“A IA não esquece mais.”"},
-    "ru": {"title": "Глобальная Система Преемственности", "impact": "“ИИ больше не забывает.”"},
-    "ja": {"title": "グローバル・コンティニュイティ・フレームワーク", "impact": "“AIはもう忘れません。”"},
-    "zh": {"title": "全球连续性框架", "impact": "“AI 不再遗忘。”"}
+    "es": {"title": "Marco de Continuidad Global", "problem": "## 🧠 El Problema vs. La Solución", "vision": "Los flujos de trabajo de IA modernos se rompen en un área crítica: **Reestablecimiento de contexto entre sesiones**."},
+    "fr": {"title": "Cadre de Continuité Globale", "problem": "## 🧠 Le Problème vs. La Solution", "vision": "Les flux de travail d'IA modernes se brisent dans un domaine critique : **Réinitialisation du contexte entre les sessions**."},
+    "de": {"title": "Globaler Kontinuitätsrahmen", "problem": "## 🧠 Das Problem vs. Die Lösung", "vision": "Moderne KI-Workflows brechen in einem kritischen Bereich: **Kontext-Resets zwischen den Sitzungen**."},
+    "it": {"title": "Quadro di Continuità Globale", "problem": "## 🧠 Il Problema vs. La Soluzione", "vision": "I moderni flussi di lavoro dell'IA si interrompono in un'area critica: **Reset del contesto tra le sessioni**."},
+    "pt": {"title": "Estrutura de Continuidade Global", "problem": "## 🧠 O Problema vs. A Solução", "vision": "Os fluxos de trabalho de IA modernos quebram em uma área crítica: **Resets de contexto entre sessões**."},
+    "ru": {"title": "Глобальная Система Преемственности", "problem": "## 🧠 Проблема vs. Решение", "vision": "Современные рабочие процессы ИИ прерываются в критической области: **Сброс контекста между сессиями**."},
+    "ja": {"title": "グローバル・コンティニュイティ・フレームワーク", "problem": "## 🧠 問題点 vs. 解決策", "vision": "現代のAIワークフローは、ある重要な領域で中断されます：**セッション間のコンテキストのリセット**。"},
+    "zh": {"title": "全球连续性框架", "problem": "## 🧠 问题 vs. 解决方案", "vision": "现代 AI 工作流程在一个关键领域断裂：**会话之间的上下文重置**。"}
 }
 
-def sync_readmes():
+def clean_content(content):
+    # Remove duplicate language ribbons
+    content = re.sub(r'(#### Languages\n.*?)\n\n#### Languages\n.*?\n', r'\1\n', content, flags=re.DOTALL)
+    # Remove any existing sub paragraphs to prevent triplication
+    content = [line for line in content.splitlines() if '<p align="center"><sub>' not in line]
+    return "\n".join(content)
+
+def main():
     master = Path("README.md").read_text(encoding="utf-8")
-    # Identify the sections to propagate
-    # Vision, Problem/Solution, Infrastructure, Positioning
-    vision_sec = re.search(r'## 🧠 The Problem vs. The Solution.*?(?=## 🏢)', master, re.DOTALL).group(0)
-    infra_sec = re.search(r'## 🧩 Core Infrastructure.*?(\n\n---|\n#)', master, re.DOTALL).group(0)
-    pos_sec = re.search(r'## 🧬 Positioning.*?(\n\n---|\n#)', master, re.DOTALL).group(0)
-    
-    for lang in DEFS:
+    for lang, t in DEFS.items():
         path = Path(f"OTHER_LANGUAGES/README_{lang}.md")
         if not path.exists(): continue
-        content = path.read_text(encoding="utf-8")
         
-        # We need to adapt the sections or just replace with translated markers?
-        # For now, we ensure structure parity.
-        content = re.sub(r'## 🏢 .*?\n.*?(?=## 🚀)', re.search(r'## 🏢 .*?\n.*?(?=## 🚀)', master, re.DOTALL).group(0).replace("./assets", "../assets").replace("./continuity", "../continuity"), content, flags=re.DOTALL)
+        content = clean_content(path.read_text(encoding="utf-8"))
         
-        path.write_text(content, encoding="utf-8")
-        print(f"[OK] README_{lang}.md sync complete.")
-
-def sync_releases():
-    master_rel = Path("RELEASE_NOTES_MANIFEST.md").read_text(encoding="utf-8")
-    # Extract structural blocks
-    arch_tree = re.search(r'## 🏗️ Project Architecture Overview.*?(\n\n---|\n#)', master_rel, re.DOTALL).group(0)
-    system_flow = re.search(r'## 🔁 System Flow.*?(\n\n---|\n#)', master_rel, re.DOTALL).group(0)
-    
-    for lang in DEFS:
-        path = Path(f"OTHER_LANGUAGES/RELEASE_v1.3.1_{lang}.md")
-        if not path.exists(): continue
-        content = path.read_text(encoding="utf-8")
-        
-        # Inject Architecture and Flow
-        if "## 🏗️" not in content:
-            content = content.replace("## 🔍 Quality Flow", arch_tree + "\n\n## 🔍 Quality Flow")
-        if "## 🔁" not in content:
-            content = content.replace("## ✨ Key Features", system_flow + "\n\n## ✨ Key Features")
+        # Inject Vision Section before Editions
+        if "## 🧠" not in content:
+            vision_block = f"\n{t['problem']}\n\n{t['vision']}\n\n```text\nContext → State → Decisions → Timeline → Handoff\n```\n"
+            content = content.replace("## 🏢", vision_block + "\n## 🏢")
             
+        # Ensure correct banner formatting with <sub>
+        # This is a bit manual but safer
+        lite_desc = f'<p align="center"><sub><b>Continuity Legacy Lite</b>: Sincronización mínima local con síntesis de ADN.</sub></p>'
+        pro_desc = f'<p align="center"><sub><b>Continuity Legacy Pro</b>: Guardia fronterizo de grado industrial.</sub></p>'
+        omega_desc = f'<p align="center"><sub><b>Continuity Legacy Omega</b>: RAG avanzado y análisis de impacto proactivo.</sub></p>'
+        
+        content = content.replace("LEGACYlite.png)](../continuity-lite)", f"LEGACYlite.png)](../continuity-lite)\n{lite_desc}")
+        content = content.replace("LEGACYPRO.png)](../continuity)", f"LEGACYPRO.png)](../continuity)\n{pro_desc}")
+        content = content.replace("LEGACYOMEGA.png)](../continuity-omega)", f"LEGACYOMEGA.png)](../continuity-omega)\n{omega_desc}")
+        
         path.write_text(content, encoding="utf-8")
-        print(f"[OK] RELEASE_{lang}.md sync complete.")
+        print(f"[OK] README_{lang}.md polished and synced.")
 
 if __name__ == "__main__":
-    sync_readmes()
-    sync_releases()
+    main()
