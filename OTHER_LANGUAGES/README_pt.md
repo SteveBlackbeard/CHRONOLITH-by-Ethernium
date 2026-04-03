@@ -74,7 +74,7 @@ graph TD
 <p align="center"><sub><b>Continuity Legacy Pro</b>: Guarda de fronteira industrial com auditorias de segurança e sincronização global.</sub></p>
 
 [![Continuity Legacy Omega](../assets/banners/LEGACYOMEGA.png)](../continuity-omega)
-<p align="center"><sub><b>Continuity Legacy Omega</b>: RAG avançado, mapeamento cognitivo e análise de impacto proativa.</sub></p>
+<p align="center"><sub><b>Continuity Legacy Omega</b>: RAG avanzado, mapeamento cognitivo e análise de impacto proativa.</sub></p>
 
 ### 🧠 Edição Omega: Perspicácia Cognitiva *(Em Desenvolvimento)*
 A **edição Omega** é o nosso nível Enterprise. Fornece uma linhagem de decisão visual e interativa e análise de impacto semântico para prevenir a deriva arquitetônica.
