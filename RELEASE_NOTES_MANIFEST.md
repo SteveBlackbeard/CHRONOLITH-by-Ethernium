@@ -97,3 +97,7 @@ The **Omega edition** is our Enterprise-grade Tier. It provides a visual, intera
 
 ---
 **Continuity: Protecting the logical lineage of your software.**
+
+
+---
+<p align="right">[![Global Parity](https://img.shields.io/badge/Global%20Parity-Synchronized-green)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/global_sync.yml)</p>

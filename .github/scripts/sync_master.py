@@ -10,26 +10,28 @@ DEFS = {
 }
 
 def update_badge(content, status="Synchronized", color="green"):
-    # Link pointing to the Actions dashboard
     link = "https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/global_sync.yml"
     badge_url = f"https://img.shields.io/badge/Global%20Parity-{status}-{color}"
     badge_md = f"[![Global Parity]({badge_url})]({link})"
     
+    # Update ALL occurrences (Top and Bottom)
     if "![Global Parity]" in content:
         content = re.sub(r'\[\!\[Global Parity\].*?\)', badge_md, content)
     else:
-        # Insert after the main badgelist
+        # Initial Top placement
         content = content.replace("[![Stars]", badge_md + "\n[![Stars]", 1)
+        # Initial Bottom placement
+        content += f"\n\n---\n<p align=\"right\">{badge_md}</p>\n"
     return content
 
 def clean_readme(content):
     content = re.sub(r'(#### Languages\n.*?)\n\n#### Languages\n.*?\n', r'\1\n', content, flags=re.DOTALL)
-    # Remove old subs but keep new clean ones
     content = "\n".join([line for line in content.splitlines() if '<p align="center"><sub>' not in line])
     return content
 
 def main():
     action_mode = "--action-mode" in sys.argv
+    check_mode = "--check" in sys.argv
     arch_tree = """```text
 /PROJECT
  ├── .continuity/
@@ -47,45 +49,64 @@ def main():
     master_readme_path = Path("README.md")
     master_rel_path = Path("RELEASE_NOTES_MANIFEST.md")
     
-    if not master_readme_path.exists():
-        print("Error: Master README not found.")
-        return
+    if not master_readme_path.exists(): return
 
-    # Update Master Documents with the NEW Badge
-    master_content = master_readme_path.read_text(encoding="utf-8")
-    master_content = update_badge(master_content, "Synchronized" if action_mode else "Updating...", "green" if action_mode else "blue")
-    master_readme_path.write_text(master_content, encoding="utf-8")
+    drift_detected = False
+    
+    # Check for drift before syncing
+    if check_mode:
+        print("[!] Checking for drift...")
+        # Check ES README as a sentinel
+        es_path = Path("OTHER_LANGUAGES/README_es.md")
+        if es_path.exists():
+            master_txt = master_readme_path.read_text(encoding="utf-8")
+            es_txt = es_path.read_text(encoding="utf-8")
+            # Minimal check: if Pro banner link is different
+            if "continuity-pro" in master_txt and "continuity-pro" not in es_txt:
+                drift_detected = True
+            # Check for generic indicators of non-sync
+            if len(master_txt) > len(es_txt) + 1000: # Heuristic
+                drift_detected = True
 
-    rel_master_content = master_rel_path.read_text(encoding="utf-8")
-    rel_master_content = update_badge(rel_master_content, "Synchronized" if action_mode else "Updating...", "green" if action_mode else "blue")
-    master_rel_path.write_text(rel_master_content, encoding="utf-8")
+    if check_mode:
+        if drift_detected:
+            print("[!] Drift detected! Updating badge to RED.")
+            status, color = "Out%20of%20Sync", "red"
+        else:
+            print("[OK] Parity confirmed. Badge stays GREEN.")
+            return # Exit, no need to update files if green
 
-    # Sync Localizations
+    if action_mode:
+        status, color = "Synchronized", "green"
+
+    # Update Documents
+    for p in [master_readme_path, master_rel_path]:
+        if p.exists():
+            content = p.read_text(encoding="utf-8")
+            content = update_badge(content, status, color)
+            p.write_text(content, encoding="utf-8")
+
+    if not action_mode: return # If only check and red, we stop here (pushing the red badge)
+
+    # Full Sync Logic (only if action_mode)
     for lang, t in DEFS.items():
         if lang == "en": continue
-        
-        # 1. README
         r_path = Path(f"OTHER_LANGUAGES/README_{lang}.md")
         if r_path.exists():
             content = clean_readme(r_path.read_text(encoding="utf-8"))
             if "## 🧠" not in content:
                 vision_block = f"\n{t['problem']}\n\n{t['vision']}\n\n```text\nContext → State → Decisions → Timeline → Handoff\n```\n"
                 content = content.replace("## 🏢", vision_block + "\n## 🏢")
-            
-            # Sub injection logic (Simplified for space)
+            # Injections
             content = content.replace("LEGACYlite.png)](../continuity-lite)", "LEGACYlite.png)](../continuity-lite)\n<p align=\"center\"><sub><b>Continuity Legacy Lite</b>: Sincronización mínima local con síntesis de ADN.</sub></p>")
             content = content.replace("LEGACYPRO.png)](../continuity-pro)", "LEGACYPRO.png)](../continuity-pro)\n<p align=\"center\"><sub><b>Continuity Legacy Pro</b>: Guardia fronterizo de grado industrial.</sub></p>")
             content = content.replace("LEGACYOMEGA.png)](../continuity-omega)", "LEGACYOMEGA.png)](../continuity-omega)\n<p align=\"center\"><sub><b>Continuity Legacy Omega</b>: RAG avanzado y análisis de impacto proactivo.</sub></p>")
-            
             r_path.write_text(content, encoding="utf-8")
-            print(f"[OK] README_{lang}.md synced.")
-
-        # 2. RELEASE
+        
         rel_path = Path(f"OTHER_LANGUAGES/RELEASE_v1.3.1_{lang}.md")
         if rel_path.exists():
             rel_content = rel_path.read_text(encoding="utf-8")
             t_rel = DEFS.get(lang, DEFS["en"])
-            
             if "## ⚡" not in rel_content:
                 rel_content = rel_content.replace("---", "---\n\n" + t_rel["impact"], 1)
             if "## 🔁" not in rel_content:
@@ -94,9 +115,7 @@ def main():
             if "## 🏗️" not in rel_content:
                 arch_block = f"\n{t_rel['arch_title']}\n\n{arch_tree}\n\n---\n"
                 rel_content = rel_content.replace("## 🔍", arch_block + "## 🔍")
-                
             rel_path.write_text(rel_content, encoding="utf-8")
-            print(f"[OK] RELEASE_{lang}.md synced.")
 
 if __name__ == "__main__":
     main()
