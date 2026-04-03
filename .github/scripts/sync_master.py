@@ -50,25 +50,33 @@ def update_badge(content, status="Synchronized", color="green"):
     badge_url = f"https://img.shields.io/badge/Global%20Parity-{status}-{color}"
     badge_md = f"[![Global Parity]({badge_url})]({link})"
     
-    # PULREZA v2.0: Limpieza No-Destructiva
-    # Eliminamos el badge tanto si está solo como si tiene duplicidades de links
-    content = re.sub(r'\[\!\[Global Parity\].*?global_sync\.yml\)', '', content, flags=re.MULTILINE)
+    # 🏛️ ZONAS DE EXCLUSIÓN v2.1 (SEGURIDAD ATÓMICA)
+    # 1. Inyección TOP
+    marker_top_start = "<!-- GOVERNANCE_BADGE_TOP_START -->"
+    marker_top_end = "<!-- GOVERNANCE_BADGE_TOP_END -->"
+    block_top = f"{marker_top_start}\n{badge_md}\n{marker_top_end}"
     
-    # Inyección TOP inteligente
-    if "[![Stars]" in content:
-        content = content.replace("[![Stars]", badge_md + "\n[![Stars]", 1)
-    elif 'alt="Omega Edition">' in content:
-        content = re.sub(r'(alt="Omega Edition"></a>)', r'\1\n<br>\n' + badge_md, content)
+    if marker_top_start in content:
+        content = re.sub(rf"{marker_top_start}.*?{marker_top_end}", block_top, content, flags=re.DOTALL)
     else:
-        content = re.sub(r'(# .*?\n)', r'\1' + badge_md + r'\n', content, 1)
+        # Si no hay marcadores, los creamos en puntos seguros
+        if "[![Stars]" in content:
+            content = content.replace("[![Stars]", block_top + "\n[![Stars]", 1)
+        elif 'alt="Omega Edition">' in content:
+            content = re.sub(r'(alt="Omega Edition"></a>)', r'\1\n<br>\n' + block_top, content)
+        else:
+            content = re.sub(r'(# .*?\n)', r'\1' + block_top + r'\n', content, 1)
 
-    # Inyección BOTTOM No-Destructiva
-    footer_delim = "\n\n---\n<p align=\"right\">"
-    if footer_delim in content:
-        content = content.split(footer_delim)[0]
+    # 2. Inyección BOTTOM
+    marker_bot_start = "<!-- GOVERNANCE_BADGE_BOTTOM_START -->"
+    marker_bot_end = "<!-- GOVERNANCE_BADGE_BOTTOM_END -->"
+    block_bot = f"\n\n---\n{marker_bot_start}\n<p align=\"right\">{badge_md}</p>\n{marker_bot_end}"
     
-    content += f"{footer_delim}{badge_md}</p>\n"
-    
+    if marker_bot_start in content:
+        content = re.sub(rf"{marker_bot_start}.*?{marker_bot_end}", block_bot, content, flags=re.DOTALL)
+    else:
+        content += block_bot
+        
     return content
 
 def clean_readme(content):
