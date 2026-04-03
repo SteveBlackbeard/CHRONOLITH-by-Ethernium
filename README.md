@@ -12,7 +12,21 @@
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
 [![Stars](https://img.shields.io/github/stars/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium?style=social)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
 
+> **“Git for cognition” — but with structured memory, decision tracking, and operational handoff.**
+
 **Continuity** is a professional-grade synchronization framework designed to protect the logical lineage of your software during AI-to-Human and AI-to-AI handoffs. It ensures that development intent, architectural decisions, and tactical context are never lost.
+
+---
+
+## 🧠 The Problem vs. The Solution
+
+Modern AI workflows break in one critical area: **Context resets between sessions**. Agents lose identity, decisions are not persisted structurally, and handoffs are fragile.
+
+**Continuity Legacy** introduces a **persistent cognitive layer** that turns fragmented AI workflows into coherent, everlasting systems.
+
+```text
+Context → State → Decisions → Timeline → Handoff
+```
 
 ---
 
@@ -42,6 +56,16 @@ pip install -e continuity-lite
 # 3. Setup the Git Border Guard
 python continuity-lite/run_continuity_lite.py --hook
 ```
+
+---
+
+## 🧩 Core Infrastructure (The Cognitive Core)
+
+Continuity organizes project intelligence into structured nodes:
+
+*   **`.continuity/`**: The memory core containing `TIMELINE.md`, `DECISIONS_LOG.md`, and `LIVE_HANDOFF.md`.
+*   **`STATE.json`**: A machine-readable snapshot for validation and synchronization.
+*   **`PROJECT_CONTEXT.md`**: Defines the unique rules, constraints, and behavior of the system.
 
 ---
 
@@ -79,6 +103,14 @@ graph TD
 The **Omega edition** is our Enterprise-grade Tier. It provides a visual, interactive decision lineage and semantic impact analysis to prevent architectural drift.
 
 ![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)
+
+---
+
+## 🧬 Positioning (What This IS)
+
+*   **NOT** a simple note system or a chatbot.
+*   **IS** a foundational layer for **persistent AI cognition**.
+*   **IS** an operating layer that turns fragmentation into coherence.
 
 ---
 
