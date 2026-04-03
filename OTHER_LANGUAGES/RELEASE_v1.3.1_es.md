@@ -8,6 +8,10 @@
 
 ---
 
+## ⚡ “La IA ya no olvida.”
+
+Estamos orgullosos de anunciar el **Lanzamiento Estable Oficial v1.3.1**. Esta versión representa la transición hacia una **infraestructura de grado profesional** diseñada para la colaboración global IA-Humano.
+
 Estamos orgullosos de anunciar el **Lanzamiento Estable Oficial v1.3.1** del **Continuity Legacy Framework**. Esta versión representa la transición de un prototipo experimental extraído de **_Ethernium_** a un ecosistema de grado profesional diseñado para la colaboración global IA-Humano.
 
 ---
@@ -20,6 +24,16 @@ Continuity está ahora estructurado en tres ediciones especializadas para propor
 
 ---
 
+
+## 🔁 Flujo del Sistema (El Bucle de Control)
+
+Continuity Legacy asegura que no haya pérdida de contexto a través de un bucle de control perpetuo:
+
+```text
+Contexto → Estado → Decisiones → Cronología → Traspaso
+```
+
+---
 ## ✨ Características Clave (Sinfonía Intelectual v1.3.x)
 - **Optimización del Metabolismo**: **Lazy Loading** implementada en todas las ediciones. Inicio instantáneo de CLI (<100ms).
 - **Síntesis de ADN**: Generación automática de `PROJECT_DNA.md` para proteger el linaje lógico y semántico del proyecto.
@@ -37,6 +51,24 @@ Cada edición está optimizada para huellas de recursos específicas:
 
 ---
 
+
+## 🏗️ Resumen de la Arquitectura del Proyecto
+
+```text
+/PROJECT
+ ├── .continuity/
+ │    ├── TIMELINE.md
+ │    ├── DECISIONS_LOG.md
+ │    ├── LIVE_HANDOFF.md
+ │    ├── BOOT_SEQUENCE.md
+ │    └── STATE.json
+ │
+ ├── PROJECT_CONTEXT.md
+ ├── tools/
+ └── assets/
+```
+
+---
 ## 🔍 Flujo de Calidad
 Continuity asegura que cada sesión de desarrollador siga una rigurosa puerta de gobernanza arquitectónica:
 1. **Captura de Intención**: Documentar el 'Por qué' antes del 'Qué'.
