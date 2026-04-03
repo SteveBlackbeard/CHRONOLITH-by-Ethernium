@@ -65,12 +65,10 @@ graph TD
 ## 🏢 Choose Your Edition
 
 [![Continuity Legacy Lite](../assets/banners/LEGACYlite.png)](../continuity-lite)
-<p align="center"><sub><b>Continuity Legacy Lite</b>: Minimal local sync.</sub></p>
 
 [![Continuity Legacy Pro](../assets/banners/LEGACYPRO.png)](../continuity)
 
 [![Continuity Legacy Omega](../assets/banners/LEGACYOMEGA.png)](../continuity-omega)
-<p align="center"><sub><b>Continuity Legacy Omega</b>: Enterprise RAG oracle.</sub></p>
 
 ### 🧠 Edizione Omega: Intuizione Cognitiva *(In Sviluppo)*
 L'**edizione Omega** è il nostro livello Enterprise. Fornisce un lignaggio decisionale visivo e interattivo e un'analisi d'impatto semantico per prevenire la deriva architetturale.

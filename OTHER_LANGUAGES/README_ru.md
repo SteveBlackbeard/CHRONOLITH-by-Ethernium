@@ -65,12 +65,10 @@ graph TD
 ## 🏢 Choose Your Edition
 
 [![Continuity Legacy Lite](../assets/banners/LEGACYlite.png)](../continuity-lite)
-<p align="center"><sub><b>Continuity Legacy Lite</b>: Minimal local sync.</sub></p>
 
 [![Continuity Legacy Pro](../assets/banners/LEGACYPRO.png)](../continuity)
 
 [![Continuity Legacy Omega](../assets/banners/LEGACYOMEGA.png)](../continuity-omega)
-<p align="center"><sub><b>Continuity Legacy Omega</b>: Enterprise RAG oracle.</sub></p>
 
 ### 🧠 Издание Omega: Когнитивное Прозрение *(В Разработке)*
 **Издание Omega** — наш уровень корпоративного класса. Оно обеспечивает визуальную, интерактивную родословную решений и семантический анализ воздействия для предотвращения архитектурного дрейфа.

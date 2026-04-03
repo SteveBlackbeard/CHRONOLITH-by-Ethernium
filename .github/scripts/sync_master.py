@@ -50,14 +50,20 @@ def update_badge(content, status="Synchronized", color="green"):
     badge_url = f"https://img.shields.io/badge/Global%20Parity-{status}-{color}"
     badge_md = f"[![Global Parity]({badge_url})]({link})"
     
-    # PULREZA TOTAL: Limpiamos CUALQUIER rastro previo de este badge
+    # 1. Limpieza total de cualquier badge previo (para evitar duplicados)
     content = re.sub(r'\[\!\[Global Parity\].*?\)(\]\(https://github.com/.*?/actions/workflows/global_sync.yml\))*', '', content, flags=re.DOTALL)
     
-    # Inyección Limpia 1: Top (bajo la lista de badges)
-    content = content.replace("[![Stars]", badge_md + "\n[![Stars]", 1)
-    
-    # Inyección Limpia 2: Bottom
-    # Remove old footer marker if exists to avoid recursion
+    # 2. Inyección TOP inteligente
+    if "[![Stars]" in content:
+        content = content.replace("[![Stars]", badge_md + "\n[![Stars]", 1)
+    elif 'alt="Omega Edition">' in content:
+        # Específico para el Release Manifest
+        content = re.sub(r'(alt="Omega Edition"></a>)', r'\1\n<br>\n' + badge_md, content)
+    else:
+        # Fallback bajo el primer H1
+        content = re.sub(r'(# .*?\n)', r'\1' + badge_md + r'\n', content, 1)
+
+    # 3. Inyección BOTTOM
     content = content.split("\n\n---\n<p align=\"right\">")[0]
     content += f"\n\n---\n<p align=\"right\">{badge_md}</p>\n"
     
@@ -81,22 +87,17 @@ def main():
     master_txt = master_readme_path.read_text(encoding="utf-8")
     
     if check_mode:
-        print("[!] Performing structural check for drift...")
         es_path = Path("OTHER_LANGUAGES/README_es.md")
         if es_path.exists():
             es_txt = es_path.read_text(encoding="utf-8")
-            for marker in ["continuity-pro", ".jpg", ".png", "LITE", "OMEGA"]:
+            for marker in ["continuity-pro", ".jpg", ".png"]:
                 if marker in master_txt and marker not in es_txt:
                     drift_detected = True; break
-            if len(master_txt) > len(es_txt) + 200:
-                drift_detected = True
 
     if check_mode:
         if drift_detected:
-            print("[!] DRIFT DETECTED! Setting badge to RED.")
             status, color = "Out%20of%20Sync", "red"
         else:
-            print("[OK] Parity confirmed. System state is Green.")
             return
 
     if action_mode:
@@ -118,9 +119,6 @@ def main():
             if "## 🧠" not in content:
                 vision_block = f"\n{t.get('problem', DEFS['en']['problem'])}\n\n{t.get('vision', DEFS['en']['vision'])}\n\n```text\nContext → State → Decisions → Timeline → Handoff\n```\n"
                 content = content.replace("## 🏢", vision_block + "\n## 🏢")
-            content = content.replace("LEGACYlite.png)](../continuity-lite)", "LEGACYlite.png)](../continuity-lite)\n<p align=\"center\"><sub><b>Continuity Legacy Lite</b>: Minimal local sync.</sub></p>")
-            content = content.replace("LEGACYPRO.png)](../continuity-pro)", "LEGACYPRO.png)](../continuity-pro)\n<p align=\"center\"><sub><b>Continuity Legacy Pro</b>: Industrial grade guard.</sub></p>")
-            content = content.replace("LEGACYOMEGA.png)](../continuity-omega)", "LEGACYOMEGA.png)](../continuity-omega)\n<p align=\"center\"><sub><b>Continuity Legacy Omega</b>: Enterprise RAG oracle.</sub></p>")
             r_path.write_text(content, encoding="utf-8")
         
         rel_path = Path(f"OTHER_LANGUAGES/RELEASE_v1.3.1_{lang_code}.md")

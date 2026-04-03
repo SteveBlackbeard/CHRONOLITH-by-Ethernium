@@ -8,6 +8,8 @@
   <a href="https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/tree/main/continuity-lite"><img src="https://img.shields.io/badge/Edition-Lite-blue?style=for-the-badge" alt="Lite Edition"></a>
   <a href="https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/tree/main/continuity"><img src="https://img.shields.io/badge/Edition-Pro-purple?style=for-the-badge" alt="Pro Edition"></a>
   <a href="https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/tree/main/continuity-omega"><img src="https://img.shields.io/badge/Edition-Omega-gold?style=for-the-badge" alt="Omega Edition"></a>
+<br>
+[![Global Parity](https://img.shields.io/badge/Global%20Parity-Synchronized-green)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/global_sync.yml)
 </p>
 
 <p align="center">

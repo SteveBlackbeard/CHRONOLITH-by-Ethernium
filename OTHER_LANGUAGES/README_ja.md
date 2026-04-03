@@ -65,12 +65,10 @@ graph TD
 ## 🏢 エディションを選択
 
 [![Continuity Legacy Lite](../assets/banners/LEGACYlite.png)](../continuity-lite)
-<p align="center"><sub><b>Continuity Legacy Lite</b>: Minimal local sync.</sub></p>
 
 [![Continuity Legacy Pro](../assets/banners/LEGACYPRO.png)](../continuity)
 
 [![Continuity Legacy Omega](../assets/banners/LEGACYOMEGA.png)](../continuity-omega)
-<p align="center"><sub><b>Continuity Legacy Omega</b>: Enterprise RAG oracle.</sub></p>
 
 ### 🧠 Omega エディション: 認知的洞察 *（開発中）*
 **Omega エディション**はエンタープライズグレードのティアです。アーキテクチャのドリフトを防ぐための視覚的でインタラクティブな意思決定系譜とセマンティック影響分析を提供します。
