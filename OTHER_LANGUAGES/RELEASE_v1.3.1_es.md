@@ -12,7 +12,6 @@
 
 Estamos orgullosos de anunciar el **Lanzamiento Estable Oficial v1.3.1**. Esta versión representa la transición hacia una **infraestructura de grado profesional** diseñada para la colaboración global IA-Humano.
 
-Estamos orgullosos de anunciar el **Lanzamiento Estable Oficial v1.3.1** del **Continuity Legacy Framework**. Esta versión representa la transición de un prototipo experimental extraído de **_Ethernium_** a un ecosistema de grado profesional diseñado para la colaboración global IA-Humano.
 
 ---
 
