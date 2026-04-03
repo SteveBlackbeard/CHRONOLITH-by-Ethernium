@@ -50,22 +50,24 @@ def update_badge(content, status="Synchronized", color="green"):
     badge_url = f"https://img.shields.io/badge/Global%20Parity-{status}-{color}"
     badge_md = f"[![Global Parity]({badge_url})]({link})"
     
-    # 1. Limpieza total de cualquier badge previo (para evitar duplicados)
-    content = re.sub(r'\[\!\[Global Parity\].*?\)(\]\(https://github.com/.*?/actions/workflows/global_sync.yml\))*', '', content, flags=re.DOTALL)
+    # PULREZA v2.0: Limpieza No-Destructiva
+    # Eliminamos el badge tanto si está solo como si tiene duplicidades de links
+    content = re.sub(r'\[\!\[Global Parity\].*?global_sync\.yml\)', '', content, flags=re.MULTILINE)
     
-    # 2. Inyección TOP inteligente
+    # Inyección TOP inteligente
     if "[![Stars]" in content:
         content = content.replace("[![Stars]", badge_md + "\n[![Stars]", 1)
     elif 'alt="Omega Edition">' in content:
-        # Específico para el Release Manifest
         content = re.sub(r'(alt="Omega Edition"></a>)', r'\1\n<br>\n' + badge_md, content)
     else:
-        # Fallback bajo el primer H1
         content = re.sub(r'(# .*?\n)', r'\1' + badge_md + r'\n', content, 1)
 
-    # 3. Inyección BOTTOM
-    content = content.split("\n\n---\n<p align=\"right\">")[0]
-    content += f"\n\n---\n<p align=\"right\">{badge_md}</p>\n"
+    # Inyección BOTTOM No-Destructiva
+    footer_delim = "\n\n---\n<p align=\"right\">"
+    if footer_delim in content:
+        content = content.split(footer_delim)[0]
+    
+    content += f"{footer_delim}{badge_md}</p>\n"
     
     return content
 
