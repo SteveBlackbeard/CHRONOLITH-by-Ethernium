@@ -10,6 +10,19 @@
 
 ---
 
+## 🏢 Choose Your Edition
+
+[![Continuity Legacy Lite](./assets/banners/LEGACYlite.png)](./continuity-lite)
+<p align="center"><sub><b>Continuity Legacy Lite — Zero-Friction Guardian</b>: Minimalist local sync with DNA Synthesis for zero-loss handoffs.</sub></p>
+
+[![Continuity Legacy Pro](./assets/banners/LEGACYPRO.png)](./continuity)
+<p align="center"><sub><b>Continuity Legacy Pro — Tactical Engine</b>: Industrial-grade border guard with security audits and global synchronization.</sub></p>
+
+[![Continuity Legacy Omega](./assets/banners/LEGACYOMEGA.png)](./continuity-omega)
+<p align="center"><sub><b>Continuity Legacy Omega — Enterprise Oracle</b>: Advanced RAG, cognitive mapping, and proactive impact analysis.</sub></p>
+
+---
+
 ## 🚀 Quick Installation
 
 ```bash
@@ -56,18 +69,10 @@ graph TD
 
 ---
 
-## 🏢 Choose Your Edition
-
-| Edition | Archetype | Core Strength | Hardware |
-| :--- | :--- | :--- | :--- |
-| **[Lite](./continuity-lite)** | **Guardian** | Zero-Friction, DNA Synthesis | **Minimalist** |
-| **[Pro](./continuity)** | **Tactical** | Border Guard, Sync, Security | **Standard** |
-| **[Omega](./continuity-omega)** | **Oracle** | **RAG, Graphs, Predictive Insight** | **Enterprise** |
-
-### 🧠 Omega Edition: Cognitive Insight
+### 🧠 Omega Edition: Cognitive Insight *(In Development)*
 The **Omega edition** is our Enterprise-grade Tier. It provides a visual, interactive decision lineage and semantic impact analysis to prevent architectural drift.
 
-![Omega Dashboard](./omega_enterprise_dashboard_1775161496327.png)
+![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)
 
 ---
 
