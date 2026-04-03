@@ -18,7 +18,6 @@ ARCH_TREE = """```text
  └── assets/
 ```"""
 
-# Diccionario Global de Traducciones (Completado para evitar KeyErrors)
 DEFS = {
     "es": {
         "title": "Marco de Continuidad Global",
@@ -38,7 +37,7 @@ DEFS = {
         "flow_desc": "Continuity Legacy ensures no context loss through a perpetual control loop:\n\n```text\nContext → State → Decisions → Timeline → Handoff\n```",
         "arch_title": "## 🏗️ Project Architecture Overview"
     },
-    "default": { # Fallback para otros idiomas (FR, DE, IT, etc.)
+    "default": {
         "impact": "## ⚡ “AI doesn’t forget anymore.”",
         "flow_title": "## 🔁 System Flow (The Control Loop)",
         "flow_desc": "Continuity Legacy ensures no context loss through a perpetual control loop.",
@@ -50,11 +49,18 @@ def update_badge(content, status="Synchronized", color="green"):
     link = "https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/global_sync.yml"
     badge_url = f"https://img.shields.io/badge/Global%20Parity-{status}-{color}"
     badge_md = f"[![Global Parity]({badge_url})]({link})"
-    if "![Global Parity]" in content:
-        content = re.sub(r'\[\!\[Global Parity\].*?\)', badge_md, content)
-    else:
-        content = content.replace("[![Stars]", badge_md + "\n[![Stars]", 1)
-        content += f"\n\n---\n<p align=\"right\">{badge_md}</p>\n"
+    
+    # PULREZA TOTAL: Limpiamos CUALQUIER rastro previo de este badge
+    content = re.sub(r'\[\!\[Global Parity\].*?\)(\]\(https://github.com/.*?/actions/workflows/global_sync.yml\))*', '', content, flags=re.DOTALL)
+    
+    # Inyección Limpia 1: Top (bajo la lista de badges)
+    content = content.replace("[![Stars]", badge_md + "\n[![Stars]", 1)
+    
+    # Inyección Limpia 2: Bottom
+    # Remove old footer marker if exists to avoid recursion
+    content = content.split("\n\n---\n<p align=\"right\">")[0]
+    content += f"\n\n---\n<p align=\"right\">{badge_md}</p>\n"
+    
     return content
 
 def clean_readme(content):
@@ -74,19 +80,15 @@ def main():
     drift_detected = False
     master_txt = master_readme_path.read_text(encoding="utf-8")
     
-    # 🔍 Detección de Deriva Inteligente
     if check_mode:
         print("[!] Performing structural check for drift...")
-        # Check ES README as sentinel
         es_path = Path("OTHER_LANGUAGES/README_es.md")
         if es_path.exists():
             es_txt = es_path.read_text(encoding="utf-8")
-            # 1. Check structural links (images, folders)
             for marker in ["continuity-pro", ".jpg", ".png", "LITE", "OMEGA"]:
                 if marker in master_txt and marker not in es_txt:
                     drift_detected = True; break
-            # 2. Check for substantial content growth (new sections added)
-            if len(master_txt) > len(es_txt) + 100:
+            if len(master_txt) > len(es_txt) + 200:
                 drift_detected = True
 
     if check_mode:
@@ -100,7 +102,6 @@ def main():
     if action_mode:
         status, color = "Synchronized", "green"
 
-    # Actualizar Documentos Maestros
     for p in [master_readme_path, master_rel_path]:
         if p.exists():
             content = p.read_text(encoding="utf-8")
@@ -109,7 +110,6 @@ def main():
 
     if not action_mode: return
 
-    # Sincronización Universal
     for lang_code in ["es", "fr", "de", "it", "pt", "ru", "ja", "zh"]:
         r_path = Path(f"OTHER_LANGUAGES/README_{lang_code}.md")
         if r_path.exists():
@@ -118,7 +118,6 @@ def main():
             if "## 🧠" not in content:
                 vision_block = f"\n{t.get('problem', DEFS['en']['problem'])}\n\n{t.get('vision', DEFS['en']['vision'])}\n\n```text\nContext → State → Decisions → Timeline → Handoff\n```\n"
                 content = content.replace("## 🏢", vision_block + "\n## 🏢")
-            # Inyecciones de Banners
             content = content.replace("LEGACYlite.png)](../continuity-lite)", "LEGACYlite.png)](../continuity-lite)\n<p align=\"center\"><sub><b>Continuity Legacy Lite</b>: Minimal local sync.</sub></p>")
             content = content.replace("LEGACYPRO.png)](../continuity-pro)", "LEGACYPRO.png)](../continuity-pro)\n<p align=\"center\"><sub><b>Continuity Legacy Pro</b>: Industrial grade guard.</sub></p>")
             content = content.replace("LEGACYOMEGA.png)](../continuity-omega)", "LEGACYOMEGA.png)](../continuity-omega)\n<p align=\"center\"><sub><b>Continuity Legacy Omega</b>: Enterprise RAG oracle.</sub></p>")
