@@ -1,0 +1,33 @@
+name: Global Parity Governance
+
+on:
+  workflow_dispatch: # Permite pulsar el botón de "Update"
+  push:
+    paths:
+      - 'README.md'
+      - 'RELEASE_NOTES_MANIFEST.md'
+
+jobs:
+  sync_and_verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Execute Global Sync Engine
+        run: python .github/scripts/sync_master.py --action-mode
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "Ethernium Governance Guard"
+          git config --global user.email "governance@ethernium.ai"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "chore: Universal Parity Sync v1.9.0 🏛️💎🦾"
+          git push origin main

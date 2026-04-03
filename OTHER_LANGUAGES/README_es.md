@@ -68,7 +68,6 @@ graph TD
 <p align="center"><sub><b>Continuity Legacy Lite</b>: Sincronización mínima local con síntesis de ADN.</sub></p>
 
 [![Continuity Legacy Pro](../assets/banners/LEGACYPRO.png)](../continuity)
-<p align="center"><sub><b>Continuity Legacy Pro</b>: Guardia fronterizo de grado industrial.</sub></p>
 
 [![Continuity Legacy Omega](../assets/banners/LEGACYOMEGA.png)](../continuity-omega)
 <p align="center"><sub><b>Continuity Legacy Omega</b>: RAG avanzado y análisis de impacto proactivo.</sub></p>
