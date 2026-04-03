@@ -35,7 +35,7 @@ Context → State → Decisions → Timeline → Handoff
 [![Continuity Legacy Lite](./assets/banners/LEGACYlite.png)](./continuity-lite)
 <p align="center"><sub><b>Continuity Legacy Lite — Zero-Friction Guardian</b>: Minimalist local sync with DNA Synthesis for zero-loss handoffs.</sub></p>
 
-[![Continuity Legacy Pro](./assets/banners/LEGACYPRO.png)](./continuity)
+[![Continuity Legacy Pro](./assets/banners/LEGACYPRO.png)](./continuity-pro)
 <p align="center"><sub><b>Continuity Legacy Pro — Tactical Engine</b>: Industrial-grade border guard with security audits and global synchronization.</sub></p>
 
 [![Continuity Legacy Omega](./assets/banners/LEGACYOMEGA.png)](./continuity-omega)

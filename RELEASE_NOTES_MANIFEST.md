@@ -29,7 +29,7 @@ We are proud to announce the **Official v1.3.1 Stable Release**. This version re
 Continuity is now structured into three specialized editions to provide the right level of governance for every project:
 
 - **[Continuity Legacy Lite](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/tree/main/continuity-lite) (v1.3.1): Zero-Friction Guardian.** Optimized for speed and daily developer usage.
-- **[Continuity Legacy Pro](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/tree/main/continuity) (v1.3.1): Tactical Engine.** Industrial-grade border guard with security and synchronization audits.
+- **[Continuity Legacy Pro](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/tree/main/continuity-pro) (v1.3.1): Tactical Engine.** Industrial-grade border guard with security and synchronization audits.
 - **[Continuity Legacy Omega](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/tree/main/continuity-omega) (v1.3.1): Enterprise Oracle.** Advanced RAG, cognitive maps, and proactive impact analysis.
 
 ---
