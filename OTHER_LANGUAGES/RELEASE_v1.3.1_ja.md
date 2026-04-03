@@ -8,6 +8,8 @@
 
 ---
 
+## ⚡ “AI doesn’t forget anymore.”
+
 **Continuity Legacy Framework** の **公式 v1.3.1 安定リリース** を発表できることを光栄に思います。このバージョンは、**_Ethernium_** から抽出された実験的プロトタイプから、グローバルなAI-人間協力のために設計されたプロフェッショナルグレードのエコシステムへの移行を表しています。
 
 ---
@@ -20,6 +22,12 @@ Continuity は、すべてのプロジェクトに適切なガバナンスレベ
 
 ---
 
+
+## 🔁 System Flow (The Control Loop)
+
+Continuity Legacy ensures no context loss through a perpetual control loop.
+
+---
 ## ✨ 主な機能 (Intellectual Symphony v1.3.x)
 - **代謝の最適化**: すべてのエディションで **Lazy Loading** を実装。CLI の即時起動 (<100ms)。
 - **DNA 合成**: プロジェクトの論理的系譜を保護するための `PROJECT_DNA.md` の自動生成。
@@ -37,6 +45,24 @@ Continuity は、すべてのプロジェクトに適切なガバナンスレベ
 
 ---
 
+
+## 🏗️ Project Architecture Overview
+
+```text
+/PROJECT
+ ├── .continuity/
+ │    ├── TIMELINE.md
+ │    ├── DECISIONS_LOG.md
+ │    ├── LIVE_HANDOFF.md
+ │    ├── BOOT_SEQUENCE.md
+ │    └── STATE.json
+ │
+ ├── PROJECT_CONTEXT.md
+ ├── tools/
+ └── assets/
+```
+
+---
 ## 🔍 品質フロー
 Continuity は、すべての開発者セッションが厳格なアーキテクチャガバナンスゲートに従うことを保証します：
 1. **意図の捕捉**: '何を' の前に 'なぜ' を文書化する。

@@ -8,6 +8,8 @@
 
 ---
 
+## ⚡ “AI doesn’t forget anymore.”
+
 我们自豪地宣布 **Continuity Legacy Framework** 的 **官方 v1.3.1 稳定版本**。此版本代表了从 **_Ethernium_** 提取的实验原型到为全球 AI-人类协作设计的专业级生态系统的转变。
 
 ---
@@ -20,6 +22,12 @@ Continuity 现在由三个专业版本构成：
 
 ---
 
+
+## 🔁 System Flow (The Control Loop)
+
+Continuity Legacy ensures no context loss through a perpetual control loop.
+
+---
 ## ✨ 核心特性 (知识交响曲 v1.3.x)
 - **代谢优化**: 所有版本实现 **Lazy Loading**。CLI 即时启动 (<100ms)。
 - **DNA 合成**: 自动生成 `PROJECT_DNA.md` 以保护逻辑谱系。
@@ -37,6 +45,24 @@ Continuity 现在由三个专业版本构成：
 
 ---
 
+
+## 🏗️ Project Architecture Overview
+
+```text
+/PROJECT
+ ├── .continuity/
+ │    ├── TIMELINE.md
+ │    ├── DECISIONS_LOG.md
+ │    ├── LIVE_HANDOFF.md
+ │    ├── BOOT_SEQUENCE.md
+ │    └── STATE.json
+ │
+ ├── PROJECT_CONTEXT.md
+ ├── tools/
+ └── assets/
+```
+
+---
 ## 🔍 质量流程
 Continuity 确保每个开发者会话都遵循严格的架构治理门：
 1. **意图捕获**: 在'做什么'之前记录'为什么'。

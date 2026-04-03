@@ -16,12 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # Actualizado para Node.js 24
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5 # Actualizado para Node.js 24
         with:
           python-version: '3.9'
 
@@ -44,5 +44,5 @@ jobs:
           git config --global user.name "Ethernium Governance Guard"
           git config --global user.email "governance@ethernium.ai"
           git add .
-          git diff-index --quiet HEAD || git commit -m "chore: Universal Parity Guard v1.9.2 [${{ github.event_name }}] 🏛️💎🦾"
+          git diff-index --quiet HEAD || git commit -m "chore: Universal Parity Guard v1.9.3 [${{ github.event_name }}] 🏛️💎🦾"
           git push origin main

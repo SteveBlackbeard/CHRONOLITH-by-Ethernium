@@ -8,6 +8,8 @@
 
 ---
 
+## ⚡ “AI doesn’t forget anymore.”
+
 Wir sind stolz, die **Offizielle Stabile Version v1.3.1** des **Continuity Legacy Framework** anzukündigen. Diese Version stellt den Übergang von einem experimentellen Prototyp aus **_Ethernium_** zu einem professionellen Ökosystem für globale KI-Mensch-Zusammenarbeit dar.
 
 ---
@@ -20,6 +22,12 @@ Continuity ist jetzt in drei spezialisierte Editionen strukturiert:
 
 ---
 
+
+## 🔁 System Flow (The Control Loop)
+
+Continuity Legacy ensures no context loss through a perpetual control loop.
+
+---
 ## ✨ Hauptmerkmale (Intellektuelle Symphonie v1.3.x)
 - **Metabolismus-Optimierung**: **Lazy Loading** in allen Editionen. Sofortiger CLI-Start (<100ms).
 - **DNA-Synthese**: Automatische Generierung von `PROJECT_DNA.md` zum Schutz der logischen Abstammung.
@@ -37,6 +45,24 @@ Jede Edition ist für spezifische Ressourcen optimiert:
 
 ---
 
+
+## 🏗️ Project Architecture Overview
+
+```text
+/PROJECT
+ ├── .continuity/
+ │    ├── TIMELINE.md
+ │    ├── DECISIONS_LOG.md
+ │    ├── LIVE_HANDOFF.md
+ │    ├── BOOT_SEQUENCE.md
+ │    └── STATE.json
+ │
+ ├── PROJECT_CONTEXT.md
+ ├── tools/
+ └── assets/
+```
+
+---
 ## 🔍 Qualitätsfluss
 Continuity stellt sicher, dass jede Sitzung einem rigorosen architektonischen Governance-Gate folgt:
 1. **Absichtserfassung**: Das 'Warum' vor dem 'Was' dokumentieren.

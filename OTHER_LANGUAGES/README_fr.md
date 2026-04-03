@@ -65,13 +65,12 @@ graph TD
 ## 🏢 Choose Your Edition
 
 [![Continuity Legacy Lite](../assets/banners/LEGACYlite.png)](../continuity-lite)
-<p align="center"><sub><b>Continuity Legacy Lite</b>: Sincronización mínima local con síntesis de ADN.</sub></p>
+<p align="center"><sub><b>Continuity Legacy Lite</b>: Minimal local sync.</sub></p>
 
 [![Continuity Legacy Pro](../assets/banners/LEGACYPRO.png)](../continuity)
-<p align="center"><sub><b>Continuity Legacy Pro</b>: Guardia fronterizo de grado industrial.</sub></p>
 
 [![Continuity Legacy Omega](../assets/banners/LEGACYOMEGA.png)](../continuity-omega)
-<p align="center"><sub><b>Continuity Legacy Omega</b>: RAG avanzado y análisis de impacto proactivo.</sub></p>
+<p align="center"><sub><b>Continuity Legacy Omega</b>: Enterprise RAG oracle.</sub></p>
 
 ### 🧠 Édition Omega: Perspicacité Cognitive *(En Développement)*
 L'**édition Omega** est notre niveau de qualité entreprise. Elle fournit une lignée de décision visuelle et interactive et une analyse d'impact sémantique pour prévenir la dérive architecturale.
