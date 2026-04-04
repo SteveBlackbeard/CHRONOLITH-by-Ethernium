@@ -29,10 +29,7 @@ _Industrial-grade border guard with security audits and global synchronization.<
 
 _Advanced RAG, cognitive mapping, and proactive impact analysis.</sub></p_
 
-
-
 ---
-
 
 ## 🧠 The Problem vs. The Solution
 
@@ -43,10 +40,6 @@ Modern AI workflows break in one critical area: **Context resets between session
 ```text
 Context → State → Decisions → Timeline → Handoff
 ```
-
----
-
----
 
 ## 🚀 Quick Installation
 
@@ -133,17 +126,7 @@ This framework is a specialized extraction from that ecosystem, refined and hard
 ---
 *Continuity: Protecting the logical lineage of your software.*
 
-
 ---
 
 
----
 
-
----
-
-
----
-<!-- GOVERNANCE_BADGE_BOTTOM_START -->
-<p align="right">[![Global Parity](https://img.shields.io/badge/Global%20Parity-Out%20of%20Sync-red)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/global_sync.yml)</p>
-<!-- GOVERNANCE_BADGE_BOTTOM_END -->
