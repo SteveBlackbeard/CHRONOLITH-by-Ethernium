@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png" alt="Ethernium Continuity Legacy Official Header">
+</p>
+
 # Official Stable Release v1.3.1 - Infraestructura Global
 
 #### Ediciones
