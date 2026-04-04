@@ -11,17 +11,6 @@
 
 Continuity is now structured into three specialized editions:
 
-#### Languages
-[![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_es.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/README.md) [![JA](https://img.shields.io/badge/JA-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ja.md) [![ZH](https://img.shields.io/badge/ZH-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_zh.md) [![RU](https://img.shields.io/badge/RU-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ru.md) [![FR](https://img.shields.io/badge/FR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_fr.md) [![IT](https://img.shields.io/badge/IT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_it.md) [![DE](https://img.shields.io/badge/DE-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_de.md) [![PT](https://img.shields.io/badge/PT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_pt.md)
-
-[![Version](https://img.shields.io/badge/version-﻿1.3.1-blue.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
-[![Global Parity](https://img.shields.io/badge/Global%20Parity-Synchronized-green)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/global_sync.yml)
-<!-- GOVERNANCE_BADGE_TOP_START -->[![Global Parity](https://img.shields.io/badge/Global%20Parity-Out%20of%20Sync-red)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/global_sync.yml)<!-- GOVERNANCE_BADGE_TOP_END -->
-[![Stars](https://img.shields.io/github/stars/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium?style=social)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
-
 > **“Git for cognition” — but with structured memory, decision tracking, and operational handoff.**
 
 **Continuity** is a professional-grade synchronization framework designed to protect the logical lineage of your software during AI-to-Human and AI-to-AI handoffs. It ensures that development intent, architectural decisions, and tactical context are never lost.
