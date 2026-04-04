@@ -4,10 +4,10 @@ import os
 from pathlib import Path
 from datetime import datetime
 
-# CONTINUITY LEGACY OMEGA (v1.3.0) - The Cognitive Oracle (Enterprise)
+# CONTINUITY LEGACY OMEGA (v2.1.0) - The Cognitive Oracle (Enterprise)
 # ------------------------------------------------------------------
 # Advanced AI Interface with Semantic RAG, Cognitive Graphs, and Impact Analysis.
-# [!] v1.3: Superior Metabolism, DNA Synthesis, and Proactive Alerts.
+# [!] v2.1.0: Evolution Parity, DNA Synthesis, and Proactive Alerts.
 
 def install_hooks(repo_root: Path):
     hook_path = repo_root / ".git" / "hooks" / "pre-push"

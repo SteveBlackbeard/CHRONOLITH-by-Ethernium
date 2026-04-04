@@ -4,9 +4,9 @@ import os
 from pathlib import Path
 from datetime import datetime
 
-# CONTINUITY LEGACY Lite (v1.3.1) - Zero-Friction DNA Guardian
+# CONTINUITY LEGACY Lite (v2.1.0) - Evolution DNA Guardian
 # -------------------------------------------------------------
-# [!] v1.3.1: Global Parity, Multi-Nucleotide DNA, Hook Automation.
+# [!] v2.1.0: Evolution Parity, Multi-Nucleotide DNA, Hook Entry Points.
 
 def calculate_md5(path: Path) -> str:
     if not path.exists(): return ""
