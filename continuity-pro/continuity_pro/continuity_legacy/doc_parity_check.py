@@ -3,13 +3,22 @@ from __future__ import annotations
 import argparse
 import json
 
-from core.automation_common import (
-    is_ignored,
-    load_dependency_map,
-    read_text,
-    resolve_repo_root,
-    utc_now_iso,
-)
+try:
+    from .automation_common import (
+        is_ignored,
+        load_dependency_map,
+        read_text,
+        resolve_repo_root,
+        utc_now_iso,
+    )
+except (ImportError, ValueError):
+    from automation_common import (
+        is_ignored,
+        load_dependency_map,
+        read_text,
+        resolve_repo_root,
+        utc_now_iso,
+    )
 
 
 def check_doc_parity(repo_root: str | Path) -> dict:
