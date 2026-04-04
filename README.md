@@ -100,7 +100,7 @@ graph TD
 ### 🧠 Omega Edition: Cognitive Insight *(In Development)*
 The **Omega edition** is our Enterprise-grade Tier. It provides a visual, interactive decision lineage and semantic impact analysis to prevent architectural drift.
 
-![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)
+*OMEGA DASHBOARD VISUALIZATION (In Development)*
 
 ---
 
