@@ -1,5 +1,7 @@
 <p align="center">
+
   <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
+
 </p>
 
 # Official Stable Release v2.1.0 - Global Continuity Framework 🧬🏛️🚀
