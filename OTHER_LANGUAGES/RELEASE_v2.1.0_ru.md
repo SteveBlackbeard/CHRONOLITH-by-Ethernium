@@ -1,63 +1,41 @@
-# Official Stable Release v2.1.0 - Глобальная инфраструктура
-
-#### Редакции
-[![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-lite/)
-
-[![PRO](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYPRO.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-pro/)
-
-[![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-omega/)
+[![Version](https://img.shields.io/badge/version-2.1.0-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/releases) [..badges..]
 
 #### Языки
-[![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_es.md) [![JA](https://img.shields.io/badge/JA-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_ja.md) [![RU](https://img.shields.io/badge/RU-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_ru.md) [![ZH](https://img.shields.io/badge/ZH-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_zh.md) [![FR](https://img.shields.io/badge/FR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_fr.md) [![IT](https://img.shields.io/badge/IT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_it.md) [![DE](https://img.shields.io/badge/DE-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_de.md) [![PT](https://img.shields.io/badge/PT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_pt.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/RELEASE_NOTES_MANIFEST.md) 
+[..badges..]
+
+**「ИИ больше не забывает.」** 🧬
+
+[..Header..]
+
+**Мы с гордостью объявляем об официальном запуске Continuity Legacy: Quantum Leap** — первого стабильного выпуска Global Continuity Framework.
+
+Рожденный в глубинах **Ethernium**, сегодняшний день знаменует момент, когда когнитивная непрерывность становится реальностью.
+
+Контекст больше не теряется.
+Намерения больше не забываются.
+Нить больше не обрывается между сессиями.
+
+Continuity Legacy уже здесь: **Git для когнитивных процессов** — легкая, детерминированная, документоориентированная система, защищающая логическую преемственность и каноническую память ваших проектов в сотнях человеко-машинных передач.
+
+## 🏛️ Редакции
+[..LITE..] [..PRO..] [..OMEGA..]
+
+## 🗺️ Навигатор
+[..Links..]
 
 ---
-
-Continuity Legacy — это среда синхронизации профессионального уровня, предназначенная для защиты логической последовательности вашего программного обеспечения. Созданная в рамках **экосистемы Ethernium**, она гарантирует сохранение целей разработки и архитектурных решений на всех этапах передачи.
-
----
-
-## 🏛️ Трехуровневая экосистема
-[![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-lite/)
-
-[![PRO](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYPRO.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-pro/)
-
-[![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-omega/)
+## Технические Характеристики
+[..Table..]
 
 ---
-
-## 📊 Technical Specifications (Hardware Profiles)
-| Edition | RAM (Min) | Storage | Dependencies | Best For |
-| :--- | :--- | :--- | :--- | :--- |
-| **Lite** | < 100 MB | < 5 MB | Zero | Local Dev / CI-CD |
-| **Pro** | 4 GB | 50 MB | Standard | Industrial Handoffs |
-| **Omega** | 16 GB+ | 500 MB+ | RAG/Graph | Enterprise Strategy |
+## Ключевые Особенности
+- **Мультиязычное Ядро**
+- **Контекстные Якоря**
+- **Защита Наследия**
 
 ---
-
-## 🧠 Основные характеристики (Интеллектуальная симфония)
-- **Оптимизация метаболизма**: Ленивая загрузка во всех версиях. Мгновенный запуск CLI (<100 мс).
-- **Синтез ДНК**: Автоматическая генерация `PROJECT_DNA.md` для защиты логической линии.
-- **Когнитивные инсайты (Omega)**: Интерактивные карты решений и оповещения о влиянии.
-- **Глобальная осведомленность**: Полная документация и поддержка CLI на 9 языках.
-- **Алмазная очистка**: Глубокое удаление ошибок кодировки и文字化け (mojibake).
+## Omega Edition
+[..Omega..]
 
 ---
-
-## 🧠 Редакция Omega: Когнитивное прозрение
-**Редакция Omega** — это наш уровень корпоративного класса. Она обеспечивает визуальную интерактивную преемственность решений и семантический анализ влияния.
-
-![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)
-
----
-
-## 🔍 Поток качества
-1. Захват намерения: Документирование «Почему».
-2. Проверка паритета: Проверка экосистемы.
-3. Анализ влияния: Обнаружение семантических противоречий.
-4. Синтез ДНК: Обновление основных нуклеотидов.
-
----
-*Continuity: Защита логической преемственности вашего программного обеспечения.*
-
----
-* CONTINUITY LEGACY: Глобальная инфраструктура - Version 2.1.0 - Generated 2026-04-05T09:19:49.486975Z *
+*Continuity Legacy: Protecting the logical lineage of your software.*

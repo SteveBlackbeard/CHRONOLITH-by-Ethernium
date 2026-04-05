@@ -26,3 +26,15 @@ Este directorio es un sandbox aislado pre-configurado con **Continuity Legacy**.
 ---
 > [![Parity Status](https://img.shields.io/badge/DNA--Parity-Validated-green)](./.continuity/)
 > *“Protegiendo el linaje lógico de su software durante AI-to-Human handoffs.”* 🏛️💎🦾
+
+---
+
+| Guide | Link |
+| :--- | :--- |
+| [**Industrial Guide**](../HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](../HOW_TO_USE_IT.md) |
+| [**Release Manifest**](../RELEASE_NOTES_MANIFEST.md) | [RELEASE_NOTES_MANIFEST.md](../RELEASE_NOTES_MANIFEST.md) |
+
+---
+
+---
+*Continuity Legacy: Protecting the logical lineage of your software.*

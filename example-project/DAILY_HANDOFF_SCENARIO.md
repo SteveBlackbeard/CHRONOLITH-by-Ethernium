@@ -27,3 +27,6 @@ Por la noche, una IA de auditoría revisa la integridad.
 Al día siguiente a las 09:00 AM, Alex regresa. El proyecto no solo avanzó, sino que mantuvo su **linaje lógico**. No se perdió ni un solo bit de intención arquitectónica.
 
 **Eso es Continuity Legacy.** 🏛️💎🦾
+
+---
+*Continuity Legacy: Protecting the logical lineage of your software.*

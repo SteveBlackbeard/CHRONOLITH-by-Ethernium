@@ -4,7 +4,7 @@
 
 </p>
 
-# Continuity Legacy v2.1.0: Ethernium Evolution Framework 🏛️💎🦾
+# Continuity Legacy: Persistent Cognitive Layer 🧬
 
 [![Industrial Guardian](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/industrial_guardian.yml/badge.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/industrial_guardian.yml)
 [![Version](https://img.shields.io/badge/version-2.1.0-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/releases)
@@ -12,19 +12,33 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/release/python-3100/)
 
 #### Languages
-[![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_es.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/RELEASE_NOTES_MANIFEST.md) [![JA](https://img.shields.io/badge/JA-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_ja.md) [![ZH](https://img.shields.io/badge/ZH-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_zh.md) [![RU](https://img.shields.io/badge/RU-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_ru.md) [![FR](https://img.shields.io/badge/FR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_fr.md) [![IT](https://img.shields.io/badge/IT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_it.md) [![DE](https://img.shields.io/badge/DE-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_de.md) [![PT](https://img.shields.io/badge/PT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_pt.md)
+[![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_es.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/README.md) [![JA](https://img.shields.io/badge/JA-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ja.md) [![ZH](https://img.shields.io/badge/ZH-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_zh.md) [![RU](https://img.shields.io/badge/RU-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ru.md) [![FR](https://img.shields.io/badge/FR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_fr.md) [![IT](https://img.shields.io/badge/IT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_it.md) [![DE](https://img.shields.io/badge/DE-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_de.md) [![PT](https://img.shields.io/badge/PT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_pt.md)
+
+"**AI doesn't forget anymore.**"
+
+
+
+---
+
+## 🏛️ Enterprise Use Cases
+Continuity Legacy solves the "Semantic Drift" in long-term AI-Human collaboration:
+1. **Cross-Agent Handoffs**: Transfer full project context between different AI models (GPT-4 to Claude to local LLMs) with zero context loss.
+2. **Multi-Day RAG Stability**: Ensures that Retrieval-Augmented Generation systems always point to the canonical source of truth, even after system resets.
+3. **Legacy Restoration**: Instantly reconstruct the architectural intent of a project years after the last human developer has left.
+
+---
 
 <!-- DNA_CRYSTAL -->
 > [!IMPORTANT]
-> **DNA CRYSTAL**: `v2.1.0-3759847611631fa4`
-> [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-37598476-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
+> **DNA CRYSTAL**: `v2.1.0-1b8cbb2016e67a3d`
+> [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-1b8cbb20-blueviolet))))))))))))))))](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
 
 ## 🏛️ Table of Contents
 1. [Choose Your Edition](#-choose-your-edition)
 2. [Technical Specifications](#-technical-specifications-hardware-profiles)
 3. [30-Second Quickstart](#-30-second-quickstart-the-onboarding-experience)
 4. [Quick Installation](#-quick-installation)
-5. [Modos de Operación](#-modos-de-operación-how-to-use)
+5. [Operation Modes](#-modos-de-operación-how-to-use)
 6. [Core Infrastructure](#-core-infrastructure-the-cognitive-core)
 7. [The Quality Flow](#-the-quality-flow-the-border-guard)
 8. [Guardian DNA Algorithm](#-guardian-dna-technical-specification)
@@ -32,26 +46,40 @@
 
 ---
 
-
-
 ## 🏛️ Choose Your Edition
 
 [![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-lite/)
 _Minimalist local sync with DNA Synthesis for zero-loss handoffs._
 
 [![PRO](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYPRO.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-pro/)
-_Industrial-grade border guard. Features military-grade cyber-security, RFC 6962 Merkle Hardening, and Fail-Closed Hooks._
+_Industrial-grade border guard. Features Enterprise-grade cyber-security, RFC 6962 Merkle Hardening, and Fail-Closed Hooks._
 
 [![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-omega/)
-_Advanced RAG, cognitive mapping, and a stunning 3D Glassmorphic Dashboard for visceral data visualization._
+_Advanced RAG, cognitive mapping, and a stunning 3D Glassmorphic Dashboard for impactful data visualization._
 
 ---
 
-## 🛡️ Sovereign Edition Security (v2.1.0)
-The v2.1.0 release establishes a "Fail-Closed" military doctrine to protect the DNA Lineage:
-- **RFC 6962 Merkle Hardening**: Domain separation (0x00/0x01) prevents second-preimage attacks.
-- **Strict Sentinel Hooks**: Pre-push and pre-commit hooks dynamically resolve safe paths to prevent PATH hijacking and force `exit 1` on drift detection.
-- **Sovereign Collaboration**: Hardware binding was explicitly removed to allow open-source teams to share the exact same `STATE.json` safely.
+| Guide | Link |
+| :--- | :--- |
+| [**Industrial Guide**](./HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](./HOW_TO_USE_IT.md) |
+| [**Release Manifest**](./RELEASE_NOTES_MANIFEST.md) | [RELEASE_NOTES_MANIFEST.md](./RELEASE_NOTES_MANIFEST.md) |
+
+---
+
+## 🏛️ Software Supply Chain Security (SLSA)
+Continuity Legacy implements high-integrity governance for the project lineage:
+- **RFC 6962 Merkle Integrity**: Every markdown file is part of a Merkle Tree. A single byte change in your documentation alters the root hash.
+- **Deterministic Synthesis**: Cross-platform verification (Windows/Linux) ensures that the "Project Soul" is identical across all environments.
+- **Fail-Closed Hooks**: Native Git-Hooks that block pushes if the DNA drift is detected.
+
+---
+
+## 🏛️ The Triple-Tier Ecosystem
+Continuity provides three levels of depth in governance:
+- **Border Control**: Strict validation of commits against the project's logical heritage.
+- **DNA Integrity**: Automated file synchronization of documentation and source code.
+- **Global Awareness**: Full documentation and CLI support localized in 9 languages.
+- **Diamond Sanitization**: Deep purge of encoding errors (mojibake) and streamlined terminal-friendly directory structures.
 
 ---
 
@@ -104,29 +132,63 @@ continuity-lite check
 
 ---
 
-## 🏛️ Arquitectura: Cúmulo de Memoria (Memory Core)
-Continuity Legacy utiliza un diseño de **Desacoplamiento Total**. Las ediciones no son un bloque monolítico, sino herramientas independientes que operan sobre una única fuente de verdad:
+## 🏛️ Architecture: Memory Core
+Continuity Legacy uses a **Total Decoupling** design. Editions are not a monolithic block, but independent tools operating on a single source of truth:
 
-*   **Independencia Absoluta**: El uso de `Lite` no consume recursos de `Pro` o `Omega`. Los motores solo consumen RAM/CPU bajo demanda.
-*   **Sustrato Común**: Todas las ediciones comparten el `.continuity/STATE.json` y el `PROJECT_CONTEXT.md`.
-*   **Interoperabilidad Pasiva**: Un cambio registrado por una edición es visible de inmediato para las demás, garantizando que el linaje lógico fluya sin fricción.
+*   **Absolute Independence**: Using `Lite` does not consume `Pro` or `Omega` resources. Engines only consume RAM/CPU on demand.
+*   **Common Substrate**: All editions share the `.continuity/STATE.json` and `PROJECT_CONTEXT.md`.
+*   **Passive Interoperability**: A change registered by one edition is immediately visible to others, ensuring the logical lineage flows without friction.
+
+### 🧠 Omega Edition: Cognitive Perspective
+The **Omega edition** is our Enterprise-grade Oracle. It provides advanced RAG, cognitive mapping, and semantic impact analysis for deterministic decision protection.
+
+*Ethernium Omega Engine integrated into the core dashboard (Access restricted).*
+
+### 📊 The deterministic Audit Cycle
+```mermaid
+sequenceDiagram
+    participant D as Developer
+    participant HG as Hub Guardian (Pre-push)
+    participant IG as Industrial Guardian (CI)
+    participant DNA as DNA Ledger (STATE.json)
+
+    D->>HG: git push
+    HG->>HG: Run Continuity Check
+    alt DNA Matches
+        HG->>IG: Allow Push to origin/main
+        IG->>IG: Sentinel DNA Check (Verbose)
+        IG->>DNA: Confirm Parity
+        IG->>D: Green Badge (v2.1.0)
+    else DNA Drift
+        HG->>D: REJECT (v2.1.0-ERROR)
+    end
+```
 
 ---
 
-## 🚀 Modos de Operación (How to use)
-Continuity Legacy puede integrarse en su flujo de trabajo de tres maneras principales:
+## 🚀 Operating Modes
+Continuity Legacy can be integrated into your workflow in three main ways:
 
-1.  **Modo Autónomo (CLI)**: Ejecute `continuity-lite status` o `check` manualmente.
-2.  **Modo Centinela (Automatic Guardian)**: Use `continuity-lite init` para instalar los Git-Hooks automáticamente.
-3.  **Modo Auditor (Manual DNA)**: Use el script de paridad para generar informes de deriva.
+1.  **Autonomous Mode (CLI)**: Run `continuity-lite status` or `check` manually.
+2.  **Sentinel Mode (Automatic Guardian)**: Use `continuity-lite init` to install Git-Hooks automatically.
+3.  **Auditor Mode (Manual DNA)**: Use the parity script to generate drift reports.
+
+---
+
+## 🧠 Key Features (Industrial Symphony)
+- **Metabolism Optimization**: Typ-Rich engine with <100ms startup and lazy-loading of cores.
+- **DNA Synthesis**: Merkle cryptographic protection with SHA-256 state signatures.
+- **deterministic Governance**: Sentinel Guardian with automatic Git-Hooks and session logging.
+- **Global Symmetry**: Industrial-grade documentation and CLI support in 9 languages.
+- **Industrial Sanitization**: Full purge of UTF-16 files and tactical debris.
 
 ---
 
 ## 🧩 Core Infrastructure (The Cognitive Core)
-Continuity organiza la inteligencia del proyecto en nodos estructurados:
-*   **`.continuity/`**: El núcleo de memoria con `TIMELINE.md` y `DECISIONS_LOG.md`.
-*   **`STATE.json`**: Instantánea de estado protegida por firma SHA-256.
-*   **`PROJECT_CONTEXT.md`**: Define las reglas y el alma estratégica del sistema.
+Continuity organizes project intelligence into structured nodes:
+*   **.continuity/**: The memory core with `TIMELINE.md` and `DECISIONS_LOG.md`.
+*   **`STATE.json`**: State snapshot protected by SHA-256 signature.
+*   **`PROJECT_CONTEXT.md`**: Defines the rules and the strategic soul of the system.
 
 ---
 
@@ -155,7 +217,7 @@ graph TD
 ---
 
 ## 🌌 Origins: The Ethernium Heritage
-**Continuity Legacy** nació de la necesidad sistémica dentro del **Ecosistema Ethernium**, una frontera en evolución de computación cognitiva y sistemas autónomos. Donde los reinicios de sesión ocurren millones de veces, el riesgo de "Entropía Semántica" era crítico. Necesitábamos asegurar que el *alma* de un proyecto transicionara de una instancia cognitiva a la siguiente sin pérdidas ni deriva.
+**Continuity Legacy** was born from the systemic need within the **Ethernium Ecosystem**, an evolving frontier of cognitive computing and autonomous systems. Where session resets occur millions of times, the risk of "Semantic Entropy" was critical. We needed to ensure that the *soul* of a project transitioned from one cognitive instance to the next without loss or drift.
 
 ---
-*Continuity: Protecting the logical lineage of your software.* 🏛️💎🦾
+*Continuity Legacy: Protecting the logical lineage of your software.*

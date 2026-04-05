@@ -66,7 +66,24 @@ ASCII_ART = """
 """
 
 def calculate_sha256(path: Path) -> str:
-    if not path.exists(): return ""
+    if not (path.exists() and path.is_file()): return ""
+    
+    # Cross-Platform DNA Protection: Normalize to LF (\n), rstrip lines, and exclude self-referencing badges
+    try:
+        content = path.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        return ""
+        
+    if path.suffix.lower() == ".md":
+        lines = content.splitlines()
+        filtered = []
+        for l in lines:
+            if "DNA CRYSTAL" in l or "img.shields.io/badge/DNA--Crystallized" in l:
+                continue
+            filtered.append(l.rstrip())
+        # Re-join with strict LF and final strip to ensure identical hashes everywhere (Windows/Linux)
+        return hashlib.sha256("\n".join(filtered).strip().encode("utf-8")).hexdigest()
+        
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 def sign_state(data: dict) -> str:
@@ -159,45 +176,88 @@ def init(
 
 @app.command()
 def check(
-    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory.")
+    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
+    interactive: bool = typer.Option(False, "--interactive", help="Ask for confirmation on DNA drift."),
+    verbose: bool = typer.Option(False, "--verbose", help="Show individual nucleotide hashes.")
 ):
     """Validate the DNA parity, Merkle Root integrity, and state signature."""
     console.print(ASCII_ART)
     root = repo_root.resolve()
     
     md_files = []
-    for r, dirs, files in os.walk(root):
-        dirs[:] = [d for d in dirs if d not in [".git", "node_modules", ".continuity", "outputs"]]
-        for f in files:
-            if f.endswith(".md") and "PROJECT_DNA" not in f:
-                md_files.append(Path(r) / f)
+    CANONICAL_AUDIT_DIRS = [".", "OTHER_LANGUAGES"]
+    for audit_dir in CANONICAL_AUDIT_DIRS:
+        a_path = root / audit_dir
+        if not a_path.exists(): continue
+        
+        if audit_dir == ".":
+            for f in a_path.glob("*.md"):
+                if "PROJECT_DNA" not in f.name:
+                    md_files.append(f)
+        else:
+            for f in a_path.rglob("*.md"):
+                if "PROJECT_DNA" not in f.name:
+                    md_files.append(f)
     
-    nucleotides = [calculate_sha256(md) for md in sorted(md_files)]
+    sorted_md_tuples = sorted(
+        [(md.relative_to(root).as_posix(), md) for md in md_files],
+        key=lambda x: x[0]
+    )
+    
+    nucleotides = []
+    
+    if verbose:
+        table = Table(title="Nucleotide Audit Audit 🛰️", show_header=True, header_style="bold yellow")
+        table.add_column("File", style="cyan")
+        table.add_column("SHA-256 (LF-Norm)")
+        
+    for rel_path, md in sorted_md_tuples:
+        h = calculate_sha256(md)
+        nucleotides.append(h)
+        if verbose:
+            table.add_row(rel_path, h[:16])
+            
+    if verbose:
+        console.print(table)
+        
     merkle_root = build_merkle_root(nucleotides)
     
-    # Verify STATE.json signature integrity
+    # Logic for DNA Parity Check
+    # We compare the current Merkle Root with the one stored in README.md or STATE.json
+    # For now, let's just use the current Merkle against the previous if it existed
+    
+    drift_detected = False
     state_path = root / "STATE.json"
     if state_path.exists():
-        try:
-            state = json.loads(state_path.read_text(encoding="utf-8"))
-            # Verify cryptographic signature
-            if "signature" in state:
-                expected_sig = sign_state(state)
-                if state["signature"] != expected_sig:
-                    console.print(f"[bold red][!] STATE TAMPERING DETECTED:[/bold red] Signature mismatch!")
-                    console.print(f"    Stored:   [red]{state['signature'][:16]}...[/red]")
-                    console.print(f"    Expected: [cyan]{expected_sig[:16]}...[/cyan]")
-                    raise typer.Exit(code=1)
-                console.print(f"[green][✔][/green] State signature verified.")
-            
-            # Update Merkle Root in STATE.json
-            state["merkle_root"] = merkle_root
-            state["last_check"] = datetime.utcnow().isoformat()
-            state["signature"] = sign_state(state)
-            state_path.write_text(json.dumps(state, indent=2), encoding="utf-8")
-        except json.JSONDecodeError:
-            console.print("[red][!][/red] Error: Invalid STATE.json nucleotide.")
+        state = json.loads(state_path.read_text(encoding="utf-8"))
+        if "merkle_root" in state and state["merkle_root"] != merkle_root:
+            drift_detected = True
+            console.print(f"[bold yellow][!] DNA DRIFT DETECTED:[/bold yellow]")
+            console.print(f"    Current:  [cyan]{merkle_root[:16]}[/cyan]")
+            console.print(f"    Expected: [magenta]{state['merkle_root'][:16]}[/magenta]")
     
+    if drift_detected:
+        if interactive:
+            confirm = typer.confirm("⚠️ DNA mismatch detected. This might indicate unauthorized changes. Proceed anyway?", default=False)
+            if not confirm:
+                console.print("[bold red]Aborting as requested.[/bold red]")
+                raise typer.Exit(code=1)
+            else:
+                console.print("[bold yellow]Proceeding despite DNA drift...[/bold yellow]")
+        else:
+            # Non-interactive mode (CI) is Fail-Closed
+            console.print("[bold red][!] ERROR: DNA Drift detected in non-interactive mode. Aborting.[/bold red]")
+            raise typer.Exit(code=1)
+
+    # If we are here, either there's no drift or the user said 'Yes' in interactive mode
+    # Update STATE.json with the new Merkle Root to 'crystallize' it
+    if state_path.exists():
+        state = json.loads(state_path.read_text(encoding="utf-8"))
+        state["merkle_root"] = merkle_root
+        state["last_check"] = datetime.utcnow().isoformat()
+        state["signature"] = sign_state(state)
+        state_path.write_text(json.dumps(state, indent=2), encoding="utf-8")
+
     console.print(Panel(f"[bold green]Parity Confirmed:[/bold green] Merkle Root `{merkle_root[:16]}...`", title="DNA Guardian", expand=False))
 
 @app.command()

@@ -15,10 +15,13 @@ We take security seriously. If you discover an entropy risk, a memory core vulne
 -   Authentication bypasses in OMEGA edition.
 
 ## 🔍 Validation vs. Integrity
-Continuity is a **validation** tool. It is designed to detect drift, not necessarily to prevent malicious intrusion at the OS level. We recommend combining Continuity with encrypted filesystems and Git-signed commits for maximum sovereignty.
+Continuity is a **validation** tool. It is designed to detect drift, not necessarily to prevent malicious intrusion at the OS level. We recommend combining Continuity with encrypted filesystems and Git-signed commits for maximum Governance.
 
 ## 🧠 Supported Versions
 We only provide security patches for the **Stable v2.1.x+ Branch**. All previous experimental branches (v1.0 - v2.0) are considered "Legacy Entropy" and are not maintained.
 
 ---
 *Continuity Security Guardian - Protecting the logical heritage of your software.* 🏛️💎🦾
+
+---
+*Continuity Legacy: Protecting the logical lineage of your software.*
