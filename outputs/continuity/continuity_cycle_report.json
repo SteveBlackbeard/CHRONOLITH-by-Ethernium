@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-05T01:20:41.125147Z",
+  "generated_at": "2026-04-05T04:26:50.485357Z",
   "status": "ok",
-  "merkle_root": "77326b6b409dda4ab47f1f153e081ffd9c4f84f64a021e6a8483b2a4098d806b",
-  "entropy": 5.993953809566522,
+  "merkle_root": "3759847611631fa4c48056c359dc9968fcd85fe0ae4cae5c24474ad0b9f2ad8e",
+  "entropy": 6.024168875562025,
   "volatility_alert": false,
   "doc_parity_status": "ok",
   "membership_status": "ok",

@@ -2,6 +2,10 @@
 
 <!-- DNA_CRYSTAL -->
 > [!IMPORTANT]
+> **DNA CRYSTAL**: `v2.1.0-3759847611631fa4`
+> [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-37598476-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
+
+> [!IMPORTANT]
 > **DNA CRYSTAL**: `v2.1.1-77326b6b409dda4a`
 > [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-77326b6b-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
 

@@ -59,7 +59,7 @@ def crystallize_readme(repo_root: Path, merkle_root: str):
     if marker in content:
         crystal_text = (
             f"\n> [!IMPORTANT]\n"
-            f"> **DNA CRYSTAL**: `v2.1.1-{merkle_root[:16]}`\n"
+            f"> **DNA CRYSTAL**: `v2.1.0-{merkle_root[:16]}`\n"
             f"> [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-{merkle_root[:8]}-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)\n"
         )
         parts = content.split(marker)
