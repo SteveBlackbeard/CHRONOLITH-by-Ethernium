@@ -1,3 +1,9 @@
+<p align="center">
+
+  <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
+
+</p>
+
 # Continuity Legacy v2.1.0: Ethernium Evolution Framework 🏛️💎🦾
 
 [![Industrial Guardian](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/industrial_guardian.yml/badge.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/industrial_guardian.yml)
@@ -22,9 +28,7 @@
 
 ---
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
-</p>
+
 
 ## 🏛️ Choose Your Edition
 
