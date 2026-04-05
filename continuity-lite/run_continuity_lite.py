@@ -2,7 +2,7 @@ import os
 import sys
 from pathlib import Path
 
-# Proxy / Launcher for Continuity Lite (v1.3.1)
+# Proxy / Launcher for Continuity Lite (v2.1.0)
 # This script ensures the README command 'python continuity-lite/run_continuity_lite.py' works
 # without breaking the internal package structure.
 

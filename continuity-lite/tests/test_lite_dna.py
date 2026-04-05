@@ -3,7 +3,7 @@ from pathlib import Path
 import os
 import sys
 
-# Continuity Lite DNA Test (v1.3.1)
+# Continuity Lite DNA Test (v2.1.0)
 # ----------------------------------
 # Verifies that Lite correctly generates the PROJECT_DNA.md artifact.
 

@@ -11,7 +11,7 @@
 - **Version Parity**: Synchronized all pyproject.toml files to v2.1.0.
 - **Import Logic**: Hardened relative imports in `automation_common`.
 
-## [1.3.1] - 2026-04-02
+## [2.1.0] - 2026-04-02
 ### Added
 - **Global Mirroring**: Automated synchronization for 9 languages (ES, EN, JA, ZH, RU, FR, IT, DE, PT).
 - **Core Parity**: Lite, Pro, and Omega now share a synchronized versioning scheme.

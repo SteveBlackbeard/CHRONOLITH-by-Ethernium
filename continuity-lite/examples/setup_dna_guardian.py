@@ -11,7 +11,7 @@ def run_guardian_setup():
     
     # Simulate installation logic
     print("Simulating hook installation...")
-    print("[✔] Push Hook (v1.3.1) installed at .git/hooks/pre-push")
+    print("[✔] Push Hook (v2.1.0) installed at .git/hooks/pre-push")
     print("\nNext time you 'git push', your lineage will be validated automatically.")
 
 if __name__ == "__main__":

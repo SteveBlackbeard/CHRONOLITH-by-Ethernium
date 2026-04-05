@@ -4,7 +4,7 @@ import json
 import os
 import sys
 
-# Omega Parity Logic Test (v1.3.1)
+# Omega Parity Logic Test (v2.1.0)
 # --------------------------------
 # Verifies that Omega can correctly audit the project DNA and parity state.
 
