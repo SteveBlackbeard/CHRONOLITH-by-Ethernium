@@ -105,7 +105,7 @@ python continuity-lite/run_continuity_lite.py
 
 ---
 
-## ðŸ” The Quality Flow (The Border Guard)
+## 🔍 The Quality Flow (The Border Guard)
 
 Continuity acts as a "Socratic Firewall" for your project. Here is how your design intent is protected:
 
