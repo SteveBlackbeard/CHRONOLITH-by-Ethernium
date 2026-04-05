@@ -4,10 +4,10 @@ import os
 from pathlib import Path
 from datetime import datetime
 
-# CONTINUITY LEGACY OMEGA (v1.3.0) - The Cognitive Oracle (Enterprise)
+# CONTINUITY LEGACY OMEGA (v2.1.0) - The Cognitive Oracle (Enterprise)
 # ------------------------------------------------------------------
 # Advanced AI Interface with Semantic RAG, Cognitive Graphs, and Impact Analysis.
-# [!] v1.3: Superior Metabolism, DNA Synthesis, and Proactive Alerts.
+# [!] v2.1.0: Evolution Parity, DNA Synthesis, and Proactive Alerts.
 
 def install_hooks(repo_root: Path):
     hook_path = repo_root / ".git" / "hooks" / "pre-push"
@@ -23,13 +23,18 @@ def install_hooks(repo_root: Path):
     print(f"[✔] Push Hook (with auto-indexing) installed at {hook_path}")
 
 def log_session(repo_root: Path, collection=None):
+    """v2.1.0 Evolution: Non-interactive session logging."""
     log_path = repo_root / "SESSION_LOG.md"
-    print("\n[*] [OPTIONAL] Session intent capture")
-    intent = input("    -> What did you achieve in this session? (Enter to skip): ").strip()
+    intent = ""
     
-    if intent:
-        # PROACTIVE IMPACT ANALYSIS (v1.3)
-        if collection:
+    if sys.stdin.isatty():
+        print("\n[*] [OPTIONAL] Session intent capture")
+        try:
+            intent = input("    -> What did you achieve in this session? (Enter to skip): ").strip()
+        except (EOFError, KeyboardInterrupt):
+            pass
+        
+        if intent and collection:
             import omega_engine
             conflicts = omega_engine.check_impact_analysis(collection, intent)
             if conflicts:
@@ -41,14 +46,17 @@ def log_session(repo_root: Path, collection=None):
                 print("    1. [RECONCILE] I understand. I will adjust the intent to follow rules.")
                 print("    2. [OVERRIDE] This is a conscious evolution. Log it as a design pivot.")
                 print("    3. [CANCEL] Stop action.")
-                choice = input("    -> Select [1/2/3]: ").strip()
-                
-                if choice == "2":
-                    intent = f"[PIVOT] {intent}"
-                elif choice != "1":
-                    print("[!] Action aborted by Operator.")
-                    return
+                try:
+                    choice = input("    -> Select [1/2/3]: ").strip()
+                    if choice == "2":
+                        intent = f"[PIVOT] {intent}"
+                    elif choice != "1":
+                        print("[!] Action aborted by Operator.")
+                        return
+                except (EOFError, KeyboardInterrupt):
+                    pass
 
+    if intent:
         if not log_path.exists():
             log_path.write_text("# Continuity Session Log\n\n", encoding="utf-8")
         
@@ -67,6 +75,7 @@ def parse_args():
     return parser.parse_args()
 
 def main():
+    print('[*] Continuity Engine Omega v2.1.0 Booting...')
     args = parse_args()
     repo_root = Path(args.repo_root).resolve()
     
