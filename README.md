@@ -1,56 +1,66 @@
-# Continuity Legacy v2.1.0: Ethernium Evolution Framework
+# Continuity Legacy v2.1.0: Ethernium Evolution Framework 🏛️💎🦾
+
+[![Industrial Guardian](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/industrial_guardian.yml/badge.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/industrial_guardian.yml)
+[![Version](https://img.shields.io/badge/version-2.1.0-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/releases)
+[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/LICENSE)
 
 <!-- DNA_CRYSTAL -->
 > [!IMPORTANT]
 > **DNA CRYSTAL**: `v2.1.0-3759847611631fa4`
 > [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-37598476-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
 
-#### Languages
-[![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_es.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/README.md) [![JA](https://img.shields.io/badge/JA-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ja.md) [![ZH](https://img.shields.io/badge/ZH-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_zh.md) [![RU](https://img.shields.io/badge/RU-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ru.md) [![FR](https://img.shields.io/badge/FR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_fr.md) [![IT](https://img.shields.io/badge/IT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_it.md) [![DE](https://img.shields.io/badge/DE-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_de.md) [![PT](https://img.shields.io/badge/PT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_pt.md)
+## 🏛️ Table of Contents
+1. [Choose Your Edition](#-choose-your-edition)
+2. [Technical Specifications](#-technical-specifications-hardware-profiles)
+3. [30-Second Quickstart](#-30-second-quickstart-the-onboarding-experience)
+4. [Quick Installation](#-quick-installation)
+5. [Modos de Operación](#-modos-de-operación-how-to-use)
+6. [Core Infrastructure](#-core-infrastructure-the-cognitive-core)
+7. [The Quality Flow](#-the-quality-flow-the-border-guard)
+8. [Guardian DNA Algorithm](#-guardian-dna-technical-specification)
+9. [Origins: The Ethernium Heritage](#-origins-the-ethernium-heritage)
 
-[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/) [![Tests](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/continuity.yml/badge.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/continuity.yml) [![Global Parity](https://img.shields.io/badge/Global%20Parity-v2.1.0-green)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/continuity.yml) [![Stars](https://img.shields.io/github/stars/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium?style=social)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
+---
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
 </p>
 
-Continuity is now structured into three specialized editions:
-
-> **“Git for cognition” — but with structured memory, decision tracking, and operational handoff.**
-
-**Continuity** is a professional-grade synchronization framework designed to protect the logical lineage of your software during AI-to-Human and AI-to-AI handoffs. It ensures that development intent, architectural decisions, and tactical context are never lost.
-
 ## 🏛️ Choose Your Edition
 
 [![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-lite/)
-
-_Minimalist local sync with DNA Synthesis for zero-loss handoffs.</sub></p_
+_Minimalist local sync with DNA Synthesis for zero-loss handoffs._
 
 [![PRO](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYPRO.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-pro/)
-
-_Industrial-grade border guard with security audits and global synchronization.</sub></p_
+_Industrial-grade border guard. Features military-grade cyber-security, RFC 6962 Merkle Hardening, and Fail-Closed Hooks._
 
 [![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-omega/)
-
-_Advanced RAG, cognitive mapping, and proactive impact analysis.</sub></p_
+_Advanced RAG, cognitive mapping, and a stunning 3D Glassmorphic Dashboard for visceral data visualization._
 
 ---
 
-## 🧠 The Problem vs. The Solution
+## 🛡️ Sovereign Edition Security (v2.1.0)
+The v2.1.0 release establishes a "Fail-Closed" military doctrine to protect the DNA Lineage:
+- **RFC 6962 Merkle Hardening**: Domain separation (0x00/0x01) prevents second-preimage attacks.
+- **Strict Sentinel Hooks**: Pre-push and pre-commit hooks dynamically resolve safe paths to prevent PATH hijacking and force `exit 1` on drift detection.
+- **Sovereign Collaboration**: Hardware binding was explicitly removed to allow open-source teams to share the exact same `STATE.json` safely.
 
-Modern AI workflows break in one critical area: **Context resets between sessions**. Agents lose identity, decisions are not persisted structurally, and handoffs are fragile.
+---
 
-**Continuity Legacy** introduces a **persistent cognitive layer** that turns fragmented AI workflows into coherent, everlasting systems.
+## 📊 Technical Specifications (Hardware Profiles)
+Each edition is optimized for specific resource footprints:
 
-```text
-Context → State → Decisions → Timeline → Handoff
-```
+| Edition | RAM (Min) | Storage | Dependencies | Best For |
+| :--- | :--- | :--- | :--- | :--- |
+| **Lite** | < 100 MB | < 5 MB | Zero | Local Dev / CI-CD |
+| **Pro** | 4 GB | 50 MB | Standard | Industrial Handoffs |
+| **Omega** | 16 GB+ | 500 MB+ | RAG/Graph | Enterprise Strategy |
+
+---
 
 ## ⏱️ 30-Second Quickstart (The Onboarding Experience)
 
-> **`example-project/`** is a pre-configured sandbox included in this repository. It simulates a real project already managed by Continuity Legacy — complete with `PROJECT_CONTEXT.md`, `STATE.json`, `ROADMAP.md`, and a `.continuity/` memory core. Use it to experience the full DNA validation flow in under 30 seconds, without touching your own codebase.
-
-If you want to see **Continuity Legacy** in action right now:
+> **`example-project/`** is a pre-configured sandbox included in this repository. It simulates a real project already managed by Continuity Legacy.
 
 1.  **Navigate to the example environment**:
     ```bash
@@ -58,10 +68,9 @@ If you want to see **Continuity Legacy** in action right now:
     ```
 2.  **Verify the DNA Parity**:
     ```bash
-    # Run the DNA Guardian (Lite Mode)
-    python ../continuity-lite/run_continuity_lite.py
+    python ../continuity-lite/run_continuity_lite.py check
     ```
-3.  **Expected Outcome**: You will see a green `[✔] Parity Confirmed`. This simulates a successful handoff where the AI understands the 100% architectural state.
+3.  **Expected Outcome**: You will see a green `[✔] Parity Confirmed`.
 
 ---
 
@@ -72,35 +81,55 @@ If you want to see **Continuity Legacy** in action right now:
 git clone https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium.git
 cd CONTINUITY-LEGACY-by-Ethernium
 
-# 2. Install the Evolution Edition (Lite)
+# 2. Install from PyPI (when published)
+pip install ethernium-continuity-lite
+
+# Or install locally in editable mode
 pip install -e continuity-lite
 
-# 3. Setup the DNA Guardian Entry Point
-continuity-lite --hook
+# 3. Activate the Sentinel Guardian (auto Git-Hooks + DNA init)
+continuity-lite init
+
+# 4. Verify your DNA parity
+continuity-lite check
 ```
 
 ---
 
+## 🏛️ Arquitectura: Cúmulo de Memoria (Memory Core)
+Continuity Legacy utiliza un diseño de **Desacoplamiento Total**. Las ediciones no son un bloque monolítico, sino herramientas independientes que operan sobre una única fuente de verdad:
+
+*   **Independencia Absoluta**: El uso de `Lite` no consume recursos de `Pro` o `Omega`. Los motores solo consumen RAM/CPU bajo demanda.
+*   **Sustrato Común**: Todas las ediciones comparten el `.continuity/STATE.json` y el `PROJECT_CONTEXT.md`.
+*   **Interoperabilidad Pasiva**: Un cambio registrado por una edición es visible de inmediato para las demás, garantizando que el linaje lógico fluya sin fricción.
+
+---
+
+## 🚀 Modos de Operación (How to use)
+Continuity Legacy puede integrarse en su flujo de trabajo de tres maneras principales:
+
+1.  **Modo Autónomo (CLI)**: Ejecute `continuity-lite status` o `check` manualmente.
+2.  **Modo Centinela (Automatic Guardian)**: Use `continuity-lite init` para instalar los Git-Hooks automáticamente.
+3.  **Modo Auditor (Manual DNA)**: Use el script de paridad para generar informes de deriva.
+
+---
+
 ## 🧩 Core Infrastructure (The Cognitive Core)
-
-Continuity organizes project intelligence into structured nodes:
-
-*   **`.continuity/`**: The memory core containing `TIMELINE.md`, `DECISIONS_LOG.md`, and `LIVE_HANDOFF.md`.
-*   **`STATE.json`**: A machine-readable snapshot for validation and synchronization.
-*   **`PROJECT_CONTEXT.md`**: Defines the unique rules, constraints, and behavior of the system.
+Continuity organiza la inteligencia del proyecto en nodos estructurados:
+*   **`.continuity/`**: El núcleo de memoria con `TIMELINE.md` y `DECISIONS_LOG.md`.
+*   **`STATE.json`**: Instantánea de estado protegida por firma SHA-256.
+*   **`PROJECT_CONTEXT.md`**: Define las reglas y el alma estratégica del sistema.
 
 ---
 
 ## 🔍 The Quality Flow (The Border Guard)
-
-Continuity acts as a "Socratic Firewall" for your project. Here is how your design intent is protected:
+Continuity actúa como un "Socratic Firewall". Protege tu intención de diseño mediante un bucle de validación determinista:
 
 ```mermaid
 graph TD
     A[Dev Intent] --> B{Parity Check}
-    B -- Fail --> C[Self-Healing / Fix]
+    B -- Fail --> C[Self-Healing / Audit]
     B -- Pass --> D{Impact Analysis}
-    D -- Alert --> E[Reconcile / Override]
     D -- Safe --> F[DNA Synthesis]
     E --> F
     F --> G[Final Sync & Push]
@@ -109,50 +138,16 @@ graph TD
 ---
 
 ## 🧬 Guardian DNA (Technical Specification)
+**Continuity Legacy** utiliza un algoritmo de hashing "Nucleótido" determinista para generar la identidad única de un proyecto.
 
-**Continuity Legacy** uses a deterministic "Nucleotide" hashing algorithm to generate a project's unique identity.
-
-- **Nucleotide Hashing**: Each canonical document (`.md`, `.json`) is processed using **SHA-256**.
-- **DNA Synthesis**: The system aggregates these segments into a hierarchical **Merkle Tree**.
-- **The Merkle Root**: A single 64-character hash representing the **Absolute State**.
+- **Nucleotide Hashing**: Cada artefacto canónico (`.md`, `.json`) es procesado usando **SHA-256**.
+- **DNA Synthesis**: El sistema agrega estos segmentos en un **Merkle Tree** jerárquico.
+- **The Merkle Root**: El hash final que representa el **Estado Absoluto**.
 
 ---
 
 ## 🌌 Origins: The Ethernium Heritage
-
-**Continuity Legacy** was born out of necessity within the **Ethernium Ecosystem**—a vast, evolving frontier of cognitive computing and autonomous systems. In the depths of Ethernium, where session resets occur millions of times, the risk of "Semantic Entropy" was too high. We needed a way to ensure that the *soul* of a project transitioned from one cognitive instance to the next without loss.
-
----
-
-## 🌌 The Future: Omega Dashboard 3D & Advanced Logic
-
-### 🏛️ The Parity Cycle (Flow Diagram)
-Continuity ensures that every human-AI handoff is backed by a deterministic validation loop:
-
-```mermaid
-graph LR
-    A[Human Context] --> B{DNA Synthesis}
-    B --> C[Merkle Root Verification]
-    C -- Matched --> D[Secure Operation]
-    C -- Drift Detected --> E[Self-Healing & Audit]
-    E --> B
-```
-
-### ⚙️ Algorithm: DNA Nucleotide Guardian
-The core logic in `doc_parity_check.py` uses a weighted hashing system to ensure that structural metadata (DNA) remains invariant across editions:
-
-```python
-def generate_nucleotide_hash(file_data):
-    # Weighted normalization of markdown artifacts
-    normalized = normalize_whitespace_and_bom(file_data)
-    return hashlib.sha256(normalized).hexdigest()
-```
-
-### 🛰️ Omega Dashboard: 3D Cognitive Architecture
-The upcoming **Omega Dashboard** (React-based) will feature a **3D Force-Graph View** of the entire repository ecosystem.
-- **Rotatable Topology**: Manipulate the DNA nexus in 3D space with your cursor.
-- **Node Interaction**: Click on "Nucleotides" (files) to inspect decision logs and health status.
-- **Holographic HUD**: Real-time visual feedback on project parity and semantic drift.
+**Continuity Legacy** nació de la necesidad sistémica dentro del **Ecosistema Ethernium**, una frontera en evolución de computación cognitiva y sistemas autónomos. Donde los reinicios de sesión ocurren millones de veces, el riesgo de "Entropía Semántica" era crítico. Necesitábamos asegurar que el *alma* de un proyecto transicionara de una instancia cognitiva a la siguiente sin pérdidas ni deriva.
 
 ---
 *Continuity: Protecting the logical lineage of your software.* 🏛️💎🦾

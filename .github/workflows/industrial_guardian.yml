@@ -1,0 +1,116 @@
+name: 🏛️ Continuity Industrial Guardian
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # --- DNA Integrity Tests ---
+  test-lite:
+    name: 🛡️ Lite DNA Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: pip
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install typer rich pytest
+    - name: Run Lite Tests (10 tests - RFC 6962 Merkle + Signatures)
+      run: pytest continuity-lite/tests/test_lite_logic.py -v
+
+  test-pro:
+    name: 🏛️ Pro Parity Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: pip
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest typer rich
+        cd continuity-pro && pip install -e .
+    - name: Run Pro Tests (Parity + Membership)
+      run: pytest continuity-pro/tests/test_parity_logic.py -v
+
+  test-omega:
+    name: 🧠 Omega Cognitive Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: pip
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest networkx
+    - name: Run Omega Tests (Cognitive Map + Decisions)
+      run: pytest continuity-omega/tests/test_omega_logic.py -v
+
+  # --- Code Quality ---
+  lint:
+    name: 🔍 Code Quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: pip
+    - name: Install flake8
+      run: pip install flake8
+    - name: Lint (syntax errors only)
+      run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+    - name: Lint (warnings)
+      run: flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+  # --- Sentinel Parity ---
+  sentinel:
+    name: 🛰️ Sentinel DNA Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [test-lite, test-pro, test-omega]
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: pip
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install typer rich
+    - name: Initialize & Verify DNA
+      run: |
+        python continuity-lite/continuity_lite/continuity_legacy/run_continuity_lite.py init --no-hook
+        python continuity-lite/continuity_lite/continuity_legacy/run_continuity_lite.py check

@@ -1,137 +1,200 @@
-import sys
-import argparse
+import logging
+import hashlib
 import os
+import json
 from pathlib import Path
 from datetime import datetime
+from typing import Optional, List
 
-# CONTINUITY LEGACY OMEGA (v2.1.0) - The Cognitive Oracle (Enterprise)
-# ------------------------------------------------------------------
-# Advanced AI Interface with Semantic RAG, Cognitive Graphs, and Impact Analysis.
-# [!] v2.1.0: Evolution Parity, DNA Synthesis, and Proactive Alerts.
+import typer
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
+from rich.progress import Progress, SpinnerColumn, TextColumn
+from rich import print as rprint
 
-def install_hooks(repo_root: Path):
-    hook_path = repo_root / ".git" / "hooks" / "pre-push"
-    if not (repo_root / ".git").exists():
-        print("[!] ERROR: Not a git repository. Cannot install hooks.")
-        return
-    
-    hook_content = f"#!/bin/sh\n# Continuity Omega Auto-Hook\npython {Path(__file__).resolve()} --index || exit 1\n"
-    hook_path.parent.mkdir(parents=True, exist_ok=True)
-    hook_path.write_text(hook_content, encoding="utf-8")
-    
-    if os.name != "nt": os.chmod(hook_path, 0o755)
-    print(f"[✔] Push Hook (with auto-indexing) installed at {hook_path}")
+# CONTINUITY LEGACY OMEGA (v2.1.0) - Celestial Cognitive Oracle
+# -------------------------------------------------------------
+# [!] Industrial Grade Refactor: Typer CLI, Rich UI, RAG, Cognitive Maps.
 
-def log_session(repo_root: Path, collection=None):
-    """v2.1.0 Evolution: Non-interactive session logging."""
-    log_path = repo_root / "SESSION_LOG.md"
-    intent = ""
-    
-    if sys.stdin.isatty():
-        print("\n[*] [OPTIONAL] Session intent capture")
-        try:
-            intent = input("    -> What did you achieve in this session? (Enter to skip): ").strip()
-        except (EOFError, KeyboardInterrupt):
-            pass
-        
-        if intent and collection:
-            import omega_engine
-            conflicts = omega_engine.check_impact_analysis(collection, intent)
-            if conflicts:
-                print("\n[!] OMEGA IMPACT ALERT: This intent may contradict historical design:")
-                for c in conflicts:
-                    print(f"    - [{c['file']}]: \"{c['rule']}\"")
-                
-                print("\n[?] CONTEXTUAL CHOICE (Psychology-based Resolution):")
-                print("    1. [RECONCILE] I understand. I will adjust the intent to follow rules.")
-                print("    2. [OVERRIDE] This is a conscious evolution. Log it as a design pivot.")
-                print("    3. [CANCEL] Stop action.")
-                try:
-                    choice = input("    -> Select [1/2/3]: ").strip()
-                    if choice == "2":
-                        intent = f"[PIVOT] {intent}"
-                    elif choice != "1":
-                        print("[!] Action aborted by Operator.")
-                        return
-                except (EOFError, KeyboardInterrupt):
-                    pass
+app = typer.Typer(
+    help="🏛️ Continuity Legacy Omega: The pinnacle AI oracle. Advanced RAG and cognitive mapping.",
+    add_completion=False,
+    no_args_is_help=True
+)
+console = Console()
 
-    if intent:
-        if not log_path.exists():
-            log_path.write_text("# Continuity Session Log\n\n", encoding="utf-8")
-        
-        with open(log_path, "a", encoding="utf-8") as f:
-            f.write(f"- [{datetime.utcnow().isoformat()}Z] {intent}\n")
-        print("    [✔] Intent logged.")
+ASCII_ART = """
+[bold blue]
+   ______ ____   _   __ ______ ____ _   __ _   __ ____ ______  __  __
+  / ____// __ \\ / | / //_  __//  _// | / // /  / //_  __//_  __/ \\ \\/ /
+ / /    / / / //  |/ /  / /   / / /  |/ // /  / /  / /    / /     \\  / 
+/ /___ / /_/ // /|  /  / /  _/ / / /|  // /__/ /  / /    / /      / /  
+\\____/ \\____//_/ |_/  /_/  /___//_/ |_/ \\____/  /_/    /_/      /_/   
+                                                                       
+      LEGACY [bold white]v2.1.0[/bold white] | [italic cyan]Celestial Cognitive Oracle (Omega)[/italic cyan]
+[/bold blue]
+"""
 
-def parse_args():
-    parser = argparse.ArgumentParser(description="CONTINUITY LEGACY Omega - Advanced AI Interface")
-    parser.add_argument("--index", action="store_true", help="Index the current workspace.")
-    parser.add_argument("--query", type=str, help="Search project history semantically.")
-    parser.add_argument("--map", action="store_true", help="Generate interactive cognitive maps.")
-    parser.add_argument("--hook", action="store_true", help="Install Git pre-push hook.")
-    parser.add_argument("--connect", type=str, nargs="+", help="Connect shared memory repositories.")
-    parser.add_argument("--repo-root", type=str, default=".", help="Root directory.")
-    return parser.parse_args()
-
-def main():
-    print('[*] Continuity Engine Omega v2.1.0 Booting...')
-    args = parse_args()
-    repo_root = Path(args.repo_root).resolve()
-    
-    if args.hook:
-        install_hooks(repo_root)
-        return
-
-    # LAZY LOADING (Metabolism Optimization)
+# Lazy loading of heavy modules
+try:
     import omega_engine
     import cognitive_map
+except ImportError:
+    import sys
+    sys.path.append(str(Path(__file__).resolve().parent))
+    import omega_engine
+    import cognitive_map
+
+def setup_logger(repo_root: Path):
+    log_dir = repo_root / ".continuity" / "logs"
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log_file = log_dir / f"omega_continuity_{datetime.now().strftime('%Y%m%d')}.jsonl"
     
-    # Self-Healing Environment
+    class JsonFormatter(logging.Formatter):
+        def format(self, record):
+            log_record = {
+                "timestamp": datetime.utcnow().isoformat() + "Z",
+                "level": record.levelname,
+                "module": "omega_engine",
+                "message": record.getMessage()
+            }
+            return json.dumps(log_record)
+
+    logger = logging.getLogger("continuity_omega")
+    logger.setLevel(logging.INFO)
+    if not logger.handlers:
+        fh = logging.FileHandler(log_file)
+        fh.setFormatter(JsonFormatter())
+        logger.addHandler(fh)
+    return logger
+
+@app.command()
+def init(
+    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
+    no_hook: bool = typer.Option(False, "--no-hook", help="Disable automatic Git-Hook installation.")
+):
+    """Initialize the Celestial Omega memory core and install cognitive hooks."""
+    console.print(ASCII_ART)
+    root = repo_root.resolve()
+    logger = setup_logger(root)
+    logger.info("Initializing Omega Core")
+    
     files = {
         ".continuity/STATE.json": '{"phase": "omega", "last_update": "' + datetime.utcnow().isoformat() + '"}',
-        "PROJECT_CONTEXT.md": "# Project Context\n\n- Define your strategic intent here.",
+        "PROJECT_CONTEXT.md": "# Project Context\n\n- Celestial Strategic Oracle intent.",
         ".continuity/DECISIONS_LOG.md": "# Decision Log\n\n| Date | Decision | Rationale | Actor |\n| :--- | :--- | :--- | :--- |\n"
     }
+    
     for filename, template in files.items():
-        if not (repo_root / filename).exists():
-            print(f"[?] Missing Nucleotide: {filename}")
-            # Non-interactive template auto-creation for quick starts
-            (repo_root / filename).parent.mkdir(parents=True, exist_ok=True)
-            (repo_root / filename).write_text(template, encoding="utf-8")
-            print(f"    [✔] Re-synthesized core file: {filename}")
+        path = root / filename
+        if not path.exists():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(template, encoding="utf-8")
+            console.log(f"    [cyan][✔][/cyan] Crystallized: [italic]{filename}[/italic]")
 
-    output_dir = repo_root / "outputs" / "continuity"
+    if not no_hook:
+        hook_path = root / ".git" / "hooks" / "pre-push"
+        hook_path.parent.mkdir(parents=True, exist_ok=True)
+        hook_content = f"#!/bin/sh\n# Continuity Omega Evolution Hook\necho '[*] Guarding Celestial DNA...'\npython \"{Path(__file__).resolve()}\" index || exit 1\n"
+        hook_path.write_text(hook_content, encoding="utf-8")
+        if os.name != "nt": os.chmod(hook_path, 0o755)
+        console.log(f"[bold blue][✔][/bold blue] Omega Push Hook (Auto-Index) installed.")
+
+@app.command()
+def index(
+    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
+    connect: Optional[List[str]] = typer.Option(None, "--connect", help="Connect shared memory repositories.")
+):
+    """Index the current workspace into the Omega RAG Vector Store."""
+    console.print(ASCII_ART)
+    root = repo_root.resolve()
+    logger = setup_logger(root)
+    
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        transient=True,
+    ) as progress:
+        progress.add_task(description="Indexing Cognitive Nucleotides...", total=None)
+        store = omega_engine.initialize_omega_store(root, external_roots=connect)
+        omega_engine.index_workspace(root, store)
+    
+    logger.info("Indexing complete", extra={"repo_root": str(root)})
+    console.print(Panel(f"[bold blue]Success:[/bold blue] Omega Oracle indexed `{root.name}`. Semantic search now online.", title="Celestial Indexer", expand=False))
+
+@app.command()
+def query(
+    q: str = typer.Argument(..., help="Semantic query to search project history."),
+    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory.")
+):
+    """Query project history semantically via Omega Oracle."""
+    root = repo_root.resolve()
+    store = omega_engine.initialize_omega_store(root)
+    results = omega_engine.query_continuity(store, q)
+    
+    console.print(f"\n[bold cyan][*] OMEGA Results for: '{q}'[/bold cyan]")
+    for i, doc in enumerate(results['documents'][0]):
+        filename = results['metadatas'][0][i]['filename']
+        console.print(Panel(doc[:500] + "...", title=f"Result {i+1} ({filename})", border_style="cyan"))
+
+@app.command()
+def map(
+    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory.")
+):
+    """Generate an interactive 3D cognitive map of decisions."""
+    root = repo_root.resolve()
+    output_dir = root / "outputs" / "continuity"
     output_dir.mkdir(parents=True, exist_ok=True)
     
-    store = omega_engine.initialize_omega_store(repo_root, external_roots=args.connect)
-    action_taken = False
-
-    if args.index:
-        omega_engine.index_workspace(repo_root, store)
-        action_taken = True
+    log = root / ".continuity" / "DECISIONS_LOG.md"
+    if not log.exists():
+        console.print("[yellow]No DECISIONS_LOG found. Use `log` to create one.[/yellow]")
+        return
         
-    if args.query:
-        results = omega_engine.query_continuity(store, args.query)
-        print(f"\n[*] OMEGA Results for: '{args.query}'")
-        for i, doc in enumerate(results['documents'][0]):
-            filename = results['metadatas'][0][i]['filename']
-            print(f"--- Result {i+1} ({filename}) ---")
-            print(doc[:300] + "...")
-        action_taken = True
+    nodes = cognitive_map.extract_decisions(str(log))
+    graph = cognitive_map.generate_cognitive_map(nodes)
+    cognitive_map.export_map(graph, str(output_dir / "cognitive_map.json"))
+    
+    console.print(Panel(f"[bold cyan]Map Generated:[/bold cyan] [italic]{output_dir / 'cognitive_map.json'}[/italic]", border_style="cyan"))
+
+@app.command()
+def log(
+    intent: str = typer.Argument(..., help="Detailed session intent capture."),
+    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory.")
+):
+    """Log an intent with automatic cognitive impact analysis."""
+    root = repo_root.resolve()
+    store = omega_engine.initialize_omega_store(root)
+    conflicts = omega_engine.check_impact_analysis(store, intent)
+    
+    if conflicts:
+        console.print("\n[bold red][!] OMEGA IMPACT ALERT:[/bold red] Contradiction detected:")
+        for c in conflicts:
+            console.print(f"    - [{c['file']}]: [italic]\"{c['rule']}\"[/italic]")
+        
+        console.print("\n[bold cyan][?] CONTEXTUAL CHOICE:[/bold cyan]")
+        console.print("  1. [RECONCILE] I will follow the rules.")
+        console.print("  2. [OVERRIDE] Concious evolution (PIVOT).")
+        console.print("  3. [CANCEL] Cancel operation.")
+        
+        choice = typer.prompt("Select [1/2/3]", default="1")
+        if choice == "2":
+            intent = f"[PIVOT] {intent}"
+        elif choice == "3":
+            raise typer.Exit()
             
-    if args.map:
-        log = repo_root / ".continuity" / "DECISIONS_LOG.md"
-        nodes = cognitive_map.extract_decisions(str(log))
-        graph = cognitive_map.generate_cognitive_map(nodes)
-        cognitive_map.export_map(graph, str(output_dir / "cognitive_map.json"))
-        action_taken = True
+    log_path = root / "SESSION_LOG.md"
+    if not log_path.exists():
+            log_path.write_text("# Continuity Session Log\n\n", encoding="utf-8")
+        
+    with open(log_path, "a", encoding="utf-8") as f:
+        f.write(f"- [{datetime.now().isoformat()}Z] {intent}\n")
+    
+    console.log(f"[bold blue][✔][/bold blue] Intent captured in SESSION_LOG.md")
 
-    if action_taken:
-        log_session(repo_root, collection=store)
-
-    if not action_taken:
-        print("[!] OMEGA: No action specified. Use --index, --query, or --map.")
+def main():
+    app()
 
 if __name__ == "__main__":
     main()

@@ -1,1 +1,1 @@
-﻿# Handoff
+# Handoff

@@ -15,15 +15,26 @@ Continuity is now structured into three specialized editions to provide the righ
 
 [![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-lite/)
 
-_Minimalist local sync with DNA Synthesis for zero-loss handoffs.</sub></p_
+_Minimalist local sync with DNA Synthesis for zero-loss handoffs._
 
 [![PRO](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYPRO.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-pro/)
 
-_Industrial-grade border guard with security audits and global synchronization.</sub></p_
+_Industrial-grade border guard with security audits and global synchronization._
 
 [![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-omega/)
 
-_Advanced RAG, cognitive mapping, and proactive impact analysis.</sub></p_
+_Advanced RAG, cognitive mapping, and proactive impact analysis._
+
+---
+
+## 📊 Technical Specifications (Hardware Profiles)
+Each edition is optimized for specific resource footprints:
+
+| Edition | RAM (Min) | Storage | Dependencies | Best For |
+| :--- | :--- | :--- | :--- | :--- |
+| **Lite** | < 100 MB | < 5 MB | Zero | Local Dev / CI-CD |
+| **Pro** | 4 GB | 50 MB | Standard | Industrial Handoffs |
+| **Omega** | 16 GB+ | 500 MB+ | RAG/Graph | Enterprise Strategy |
 
 ---
 
@@ -53,14 +64,6 @@ This ensures that every agent joining the project can read the `.continuity/` co
 
 ---
 
-## 📊 Technical Specifications (Hardware Profiles)
-Each edition is optimized for specific resource footprints:
-- **Lite**: Ultra-Low Resource (<100MB RAM, No dependencies).
-- **Pro**: Standard Workstation (4GB RAM recommended).
-- **Omega**: Enterprise Monster (16GB+ RAM recommended for RAG & Graph processing).
-
----
-
 ## 🔍 Quality Flow
 Continuity ensures that every developer session follows a rigorous architectural governance gate:
 1. **Intent Capture**: Documenting the 'Why' before the 'What'.
@@ -71,7 +74,15 @@ Continuity ensures that every developer session follows a rigorous architectural
 ---
 
 ## 🧠 Omega Edition: Cognitive Insight
-The Omega edition is our Enterprise-grade Tier. It provides a visual, interactive decision lineage and semantic impact analysis to prevent architectural drift. This edition represents the pinnacle of professional context preservation.
+The Omega edition is our Enterprise-grade Tier. It provides a visual, interactive decision lineage and semantic impact analysis to prevent architectural drift. This edition features the **Omega 3D Glassmorphic Dashboard**, allowing visceral data visualization of the Nexus network using `react-force-graph-3d`.
+
+---
+
+## 🛡️ Sovereign Edition Security (v2.1.0 Nexus)
+The v2.1.0 release establishes an impenetrable frontier for the DNA Lineage:
+- **RFC 6962 Merkle Hardening**: Advanced domain separation to prevent preimage mutation attacks.
+- **Militarized Sentinel Hooks**: Pre-push and pre-commit hooks dynamically resolve safe paths to prevent PATH hijacking and enforce a strict `Fail-Closed` architecture.
+- **Sovereign Collaboration Target**: State cryptography decoupled from hardware binding to safely distribute the `STATE.json` context among remote teams.
 
 ---
 *Continuity: Protecting the logical lineage of your software.* 🏛️💎🦾

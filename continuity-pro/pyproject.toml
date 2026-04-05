@@ -3,12 +3,12 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "continuity-pro"
+name = "ethernium-continuity-pro"
 version = "2.1.0"
 authors = [
   { name = "SteveBlackbeard" },
 ]
-description = "CLI starter for building projects with persistent continuity and AI-human context-driven handoff."
+description = "Continuity Legacy (Pro): Industrial-grade AI continuity framework with security audits and global synchronization."
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
@@ -17,11 +17,13 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dependencies = []
+dependencies = [
+    "typer[all]>=0.9.0",
+    "rich>=13.0.0",
+]
 
 [project.optional-dependencies]
 vector = ["chromadb>=0.4.0", "sentence-transformers"]
-graph = ["networkx", "rdflib"]
 all = ["chromadb>=0.4.0", "sentence-transformers", "networkx", "rdflib"]
 
 [project.urls]

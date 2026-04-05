@@ -1,17 +1,25 @@
-# Changelog
+# Changelog: Continuity Legacy (Industrial Evolution) 🏛️💎🦾
 
-## [2.1.0] - 2026-04-03 (Ethernium Evolution)
-### Added
-- **Proxy Launchers**: Instant execution with `run_continuity_*.py` proxies in each edition root.
-- **Entry Points**: Professional installation with `continuity-lite`, `continuity-pro`, `continuity-omega`.
-- **Example Project**: Ready-to-go `example-project/` for 30-second verification.
-- **Structural Omega**: Reorganized Omega edition to match Pro's hierarchical excellence.
-### Fixed
-- **404 Paths**: Eliminated all pathing errors reported in previous READMEs.
-- **Version Parity**: Synchronized all pyproject.toml files to v2.1.0.
-- **Import Logic**: Hardened relative imports in `automation_common`.
+All notable changes to the Continuity Legacy ecosystem will be documented in this file.
 
-## [2.1.0] - 2026-04-02
-### Added
-- **Global Mirroring**: Automated synchronization for 9 languages (ES, EN, JA, ZH, RU, FR, IT, DE, PT).
-- **Core Parity**: Lite, Pro, and Omega now share a synchronized versioning scheme.
+## [2.1.0] - 2026-04-05
+### 🛰️ Industrial Hardening (Major Evolution)
+- **Unified Typ-Rich CLI**: Complete refactor of Lite, Pro, and Omega editions to Typer + Rich UI.
+- **Symmetry Architectures**: Distinct themes (Industrial, Solemne, Celestial) across all command-line interfaces.
+- **Sovereign Governance**: Established `SECURITY.md` and `CONTRIBUTING.md` standards.
+- **Memory Core**: Decoupled engine from state, enabling zero-loss context sharing between editions.
+- **DNA Security**: Implemented SHA-256 state signatures and audited Merkle Tree logic.
+- **Sentinel Guardian**: Automated Git-Hook installation via `setup_guardian.py`.
+- **Global Awareness**: Robust synchronization engine (v1.6.3) for 9 languages with UTF-16/BOM sanitization.
+- **Observability**: Structured JSON logging for enterprise auditability.
+
+## [1.5.0] - 2026-04-02
+### 🧠 Ethernium Synchronization
+- Initial transition to 9 languages.
+- Basic DNA Synthesis with Merkle Trees.
+- Placeholder badges and tactical Quickstart.
+
+## [1.3.1] - 2026-03-20
+### 🧬 Genesis Lite
+- Alpha version of the Lite engine.
+- Experimental command-line interface.

@@ -1,1 +1,1 @@
-﻿# Lite Context
+# Lite Context
