@@ -31,6 +31,5 @@ def test_omega_parity_functional(tmp_path):
 
 def test_omega_fails_empty_repo(tmp_path):
     repo_root = tmp_path
-    report = check_doc_parity(str(repo_root))
-    assert 'ok' in report['status']
-    assert isinstance(report['warnings'], list)
+    with pytest.raises(ValueError, match="Security Warning"):
+        check_doc_parity(str(repo_root))
