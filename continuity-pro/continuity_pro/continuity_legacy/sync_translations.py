@@ -201,7 +201,7 @@ def generate_localized_release(lang, version):
                 f"[![OMEGA](https://img.shields.io/badge/Edition-OMEGA-black)]({base_url}continuity-omega/)")
     l_ribbon = ""
     for l in LANG_CODES:
-        link = f"{base_url}README.md" if l == "en" else f"{base_url}OTHER_LANGUAGES/README_{l}.md"
+        link = f"{base_url}RELEASE_NOTES_MANIFEST.md" if l == "en" else f"{base_url}OTHER_LANGUAGES/RELEASE_v{version}_{l}.md"
         l_ribbon += f"[![{l.upper()}](https://img.shields.io/badge/{l.upper()}-white)]({link}) "
     
     lines = [
