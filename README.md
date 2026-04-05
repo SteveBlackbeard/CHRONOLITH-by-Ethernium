@@ -20,7 +20,7 @@ Continuity is now structured into three specialized editions:
 
 **Continuity** is a professional-grade synchronization framework designed to protect the logical lineage of your software during AI-to-Human and AI-to-AI handoffs. It ensures that development intent, architectural decisions, and tactical context are never lost.
 
-## ðŸ¢ Choose Your Edition
+## ¢ Choose Your Edition
 
 [![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-lite/)
 
@@ -160,7 +160,7 @@ This framework is a specialized extraction from that ecosystem, refined and hard
 
 ---
 
-## ðŸ·ï¸ Keywords
+## ·ï¸ Keywords
 `context-management`, `ai-memory`, `rag-framework`, `project-continuity`, `decision-logging`, `software-governance`
 
 ---
