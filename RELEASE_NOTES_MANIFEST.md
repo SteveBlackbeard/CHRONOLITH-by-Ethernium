@@ -3,6 +3,12 @@
 </p>
 
 # 🏛️ Release: Continuity Legacy v2.1.0 (Evolution)
+
+#### Languages
+[![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_es.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/RELEASE_NOTES_MANIFEST.md) [![JA](https://img.shields.io/badge/JA-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_ja.md) [![ZH](https://img.shields.io/badge/ZH-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_zh.md) [![RU](https://img.shields.io/badge/RU-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_ru.md) [![FR](https://img.shields.io/badge/FR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_fr.md) [![IT](https://img.shields.io/badge/IT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_it.md) [![DE](https://img.shields.io/badge/DE-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_de.md) [![PT](https://img.shields.io/badge/PT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_pt.md)
+
+[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/) [![Tests](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/continuity.yml/badge.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/continuity.yml) [![Global Parity](https://img.shields.io/badge/Global%20Parity-v2.1.0-green)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/continuity.yml) [![Stars](https://img.shields.io/github/stars/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium?style=social)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
+
 *Status: Production-Hardened Global Release*
 
 ## 💎 The Quantum Leap (v2.1.0)
