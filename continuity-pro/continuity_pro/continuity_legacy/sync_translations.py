@@ -30,7 +30,6 @@ TRANSLATIONS = {
         "feat_global": "**Global Awareness**: Full documentation and CLI support in 9 languages.",
         "feat_diamond": "**Diamond Sanitization**: Deep purge of encoding errors and mojibake.",
         "omega_section_title": "Omega Edition: Cognitive Insight",
-        "in_dev": "(In Development)",
         "omega_text": "The **Omega edition** is our Enterprise-grade Tier. It provides a visual, interactive decision lineage and semantic impact analysis using Merkle DNA proof-of-state.",
         "quality_title": "Quality Flow",
         "quality_steps": ["Intent Capture: Documenting the 'Why'.", "Parity Check: Validating the ecosystem.", "Crystallization: Synthesizing the Merkle Root.", "DNA Synthesis: Updating nucleotides."],
@@ -53,7 +52,6 @@ TRANSLATIONS = {
         "feat_global": "**Conciencia Global**: Documentación completa y soporte CLI en 9 idiomas.",
         "feat_diamond": "**Sanitización Diamante**: Purga profunda de errores de codificación y mojibake.",
         "omega_section_title": "Edición Omega: Perspectiva Cognitiva",
-        "in_dev": "(En Desarrollo)",
         "omega_text": "La **edición Omega** es nuestro nivel de grado empresarial. Proporciona un linaje de decisión visual e interactivo y análisis de impacto semántico con pruebas de estado Merkle.",
         "quality_title": "Flujo de Calidad",
         "quality_steps": ["Captura de Intención: Documentar el 'Por qué'.", "Verificación de Paridad: Validar el ecosistema.", "Cristalización: Sintetizar el Merkle Root.", "Síntesis de ADN: Actualizar nucleótidos."],
@@ -168,6 +166,17 @@ def generate_localized_readme(lang, edition_name, version, is_root):
     
     badge = f"![Version](https://img.shields.io/badge/version-{version}-blue.svg)"
     
+    # Version-Aware Content Filtering (Purity 1.3.1)
+    is_lite_only = (version == "1.3.1")
+    
+    tiers_body = f"- {t['lite_desc']}"
+    if not is_lite_only:
+        tiers_body += f"\n- {t['pro_desc']}\n- {t['omega_desc']}"
+        
+    omega_section = ""
+    if not is_lite_only:
+        omega_section = f"\n---\n\n## {t['omega_section_title']}\n{t['omega_text']}\n\n![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)"
+    
     # Compose Full Body
     lines = [
         f"# {title}",
@@ -176,11 +185,10 @@ def generate_localized_readme(lang, edition_name, version, is_root):
         f"\n#### {t['languages_title']}\n{l_ribbon}",
         f"\n---\n\n{t['sync_note']}\n\n{t['overview']}",
         f"\n---\n\n## {t['tiers_title']}",
-        f"- {t['lite_desc']}\n- {t['pro_desc']}\n- {t['omega_desc']}",
+        tiers_body,
         f"\n---\n\n## {t['features_title']}",
         f"- {t['feat_metabolism']}\n- {t['feat_dna']}\n- {t['feat_cognitive']}\n- {t['feat_global']}\n- {t['feat_diamond']}",
-        f"\n---\n\n## {t['omega_section_title']} *<sub><sup>{t['in_dev']}</sup></sub>*",
-        f"{t['omega_text']}\n\n![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)",
+        omega_section,
         f"\n---\n\n## {t['quality_title']}",
         "\n".join([f"{i+1}. {step}" for i, step in enumerate(t['quality_steps'])]),
         f"\n---\n*Continuity: {t['tagline']}*",
@@ -196,25 +204,36 @@ def generate_localized_release(lang, version):
     title = f"Official Stable Release v{version} - {t['footer_brand'].split(': ')[1]}"
     
     # Navigation Ribbons (Full URLs for GitHub Release compatibility)
-    v_ribbon = (f"[![LITE](https://img.shields.io/badge/Edition-LITE-black)]({base_url}continuity-lite/) "
-                f"[![PRO](https://img.shields.io/badge/Edition-PRO-black)]({base_url}continuity/) "
-                f"[![OMEGA](https://img.shields.io/badge/Edition-OMEGA-black)]({base_url}continuity-omega/)")
+    # Filter Ribbons for 1.3.1
+    is_lite_only = (version == "1.3.1")
+    v_ribbon = f"[![LITE](https://img.shields.io/badge/Edition-LITE-black)]({base_url}continuity-lite/) "
+    if not is_lite_only:
+        v_ribbon += (f"[![PRO](https://img.shields.io/badge/Edition-PRO-black)]({base_url}continuity/) "
+                     f"[![OMEGA](https://img.shields.io/badge/Edition-OMEGA-black)]({base_url}continuity-omega/)")
+    
     l_ribbon = ""
     for l in LANG_CODES:
         link = f"{base_url}RELEASE_NOTES_MANIFEST.md" if l == "en" else f"{base_url}OTHER_LANGUAGES/RELEASE_v{version}_{l}.md"
         l_ribbon += f"[![{l.upper()}](https://img.shields.io/badge/{l.upper()}-white)]({link}) "
     
+    tiers_body = f"- {t['lite_desc']}"
+    if not is_lite_only:
+        tiers_body += f"\n- {t['pro_desc']}\n- {t['omega_desc']}"
+        
+    omega_section = ""
+    if not is_lite_only:
+        omega_section = f"\n---\n\n## {t['omega_section_title']}\n{t['omega_text']}\n\n![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)"
+
     lines = [
         f"# {title}",
         f"\n#### {t['editions_title']}\n{v_ribbon}",
         f"\n#### {t['languages_title']}\n{l_ribbon}",
         f"\n---\n\n{t['overview']}",
         f"\n---\n\n## {t['tiers_title']}",
-        f"- {t['lite_desc']}\n- {t['pro_desc']}\n- {t['omega_desc']}",
+        tiers_body,
         f"\n---\n\n## {t['features_title']}",
         f"- {t['feat_metabolism']}\n- {t['feat_dna']}\n- {t['feat_cognitive']}\n- {t['feat_global']}\n- {t['feat_diamond']}",
-        f"\n---\n\n## {t['omega_section_title']} *<sub><sup>{t['in_dev']}</sup></sub>*",
-        f"{t['omega_text']}\n\n![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)",
+        omega_section,
         f"\n---\n\n## {t['quality_title']}",
         "\n".join([f"{i+1}. {step}" for i, step in enumerate(t['quality_steps'])]),
         f"\n---\n*Continuity: {t['tagline']}*",

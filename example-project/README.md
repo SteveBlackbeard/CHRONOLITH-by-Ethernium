@@ -1,21 +1,28 @@
-# Example Project: 30-Second Verification
+# 🏛️ Example Project: 30-Second Verification
 
-This directory is an isolated sandbox pre-configured with **Continuity Legacy**. It already has a simulated memory core, context files, and state management logic.
+Este directorio es un sandbox aislado pre-configurado con **Continuity Legacy**. Contiene un núcleo de memoria simulado, archivos de contexto y lógica de gestión de estado.
 
-Use it to verify that everything works before trying it in your actual codebase.
+## 🏆 El Valor de la Continuidad (Escenario Real)
+¿Quieres ver cómo este flujo de trabajo salva el día en un refactor masivo de una gran empresa? Lee el escenario de handoff humano-IA:
+> 📖 **[Deep Narrative: The Daily Handoff Scenario](./DAILY_HANDOFF_SCENARIO.md)**
 
-> 📖 **Deep Narrative**: Want to see how this workflow saves the day in a massive enterprise refactoring process? Read the [Daily Human-AI Handoff Scenario](./DAILY_HANDOFF_SCENARIO.md).
+---
 
-## 🚀 How to use this example
+## 🚀 Cómo usar este ejemplo
 
-1. Make sure you are inside this directory:
+1. **Entrar al directorio**:
    ```bash
    cd example-project
    ```
 
-2. Run the DNA Guardian. It will scan the configuration, analyze the memory core, and produce the cognitive summary:
+2. **Ejecutar el Guardián de ADN**: Escaneará la configuración, analizará el núcleo de memoria y producirá el resumen cognitivo:
    ```bash
    continuity-lite
    ```
 
-3. Open `STATE.json` or `.continuity/LIVE_HANDOFF.md`, modify something, and run `continuity-lite` again. Notice how the DNA Merkle Tree shifts to capture the new iteration.
+3. **Demostración de Paridad**: 
+   Abre `STATE.json` o `.continuity/LIVE_HANDOFF.md`, modifica algo (ej. cambia una versión o una decisión) y vuelve a ejecutar `continuity-lite`. Observa cómo el Merkle Tree del ADN se desplaza para capturar la nueva iteración.
+
+---
+> [![Parity Status](https://img.shields.io/badge/DNA--Parity-Validated-green)](./.continuity/)
+> *“Protegiendo el linaje lógico de su software durante AI-to-Human handoffs.”* 🏛️💎🦾

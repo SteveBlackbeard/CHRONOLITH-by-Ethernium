@@ -3,12 +3,12 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "continuity-lite"
+name = "continuity-legacy-lite"
 version = "2.1.0"
 authors = [
   { name = "SteveBlackbeard" },
 ]
-description = "A lightweight AI continuity framework for context handoff."
+description = "Continuity Legacy (Lite): A professional AI continuity framework for zero-friction context handoffs."
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
