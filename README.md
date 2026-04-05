@@ -16,7 +16,7 @@
 
 Continuity is now structured into three specialized editions:
 
-> **â€œGit for cognitionâ€ â€” but with structured memory, decision tracking, and operational handoff.**
+> **“Git for cognition” — but with structured memory, decision tracking, and operational handoff.**
 
 **Continuity** is a professional-grade synchronization framework designed to protect the logical lineage of your software during AI-to-Human and AI-to-AI handoffs. It ensures that development intent, architectural decisions, and tactical context are never lost.
 
@@ -36,7 +36,7 @@ _Advanced RAG, cognitive mapping, and proactive impact analysis.</sub></p_
 
 ---
 
-## ðŸ§  The Problem vs. The Solution
+## 🧠 The Problem vs. The Solution
 
 Modern AI workflows break in one critical area: **Context resets between sessions**. Agents lose identity, decisions are not persisted structurally, and handoffs are fragile.
 
@@ -48,7 +48,7 @@ Context â†’ State â†’ Decisions â†’ Timeline â†’ Handoff
 
 ## â±ï¸ 30-Second Quickstart (The Onboarding Experience)
 
-> **`example-project/`** is a pre-configured sandbox included in this repository. It simulates a real project already managed by Continuity Legacy â€” complete with `PROJECT_CONTEXT.md`, `STATE.json`, `ROADMAP.md`, and a `.continuity/` memory core. Use it to experience the full DNA validation flow in under 30 seconds, without touching your own codebase.
+> **`example-project/`** is a pre-configured sandbox included in this repository. It simulates a real project already managed by Continuity Legacy — complete with `PROJECT_CONTEXT.md`, `STATE.json`, `ROADMAP.md`, and a `.continuity/` memory core. Use it to experience the full DNA validation flow in under 30 seconds, without touching your own codebase.
 
 If you want to see **Continuity Legacy** in action right now:
 
@@ -61,11 +61,11 @@ If you want to see **Continuity Legacy** in action right now:
     # Run the DNA Guardian (Lite Mode)
     python ../continuity-lite/run_continuity_lite.py
     ```
-3.  **Expected Outcome**: You will see a green `[âœ”] Parity Confirmed`. This simulates a successful handoff where the AI understands the 100% architectural state.
+3.  **Expected Outcome**: You will see a green `[✔ Parity Confirmed`. This simulates a successful handoff where the AI understands the 100% architectural state.
 
 ---
 
-## ðŸš€ Quick Installation
+## 🚀 Quick Installation
 
 ```bash
 # 1. Clone the repository
@@ -82,7 +82,7 @@ continuity-lite --hook
 
 ---
 
-## ðŸ§© Core Infrastructure (The Cognitive Core)
+## 🧩 Core Infrastructure (The Cognitive Core)
 
 Continuity organizes project intelligence into structured nodes:
 
@@ -122,14 +122,14 @@ graph TD
 
 ---
 
-### ðŸ§  Omega Edition: Cognitive Insight *(In Development)*
+### 🧠 Omega Edition: Cognitive Insight *(In Development)*
 The **Omega edition** is our Enterprise-grade Tier. It provides a visual, interactive decision lineage and semantic impact analysis to prevent architectural drift.
 
 *OMEGA DASHBOARD VISUALIZATION (In Development)*
 
 ---
 
-## ðŸ§¬ Guardian DNA (Technical Specification)
+## 🧬 Guardian DNA (Technical Specification)
 
 **Continuity Legacy** uses a deterministic "Nucleotide" hashing algorithm to generate a project's unique identity. This ensures that any "Semantic Drift" or "Silent Mutation" in your decisions or context is detected instantly.
 
@@ -140,7 +140,7 @@ The **Omega edition** is our Enterprise-grade Tier. It provides a visual, intera
 
 ---
 
-## ðŸ§¬ Positioning (What This IS)
+## 🧬 Positioning (What This IS)
 
 *   **NOT** a simple note system or a chatbot.
 *   **IS** a foundational layer for **persistent AI cognition**.
@@ -148,13 +148,13 @@ The **Omega edition** is our Enterprise-grade Tier. It provides a visual, intera
 
 ---
 
-## ðŸŒŒ Origins: The Ethernium Heritage
+## 🌌 Origins: The Ethernium Heritage
 
-**Continuity Legacy** was born out of necessity within the **Ethernium Ecosystem**â€”a vast, evolving frontier of cognitive computing and autonomous systems. In the depths of Ethernium, where session resets occur millions of times, the risk of "Semantic Entropy" was too high. We needed a way to ensure that the *soul* of a project transitioned from one cognitive instance to the next without loss.
+**Continuity Legacy** was born out of necessity within the **Ethernium Ecosystem**—a vast, evolving frontier of cognitive computing and autonomous systems. In the depths of Ethernium, where session resets occur millions of times, the risk of "Semantic Entropy" was too high. We needed a way to ensure that the *soul* of a project transitioned from one cognitive instance to the next without loss.
 
 This framework is a specialized extraction from that ecosystem, refined and hardened for standalone, production-ready use. By using Continuity, you are adopting a piece of the Ethernium philosophy: **Perpetual state, unbroken lineage, and absolute cognitive integrity.**
 
-> "Architecture is the memory of the system. Without Continuity, the system is amnesiac." â€” *Ethernium Governance Protocol v4.2*
+> "Architecture is the memory of the system. Without Continuity, the system is amnesiac." — *Ethernium Governance Protocol v4.2*
 
 ---
 
@@ -168,5 +168,34 @@ This framework is a specialized extraction from that ecosystem, refined and hard
 
 ---
 
+---
 
+## 🌌 The Future: Omega Dashboard 3D & Advanced Logic
 
+### 🏛️ The Parity Cycle (Flow Diagram)
+Continuity ensures that every human-AI handoff is backed by a deterministic validation loop:
+
+```mermaid
+graph LR
+    A[Human Context] --> B{DNA Synthesis}
+    B --> C[Merkle Root Verification]
+    C -- Matched --> D[Secure Operation]
+    C -- Drift Detected --> E[Self-Healing & Audit]
+    E --> B
+```
+
+### ⚙️ Algorithm: DNA Nucleotide Guardian
+The core logic in `doc_parity_check.py` uses a weighted hashing system to ensure that structural metadata (DNA) remains invariant across editions:
+
+```python
+def generate_nucleotide_hash(file_data):
+    # Weighted normalization of markdown artifacts
+    normalized = normalize_whitespace_and_bom(file_data)
+    return hashlib.sha256(normalized).hexdigest()
+```
+
+### 🛰️ Omega Dashboard: 3D Cognitive Architecture
+The upcoming **Omega Dashboard** (React-based) will feature a **3D Force-Graph View** of the entire repository ecosystem.
+- **Rotatable Topology**: Manipulate the DNA nexus in 3D space with your cursor.
+- **Node Interaction**: Click on "Nucleotides" (files) to inspect decision logs and health status.
+- **Holographic HUD**: Real-time visual feedback on project parity and semantic drift.
