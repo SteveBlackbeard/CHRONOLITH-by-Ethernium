@@ -1,74 +1,51 @@
-# Continuity Legacy v2.1.0: Marco de Continuidad Global
+# CONTINUITY LEGACY: Root Portal (Infraestructura Global)
+![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)
 
-#### Languages
-[![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_es.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/RELEASE_NOTES_MANIFEST.md) [![JA](https://img.shields.io/badge/JA-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_ja.md) [![ZH](https://img.shields.io/badge/ZH-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_zh.md) [![RU](https://img.shields.io/badge/RU-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_ru.md) [![FR](https://img.shields.io/badge/FR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_fr.md) [![IT](https://img.shields.io/badge/IT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_it.md) [![DE](https://img.shields.io/badge/DE-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_de.md) [![PT](https://img.shields.io/badge/PT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_pt.md)
+#### Ediciones
+[![LITE](https://img.shields.io/badge/Edition-LITE-black)](./continuity-lite/) [![PRO](https://img.shields.io/badge/Edition-PRO-black)](./continuity/) [![OMEGA](https://img.shields.io/badge/Edition-OMEGA-black)](./continuity-omega/)
 
-[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium) [![Global Parity](https://img.shields.io/badge/Global%20Parity-Synchronized-green)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/global_sync.yml) [![Stars](https://img.shields.io/github/stars/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium?style=social)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
-
-<p align="center">
-<a href="https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium">
-<img width="1480" height="740" alt="ethernium banne3r" src="https://github.com/user-attachments/assets/04621f27-e407-4169-82e9-8ea6c08d4bb5" />
-</a>
-</p>
-
-**Continuity** es un marco de sincronización de grado profesional diseñado para proteger el linaje lógico de su software durante los traspasos IA-Humano e IA-IA. Asegura que la intención de desarrollo, las decisiones arquitectónicas y el contexto táctico nunca se pierdan.
+#### Idiomas
+[![ES](https://img.shields.io/badge/ES-white)](./OTHER_LANGUAGES/README_es.md) [![JA](https://img.shields.io/badge/JA-white)](./OTHER_LANGUAGES/README_ja.md) [![RU](https://img.shields.io/badge/RU-white)](./OTHER_LANGUAGES/README_ru.md) [![ZH](https://img.shields.io/badge/ZH-white)](./OTHER_LANGUAGES/README_zh.md) [![FR](https://img.shields.io/badge/FR-white)](./OTHER_LANGUAGES/README_fr.md) [![IT](https://img.shields.io/badge/IT-white)](./OTHER_LANGUAGES/README_it.md) [![DE](https://img.shields.io/badge/DE-white)](./OTHER_LANGUAGES/README_de.md) [![PT](https://img.shields.io/badge/PT-white)](./OTHER_LANGUAGES/README_pt.md) [![EN](https://img.shields.io/badge/EN-white)](./README.md) 
 
 ---
 
-## 🏢 Elige tu Edición
+*(Sincronización técnicaizada para Continuity Legacy)*
 
-[![Continuity Legacy Lite](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/assets/banners/LEGACYlite.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/tree/main/continuity-lite)
-<p align="center"><sub><b>Sincronización local minimalista con Síntesis de ADN para traspasos sin pérdida.</b>: Sincronización local minimalista con Síntesis de ADN para traspasos sin pérdida.</sub></p>
-
-[![Continuity Legacy Pro](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/assets/banners/LEGACYPRO.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/tree/main/continuity-pro)
-<p align="center"><sub><b>Guardia fronterizo de grado industrial con auditorías de seguridad y sincronización.</b>: Guardia fronterizo de grado industrial con auditorías de seguridad y sincronización.</sub></p>
-
-[![Continuity Legacy Omega](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/tree/main/continuity-omega)
-<p align="center"><sub><b>RAG avanzado, mapas cognitivos y análisis de impacto proactivo.</b>: RAG avanzado, mapas cognitivos y análisis de impacto proactivo.</sub></p>
+Continuity Legacy es un marco de sincronización de grado profesional diseñado para proteger el linaje lógico de su software. Nacido del **Ecosistema Ethernium**, asegura que la intención de desarrollo y las decisiones arquitectónicas se preserven en todas las entregas.
 
 ---
 
-## 🚀 Instalación Rápida
-
-```bash
-# Run the DNA validation cycle
-continuity-lite
-```
+## El Ecosistema de Triple Nivel
+- **Lite**: Guardián de Cero Fricción. Optimizado para velocidad y uso diario del desarrollador.
+- **Pro**: Motor Táctico. Guardia fronterizo de grado industrial con auditorías de seguridad y Merkle DNA.
+- **Omega**: Oráculo Empresarial. RAG avanzado, mapas cognitivos y análisis de entropía proactivo.
 
 ---
 
-## 🔍 El Flujo de Calidad (El Guardia Fronterizo)
-
-```mermaid
-graph TD
-    A[Dev Intent] --> B{Parity Check}
-    B -- Fail --> C[Self-Healing / Fix]
-    B -- Pass --> D{Impact Analysis}
-    D -- Alert --> E[Reconcile / Override]
-    D -- Safe --> F[DNA Synthesis]
-    E --> F
-    F --> G[Final Sync & Push]
-```
+## Características Clave (Sinfonía Intelectual)
+- **Optimización del Metabolismo**: Carga perezosa implementada. Inicio instantáneo de CLI (<100ms).
+- **Síntesis de ADN**: Protección criptográfica basada en Merkle Tree (SHA-256).
+- **Gobernanza Cognitiva**: Monitorización de entropía y cristalización de ADN.
+- **Conciencia Global**: Documentación completa y soporte CLI en 9 idiomas.
+- **Sanitización Diamante**: Purga profunda de errores de codificación y mojibake.
 
 ---
 
-### 🧠 RAG avanzado, mapas cognitivos y análisis de impacto proactivo. *(In development)*
-The **Omega edition** is our Enterprise-grade Tier. It provides a visual, interactive decision lineage and semantic impact analysis to prevent architectural drift.
+## Edición Omega: Perspectiva Cognitiva *<sub><sup>(En Desarrollo)</sup></sub>*
+La **edición Omega** es nuestro nivel de grado empresarial. Proporciona un linaje de decisión visual e interactivo y análisis de impacto semántico con pruebas de estado Merkle.
 
-*OMEGA DASHBOARD VISUALIZATION (In Development)*
-
----
-
-## 🌌 Orígenes: La Herencia de Ethernium
-
-**Continuity Legacy** nació por necesidad dentro del **Ecosistema Ethernium**—una vasta frontera en evolución de computación cognitiva y sistemas autónomos. A medida que Ethernium creció en complejidad, la necesidad de preservar estado, intención y linaje arquitectónico se volvió primordial.
-
-Este marco es una extracción especializada de ese ecosistema, refinada y endurecida para uso autónomo y listo para producción. Al usar Continuity, está adoptando una pieza de la filosofía Ethernium: *estado perpetuo, linaje inquebrantable e integridad cognitiva.*
+![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)
 
 ---
 
-## 🏷️ Palabras Clave
-`context-management`, `ai-memory`, `rag-framework`, `project-continuity`, `decision-logging`, `software-governance`
+## Flujo de Calidad
+1. Captura de Intención: Documentar el 'Por qué'.
+2. Verificación de Paridad: Validar el ecosistema.
+3. Cristalización: Sintetizar el Merkle Root.
+4. Síntesis de ADN: Actualizar nucleótidos.
 
 ---
 *Continuity: Protegiendo el linaje lógico de su software.*
+
+---
+* CONTINUITY LEGACY: Infraestructura Global - Version 2.1.0 - Generated 2026-04-05T03:51:24.737022Z *

@@ -1,5 +1,11 @@
 # Continuity Legacy v2.1.0: Ethernium Evolution Framework
 
+<!-- DNA_CRYSTAL -->
+> [!IMPORTANT]
+> **DNA CRYSTAL**: `v2.1.1-77326b6b409dda4a`
+> [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-77326b6b-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
+
+
 #### Languages
 [![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v1.3.1_es.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/RELEASE_NOTES_MANIFEST.md) [![JA](https://img.shields.io/badge/JA-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v1.3.1_ja.md) [![ZH](https://img.shields.io/badge/ZH-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v1.3.1_zh.md) [![RU](https://img.shields.io/badge/RU-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v1.3.1_ru.md) [![FR](https://img.shields.io/badge/FR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v1.3.1_fr.md) [![IT](https://img.shields.io/badge/IT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v1.3.1_it.md) [![DE](https://img.shields.io/badge/DE-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v1.3.1_de.md) [![PT](https://img.shields.io/badge/PT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v1.3.1_pt.md)
 
@@ -40,6 +46,25 @@ Modern AI workflows break in one critical area: **Context resets between session
 ```text
 Context → State → Decisions → Timeline → Handoff
 ```
+
+## ⏱️ 30-Second Quickstart (The Onboarding Experience)
+
+> **`example-project/`** is a pre-configured sandbox included in this repository. It simulates a real project already managed by Continuity Legacy — complete with `PROJECT_CONTEXT.md`, `STATE.json`, `ROADMAP.md`, and a `.continuity/` memory core. Use it to experience the full DNA validation flow in under 30 seconds, without touching your own codebase.
+
+If you want to see **Continuity Legacy** in action right now:
+
+1.  **Navigate to the example environment**:
+    ```bash
+    cd example-project
+    ```
+2.  **Verify the DNA Parity**:
+    ```bash
+    # Run the DNA Guardian (Lite Mode)
+    python ../continuity-lite/run_continuity_lite.py
+    ```
+3.  **Expected Outcome**: You will see a green `[✔] Parity Confirmed`. This simulates a successful handoff where the AI understands the 100% architectural state.
+
+---
 
 ## 🚀 Quick Installation
 
@@ -105,6 +130,17 @@ The **Omega edition** is our Enterprise-grade Tier. It provides a visual, intera
 
 ---
 
+## 🧬 Guardian DNA (Technical Specification)
+
+**Continuity Legacy** uses a deterministic "Nucleotide" hashing algorithm to generate a project's unique identity. This ensures that any "Semantic Drift" or "Silent Mutation" in your decisions or context is detected instantly.
+
+- **Nucleotide Hashing**: Each canonical document (`.md`, `.json`) is processed using **SHA-256** (or MD5 in Lite mode) to generate a unique segment hash.
+- **DNA Synthesis**: The system aggregates these segments into a hierarchical **Merkle Tree**.
+- **The Merkle Root**: A single 64-character hash representing the **Absolute State** of your project. If the Root matches, the lineage is unbroken.
+- **Inertia Detection**: Measures the "Age of Context" to warn you when your project's roadmap needs a refresh.
+
+---
+
 ## 🧬 Positioning (What This IS)
 
 *   **NOT** a simple note system or a chatbot.
@@ -115,9 +151,13 @@ The **Omega edition** is our Enterprise-grade Tier. It provides a visual, intera
 
 ## 🌌 Origins: The Ethernium Heritage
 
-**Continuity Legacy** was born out of necessity within the **Ethernium Ecosystem**—a vast, evolving frontier of cognitive computing and autonomous systems. As Ethernium grew in complexity, the need to preserve state, intent, and architectural lineage became paramount.
+**Continuity Legacy** was born out of necessity within the **Ethernium Ecosystem**—a vast, evolving frontier of cognitive computing and autonomous systems. In the depths of Ethernium, where session resets occur millions of times, the risk of "Semantic Entropy" was too high. We needed a way to ensure that the *soul* of a project transitioned from one cognitive instance to the next without loss.
 
-This framework is a specialized extraction from that ecosystem, refined and hardened for standalone, production-ready use. By using Continuity, you are adopting a piece of the Ethernium philosophy: *perpetual state, unbroken lineage, and cognitive integrity.*
+This framework is a specialized extraction from that ecosystem, refined and hardened for standalone, production-ready use. By using Continuity, you are adopting a piece of the Ethernium philosophy: **Perpetual state, unbroken lineage, and absolute cognitive integrity.**
+
+> "Architecture is the memory of the system. Without Continuity, the system is amnesiac." — *Ethernium Governance Protocol v4.2*
+
+---
 
 ---
 

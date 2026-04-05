@@ -1,85 +1,48 @@
-# Continuity Legacy v2.1.0: グローバル継続性フレームワーク
+# Official Stable Release v2.1.0 - グローバル・インフラストラクチャ
 
-#### Languages
-[![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_es.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/RELEASE_NOTES_MANIFEST.md) [![JA](https://img.shields.io/badge/JA-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_ja.md) [![ZH](https://img.shields.io/badge/ZH-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_zh.md) [![RU](https://img.shields.io/badge/RU-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_ru.md) [![FR](https://img.shields.io/badge/FR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_fr.md) [![IT](https://img.shields.io/badge/IT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_it.md) [![DE](https://img.shields.io/badge/DE-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_de.md) [![PT](https://img.shields.io/badge/PT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_pt.md)
+#### エディション
+[![LITE](https://img.shields.io/badge/Edition-LITE-black)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-lite/) [![PRO](https://img.shields.io/badge/Edition-PRO-black)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity/) [![OMEGA](https://img.shields.io/badge/Edition-OMEGA-black)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-omega/)
 
-[![Version](https://img.shields.io/badge/version-1.3.1-blue.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium) [![Global Parity](https://img.shields.io/badge/Global%20Parity-Synchronized-green)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/global_sync.yml) [![Stars](https://img.shields.io/github/stars/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium?style=social)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
-
-<p align="center">
-<a href="https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium">
-<img width="1480" height="740" alt="ethernium banne3r" src="https://github.com/user-attachments/assets/04621f27-e407-4169-82e9-8ea6c08d4bb5" />
-</a>
-</p>
-
-
+#### 言語
+[![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_es.md) [![JA](https://img.shields.io/badge/JA-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ja.md) [![RU](https://img.shields.io/badge/RU-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ru.md) [![ZH](https://img.shields.io/badge/ZH-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_zh.md) [![FR](https://img.shields.io/badge/FR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_fr.md) [![IT](https://img.shields.io/badge/IT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_it.md) [![DE](https://img.shields.io/badge/DE-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_de.md) [![PT](https://img.shields.io/badge/PT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_pt.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/README.md) 
 
 ---
 
-## 🏢 エディションを選択
-
-[![Continuity Legacy Lite](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/assets/banners/LEGACYlite.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/tree/main/continuity-lite)
-<p align="center"><sub><b>ロスゼロのハンドオフのためのDNA合成を備えたミニマリストのローカル同期。</b>: ロスゼロのハンドオフのためのDNA合成を備えたミニマリストのローカル同期。</sub></p>
-
-[![Continuity Legacy Pro](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/assets/banners/LEGACYPRO.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/tree/main/continuity-pro)
-<p align="center"><sub><b>セキュリティ監査とグローバル同期を備えた産業用グレードの国境警備。</b>: セキュリティ監査とグローバル同期を備えた産業用グレードの国境警備。</sub></p>
-
-[![Continuity Legacy Omega](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/tree/main/continuity-omega)
-<p align="center"><sub><b>高度なRAG、認知マッピング、およびプロアクティブな影響分析。</b>: 高度なRAG、認知マッピング、およびプロアクティブな影響分析。</sub></p>
+Continuity Legacy は、ソフトウェアの論理的な系統を保護するために設計されたプロフェッショナル グレードの同期フレームワークです。**Ethernium エコシステム**から誕生し、開発意図とアーキテクチャ上の決定がすべてのハンドオフで確実に保持されるようにします。
 
 ---
 
-## 🚀 クイックインストール
-
-```bash
-# 1. Clone repository
-git clone https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium.git
-cd CONTINUITY-LEGACY-by-Ethernium
-# 2. Install Lite Edition
-pip install -e continuity-lite
-# 3. Setup Hook
-python continuity-lite/run_continuity_lite.py --hook
-```
+## 3 層エコシステム
+- **Lite**: ゼロフリクション・ガーディアン。速度と日常的な開発者の使用に最適化されています。
+- **Pro**: タクティカル・エンジン。セキュリティと同期監査を備えた産業グレードの境界ガード。
+- **Omega**: エンタープライズ・オラクル。高度な RAG、認知マップ、および事前の影響分析。
 
 ---
 
-## ⚡ 最小限の使用（5行スタート）
-
-```python
-python continuity-lite/run_continuity_lite.py
-```
-
----
-
-## 🔍 品質フロー（ボーダーガード）
-
-```mermaid
-graph TD
-    A[Dev Intent] --> B{Parity Check}
-    B -- Fail --> C[Self-Healing / Fix]
-    B -- Pass --> D{Impact Analysis}
-    D -- Alert --> E[Reconcile / Override]
-    D -- Safe --> F[DNA Synthesis]
-    E --> F
-    F --> G[Final Sync & Push]
-```
+## 主な機能 (知的シンフォニー)
+- **代謝の最適化**: すべてのエディションで遅延読み込みを実装。CLI の即時起動 (<100ms)。
+- **DNA 合成**: 論理的系統を保護するための `PROJECT_DNA.md` の自動生成。
+- **認知インサイト (Omega)**: インタラクティブな意思決定マップと影響アラート。
+- **グローバル・アウェアネス**: 9 言語の完全なドキュメントと CLI サポート。
+- **ダイヤモンド・サニタイズ**: エンコード エラーと文字化けの徹底的なパージ。
 
 ---
 
-### 🧠 高度なRAG、認知マッピング、およびプロアクティブな影響分析。 *(In development)*
-The **Omega edition** is our Enterprise-grade Tier. It provides a visual, interactive decision lineage and semantic impact analysis to prevent architectural drift.
+## Omega エディション: 認知的洞察 *<sub><sup>(開発中)</sup></sub>*
+**Omega エディション**は、当社のエンタープライズ グレードのティアです。アーキテクチャのドリフトを防ぐために、視覚的でインタラクティブな意思決定の系統と意味的な影響分析を提供します。
 
-*OMEGA DASHBOARD VISUALIZATION (In Development)*
-
----
-
-## 🌌 起源：Etherniumの遺産
+![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)
 
 ---
 
----
+## 品質フロー
+1. 意図の把握：「なぜ」を文書化する。
+2. パリティチェック：エコシステムを検証する。
+3. 影響分析：意味的な矛盾を検出する。
+4. DNA合成：コアヌクレオチドの更新。
 
-## 🏷️ キーワード
-`context-management`, `ai-memory`, `rag-framework`, `project-continuity`, `decision-logging`, `software-governance`
+---
+*Continuity: ソフトウェアの論理的系統を保護します。*
 
 ---
-*Continuity: ソフトウェアの論理的な系譜を保護します。*
+* CONTINUITY LEGACY: グローバル・インフラストラクチャ - Version 2.1.0 - Generated 2026-04-05T03:51:24.743505Z *

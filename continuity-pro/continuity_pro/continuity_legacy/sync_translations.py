@@ -25,15 +25,15 @@ TRANSLATIONS = {
         "omega_desc": "**Omega**: Enterprise Oracle. Advanced RAG, cognitive maps, and proactive impact analysis.",
         "features_title": "Key Features (Intellectual Symphony)",
         "feat_metabolism": "**Metabolism Optimization**: Lazy Loading implemented in all editions. Instant CLI startup (<100ms).",
-        "feat_dna": "**DNA Synthesis**: Automated generation of `PROJECT_DNA.md` to protect logical lineage.",
-        "feat_cognitive": "**Cognitive Insights (Omega)**: Interactive decision maps and impact alerts.",
+        "feat_dna": "**DNA Synthesis**: Merkle Tree-based cryptographic protection (SHA-256).",
+        "feat_cognitive": "**Cognitive Governance**: Entropy-aware volatility monitoring and DNA crystallization.",
         "feat_global": "**Global Awareness**: Full documentation and CLI support in 9 languages.",
         "feat_diamond": "**Diamond Sanitization**: Deep purge of encoding errors and mojibake.",
         "omega_section_title": "Omega Edition: Cognitive Insight",
         "in_dev": "(In Development)",
-        "omega_text": "The **Omega edition** is our Enterprise-grade Tier. It provides a visual, interactive decision lineage and semantic impact analysis to prevent architectural drift. This edition represents the pinnacle of professional context preservation.",
+        "omega_text": "The **Omega edition** is our Enterprise-grade Tier. It provides a visual, interactive decision lineage and semantic impact analysis using Merkle DNA proof-of-state.",
         "quality_title": "Quality Flow",
-        "quality_steps": ["Intent Capture: Documenting the 'Why'.", "Parity Check: Validating the ecosystem.", "Impact Analysis: Detecting contradictions.", "DNA Synthesis: Updating nucleotides."],
+        "quality_steps": ["Intent Capture: Documenting the 'Why'.", "Parity Check: Validating the ecosystem.", "Crystallization: Synthesizing the Merkle Root.", "DNA Synthesis: Updating nucleotides."],
         "footer_brand": "CONTINUITY LEGACY: Global Infrastructure"
     },
     "es": {
@@ -44,19 +44,19 @@ TRANSLATIONS = {
         "overview": "Continuity Legacy es un marco de sincronización de grado profesional diseñado para proteger el linaje lógico de su software. Nacido del **Ecosistema Ethernium**, asegura que la intención de desarrollo y las decisiones arquitectónicas se preserven en todas las entregas.",
         "tiers_title": "El Ecosistema de Triple Nivel",
         "lite_desc": "**Lite**: Guardián de Cero Fricción. Optimizado para velocidad y uso diario del desarrollador.",
-        "pro_desc": "**Pro**: Motor Táctico. Guardia fronterizo de grado industrial con auditorías de seguridad.",
-        "omega_desc": "**Omega**: Oráculo Empresarial. RAG avanzado, mapas cognitivos y análisis de impacto proactivo.",
+        "pro_desc": "**Pro**: Motor Táctico. Guardia fronterizo de grado industrial con auditorías de seguridad y Merkle DNA.",
+        "omega_desc": "**Omega**: Oráculo Empresarial. RAG avanzado, mapas cognitivos y análisis de entropía proactivo.",
         "features_title": "Características Clave (Sinfonía Intelectual)",
         "feat_metabolism": "**Optimización del Metabolismo**: Carga perezosa implementada. Inicio instantáneo de CLI (<100ms).",
-        "feat_dna": "**Síntesis de ADN**: Generación automática de `PROJECT_DNA.md` para proteger el linaje.",
-        "feat_cognitive": "**Perspectiva Cognitiva (Omega)**: Mapas de decisión interactivos y alertas de impacto.",
+        "feat_dna": "**Síntesis de ADN**: Protección criptográfica basada en Merkle Tree (SHA-256).",
+        "feat_cognitive": "**Gobernanza Cognitiva**: Monitorización de entropía y cristalización de ADN.",
         "feat_global": "**Conciencia Global**: Documentación completa y soporte CLI en 9 idiomas.",
         "feat_diamond": "**Sanitización Diamante**: Purga profunda de errores de codificación y mojibake.",
         "omega_section_title": "Edición Omega: Perspectiva Cognitiva",
         "in_dev": "(En Desarrollo)",
-        "omega_text": "La **edición Omega** es nuestro nivel de grado empresarial. Proporciona un linaje de decisión visual e interactivo y análisis de impacto semántico para prevenir la deriva arquitectónica.",
+        "omega_text": "La **edición Omega** es nuestro nivel de grado empresarial. Proporciona un linaje de decisión visual e interactivo y análisis de impacto semántico con pruebas de estado Merkle.",
         "quality_title": "Flujo de Calidad",
-        "quality_steps": ["Captura de Intención: Documentar el 'Por qué'.", "Verificación de Paridad: Validar el ecosistema.", "Análisis de Impacto: Detectar contradicciones.", "Síntesis de ADN: Actualizar nucleótidos."],
+        "quality_steps": ["Captura de Intención: Documentar el 'Por qué'.", "Verificación de Paridad: Validar el ecosistema.", "Cristalización: Sintetizar el Merkle Root.", "Síntesis de ADN: Actualizar nucleótidos."],
         "footer_brand": "CONTINUITY LEGACY: Infraestructura Global"
     },
     "ja": {
@@ -138,7 +138,7 @@ def get_universal_version(repo_root: Path) -> str:
     v_file = repo_root / "VERSION"
     if not v_file.exists(): v_file = repo_root.parent / "VERSION"
     if v_file.exists(): return v_file.read_text(encoding="utf-8").strip()
-    return "1.3.1"
+    return "2.1.0"
 
 def get_edition_name(root: Path) -> str:
     if (root / "continuity-lite").exists(): return "Root Portal"
@@ -193,7 +193,7 @@ def generate_localized_release(lang, version):
     # No base_path adjustment needed as these are standalone documents for GitHub Release links
     base_url = f"https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/"
     
-    title = f"Official Stable Release v1.3.1 - {t['footer_brand'].split(': ')[1]}"
+    title = f"Official Stable Release v{version} - {t['footer_brand'].split(': ')[1]}"
     
     # Navigation Ribbons (Full URLs for GitHub Release compatibility)
     v_ribbon = (f"[![LITE](https://img.shields.io/badge/Edition-LITE-black)]({base_url}continuity-lite/) "
@@ -244,7 +244,7 @@ def sync_all(repo_root: Path, auto_gen: bool):
             content = generate_localized_readme(lang, edition, version, is_root_dir)
             target_path.write_text(content, encoding="utf-8")
             
-        # 2. Update RELEASE_v1.3.1_lang.md (Only at root level sync)
+        # 2. Update RELEASE_v{version}_lang.md (Only at root level sync)
         if is_root_dir:
             release_path = lang_dir / f"RELEASE_v{version}_{lang}.md"
             if auto_gen:
