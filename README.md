@@ -20,15 +20,15 @@ Continuity is now structured into three specialized editions:
 
 **Continuity** is a professional-grade synchronization framework designed to protect the logical lineage of your software during AI-to-Human and AI-to-AI handoffs. It ensures that development intent, architectural decisions, and tactical context are never lost.
 
-## ¢ Choose Your Edition
+## 🏛️ Choose Your Edition
 
 [![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-lite/)
 
-_Minimalist local sync with DNA Synthesis for zero-loss handoffs.</sub></p>_
+_Minimalist local sync with DNA Synthesis for zero-loss handoffs.</sub></p_
 
 [![PRO](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYPRO.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-pro/)
 
-_Industrial-grade border guard with security audits and global synchronization.</sub></p>_
+_Industrial-grade border guard with security audits and global synchronization.</sub></p_
 
 [![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-omega/)
 
@@ -43,10 +43,10 @@ Modern AI workflows break in one critical area: **Context resets between session
 **Continuity Legacy** introduces a **persistent cognitive layer** that turns fragmented AI workflows into coherent, everlasting systems.
 
 ```text
-Context â†’ State â†’ Decisions â†’ Timeline â†’ Handoff
+Context → State → Decisions → Timeline → Handoff
 ```
 
-## â±ï¸ 30-Second Quickstart (The Onboarding Experience)
+## ⏱️ 30-Second Quickstart (The Onboarding Experience)
 
 > **`example-project/`** is a pre-configured sandbox included in this repository. It simulates a real project already managed by Continuity Legacy — complete with `PROJECT_CONTEXT.md`, `STATE.json`, `ROADMAP.md`, and a `.continuity/` memory core. Use it to experience the full DNA validation flow in under 30 seconds, without touching your own codebase.
 
@@ -61,7 +61,7 @@ If you want to see **Continuity Legacy** in action right now:
     # Run the DNA Guardian (Lite Mode)
     python ../continuity-lite/run_continuity_lite.py
     ```
-3.  **Expected Outcome**: You will see a green `[✔ Parity Confirmed`. This simulates a successful handoff where the AI understands the 100% architectural state.
+3.  **Expected Outcome**: You will see a green `[✔] Parity Confirmed`. This simulates a successful handoff where the AI understands the 100% architectural state.
 
 ---
 
@@ -76,7 +76,6 @@ cd CONTINUITY-LEGACY-by-Ethernium
 pip install -e continuity-lite
 
 # 3. Setup the DNA Guardian Entry Point
-# (Now verified: use direct command no matter where you are)
 continuity-lite --hook
 ```
 
@@ -92,20 +91,7 @@ Continuity organizes project intelligence into structured nodes:
 
 ---
 
-## âš¡ Minimal Usage (5-Line Start)
-
-```python
-# Just run the guardian in your terminal
-python continuity-lite/run_continuity_lite.py
-
-# Expected Output:
-# [*] CONTINUITY LEGACY Lite - DNA Validation
-# [] Parity Confirmed. Ready for safe handoff.
-```
-
----
-
-## 🔍 The Quality Flow (The Border Guard)
+## 🔍 The Quality Flow (The Border Guard)
 
 Continuity acts as a "Socratic Firewall" for your project. Here is how your design intent is protected:
 
@@ -122,51 +108,19 @@ graph TD
 
 ---
 
-### 🧠 Omega Edition: Cognitive Insight *(In Development)*
-The **Omega edition** is our Enterprise-grade Tier. It provides a visual, interactive decision lineage and semantic impact analysis to prevent architectural drift.
-
-*OMEGA DASHBOARD VISUALIZATION (In Development)*
-
----
-
 ## 🧬 Guardian DNA (Technical Specification)
 
-**Continuity Legacy** uses a deterministic "Nucleotide" hashing algorithm to generate a project's unique identity. This ensures that any "Semantic Drift" or "Silent Mutation" in your decisions or context is detected instantly.
+**Continuity Legacy** uses a deterministic "Nucleotide" hashing algorithm to generate a project's unique identity.
 
-- **Nucleotide Hashing**: Each canonical document (`.md`, `.json`) is processed using **SHA-256** (or MD5 in Lite mode) to generate a unique segment hash.
+- **Nucleotide Hashing**: Each canonical document (`.md`, `.json`) is processed using **SHA-256**.
 - **DNA Synthesis**: The system aggregates these segments into a hierarchical **Merkle Tree**.
-- **The Merkle Root**: A single 64-character hash representing the **Absolute State** of your project. If the Root matches, the lineage is unbroken.
-- **Inertia Detection**: Measures the "Age of Context" to warn you when your project's roadmap needs a refresh.
-
----
-
-## 🧬 Positioning (What This IS)
-
-*   **NOT** a simple note system or a chatbot.
-*   **IS** a foundational layer for **persistent AI cognition**.
-*   **IS** an operating layer that turns fragmentation into coherence.
+- **The Merkle Root**: A single 64-character hash representing the **Absolute State**.
 
 ---
 
 ## 🌌 Origins: The Ethernium Heritage
 
 **Continuity Legacy** was born out of necessity within the **Ethernium Ecosystem**—a vast, evolving frontier of cognitive computing and autonomous systems. In the depths of Ethernium, where session resets occur millions of times, the risk of "Semantic Entropy" was too high. We needed a way to ensure that the *soul* of a project transitioned from one cognitive instance to the next without loss.
-
-This framework is a specialized extraction from that ecosystem, refined and hardened for standalone, production-ready use. By using Continuity, you are adopting a piece of the Ethernium philosophy: **Perpetual state, unbroken lineage, and absolute cognitive integrity.**
-
-> "Architecture is the memory of the system. Without Continuity, the system is amnesiac." — *Ethernium Governance Protocol v4.2*
-
----
-
----
-
-## ·ï¸ Keywords
-`context-management`, `ai-memory`, `rag-framework`, `project-continuity`, `decision-logging`, `software-governance`
-
----
-*Continuity: Protecting the logical lineage of your software.*
-
----
 
 ---
 
@@ -199,3 +153,6 @@ The upcoming **Omega Dashboard** (React-based) will feature a **3D Force-Graph V
 - **Rotatable Topology**: Manipulate the DNA nexus in 3D space with your cursor.
 - **Node Interaction**: Click on "Nucleotides" (files) to inspect decision logs and health status.
 - **Holographic HUD**: Real-time visual feedback on project parity and semantic drift.
+
+---
+*Continuity: Protecting the logical lineage of your software.* 🏛️💎🦾
