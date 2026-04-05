@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "hashes": {
+    "README.md": {
+      "root": "dc61c6b3730e173291b25c150f4bb37e"
+    },
+    "USE_CASES.md": {
+      "root": "4d3b525f976fed2fdba037f4c534a36d"
+    },
+    "TROUBLESHOOTING.md": {
+      "root": "a8312a0a170ebf92c5652da0ca3d4397"
+    }
+  }
+}

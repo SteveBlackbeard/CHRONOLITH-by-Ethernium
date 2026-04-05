@@ -1,0 +1,123 @@
+{
+  "version": "1.0",
+  "generated_at": "",
+  "protocol": ".continuity/CONTEXT_CONTINUITY.md",
+  "allowed_statuses": [
+    "canonical",
+    "bridge",
+    "archive_source",
+    "external_optional"
+  ],
+  "entries": [
+    {
+      "path": "AGENT_START.md",
+      "status": "canonical",
+      "category": "entrypoint"
+    },
+    {
+      "path": "README.md",
+      "status": "canonical",
+      "category": "entrypoint"
+    },
+    {
+      "path": "continuity_legacy.json",
+      "status": "canonical",
+      "category": "configuration"
+    },
+    {
+      "path": "PROJECT_CONTEXT.md",
+      "status": "canonical",
+      "category": "context"
+    },
+    {
+      "path": "STATE.json",
+      "status": "canonical",
+      "category": "state"
+    },
+    {
+      "path": "ROADMAP.md",
+      "status": "canonical",
+      "category": "roadmap"
+    },
+    {
+      "path": ".continuity/CONTEXT_CONTINUITY.md",
+      "status": "canonical",
+      "category": "continuity"
+    },
+    {
+      "path": ".continuity/BOOT_SEQUENCE.md",
+      "status": "canonical",
+      "category": "continuity"
+    },
+    {
+      "path": ".continuity/LIVE_HANDOFF.md",
+      "status": "canonical",
+      "category": "continuity"
+    },
+    {
+      "path": ".continuity/DECISIONS_LOG.md",
+      "status": "canonical",
+      "category": "continuity"
+    },
+    {
+      "path": ".continuity/TIMELINE.md",
+      "status": "canonical",
+      "category": "continuity"
+    },
+    {
+      "path": ".continuity/AGENT_ACTIVATION_PROTOCOL.md",
+      "status": "canonical",
+      "category": "continuity"
+    },
+    {
+      "path": ".continuity/registry/document_dependency_map.json",
+      "status": "canonical",
+      "category": "registry"
+    },
+    {
+      "path": ".continuity/registry/system_membership_registry.json",
+      "status": "canonical",
+      "category": "registry"
+    },
+    {
+      "path": "tools/continuity_legacy/bootstrap_project.py",
+      "status": "canonical",
+      "category": "automation"
+    },
+    {
+      "path": "tools/continuity_legacy/bootstrap_context.py",
+      "status": "canonical",
+      "category": "automation"
+    },
+    {
+      "path": "tools/continuity_legacy/doc_parity_check.py",
+      "status": "canonical",
+      "category": "automation"
+    },
+    {
+      "path": "tools/continuity_legacy/system_membership_check.py",
+      "status": "canonical",
+      "category": "automation"
+    },
+    {
+      "path": "tools/continuity_legacy/sync_external_dev_context.py",
+      "status": "canonical",
+      "category": "automation"
+    },
+    {
+      "path": "tools/continuity_legacy/run_continuity_cycle.py",
+      "status": "canonical",
+      "category": "automation"
+    },
+    {
+      "path": "tools/continuity_legacy/core/automation_common.py",
+      "status": "canonical",
+      "category": "automation_core"
+    },
+    {
+      "path": "tools/continuity_legacy/core/context_loader.py",
+      "status": "canonical",
+      "category": "automation_core"
+    }
+  ]
+}
