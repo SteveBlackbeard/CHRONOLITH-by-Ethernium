@@ -1,6 +1,6 @@
-﻿# Continuity Omega (v1.3.1) - Enterprise Oracle 
+# Continuity Omega (v2.1.0) - Enterprise Evolution Oracle
 
-[![Version](https://img.shields.io/badge/version-﻿1.3.1-blue.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
+[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
 [![Requirement](https://img.shields.io/badge/hardware-monster--grade-red.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
 
 **Omega** is the ultimate AI Oracle. It uses Semantic RAG and Cognitive Graphs to protect the project DNA.
@@ -9,26 +9,22 @@
 
 ##  Installation (Quick)
 
-`ash
+```bash
 # Install the Enterprise edition from its folder
-cd continuity-omega
 pip install -e .
 
-# Setup the Omega Guardian hook
-python run_continuity_omega.py --hook
-`
+# Setup the Omega Guardian Entry Point
+continuity-omega --hook
+```
 
 ---
 
 ##  Minimal Usage
-`python
-# Index and visualize the decision lineage
-python run_continuity_omega.py --index --map
 
-# Expected:
-# [] OMEGA: Workspace indexed.
-# [] OMEGA: Interactive MAP generated at outputs/continuity/cognitive_map.html
-`
+```bash
+# Index and visualize the decision lineage
+continuity-omega --index --map
+```
 
 ---
 

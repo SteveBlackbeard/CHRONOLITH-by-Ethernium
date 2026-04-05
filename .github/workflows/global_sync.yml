@@ -1,0 +1,48 @@
+name: Global Parity Governance
+
+on:
+  workflow_dispatch: # Al pulsar el badge y Manual Run -> Realiza el SYNC total
+  push:
+    paths:
+      - 'README.md'
+      - 'RELEASE_NOTES_MANIFEST.md'
+      - 'assets/**'
+
+permissions:
+  contents: write
+
+jobs:
+  parity_logic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4 # Actualizado para Node.js 24
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5 # Actualizado para Node.js 24
+        with:
+          python-version: '3.9'
+
+      - name: Mode Selection (Check vs Sync)
+        id: mode
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "mode=--action-mode" >> $GITHUB_OUTPUT
+            echo "[!] OPERATIONAL MODE: FULL SYNC"
+          else
+            echo "mode=--check" >> $GITHUB_OUTPUT
+            echo "[!] OPERATIONAL MODE: DRIFT CHECK"
+          fi
+
+      - name: Execute Global Sync Engine
+        run: python .github/scripts/sync_master.py ${{ steps.mode.outputs.mode }}
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "Ethernium Governance Guard"
+          git config --global user.email "governance@ethernium.ai"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "chore: Universal Parity Guard v1.9.3 [${{ github.event_name }}] 🏛️💎🦾"
+          git push origin main
