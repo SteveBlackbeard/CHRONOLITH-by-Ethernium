@@ -31,7 +31,7 @@ Continuity Legacy solves the "Semantic Drift" in long-term AI-Human collaboratio
 <!-- DNA_CRYSTAL -->
 > [!IMPORTANT]
 > **DNA CRYSTAL**: `v2.1.0-1b8cbb2016e67a3d`
-> [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-1b8cbb20-blueviolet))))))))))))))))))](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
+> [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-1b8cbb20-blueviolet)))))))))))))))))))](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
 
 ## 🏛️ Table of Contents
 1. [Choose Your Edition](#-choose-your-edition)

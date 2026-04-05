@@ -2,7 +2,7 @@ import os
 import re
 from pathlib import Path
 
-# THE SOVEREIGN AUDIT SCANNER (v2.4.2)
+# THE ENTERPRISE AUDIT SCANNER (v2.4.2)
 # -----------------------------------
 # Purpose: Identify inconsistencies, bottlenecks, and contradictions.
 # FIX: Corrected iteration logic for tonal check.
@@ -13,7 +13,7 @@ def scan_global():
     root = Path(".")
     issues = []
     
-    print("\n[+] STARTING SOVEREIGN AUDIT SCAN...")
+    print("\n[+] STARTING ENTERPRISE AUDIT SCAN...")
     
     # 1. MOJIBAKE & ENCODING CHECK (Ciberseguridad)
     for r, dirs, files in os.walk(root):

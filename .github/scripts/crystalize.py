@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from datetime import datetime
 
-# SOVEREIGN CRYSTALLIZER (v2.4.1 - ROBUST ROOT AUDIT)
+# ENTERPRISE CRYSTALLIZER (v2.4.1 - ROBUST ROOT AUDIT)
 # --------------------------------------------------
 # Purpose: Finalize the DNA Synthesis (Cross-Platform, Metabolically Hardened).
 # FIX: Robustness in file collection and scope.

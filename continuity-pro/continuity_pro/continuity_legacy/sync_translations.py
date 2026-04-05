@@ -29,11 +29,11 @@ TRANSLATIONS = {
         "omega_desc": "**Omega**: Enterprise Oracle. Advanced RAG, cognitive maps, and proactive impact analysis.",
         "feat_metabolism": "**Metabolism Optimization**: Typ-Rich Engine with <100ms startup and lazy-loading nuclei.",
         "feat_dna": "**DNA Synthesis**: Merkle Tree cryptographic protection with SHA-256 signatures.",
-        "feat_cognitive": "**Sovereign Governance**: Sentinel Guardian with automatic Git-Hooks and session logging.",
+        "feat_cognitive": "**enterprise Governance**: Sentinel Guardian with automatic Git-Hooks and session logging.",
         "feat_global": "**Global Symmetry**: Documentation and industrial CLI support in 9 languages.",
         "feat_diamond": "**Industrial Sanitization**: Complete purge of UTF-16 rogue artifacts and tactical residue.",
-        "omega_text": "The **Omega edition** is our Enterprise-grade Oracle. It provides advanced RAG, cognitive graph mapping, and proactive semantic impact analysis for sovereign decision guarding.",
-        "quality_steps": ["Intent Capture: Recording the 'Why' in structured logs.", "DNA Validation: Verifying Merkle Root and State signatures.", "Crystallization: Updating the README DNA Crystal marker.", "Sovereign Sync: Globally propagating the logical lineage."],
+        "omega_text": "The **Omega edition** is our Enterprise-grade Oracle. It provides advanced RAG, cognitive graph mapping, and proactive semantic impact analysis for enterprise decision guarding.",
+        "quality_steps": ["Intent Capture: Recording the 'Why' in structured logs.", "DNA Validation: Verifying Merkle Root and State signatures.", "Crystallization: Updating the README DNA Crystal marker.", "enterprise Sync: Globally propagating the logical lineage."],
         "footer_brand": "CONTINUITY LEGACY: Industrial Infrastructure"
     },
     "es": {

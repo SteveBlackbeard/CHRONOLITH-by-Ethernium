@@ -51,7 +51,7 @@ _Advanced RAG, cognitive mapping, and a stunning 3D Glassmorphic Dashboard for i
 ---
 
 ## 🛡️ deterministic Edition Security (v2.1.0)
-The v2.1.0 release establishes a "Fail-Closed" military doctrine to protect the DNA Lineage:
+The v2.1.0 release establishes a "Fail-Closed" enterprise doctrine to protect the DNA Lineage:
 - **RFC 6962 Merkle Hardening**: Domain separation (0x00/0x01) prevents second-preimage attacks.
 - **Strict Sentinel Hooks**: Pre-push and pre-commit hooks dynamically resolve safe paths to prevent PATH hijacking and force `exit 1` on drift detection.
 - **deterministic Collaboration**: Hardware binding was explicitly removed to allow open-source teams to share the exact same `STATE.json` safely.

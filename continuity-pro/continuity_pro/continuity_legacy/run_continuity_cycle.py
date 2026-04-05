@@ -18,7 +18,7 @@ from rich import print as rprint
 # [!] Industrial Grade Refactor: Typer CLI, Rich UI, SHA-256 Signatures, Structured Logs.
 
 app = typer.Typer(
-    help="🏛️ Continuity Legacy Pro: The sovereign AI continuity framework for industrial handoffs.",
+    help="🏛️ Continuity Legacy Pro: The enterprise AI continuity framework for industrial handoffs.",
     add_completion=False,
     no_args_is_help=True
 )
@@ -102,7 +102,7 @@ def init(
     repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
     no_hook: bool = typer.Option(False, "--no-hook", help="Disable automatic Git-Hook installation.")
 ):
-    """Initialize the Pro memory core and install sovereign hooks."""
+    """Initialize the Pro memory core and install enterprise hooks."""
     console.print(ASCII_ART)
     root = repo_root.resolve()
     logger = setup_logger(root)

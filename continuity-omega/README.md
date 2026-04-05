@@ -39,10 +39,10 @@
 _Minimalist local sync with DNA Synthesis for zero-loss handoffs._
 
 [![PRO](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYPRO.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-pro/)
-_Industrial-grade border guard. Features military-grade cyber-security, RFC 6962 Merkle Hardening, and Fail-Closed Hooks._
+_Industrial-grade border guard. Features Enterprise-grade cyber-security, RFC 6962 Merkle Hardening, and Fail-Closed Hooks._
 
 [![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-omega/)
-_Advanced RAG, cognitive mapping, and a stunning 3D Glassmorphic Dashboard for visceral data visualization._
+_Advanced RAG, cognitive mapping, and a stunning 3D Glassmorphic Dashboard for impactful data visualization._
 | Guide | Link |
 | :--- | :--- |
 | [**Industrial Guide**](../HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](../HOW_TO_USE_IT.md) |
@@ -50,11 +50,11 @@ _Advanced RAG, cognitive mapping, and a stunning 3D Glassmorphic Dashboard for v
 
 ---
 
-## 🛡️ Sovereign Edition Security (v2.1.0)
-The v2.1.0 release establishes a "Fail-Closed" military doctrine to protect the DNA Lineage:
+## 🛡️ Enterprise Edition Security (v2.1.0)
+The v2.1.0 release establishes a "Fail-Closed" enterprise doctrine to protect the DNA Lineage:
 - **RFC 6962 Merkle Hardening**: Domain separation (0x00/0x01) prevents second-preimage attacks.
 - **Strict Sentinel Hooks**: Pre-push and pre-commit hooks dynamically resolve safe paths to prevent PATH hijacking and force `exit 1` on drift detection.
-- **Sovereign Collaboration**: Hardware binding was explicitly removed to allow open-source teams to share the exact same `STATE.json` safely.
+- **Enterprise Collaboration**: Hardware binding was explicitly removed to allow open-source teams to share the exact same `STATE.json` safely.
 
 ---
 
