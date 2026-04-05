@@ -1,14 +1,39 @@
-﻿name: CONTINUITY LEGACY Validation & Release
+name: CONTINUITY LEGACY Validation
 
 on:
   push:
     branches: ["**"]
-    tags: ["v*"]
   pull_request:
     branches: ["**"]
 
 jobs:
-  validate-continuity:
+  test-editions:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        edition: [continuity-lite, continuity-pro, continuity-omega]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+          cd ${{ matrix.edition }}
+          pip install -e .
+
+      - name: Run Tests
+        run: |
+          cd ${{ matrix.edition }}
+          pytest tests/
+
+  lint-code:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -19,55 +44,13 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Run Continuity Legacy Cycle
+      - name: Install Linting Tools
         run: |
-          cd continuity
-          python tools/continuity_legacy/run_continuity_cycle.py --repo-root . --strict
+          pip install flake8
 
-  pypi-release:
-    name: Publish to PyPI
-    if: startsWith(github.ref, 'refs/tags/v')
-    needs: validate-continuity
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Build Packages (Pro, Lite & Omega)
+      - name: Lint with flake8
         run: |
-          python -m pip install --upgrade build
-          # Build Pro
-          cd continuity
-          python -m build
-          cd ..
-          # Build Lite
-          cd continuity-lite
-          python -m build
-          cd ..
-          # Build Omega
-          cd continuity-omega
-          python -m build
-          cd ..
-
-      - name: Publish Pro Version
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          packages-dir: "continuity/dist/"
-
-      - name: Publish Lite Version
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          packages-dir: "continuity-lite/dist/"
-
-      - name: Publish Omega Version
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          packages-dir: "continuity-omega/dist/"
-
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. 127 chars max line length.
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
