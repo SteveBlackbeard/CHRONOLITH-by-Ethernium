@@ -1,5 +1,5 @@
 # CONTINUITY LEGACY: Lite Edition
-![Version](https://img.shields.io/badge/version-﻿1.3.1-blue.svg)
+![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)
 
 #### Editions
 [![LITE](https://img.shields.io/badge/Edition-LITE-black)](../continuity-lite/) [![PRO](https://img.shields.io/badge/Edition-PRO-black)](../continuity/) [![OMEGA](https://img.shields.io/badge/Edition-OMEGA-black)](../continuity-omega/)
@@ -24,15 +24,15 @@ Continuity Legacy is a professional-grade synchronization framework designed to 
 
 ## Key Features (Intellectual Symphony)
 - **Metabolism Optimization**: Lazy Loading implemented in all editions. Instant CLI startup (<100ms).
-- **DNA Synthesis**: Automated generation of `PROJECT_DNA.md` to protect logical lineage.
-- **Cognitive Insights (Omega)**: Interactive decision maps and impact alerts.
+- **DNA Synthesis**: Merkle Tree-based cryptographic protection (SHA-256).
+- **Cognitive Governance**: Entropy-aware volatility monitoring and DNA crystallization.
 - **Global Awareness**: Full documentation and CLI support in 9 languages.
 - **Diamond Sanitization**: Deep purge of encoding errors and mojibake.
 
 ---
 
 ## Omega Edition: Cognitive Insight *<sub><sup>(In Development)</sup></sub>*
-The **Omega edition** is our Enterprise-grade Tier. It provides a visual, interactive decision lineage and semantic impact analysis to prevent architectural drift. This edition represents the pinnacle of professional context preservation.
+The **Omega edition** is our Enterprise-grade Tier. It provides a visual, interactive decision lineage and semantic impact analysis using Merkle DNA proof-of-state.
 
 ![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)
 
@@ -41,11 +41,11 @@ The **Omega edition** is our Enterprise-grade Tier. It provides a visual, intera
 ## Quality Flow
 1. Intent Capture: Documenting the 'Why'.
 2. Parity Check: Validating the ecosystem.
-3. Impact Analysis: Detecting contradictions.
+3. Crystallization: Synthesizing the Merkle Root.
 4. DNA Synthesis: Updating nucleotides.
 
 ---
 *Continuity: Protecting the logical lineage of your software.*
 
 ---
-* CONTINUITY LEGACY: Global Infrastructure - Version ﻿1.3.1 - Generated 2026-04-02T23:54:18.641837Z *
+* CONTINUITY LEGACY: Global Infrastructure - Version 2.1.0 - Generated 2026-04-05T06:05:55.805020Z *

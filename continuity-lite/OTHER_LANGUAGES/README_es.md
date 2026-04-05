@@ -1,5 +1,5 @@
 # CONTINUITY LEGACY: Lite Edition (Infraestructura Global)
-![Version](https://img.shields.io/badge/version-﻿1.3.1-blue.svg)
+![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)
 
 #### Ediciones
 [![LITE](https://img.shields.io/badge/Edition-LITE-black)](../continuity-lite/) [![PRO](https://img.shields.io/badge/Edition-PRO-black)](../continuity/) [![OMEGA](https://img.shields.io/badge/Edition-OMEGA-black)](../continuity-omega/)
@@ -17,22 +17,22 @@ Continuity Legacy es un marco de sincronización de grado profesional diseñado 
 
 ## El Ecosistema de Triple Nivel
 - **Lite**: Guardián de Cero Fricción. Optimizado para velocidad y uso diario del desarrollador.
-- **Pro**: Motor Táctico. Guardia fronterizo de grado industrial con auditorías de seguridad.
-- **Omega**: Oráculo Empresarial. RAG avanzado, mapas cognitivos y análisis de impacto proactivo.
+- **Pro**: Motor Táctico. Guardia fronterizo de grado industrial con auditorías de seguridad y Merkle DNA.
+- **Omega**: Oráculo Empresarial. RAG avanzado, mapas cognitivos y análisis de entropía proactivo.
 
 ---
 
 ## Características Clave (Sinfonía Intelectual)
 - **Optimización del Metabolismo**: Carga perezosa implementada. Inicio instantáneo de CLI (<100ms).
-- **Síntesis de ADN**: Generación automática de `PROJECT_DNA.md` para proteger el linaje.
-- **Perspectiva Cognitiva (Omega)**: Mapas de decisión interactivos y alertas de impacto.
+- **Síntesis de ADN**: Protección criptográfica basada en Merkle Tree (SHA-256).
+- **Gobernanza Cognitiva**: Monitorización de entropía y cristalización de ADN.
 - **Conciencia Global**: Documentación completa y soporte CLI en 9 idiomas.
 - **Sanitización Diamante**: Purga profunda de errores de codificación y mojibake.
 
 ---
 
 ## Edición Omega: Perspectiva Cognitiva *<sub><sup>(En Desarrollo)</sup></sub>*
-La **edición Omega** es nuestro nivel de grado empresarial. Proporciona un linaje de decisión visual e interactivo y análisis de impacto semántico para prevenir la deriva arquitectónica.
+La **edición Omega** es nuestro nivel de grado empresarial. Proporciona un linaje de decisión visual e interactivo y análisis de impacto semántico con pruebas de estado Merkle.
 
 ![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)
 
@@ -41,11 +41,11 @@ La **edición Omega** es nuestro nivel de grado empresarial. Proporciona un lina
 ## Flujo de Calidad
 1. Captura de Intención: Documentar el 'Por qué'.
 2. Verificación de Paridad: Validar el ecosistema.
-3. Análisis de Impacto: Detectar contradicciones.
+3. Cristalización: Sintetizar el Merkle Root.
 4. Síntesis de ADN: Actualizar nucleótidos.
 
 ---
 *Continuity: Protegiendo el linaje lógico de su software.*
 
 ---
-* CONTINUITY LEGACY: Infraestructura Global - Version ﻿1.3.1 - Generated 2026-04-02T23:54:18.629073Z *
+* CONTINUITY LEGACY: Infraestructura Global - Version 2.1.0 - Generated 2026-04-05T06:05:55.789666Z *

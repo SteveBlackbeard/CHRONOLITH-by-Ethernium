@@ -1,5 +1,5 @@
 # CONTINUITY LEGACY: Pro Edition (Глобальная инфраструктура)
-![Version](https://img.shields.io/badge/version-﻿1.3.1-blue.svg)
+![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)
 
 #### Редакции
 [![LITE](https://img.shields.io/badge/Edition-LITE-black)](../continuity-lite/) [![PRO](https://img.shields.io/badge/Edition-PRO-black)](../continuity/) [![OMEGA](https://img.shields.io/badge/Edition-OMEGA-black)](../continuity-omega/)
@@ -48,4 +48,4 @@ Continuity Legacy — это среда синхронизации профес�
 *Continuity: Защита логической преемственности вашего программного обеспечения.*
 
 ---
-* CONTINUITY LEGACY: Глобальная инфраструктура - Version ﻿1.3.1 - Generated 2026-04-02T23:54:18.843932Z *
+* CONTINUITY LEGACY: Глобальная инфраструктура - Version 2.1.0 - Generated 2026-04-05T06:05:55.958268Z *
