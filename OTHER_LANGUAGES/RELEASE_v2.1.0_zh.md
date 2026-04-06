@@ -1,41 +1,38 @@
-[![Version](https://img.shields.io/badge/version-2.1.0-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/releases) [..badges..]
+**保护软件的逻辑血统。** 🧬
+<p align="center">
+  <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
+</p>
 
-#### 语言
-[..badges..]
+Continuity Legacy 是一个专业级同步框架，旨在保护软件的逻辑起源。它源自 **Ethernium 生态系统**，确保开发意图和架构决策在所有交付环节中得以保留。
 
-**“人工智能不再遗忘。”** 🧬
+## 🏛️ 版本
+[![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-lite/)
 
-[..Header..]
+[![PRO](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYPRO.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-pro/)
 
-**我们自豪地宣布 Continuity Legacy: Quantum Leap 正式发布** — 全球连续性框架（Global Continuity Framework）的首个稳定版本。
+[![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-omega/)
 
-在 **Ethernium** 的深处诞生，今天标志着认知连续性成为现实的时刻。
-
-上下文不再丢失。
-意图不再被遗忘。
-会话之间的线索不再中断。
-
-Continuity Legacy 就此诞生：**认知领域的 Git** — 一个轻量级、确定性、以文档为驱动的系统，在数百次人机协作交付中保护项目的逻辑血统和规范内存。
-
-## 🏛️ 版本说明
-[..LITE..] [..PRO..] [..OMEGA..]
-
-## 🗺️ 导航资源
-[..Links..]
+##  Navigation Explorer
+*   [**Industrial Guide** (HOW_TO_USE_IT.md)](../HOW_TO_USE_IT.md)
+*   [**Main Documentation** (README.md)](../README_zh.md)
+*   [**Legal Heritage** (LICENSE)](../LICENSE)
+*   [**Decision Log** (.continuity/DECISIONS_LOG.md)](../.continuity/DECISIONS_LOG.md)
 
 ---
-## 技术规范
-[..Table..]
+
+## 📊 Technical Specifications (Hardware Profiles)
+| Edition | RAM (Min) | Storage | Dependencies | Best For |
+| :--- | :--- | :--- | :--- | :--- |
+| **Lite** | < 100 MB | < 5 MB | Zero | Local Dev / CI-CD |
+| **Pro** | 4 GB | 50 MB | Standard | Industrial Handoffs |
+| **Omega** | 16 GB+ | 500 MB+ | RAG/Graph | Enterprise Strategy |
 
 ---
-## 核心功能
-- **多语言核心**
-- **上下文锚点**
-- **遗产保护**
+
+## 🧠 Omega 版本: 认知洞察
+**Omega 版本**是我们的企业级层级。它提供可视化的交互式决策血统和语义影响分析，以防止架构漂移。
+
+![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)
 
 ---
-## Omega 旗舰版
-[..Omega..]
-
----
-*Continuity Legacy: Protecting the logical lineage of your software.*
+*Continuity Legacy: 保护软件的逻辑血统。*

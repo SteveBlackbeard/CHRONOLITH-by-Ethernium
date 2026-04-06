@@ -1,41 +1,38 @@
-[![Version](https://img.shields.io/badge/version-2.1.0-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/releases) [..badges..]
+**Protecting the logical lineage of your software.** 🧬
+<p align="center">
+  <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
+</p>
 
-#### Sprachen
-[..badges..]
+Continuity Legacy is a professional-grade synchronization framework designed to protect the logical lineage of your software. Born from the **Ethernium Ecosystem**, it ensures that development intent and architectural decisions are preserved across all handoffs.
 
-**「KI vergisst nicht mehr.」** 🧬
+## 🏛️ Editions
+[![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-lite/)
 
-[..Header..]
+[![PRO](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYPRO.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-pro/)
 
-**Wir sind stolz, den Start von Continuity Legacy: Quantum Leap bekannt zu geben** — die erste stabile Version des Global Continuity Frameworks.
+[![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-omega/)
 
-Entstanden in den Tiefen von **Ethernium**, markiert der heutige Tag den Moment, in dem kognitive Kontinuität zur Realität wird.
-
-Kontext geht nicht mehr verloren.
-L'Intention wird nicht mehr vergessen.
-Der rote Faden wird zwischen den Sitzungen nicht mehr unterbrochen.
-
-Continuity Legacy ist da: **Git für Kognition** — ein leichtgewichtiges, deterministisches und dokumentenbasiertes System, das die logische Abstammung und den kanonischen Speicher Ihrer Projekte über Hunderte von Mensch-KI-Handoffs hinweg schützt.
-
-## 🏛️ Editionen
-[..LITE..] [..PRO..] [..OMEGA..]
-
-## 🗺️ Navigations-Explorer
-[..Links..]
+##  Navigation Explorer
+*   [**Industrial Guide** (HOW_TO_USE_IT.md)](../HOW_TO_USE_IT.md)
+*   [**Main Documentation** (README.md)](../README_de.md)
+*   [**Legal Heritage** (LICENSE)](../LICENSE)
+*   [**Decision Log** (.continuity/DECISIONS_LOG.md)](../.continuity/DECISIONS_LOG.md)
 
 ---
-## Technische Spezifikationen
-[..Table..]
+
+## 📊 Technical Specifications (Hardware Profiles)
+| Edition | RAM (Min) | Storage | Dependencies | Best For |
+| :--- | :--- | :--- | :--- | :--- |
+| **Lite** | < 100 MB | < 5 MB | Zero | Local Dev / CI-CD |
+| **Pro** | 4 GB | 50 MB | Standard | Industrial Handoffs |
+| **Omega** | 16 GB+ | 500 MB+ | RAG/Graph | Enterprise Strategy |
 
 ---
-## Kernfunktionen
-- **Mehrsprachiger Kern**
-- **Kontextuelle Anker**
-- **Schutz des Erbes**
 
----
-## Omega Edition
-[..Omega..]
+## 🧠 Omega Edition: Cognitive Insight
+The **Omega edition** is our Enterprise-grade Oracle. It provides advanced RAG, cognitive graph mapping, and proactive semantic impact analysis for enterprise decision guarding.
+
+![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)
 
 ---
 *Continuity Legacy: Protecting the logical lineage of your software.*

@@ -6,7 +6,9 @@
 **"AI doesn't forget anymore."** 🧬
 
 <p align="center">
+
   <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
+
 </p>
 
 We are proud to announce the **Official v2.1.0 Stable Release** of the **Continuity Legacy Framework**. This version represents the transition of an experimental prototype into a professional-grade infrastructure designed for global AI-Human collaboration.
@@ -37,24 +39,22 @@ _Industrial-grade border guard with security audits and global synchronization._
 
 _Advanced RAG, cognitive mapping, and proactive impact analysis._
 
----
-
-## 🎛️ System Flow (The Control Loop)
-Continuity Legacy ensures no context loss through a perpetual control loop:
-
-```text
-CONTEXT -> STATE -> DECISIONS -> TIMELINE -> HANDOFF
-```
-
-This ensures that every agent joining the project can read the `.continuity/` core and instantly understand current state, past decisions, and next actions.
+##  Navigation Explorer
+*   [**Industrial Guide** (HOW_TO_USE_IT.md)](./HOW_TO_USE_IT.md)
+*   [**Main Documentation** (README.md)](./README.md)
+*   [**Legal Heritage** (LICENSE)](./LICENSE)
+*   [**Decision Log** (.continuity/DECISIONS_LOG.md)](./.continuity/DECISIONS_LOG.md)
 
 ---
 
-## 🏛️ The Triple-Tier Ecosystem
-- **Border Control**: Strict validation of commits against the project's logical heritage.
-- **DNA Integrity**: Automated file synchronization of documentation and source code.
-- **Global Awareness**: Full documentation and CLI support localized in 9 languages.
-- **Diamond Sanitization**: Deep purge of encoding errors (mojibake) and streamlined terminal-friendly directory structures.
+## Technical Specifications (Hardware Profiles)
+Each edition is optimized for specific resource footprints:
+
+| Edition | RAM (Min) | Storage | Dependencies | Best For |
+| :--- | :--- | :--- | :--- | :--- |
+| **Lite** | < 100 MB | < 5 MB | Zero | Local Dev / CI-CD |
+| **Pro** | 4 GB | 50 MB | Standard | Industrial Handoffs |
+| **Omega** | 16 GB+ | 500 MB+ | RAG/Graph | Enterprise Strategy |
 
 ---
 
@@ -65,25 +65,8 @@ This ensures that every agent joining the project can read the `.continuity/` co
 
 ---
 
-## 📊 Technical Specifications (Hardware Profiles)
-Each edition is optimized for specific resource footprints:
-- **Lite**: Ultra-Low Resource (<100MB RAM, No dependencies).
-- **Pro**: Standard Workstation (4GB RAM recommended).
-- **Omega**: Enterprise Monster (16GB+ RAM recommended for RAG & Graph processing).
+## Omega Edition: Cognitive Insight
+The Omega edition is our Enterprise-grade Tier. It provides a visual, interactive decision lineage and semantic impact analysis to prevent architectural drift.
 
 ---
-
-## 🔍 Quality Flow
-Continuity ensures that every developer session follows a rigorous architectural governance gate:
-1. **Intent Capture**: Documenting the 'Why' before the 'What'.
-2. **Parity Check**: Validating the documentation ecosystem.
-3. **Impact Analysis**: Detecting semantic contradictions (Omega).
-4. **DNA Synthesis**: Updating the project's core nucleotides.
-
----
-
-## 🧠 Omega Edition: Cognitive Insight
-The Omega edition is our Enterprise-grade Tier. It provides a visual, interactive decision lineage and semantic impact analysis to prevent architectural drift. This edition represents the pinnacle of professional context preservation.
-
----
-*Continuity Legacy: Protecting the logical lineage of your software.* 🏛️💎🦾
+*Continuity Legacy: Protecting the logical lineage of your software.*

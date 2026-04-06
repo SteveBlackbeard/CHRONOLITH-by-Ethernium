@@ -1,41 +1,38 @@
-[![Version](https://img.shields.io/badge/version-2.1.0-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/releases) [..badges..]
+**ソフトウェアの論理的系統を保護します。** 🧬
+<p align="center">
+  <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
+</p>
 
-#### 言語
-[..badges..]
-
-**「AIはもう忘れません。」** 🧬
-
-[..Header..]
-
-**Continuity Legacy: Quantum Leap の公式リリースを発表できることを誇りに思います** — Global Continuity Framework の最初の安定版リリースです。
-
-**Ethernium** の深淵で生まれた今日、認知の連続性が現実となる瞬間を刻みます。
-
-コンテキストはもう失われません。
-意図はもう忘れられません。
-セッション間でスレッドが途切れることはもうありません。
-
-Continuity Legacy はここにあります：**認知のための Git** — 数百回の人とAIの引き継ぎを通じて、プロジェクトの論理的な血統と標準的なメモリを保護する、軽量で決定論的なドキュメント駆動型システムです。
+Continuity Legacy は、ソフトウェアの論理的な系統を保護するために設計されたプロフェッショナル グレードの同期フレームワークです。**Ethernium エコシステム**から誕生し、開発意図とアーキテクチャ上の決定がすべてのハンドオフで確実に保持されるようにします。
 
 ## 🏛️ エディション
-[..LITE..] [..PRO..] [..OMEGA..]
+[![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-lite/)
 
-## 🗺️ ナビゲーション・エクスプローラー
-[..Links..]
+[![PRO](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYPRO.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-pro/)
 
----
-## 技術仕様
-[..Table..]
+[![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-omega/)
 
----
-## 主要機能
-- **マルチリンガル・コア**
-- **コンテキスト・アンカー**
-- **レガシー保護**
+##  Navigation Explorer
+*   [**Industrial Guide** (HOW_TO_USE_IT.md)](../HOW_TO_USE_IT.md)
+*   [**Main Documentation** (README.md)](../README_ja.md)
+*   [**Legal Heritage** (LICENSE)](../LICENSE)
+*   [**Decision Log** (.continuity/DECISIONS_LOG.md)](../.continuity/DECISIONS_LOG.md)
 
 ---
-## Omega Edition
-[..Omega..]
+
+## 📊 Technical Specifications (Hardware Profiles)
+| Edition | RAM (Min) | Storage | Dependencies | Best For |
+| :--- | :--- | :--- | :--- | :--- |
+| **Lite** | < 100 MB | < 5 MB | Zero | Local Dev / CI-CD |
+| **Pro** | 4 GB | 50 MB | Standard | Industrial Handoffs |
+| **Omega** | 16 GB+ | 500 MB+ | RAG/Graph | Enterprise Strategy |
 
 ---
-*Continuity Legacy: Protecting the logical lineage of your software.*
+
+## 🧠 Omega エディション: 認知的洞察
+**Omega エディション**は、当社のエンタープライズ グレードのティアです。アーキテクチャのドリフトを防ぐために、視覚的でインタラクティブな意思決定の系統と意味的な影響分析を提供します。
+
+![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)
+
+---
+*Continuity Legacy: ソフトウェアの論理的系統を保護します。*

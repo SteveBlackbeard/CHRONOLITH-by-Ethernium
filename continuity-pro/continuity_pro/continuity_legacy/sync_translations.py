@@ -236,21 +236,18 @@ def generate_localized_release(lang, version):
         omega_section = f"\n---\n\n## {t['omega_section_title']}\n{t['omega_text']}\n\n![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)"
 
     lines = [
-        f"# {title}",
-        f"\n#### {t['editions_title']}\n{v_ribbon}",
-        f"\n#### {t['languages_title']}\n{l_ribbon}",
-        f"\n---\n\n{t['overview']}",
-        f"\n---\n\n## {t['tiers_title']}",
-        v_ribbon,
+        f"**{t['tagline']}** 🧬\n<p align=\"center\">\n  <img src=\"https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true\" alt=\"Ethernium Continuity Legacy Official Header\">\n</p>",
+        f"\n{t['overview']}",
+        f"\n## 🏛️ {t['editions_title']}\n{v_ribbon}",
+        f"\n##  Navigation Explorer",
+        f"*   [**Industrial Guide** (HOW_TO_USE_IT.md)](../HOW_TO_USE_IT.md)",
+        f"*   [**Main Documentation** (README.md)](../README_{lang}.md)",
+        f"*   [**Legal Heritage** (LICENSE)](../LICENSE)",
+        f"*   [**Decision Log** (.continuity/DECISIONS_LOG.md)](../.continuity/DECISIONS_LOG.md)",
         f"\n---\n\n## 📊 Technical Specifications (Hardware Profiles)",
         "| Edition | RAM (Min) | Storage | Dependencies | Best For |\n| :--- | :--- | :--- | :--- | :--- |\n| **Lite** | < 100 MB | < 5 MB | Zero | Local Dev / CI-CD |\n| **Pro** | 4 GB | 50 MB | Standard | Industrial Handoffs |\n| **Omega** | 16 GB+ | 500 MB+ | RAG/Graph | Enterprise Strategy |",
-        f"\n---\n\n## {t['features_title']}",
-        f"- {t['feat_metabolism']}\n- {t['feat_dna']}\n- {t['feat_cognitive']}\n- {t['feat_global']}\n- {t['feat_diamond']}",
         omega_section,
-        f"\n---\n\n## {t['quality_title']}",
-        "\n".join([f"{i+1}. {step}" for i, step in enumerate(t['quality_steps'])]),
-        f"\n---\n*Continuity: {t['tagline']}*",
-        f"\n---\n* {t['footer_brand']} - Version {version} - Generated {datetime.utcnow().isoformat()}Z *"
+        f"\n---\n*Continuity Legacy: {t['tagline']}*"
     ]
     return "\n".join(lines)
 
