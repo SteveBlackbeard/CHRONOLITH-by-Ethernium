@@ -4,14 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "continuity-legacy"
-version = \"2.1.0-NEXUS\"
+version = "3.0.0"
 authors = [
   { name = "SteveBlackbeard" },
 ]
-description = "Continuity Legacy: Persistent Cognitive Layer for AI context handoffs. Includes Lite, Pro, and Omega profiles."
+description = "Continuity Legacy: Persistent Cognitive Layer for AI context handoffs. Deterministic Merkle-based integrity with Shannon Entropy physics. Includes Lite, Pro, and Omega editions."
 readme = "README.md"
 requires-python = ">=3.10"
-keywords = ["ai", "context", "continuity", "llm", "handover", "merkle-tree", "cybersecurity", "rag", "automation"]
+license = {text = "MIT"}
+keywords = ["ai", "context", "continuity", "llm", "handover", "merkle-tree", "cybersecurity", "rag", "automation", "entropy", "governance"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -35,6 +36,8 @@ dependencies = [
 
 [project.urls]
 "Homepage" = "https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium"
+"Repository" = "https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium"
+"Bug Tracker" = "https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/issues"
 
 [project.scripts]
 continuity = "continuity_pro.continuity_legacy.run_continuity_cycle:main"
