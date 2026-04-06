@@ -16,6 +16,13 @@
 
 *This prevents LLMs from losing context and destroying your codebase, mathematically forcing them to align with a cryptographic hash.*
 
+---
+
+## 🏛️ Enterprise Use Cases
+Continuity Legacy solves the "Semantic Drift" in long-term AI-Human collaboration:
+1. **Cross-Agent Handoffs**: Transfer full project context between different AI models (GPT-4 to Claude to local LLMs) with zero context loss.
+2. **Multi-Day RAG Stability**: Ensures that Retrieval-Augmented Generation systems always point to the canonical source of truth, even after system resets.
+3. **Legacy Restoration**: Instantly reconstruct the architectural intent of a project years after the last human developer has left.
 
 ---
 
@@ -48,7 +55,7 @@ To address the need for concrete evidence, we provide a verified Case Study and 
 
 <!-- DNA_CRYSTAL -->
 > [!IMPORTANT]
-> **DNA CRYSTAL**: `v2.1.0-896ba3ee8fa31391`
+> **DNA CRYSTAL**: `v2.1.0-b56700be787816b2`
 > [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-541741c7-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
 
 ## 🏛️ Table of Contents
@@ -166,28 +173,25 @@ Continuity Legacy uses a **Total Decoupling** design. Editions are not a monolit
 *   **Common Substrate**: All editions share the `.continuity/STATE.json` and `PROJECT_CONTEXT.md`.
 *   **Passive Interoperability**: A change registered by one edition is immediately visible to others, ensuring the logical lineage flows without friction.
 
-### 🧠 Omega Edition: Cognitive Perspective
-The **Omega edition** is our Enterprise-grade Oracle. It provides advanced RAG, cognitive mapping, and semantic impact analysis for deterministic decision protection.
-
-*Ethernium Omega Engine integrated into the core dashboard (Access restricted).*
-
-### 📊 The deterministic Audit Cycle
+### 📊 The NEXUS v2.10.0 Sovereign Audit Cycle
 ```mermaid
 sequenceDiagram
-    participant D as Developer
-    participant HG as Hub Guardian (Pre-push)
-    participant IG as Industrial Guardian (CI)
+    participant D as Developer (Architect)
+    participant SDK as SDK Identity (ED25519)
+    participant HG as Hub Guardian (GHOST_MODE)
+    participant TC as THE_CHOSEN_ONES (Registry)
     participant DNA as DNA Ledger (STATE.json)
 
-    D->>HG: git push
-    HG->>HG: Run Continuity Check
-    alt DNA Matches
-        HG->>IG: Allow Push to origin/main
-        IG->>IG: Sentinel DNA Check (Verbose)
-        IG->>DNA: Confirm Parity
-        IG->>D: Green Badge (v2.1.0)
-    else DNA Drift
-        HG->>D: REJECT (v2.1.0-ERROR)
+    D->>SDK: Sign Context Seed
+    SDK->>HG: Verify Sovereign Identity
+    HG->>TC: Audit Collaborator Key
+    alt Identity Verified
+        TC->>HG: Grant Access (Open Nucleotides)
+        HG->>DNA: Update Merkle Root
+        HG->>D: Green Badge (v2.10.0)
+    else Identity Missing
+        HG->>D: REJECT (v2.10.0-SDK_ERROR)
+        Note over HG: Context stays LOCKED
     end
 ```
 
@@ -222,17 +226,35 @@ Continuity organizes project intelligence into structured nodes:
 
 ---
 
-## 🔍 The Quality Flow (The Border Guard)
-Continuity actúa como un "Socratic Firewall". Protege tu intención de diseño mediante un bucle de validación determinista:
+## 🪐 Tokenator v2.9.3: Information Physics & SDK Sealing
+Tokenator is the cognitive engine that manages context density and security. It operates on the principles of **Information Theory** to minimize token cost while maximizing logical purity.
 
+### 🧪 Technical Flow: The Synthesis Engine
+```mermaid
+graph LR
+    subgraph "Input Layer"
+        RAW[Raw Context/Code]
+    end
+    subgraph "Processing Layer (NEXUS)"
+        RAW --> H[Shannon Entropy Audit]
+        H -- "H < 5.0 (Pure)" --> ENE[ENE v3.0 Mapping]
+        H -- "H > 5.0 (Noisy)" --> REF[Suggest Refactor]
+        ENE --> SYMB[Symbolic Equations]
+    end
+    subgraph "Security Layer (THE_CHOSEN_ONES)"
+        SYMB --> SDK[SDK Sealing]
+        SDK -- "GHOST MODE" --> LOCK[Encrypted Nucleotide .locked]
+    end
+```
+
+### ⚛️ Conceptual Flow: Information Physics (Singularity)
 ```mermaid
 graph TD
-    A[Dev Intent] --> B{Parity Check}
-    B -- Fail --> C[Self-Healing / Audit]
-    B -- Pass --> D{Impact Analysis}
-    D -- Safe --> F[DNA Synthesis]
-    E --> F
-    F --> G[Final Sync & Push]
+    A[Context Gravity] -- "Raw Fragments" --> B((Entropy Reduction))
+    B -- "Minimizing H(X)" --> C[Logic Density Maximized]
+    C -- "NEXUS Core" --> D{Sovereign Persistence}
+    D -- "Authorized" --> E[Instant Context Restoration]
+    D -- "Unauthorized" --> F[Semantic Silence]
 ```
 
 ---

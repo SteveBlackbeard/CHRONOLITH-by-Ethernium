@@ -1,4 +1,4 @@
-# Contributing to Ethernium Continuity Legacy 🚀🛡️
+# Contributing to Ethernium Continuity Legacy 
 
 Welcome to the **NEXUS Phase**. This project is a **Sovereign Cognitive Infrastructure**, and collaboration follows strict industrial and cryptographic protocols.
 
