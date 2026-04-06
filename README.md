@@ -30,8 +30,8 @@ Continuity Legacy solves the "Semantic Drift" in long-term AI-Human collaboratio
 
 <!-- DNA_CRYSTAL -->
 > [!IMPORTANT]
-> **DNA CRYSTAL**: `v2.1.0-1b8cbb2016e67a3d`
-> [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-1b8cbb20-blueviolet)))))))))))))))))))](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
+> **DNA CRYSTAL**: `v2.1.0-48a1d29552183b8f`
+> [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-48a1d295-blueviolet))))))))))))))))))))))](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
 
 ## 🏛️ Table of Contents
 1. [Choose Your Edition](#-choose-your-edition)
@@ -61,7 +61,7 @@ _Advanced RAG, cognitive mapping, and a stunning 3D Glassmorphic Dashboard for i
 
 | Guide | Link |
 | :--- | :--- |
-| [**Industrial Guide**](./HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](./HOW_TO_USE_IT.md) |
+| [**Industrial Guide**](./docs/HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](./docs/HOW_TO_USE_IT.md) |
 | [**Release Manifest**](./RELEASE_NOTES_MANIFEST.md) | [RELEASE_NOTES_MANIFEST.md](./RELEASE_NOTES_MANIFEST.md) |
 
 ---

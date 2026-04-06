@@ -37,7 +37,7 @@ _Guardia de frontera de grado industrial con auditorías de seguridad y sincroni
 _RAG avanzado, mapeo cognitivo y análisis de impacto proactivo._
 
 ##  Explorador de Navegación (Navigation Explorer)
-*   [**Guía Industrial** (HOW_TO_USE_IT.md)](../HOW_TO_USE_IT.md)
+*   [**Guía Industrial** (HOW_TO_USE_IT.md)](../docs/HOW_TO_USE_IT.md)
 *   [**Documentación Principal** (README.md)](../README.md)
 *   [**Herencia Legal** (LICENSE)](../LICENSE)
 *   [**Registro de Decisiones** (.continuity/DECISIONS_LOG.md)](../.continuity/DECISIONS_LOG.md)

@@ -184,7 +184,7 @@ python tools/continuity_legacy/bootstrap_project.py --repo-root . --project-name
 
 | Guide | Link |
 | :--- | :--- |
-| [**Industrial Guide**](../../../HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](../../../HOW_TO_USE_IT.md) |
+| [**Industrial Guide**](../../../docs/HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](../../../docs/HOW_TO_USE_IT.md) |
 | [**Release Manifest**](../../../RELEASE_NOTES_MANIFEST.md) | [RELEASE_NOTES_MANIFEST.md](../../../RELEASE_NOTES_MANIFEST.md) |
 
 ---

@@ -12,7 +12,7 @@ from datetime import datetime
 # FIX: Robustness in file collection and scope.
 
 EXCLUDE_DIRS = [".git", "node_modules", ".continuity", "outputs", ".pytest_cache", "__pycache__", ".venv", ".github", ".idea", ".vscode"]
-CANONICAL_AUDIT_DIRS = [".", "OTHER_LANGUAGES"]
+CANONICAL_AUDIT_DIRS = [".", "OTHER_LANGUAGES", "docs"]
 
 def calculate_sha256(path: Path) -> str:
     if not (path.exists() and path.is_file()): return ""

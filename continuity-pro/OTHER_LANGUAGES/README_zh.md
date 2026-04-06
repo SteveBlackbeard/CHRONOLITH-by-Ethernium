@@ -104,7 +104,7 @@ Continuity Legacy 是一个专业级同步框架，旨在保护软件的逻辑�
 
 | Guide | Link |
 | :--- | :--- |
-| [**Industrial Guide**](../../HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](../../HOW_TO_USE_IT.md) |
+| [**Industrial Guide**](../../docs/HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](../../docs/HOW_TO_USE_IT.md) |
 | [**Release Manifest**](../../RELEASE_NOTES_MANIFEST.md) | [RELEASE_NOTES_MANIFEST.md](../../RELEASE_NOTES_MANIFEST.md) |
 
 ---

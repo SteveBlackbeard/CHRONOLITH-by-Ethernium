@@ -37,7 +37,7 @@ _Industrial-grade border guard with security audits and global synchronization._
 _Advanced RAG, cognitive mapping, and proactive impact analysis._
 
 ##  Navigation Explorer
-*   [**Industrial Guide** (HOW_TO_USE_IT.md)](./HOW_TO_USE_IT.md)
+*   [**Industrial Guide** (HOW_TO_USE_IT.md)](./docs/HOW_TO_USE_IT.md)
 *   [**Main Documentation** (README.md)](./README.md)
 *   [**Legal Heritage** (LICENSE)](./LICENSE)
 *   [**Decision Log** (.continuity/DECISIONS_LOG.md)](./.continuity/DECISIONS_LOG.md)
