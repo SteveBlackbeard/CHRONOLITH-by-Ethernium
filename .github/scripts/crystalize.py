@@ -6,32 +6,47 @@ import sys
 from pathlib import Path
 from datetime import datetime
 
-# ENTERPRISE CRYSTALLIZER (v2.5.0 - AUTONOMIC SENTINEL INTEGRATION)
+# NEXUS CRYSTALLIZER (v2.7.2 - DYNAMIC TOKENATOR HEARTBEAT)
 # -----------------------------------------------------------------
-# Purpose: DNA Synthesis with automatic ENE Optimization and Token Telemetry.
+# Purpose: DNA Synthesis with Real-Time Token Telemetry and ENE Optimization.
 
-# Industrial Note: We attempt to load the Sentinel and Optimizer from the local environment.
-try:
-    from continuity_pro.continuity_legacy.token_sentinel import count_tokens, update_md_report
-    from continuity_pro.continuity_legacy.ene_optimizer import ENEOptimizer
-    SENTINEL_ACTIVE = True
-except ImportError:
-    SENTINEL_ACTIVE = False
-
-def autonomic_tokenator_cycle(merkle_root: str):
-    """Executes the Sovereign Tokenator automation cycle (v2.7.0)."""
+def autonomic_tokenator_heartbeat(root: Path, merkle_root: str, audit_files: list):
+    """Executes the Sovereign Tokenator automation cycle with REAL token counting."""
     try:
-        from continuity_pro.continuity_legacy.tokenator import log_session
-        print(f"[🛰️] Tokenator Heartbeat: {merkle_root[:16]}...")
-        # Auto-log the session on each crystallization
-        log_session("Autonomic DNA Crystallization (Nexus Phase)", 150)
+        # Add project root to sys.path to ensure we can import the tokenator
+        sys.path.append(str(root / "continuity-pro"))
+        from continuity_pro.continuity_legacy.tokenator import count_tokens, log_session, update_md_report
+        from continuity_pro.continuity_legacy.ene_optimizer import ENEOptimizer
+        
+        # 1. Automatic ENE Optimization (x10 Efficiency)
+        optimizer = ENEOptimizer()
+        dna_path = root / "PROJECT_DNA.md"
+        if dna_path.exists():
+            original = dna_path.read_text(encoding="utf-8")
+            compressed = optimizer.compress(original)
+            ene_path = dna_path.with_suffix(".ene.md")
+            ene_path.write_text(compressed, encoding="utf-8")
+            print(f"    [✔] ENE Optimized DNA updated (.ene.md).")
+
+        # 2. Dynamic Token Calculation (Realismo Dinámico)
+        # We process the actual content of the files audit to get the REAL cognitive weight
+        total_content = ""
+        for f in audit_files:
+            try:
+                total_content += f.read_text(encoding="utf-8") + "\n"
+            except: continue
+        
+        real_tokens = count_tokens(total_content)
+        
+        # 3. Autonomic Telemetry
+        # This replaces the hardcoded 150 with the REAL count
+        log_session(f"Autonomic DNA Crystallization (NEXUS: {merkle_root[:8]})", real_tokens)
+        print(f"    [🛰️] Tokenator Heartbeat synchronized: {real_tokens} tokens.")
+        
     except ImportError:
-        print("[!] Tokenator Engine (Pro) not found. Skipping telemetry.")
+        print("[!] Tokenator Engine (Pro) not found. Skipping dynamic telemetry.")
     except Exception as e:
         print(f"[!] Tokenator heartbeat failed: {e}")
-
-EXCLUDE_DIRS = [".git", "node_modules", ".continuity", "outputs", ".pytest_cache", "__pycache__", ".venv", ".github", ".idea", ".vscode"]
-CANONICAL_AUDIT_DIRS = [".", "OTHER_LANGUAGES"]
 
 def calculate_sha256(path: Path) -> str:
     if not (path.exists() and path.is_file()): return ""
@@ -39,6 +54,7 @@ def calculate_sha256(path: Path) -> str:
         content = path.read_text(encoding="utf-8")
     except UnicodeDecodeError:
         return ""
+    # Filter out the DNA Crystal marker to avoid circular hashing
     lines = [l.rstrip() for l in content.splitlines() if "DNA CRYSTAL" not in l and "img.shields.io/badge/DNA--Crystallized" not in l]
     return hashlib.sha256("\n".join(lines).strip().encode("utf-8")).hexdigest()
 
@@ -54,32 +70,10 @@ def build_merkle_root(hashes: list[str]) -> str:
         current_level = next_level
     return current_level[0]
 
-def autonomic_sentinel_cycle(root: Path, merkle_root: str):
-    """Automatically performs ENE optimization and Token logging."""
-    if not SENTINEL_ACTIVE: return
-    
-    optimizer = ENEOptimizer()
-    dna_path = root / "PROJECT_DNA.md"
-    
-    # 1. Automatic ENE Optimization (x10 Efficiency)
-    if dna_path.exists():
-        original = dna_path.read_text(encoding="utf-8")
-        compressed = optimizer.compress(original)
-        ene_path = dna_path.with_suffix(".ene.md")
-        ene_path.write_text(compressed, encoding="utf-8")
-        print(f"    [✔] ENE Optimized DNA updated (.ene.md).")
-        
-    # 2. Token Telemetry (Tachometer)
-    # We estimate the cost of the current change relative to the Merkle Drift
-    # or just record the current total project status.
-    total_tokens = count_tokens("\n".join([f.read_text(encoding="utf-8") for f in root.glob("*.md") if f.is_file()]))
-    update_md_report(f"Autonomic DNA Sync ({merkle_root[:8]})", total_tokens)
-    print(f"    [✔] Token Tachometer synchronized: {total_tokens} tokens.")
-
 def crystalize():
     root = Path(".").resolve()
-    # Add project root to sys.path to ensure we can import the sentinel
-    sys.path.append(str(root / "continuity-pro"))
+    EXCLUDE_DIRS = [".git", "node_modules", ".continuity", "outputs", ".pytest_cache", "__pycache__", ".venv", ".github", ".idea", ".vscode"]
+    CANONICAL_AUDIT_DIRS = [".", "OTHER_LANGUAGES"]
     
     all_md_files = []
     for audit_dir in CANONICAL_AUDIT_DIRS:
@@ -95,7 +89,7 @@ def crystalize():
     nucleotides = [calculate_sha256(md) for md in sorted(all_md_files)]
     merkle_root = build_merkle_root(nucleotides)
     
-    print(f"[*] SYMBOLIC SYNTHESIS COMPLETE.")
+    print(f"[*] SYMBOLIC SYNTHESIS PROGRESS (v2.1.0-NEXUS)")
     print(f"[*] CANONICAL MERKLE ROOT: {merkle_root}")
     
     is_ci = os.environ.get("CI") == "true"
@@ -115,12 +109,15 @@ def crystalize():
         readme_path = root / "README.md"
         if readme_path.exists():
             content = readme_path.read_text(encoding="utf-8")
+            # Update specific version marker
             content = re.sub(r'DNA CRYSTAL\*\*: `v2\.1\.0-[a-f0-9]+`', f"DNA CRYSTAL**: `v2.1.0-{merkle_root[:16]}`", content)
             readme_path.write_text(content, encoding="utf-8")
             print(f"    [✔] README.md crystal updated.")
             
-        # --- Autonomic Loop (NEXUS v2.7.0) ---
-        autonomic_tokenator_cycle(merkle_root)
+        # --- Autonomic Loop (REALISMO DINÁMICO v2.7.2) ---
+        autonomic_tokenator_heartbeat(root, merkle_root, all_md_files)
+    else:
+        print("[+] DNA Parity Confirmed (CI Environment).")
 
 if __name__ == "__main__":
     crystalize()
