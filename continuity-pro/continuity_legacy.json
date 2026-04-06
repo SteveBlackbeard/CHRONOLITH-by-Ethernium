@@ -1,21 +1,21 @@
-{
-  "template_name": "CONTINUITY LEGACY",
-  "project_name": "CONTINUITY LEGACY",
-  "project_slug": "continuity_legacy",
-  "context_file": "PROJECT_CONTEXT.md",
-  "state_file": "STATE.json",
-  "roadmap_file": "ROADMAP.md",
-  "continuity_dir": ".continuity",
-  "outputs_dir": "outputs/continuity",
-  "external_docs": {
-    "enabled": false,
-    "folder_name": "CONTINUITY_LEGACYDEV",
-    "root_override": ""
-  },
-  "metadata": {
-    "generated_by": "Continuity Legacy by Ethernium",
-    "tool_version": "5.0.0",
-    "creator": "@Steveblackbeard",
-    "include_in_reports": true
-  }
+{
+  "template_name": "CONTINUITY LEGACY",
+  "project_name": "CONTINUITY LEGACY",
+  "project_slug": "continuity_legacy",
+  "context_file": "PROJECT_CONTEXT.md",
+  "state_file": "STATE.json",
+  "roadmap_file": "ROADMAP.md",
+  "continuity_dir": ".continuity",
+  "outputs_dir": "outputs/continuity",
+  "external_docs": {
+    "enabled": false,
+    "folder_name": "CONTINUITY_LEGACYDEV",
+    "root_override": ""
+  },
+  "metadata": {
+    "generated_by": "Continuity Legacy by Ethernium",
+    "tool_version": "5.0.0",
+    "creator": "@Steveblackbeard",
+    "include_in_reports": true
+  }
 }

@@ -1,1 +1,1 @@
-"""Core helpers for Continuity Legacy."""
+"""Core helpers for Continuity Legacy."""

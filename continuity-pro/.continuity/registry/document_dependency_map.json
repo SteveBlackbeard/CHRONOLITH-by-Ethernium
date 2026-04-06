@@ -1,140 +1,140 @@
-{
-  "version": "1.0",
-  "generated_at": "",
-  "documents": [
-    {
-      "path": "AGENT_START.md",
-      "role": "single_file_agent_entrypoint",
-      "required_strings": [
-        "# AGENT START",
-        "Immediate Read Order",
-        "run_continuity_cycle.py"
-      ],
-      "forbidden_strings": [],
-      "refresh_triggers": [
-        "agent_entrypoint_change"
-      ],
-      "severity": "warning"
-    },
-    {
-      "path": "README.md",
-      "role": "starter_entrypoint",
-      "required_strings": [
-        "CONTINUITY LEGACY",
-        "bootstrap_project.py",
-        "run_continuity_cycle.py"
-      ],
-      "forbidden_strings": [],
-      "refresh_triggers": [
-        "starter_entrypoint_change"
-      ],
-      "severity": "error"
-    },
-    {
-      "path": "PROJECT_CONTEXT.md",
-      "role": "constitutional_surface",
-      "required_strings": [
-        "SYSTEM ROLE:",
-        "CONTEXT CONTINUITY RULES:",
-        "Analyze before improving or innovating.",
-        "AUTOMATION RULE:"
-      ],
-      "forbidden_strings": [],
-      "refresh_triggers": [
-        "context_rule_change"
-      ],
-      "severity": "error"
-    },
-    {
-      "path": "ROADMAP.md",
-      "role": "roadmap_surface",
-      "required_strings": [
-        "# ROADMAP",
-        "## Active Milestone"
-      ],
-      "forbidden_strings": [],
-      "refresh_triggers": [
-        "milestone_change"
-      ],
-      "severity": "error"
-    },
-    {
-      "path": ".continuity/CONTEXT_CONTINUITY.md",
-      "role": "continuity_surface",
-      "required_strings": [
-        "# CONTEXT CONTINUITY",
-        "## Mandatory Update Rule",
-        "## Mandatory Automation Closeout"
-      ],
-      "forbidden_strings": [],
-      "refresh_triggers": [
-        "continuity_rule_change"
-      ],
-      "severity": "error"
-    },
-    {
-      "path": ".continuity/BOOT_SEQUENCE.md",
-      "role": "boot_surface",
-      "required_strings": [
-        "# BOOT SEQUENCE",
-        "## Required First Response Pattern"
-      ],
-      "forbidden_strings": [],
-      "refresh_triggers": [
-        "boot_sequence_change"
-      ],
-      "severity": "error"
-    },
-    {
-      "path": ".continuity/LIVE_HANDOFF.md",
-      "role": "handoff_surface",
-      "required_strings": [
-        "# LIVE HANDOFF",
-        "## Current Phase",
-        "## Next Exact Action"
-      ],
-      "forbidden_strings": [],
-      "refresh_triggers": [
-        "handoff_change"
-      ],
-      "severity": "error"
-    },
-    {
-      "path": ".continuity/DECISIONS_LOG.md",
-      "role": "decision_surface",
-      "required_strings": [
-        "# DECISIONS LOG"
-      ],
-      "forbidden_strings": [],
-      "refresh_triggers": [
-        "decision_change"
-      ],
-      "severity": "error"
-    },
-    {
-      "path": ".continuity/TIMELINE.md",
-      "role": "timeline_surface",
-      "required_strings": [
-        "# TIMELINE"
-      ],
-      "forbidden_strings": [],
-      "refresh_triggers": [
-        "timeline_change"
-      ],
-      "severity": "error"
-    },
-    {
-      "path": ".continuity/AGENT_ACTIVATION_PROTOCOL.md",
-      "role": "activation_surface",
-      "required_strings": [
-        "# AGENT ACTIVATION PROTOCOL",
-        "## Activation Rule"
-      ],
-      "forbidden_strings": [],
-      "refresh_triggers": [
-        "activation_protocol_change"
-      ],
-      "severity": "info"
-    }
-  ]
-}
+{
+  "version": "1.0",
+  "generated_at": "",
+  "documents": [
+    {
+      "path": "AGENT_START.md",
+      "role": "single_file_agent_entrypoint",
+      "required_strings": [
+        "# AGENT START",
+        "Immediate Read Order",
+        "run_continuity_cycle.py"
+      ],
+      "forbidden_strings": [],
+      "refresh_triggers": [
+        "agent_entrypoint_change"
+      ],
+      "severity": "warning"
+    },
+    {
+      "path": "README.md",
+      "role": "starter_entrypoint",
+      "required_strings": [
+        "CONTINUITY LEGACY",
+        "bootstrap_project.py",
+        "run_continuity_cycle.py"
+      ],
+      "forbidden_strings": [],
+      "refresh_triggers": [
+        "starter_entrypoint_change"
+      ],
+      "severity": "error"
+    },
+    {
+      "path": "PROJECT_CONTEXT.md",
+      "role": "constitutional_surface",
+      "required_strings": [
+        "SYSTEM ROLE:",
+        "CONTEXT CONTINUITY RULES:",
+        "Analyze before improving or innovating.",
+        "AUTOMATION RULE:"
+      ],
+      "forbidden_strings": [],
+      "refresh_triggers": [
+        "context_rule_change"
+      ],
+      "severity": "error"
+    },
+    {
+      "path": "ROADMAP.md",
+      "role": "roadmap_surface",
+      "required_strings": [
+        "# ROADMAP",
+        "## Active Milestone"
+      ],
+      "forbidden_strings": [],
+      "refresh_triggers": [
+        "milestone_change"
+      ],
+      "severity": "error"
+    },
+    {
+      "path": ".continuity/CONTEXT_CONTINUITY.md",
+      "role": "continuity_surface",
+      "required_strings": [
+        "# CONTEXT CONTINUITY",
+        "## Mandatory Update Rule",
+        "## Mandatory Automation Closeout"
+      ],
+      "forbidden_strings": [],
+      "refresh_triggers": [
+        "continuity_rule_change"
+      ],
+      "severity": "error"
+    },
+    {
+      "path": ".continuity/BOOT_SEQUENCE.md",
+      "role": "boot_surface",
+      "required_strings": [
+        "# BOOT SEQUENCE",
+        "## Required First Response Pattern"
+      ],
+      "forbidden_strings": [],
+      "refresh_triggers": [
+        "boot_sequence_change"
+      ],
+      "severity": "error"
+    },
+    {
+      "path": ".continuity/LIVE_HANDOFF.md",
+      "role": "handoff_surface",
+      "required_strings": [
+        "# LIVE HANDOFF",
+        "## Current Phase",
+        "## Next Exact Action"
+      ],
+      "forbidden_strings": [],
+      "refresh_triggers": [
+        "handoff_change"
+      ],
+      "severity": "error"
+    },
+    {
+      "path": ".continuity/DECISIONS_LOG.md",
+      "role": "decision_surface",
+      "required_strings": [
+        "# DECISIONS LOG"
+      ],
+      "forbidden_strings": [],
+      "refresh_triggers": [
+        "decision_change"
+      ],
+      "severity": "error"
+    },
+    {
+      "path": ".continuity/TIMELINE.md",
+      "role": "timeline_surface",
+      "required_strings": [
+        "# TIMELINE"
+      ],
+      "forbidden_strings": [],
+      "refresh_triggers": [
+        "timeline_change"
+      ],
+      "severity": "error"
+    },
+    {
+      "path": ".continuity/AGENT_ACTIVATION_PROTOCOL.md",
+      "role": "activation_surface",
+      "required_strings": [
+        "# AGENT ACTIVATION PROTOCOL",
+        "## Activation Rule"
+      ],
+      "forbidden_strings": [],
+      "refresh_triggers": [
+        "activation_protocol_change"
+      ],
+      "severity": "info"
+    }
+  ]
+}

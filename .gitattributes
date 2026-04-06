@@ -1,0 +1,7 @@
+# Ethernium DNA LF-Normalization Enforcer
+# Forzar a Git a utilizar LF para todos los archivos textuales, previniendo DNA Drift entre Github Actions y Windows local.
+
+* text=auto eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.py text eol=lf
