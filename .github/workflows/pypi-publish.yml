@@ -9,6 +9,9 @@ jobs:
   build-and-publish:
     name: 📦 Build and Publish to PyPI
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     strategy:
       matrix:
         package-path: [".", "continuity-lite", "continuity-pro", "continuity-omega"]
