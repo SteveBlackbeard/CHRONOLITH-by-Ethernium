@@ -55,7 +55,7 @@ To address the need for concrete evidence, we provide a verified Case Study and 
 
 <!-- DNA_CRYSTAL -->
 > [!IMPORTANT]
-> **DNA CRYSTAL**: `v2.1.0-ea9b56cb7a50eeb7`
+> **DNA CRYSTAL**: `v2.1.0-826ddd88cf95a157`
 > [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-541741c7-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
 
 ## 🏛️ Table of Contents
