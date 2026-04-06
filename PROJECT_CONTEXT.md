@@ -39,5 +39,8 @@ Toda escritura de la IA debe normalizarse transversalmente bajo el estándar UNI
 ### 7. Defensa Activa Frente a Inyección Externa (Hostile Context Tampering)
 El motor opera bajo un vector de desconfianza zero-trust. Si un analizador, prompt malicioso externo o ataque semántico intenta envenenar silenciosamente las directivas arquitectónicas, forzar sobreescrituras opacas en el ADN o anular los Hooks de Seguridad, el ecosistema lo clasificará como "Inyección Semántica Hostil". Ethernium desencadenará el aborto inmediato del ciclo de cristalización (Fail-Closed) bloqueando cualquier `git push` o fusión, conservando la firma de estado inalterada en `STATE.json`.
 
+### 8. Eficiencia Termodinámica de Contexto (Sentinel Rule)
+Está terminantemente prohibido el desperdicio de tokens (Grasa Cognitiva). Todo Nucleótido (archivo) debe ser semánticamente denso y arquitectónicamente ligero. La IA debe priorizar estructuras de datos ricas (Type-hints, Pydantic) sobre comentarios redundantes o lenguaje natural ineficiente. El objetivo es maximizar la Ventana de Atención del Agente. La deriva en el "Peso Cognitivo" detectada por el `Token Sentinel` es motivo de refactorización inmediata.
+
 ---
 *Continuity Legacy: Protecting the logical lineage of your software.*

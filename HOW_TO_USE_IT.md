@@ -63,6 +63,7 @@ python .github/scripts/crystalize.py
 Ubicadas en `.github/scripts/`:
 - `crystalize.py`: Sincroniza el estado de ADN local con el Merkle Root global.
 - `audit_comparison.py`: Analiza bit a bit las discrepancias entre tu máquina y el Industrial Guardian de GitHub.
+- `token_sentinel.py` (CLI: `continuity-tokens`): Audita el peso cognitivo de los archivos para optimizar el contexto del LLM.
 
 ---
 *Continuity Legacy: Protecting the logical lineage of your software.*

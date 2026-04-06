@@ -31,6 +31,9 @@ continuity init
 
 # Verify state consistency
 continuity status
+
+# [NEW] Audit project cognitive weight (tokens)
+continuity-tokens scan
 ```
 
 ---
@@ -45,8 +48,8 @@ To address the need for concrete evidence, we provide a verified Case Study and 
 
 <!-- DNA_CRYSTAL -->
 > [!IMPORTANT]
-> **DNA CRYSTAL**: `v2.1.0-66583d109fac8ee6`
-> [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-66583d10-blueviolet))))))))))))))))))))))))))))))))))))))))))))](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
+> **DNA CRYSTAL**: `v2.1.0-541741c73ed44eb5`
+> [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-541741c7-blueviolet))))))))))))))))))))))))))))))))))))))))))))))))](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
 
 ## 🏛️ Table of Contents
 1. [Choose Your Edition](#-choose-your-edition)
@@ -95,6 +98,7 @@ Continuity provides three levels of depth in governance:
 - **DNA Integrity**: Automated file synchronization of documentation and source code.
 - **Global Awareness**: Full documentation and CLI support localized in 9 languages.
 - **Diamond Sanitization**: Deep purge of encoding errors (mojibake) and streamlined terminal-friendly directory structures.
+- **[NEW] Token Sentinel (v1.0)**: Integrated telemetry to monitor project "Cognitive Weight" and optimize LLM context consumption.
 
 ---
 
