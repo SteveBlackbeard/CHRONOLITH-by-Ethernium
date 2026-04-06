@@ -1,5 +1,5 @@
 # CONTINUITY LEGACY: Root Portal (グローバル・インフラストラクチャ)
-![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)
+![Version](https://img.shields.io/badge/version-2.1.0-NEXUS-blue.svg)
 
 #### エディション
 [![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](./continuity-lite/)
@@ -28,6 +28,14 @@
 | **Lite** | < 100 MB | < 5 MB | Zero | Local Dev / CI-CD |
 | **Pro** | 4 GB | 50 MB | Standard | Industrial Handoffs |
 | **Omega** | 16 GB+ | 500 MB+ | RAG/Graph | Enterprise Strategy |
+
+---
+
+## 🏛️ エンタープライズのユースケース
+Continuity Legacy は、長期的な 人間とAI のコラボレーションにおける「意味の漂流」を解決します:
+1. **エージェント間のハンドオフ**: プロジェクトの全コンテキストを異なる AI モデル間 (GPT-4 から Claude、ローカル LLM) でコンテキストロスなしに転送します。
+2. **マルチデイ RAG の安定性**: システムのリセット後でも、検索拡張生成システムが常に正規の真実のソースを指すようにします。
+3. **レガシーの復元**: 最後の人間開発者が去ってから数年後でも、プロジェクトのアーキテクチャ上の意図を即座に再構築します。
 
 ---
 
@@ -64,4 +72,4 @@
 *Continuity: ソフトウェアの論理的系統を保護します。*
 
 ---
-* CONTINUITY LEGACY: グローバル・インフラストラクチャ - Version 2.1.0 - Generated 2026-04-06T03:31:16.113539Z *
+* CONTINUITY LEGACY: グローバル・インフラストラクチャ - Version 2.1.0-NEXUS - Generated 2026-04-06T04:13:26.093556Z *

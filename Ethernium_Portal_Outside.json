@@ -1,0 +1,9 @@
+{
+  "portal_name": "demo_folder",
+  "version": "1.0.0 (Nexus)",
+  "timestamp": "2026-04-05T22:02:49.659588",
+  "merkle_root": "f7d8ae817fc43b6fadb6f2f695ec3f0967e7cd43c689aea9a28896408f9e8a82",
+  "ghost_map": "Ethernium Portal: demo_folder Files: 2 Root: f7d8ae817fc43b6f",
+  "identity_claimed": "SteveBlackbeard (Sovereign Root)",
+  "signature": "7d9c0e799dd28ddad7db9cf72de4f256926473224813edbe83494e4e086b5a12d0a62cb2402c13838b8950b4415449573d9b5eb3ef22dddf4686a339c4cd1607"
+}

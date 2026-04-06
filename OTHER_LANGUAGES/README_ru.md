@@ -1,5 +1,5 @@
 # CONTINUITY LEGACY: Root Portal (Глобальная инфраструктура)
-![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)
+![Version](https://img.shields.io/badge/version-2.1.0-NEXUS-blue.svg)
 
 #### Редакции
 [![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](./continuity-lite/)
@@ -28,6 +28,14 @@
 | **Lite** | < 100 MB | < 5 MB | Zero | Local Dev / CI-CD |
 | **Pro** | 4 GB | 50 MB | Standard | Industrial Handoffs |
 | **Omega** | 16 GB+ | 500 MB+ | RAG/Graph | Enterprise Strategy |
+
+---
+
+## 🏛️ Корпоративные сценарии использования
+Continuity Legacy решает проблему «семантического дрейфа» при долгосрочном сотрудничестве человека и ИИ:
+1. **Передача между агентами**: Перенос полного контекста проекта между различными моделями ИИ (от GPT-4 к Claude или локальным LLM) без потери контекста.
+2. **Стабильность RAG**: Гарантирует, что системы генерации с дополнением извлечения (RAG) всегда указывают на канонический источник истины даже после перезапуска системы.
+3. **Восстановление наследия**: Мгновенная реконструкция архитектурного замысла проекта спустя годы после ухода последнего разработчика-человека.
 
 ---
 
@@ -64,4 +72,4 @@
 *Continuity: Защита логической преемственности вашего программного обеспечения.*
 
 ---
-* CONTINUITY LEGACY: Глобальная инфраструктура - Version 2.1.0 - Generated 2026-04-06T03:31:16.116633Z *
+* CONTINUITY LEGACY: Глобальная инфраструктура - Version 2.1.0-NEXUS - Generated 2026-04-06T04:13:26.096929Z *

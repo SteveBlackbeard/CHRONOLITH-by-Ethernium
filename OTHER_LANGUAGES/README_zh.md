@@ -1,5 +1,5 @@
 # CONTINUITY LEGACY: Root Portal (全球基础设施)
-![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)
+![Version](https://img.shields.io/badge/version-2.1.0-NEXUS-blue.svg)
 
 #### 版本
 [![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](./continuity-lite/)
@@ -28,6 +28,14 @@
 | **Lite** | < 100 MB | < 5 MB | Zero | Local Dev / CI-CD |
 | **Pro** | 4 GB | 50 MB | Standard | Industrial Handoffs |
 | **Omega** | 16 GB+ | 500 MB+ | RAG/Graph | Enterprise Strategy |
+
+---
+
+## 🏛️ 企业级用例
+Continuity Legacy 解决了长期 人机协作 中的“语义漂移”问题：
+1. **跨智能体交接**: 在不同的 AI 模型（从 GPT-4 到 Claude 再到本地 LLM）之间传输完整的项目上下文，实现零上下文损失。
+2. **多日 RAG 稳定性**: 确保检索增强生成（RAG）系统即使在系统重置后，也始终指向规范的真相源。
+3. **遗产恢复**: 在最后一名人类开发人员离开多年后，立即重建项目的架构意图。
 
 ---
 
@@ -64,4 +72,4 @@
 *Continuity: 保护软件的逻辑血统。*
 
 ---
-* CONTINUITY LEGACY: 全球基础设施 - Version 2.1.0 - Generated 2026-04-06T03:31:16.119761Z *
+* CONTINUITY LEGACY: 全球基础设施 - Version 2.1.0-NEXUS - Generated 2026-04-06T04:13:26.100258Z *

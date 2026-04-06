@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "continuity-legacy"
-version = "2.1.0"
+version = \"2.1.0-NEXUS\"
 authors = [
   { name = "SteveBlackbeard" },
 ]

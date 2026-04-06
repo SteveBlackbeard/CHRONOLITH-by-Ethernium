@@ -11,6 +11,7 @@ from rich.panel import Panel
 from rich.progress import Progress
 import tiktoken
 from continuity_pro.continuity_legacy.ene_optimizer import ENEOptimizer
+from continuity_pro.continuity_legacy.zip_bridge import create_portal_zip, verify_portal
 
 # Ethernium Token Sentinel (v1.0.0 - Industrial Telemetry)
 # Purpose: Reverse-engineer LLM context usage and optimize cognitive density.
@@ -144,6 +145,39 @@ def log_session(
     console.print(Panel(f"Task: {task}\nSpend: [bold magenta]{tokens} tokens[/bold magenta]", title="Token Tachometer (Live)"))
     update_md_report(task, tokens)
     console.print("[green][✔] Token telemetry updated in SESSION_TOKEN_REPORT.md[/green]")
+
+@app.command()
+def zip(
+    folder: str = typer.Argument(..., help="Folder to package into a Sovereign Portal"),
+    output: Optional[str] = typer.Option(None, help="Output zip name")
+):
+    """Creates a Sovereign Ethernium Portal (ZIP) with Dual Bridge Identity."""
+    console.print(f"[bold cyan]Creating Sovereign Portal for: {folder}...[/bold cyan]")
+    result = create_portal_zip(folder, output)
+    if "[✔]" in result:
+        console.print(f"[green]{result}[/green]")
+    else:
+        console.print(f"[bold red]{result}[/bold red]")
+
+@app.command()
+def scan_zip(
+    zip_path: str = typer.Argument(..., help="Zip file to scan via Portal Bridge")
+):
+    """Scans a Sovereign Portal without extraction to report its logical weight."""
+    console.print(f"[bold cyan]Scanning Portal: {zip_path}...[/bold cyan]")
+    info = verify_portal(zip_path)
+    if "error" in info:
+        console.print(f"[bold red]Error: {info['error']}[/bold red]")
+        return
+        
+    status = "[green]VALID[/green]" if info["valid"] else "[bold red]INVALID/UNSIGNED[/bold red]"
+    console.print(Panel(
+        f"Portal: {info['portal_name']}\n"
+        f"Sovereignty: {status}\n"
+        f"Merkle Root: {info['merkle_root'][:16]}...\n"
+        f"Ghost Map (Tokens): [bold magenta]{len(info['ghost_map'])}[/bold magenta]",
+        title="Portal Insight (Dual Bridge)"
+    ))
 
 @app.command()
 def audit(file: str = typer.Argument(..., help="Specific file to audit")):

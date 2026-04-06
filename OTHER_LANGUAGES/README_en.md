@@ -1,4 +1,4 @@
-# CONTINUITY LEGACY: Root Portal (Industrial Infrastructure)
+# CONTINUITY LEGACY: Root Portal
 ![Version](https://img.shields.io/badge/version-2.1.0-NEXUS-blue.svg)
 
 #### Editions
@@ -72,4 +72,4 @@ The **Omega edition** is our Enterprise-grade Oracle. It provides advanced RAG, 
 *Continuity: Protecting the logical lineage of your software.*
 
 ---
-* CONTINUITY LEGACY: Industrial Infrastructure - Version 2.1.0-NEXUS - Generated 2026-04-06T04:13:26.103580Z *
+* CONTINUITY LEGACY: Industrial Infrastructure - Version 2.1.0-NEXUS - Generated 2026-04-06T04:13:26.117212Z *

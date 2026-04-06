@@ -77,6 +77,11 @@ def generate_localized_readme(lang, edition_name, version, is_root):
     if not is_lite_only:
         omega_section = f"\n---\n\n## {t.get('omega_section_title', '')}\n{t.get('omega_text', '')}\n\n![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)"
     
+    use_cases_section = ""
+    if "use_cases_title" in t:
+        use_cases_list = "\n".join([f"{i+1}. {case}" for i, case in enumerate(t.get('use_cases', []))])
+        use_cases_section = f"\n---\n\n## {t['use_cases_title']}\n{t.get('use_cases_intro', '')}\n{use_cases_list}"
+
     lines = [
         f"# {title}",
         f"{badge}",
@@ -87,6 +92,7 @@ def generate_localized_readme(lang, edition_name, version, is_root):
         v_ribbon,
         f"\n---\n\n## 📊 Technical Specifications (Hardware Profiles)",
         "| Edition | RAM (Min) | Storage | Dependencies | Best For |\n| :--- | :--- | :--- | :--- | :--- |\n| **Lite** | < 100 MB | < 5 MB | Zero | Local Dev / CI-CD |\n| **Pro** | 4 GB | 50 MB | Standard | Industrial Handoffs |\n| **Omega** | 16 GB+ | 500 MB+ | RAG/Graph | Enterprise Strategy |",
+        use_cases_section,
         f"\n---\n\n## 🚀 Modos de Operación (How to use)\n"
         f"1. **Modo Autónomo (Industrial CLI)**: Ejecute `continuity-lite status` para ver la salud del sistema.\n"
         f"2. **Modo Centinela (Automatic Guardian)**: Use `continuity-lite init` para activar Hooks automáticos.\n"

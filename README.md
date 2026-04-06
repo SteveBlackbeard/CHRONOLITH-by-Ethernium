@@ -48,8 +48,8 @@ To address the need for concrete evidence, we provide a verified Case Study and 
 
 <!-- DNA_CRYSTAL -->
 > [!IMPORTANT]
-> **DNA CRYSTAL**: `v2.1.0-04393af203b2a2b8`
-> [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-541741c7-blueviolet)))))))))))))))))))))))))))))))))))))))))))))))))))](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
+> **DNA CRYSTAL**: `v2.1.0-8911d917800cea75`
+> [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-541741c7-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
 
 ## 🏛️ Table of Contents
 1. [Choose Your Edition](#-choose-your-edition)
@@ -81,6 +81,14 @@ _Advanced RAG, cognitive mapping, and a stunning 3D Glassmorphic Dashboard for i
 | :--- | :--- |
 | [**Industrial Guide**](./HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](./HOW_TO_USE_IT.md) |
 | [**Release Manifest**](./RELEASE_NOTES_MANIFEST.md) | [RELEASE_NOTES_MANIFEST.md](./RELEASE_NOTES_MANIFEST.md) |
+
+---
+
+## 🏛️ Enterprise Use Cases
+Continuity Legacy solves the "Semantic Drift" in long-term AI-Human collaboration:
+1. **Cross-Agent Handoffs**: Transfer full project context between different AI models (GPT-4 to Claude to local LLMs) with zero context loss.
+2. **Multi-Day RAG Stability**: Ensures that Retrieval-Augmented Generation systems always point to the canonical source of truth, even after system resets.
+3. **Legacy Restoration**: Instantly reconstruct the architectural intent of a project years after the last human developer has left.
 
 ---
 
@@ -196,8 +204,11 @@ Continuity Legacy can be integrated into your workflow in three main ways:
 
 ## 🧠 Key Features (Industrial Symphony)
 - **Metabolism Optimization**: Typ-Rich engine with <100ms startup and lazy-loading of cores.
-- **DNA Synthesis**: Merkle cryptographic protection with SHA-256 state signatures.
-- **deterministic Governance**: Sentinel Guardian with automatic Git-Hooks and session logging.
+- **DNA Synthesis**: Merkle Tree cryptographic protection (SHA-256).
+- **Sovereign Identity**: Digital signing of Project DNA using ED25519 (v2.6.0+).
+- **Dual Bridge Portals**: Symmetric Identity for ZIP files (`Ethernium_Portal_Inside/Outside`).
+- **Token Sentinel**: Context telemetry and x10 optimization via ENE.
+- **Governance**: Sentinel Guardian with automatic Git-Hooks and session logging.
 - **Global Symmetry**: Industrial-grade documentation and CLI support in 9 languages.
 - **Industrial Sanitization**: Full purge of UTF-16 files and tactical debris.
 
