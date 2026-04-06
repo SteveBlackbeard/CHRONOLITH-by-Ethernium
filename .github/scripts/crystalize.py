@@ -13,20 +13,31 @@ from datetime import datetime
 def autonomic_tokenator_heartbeat(root: Path, merkle_root: str, audit_files: list):
     """Executes the Sovereign Tokenator automation cycle with REAL token counting."""
     try:
-        # Add project root to sys.path to ensure we can import the tokenator
         sys.path.append(str(root / "continuity-pro"))
         from continuity_pro.continuity_legacy.tokenator import count_tokens, log_session, update_md_report
         from continuity_pro.continuity_legacy.ene_optimizer import ENEOptimizer
+        from continuity_pro.continuity_legacy.sovereign_identity import get_identity
+        import math
         
-        # 1. Automatic ENE Optimization (x10 Efficiency)
+        def shannon_entropy(data: str) -> float:
+            if not data: return 0.0
+            probabilities = [data.count(c) / len(data) for c in set(data)]
+            return -sum(p * math.log2(p) for p in probabilities)
+
+        # 1. Automatic ENE v3.0 Optimization (Ghost Mode Active)
         optimizer = ENEOptimizer()
+        identity = get_identity()
         dna_path = root / "PROJECT_DNA.md"
+        entropy_dna = 0.0
+        
         if dna_path.exists():
             original = dna_path.read_text(encoding="utf-8")
-            compressed = optimizer.compress(original)
-            ene_path = dna_path.with_suffix(".ene.md")
+            entropy_dna = shannon_entropy(original)
+            # Enforcing Ghost Mode for strategic DNA
+            compressed = optimizer.compress(original, identity=identity, ghost_mode=True)
+            ene_path = dna_path.with_suffix(".ene.md.locked")
             ene_path.write_text(compressed, encoding="utf-8")
-            print(f"    [✔] ENE Optimized DNA updated (.ene.md).")
+            print(f"    [✔] Sovereign DNA Sealed (.ene.md.locked) | H={entropy_dna:.4f}")
 
         # 2. Dynamic Token Calculation (Realismo Dinámico)
         # We process the actual content of the files audit to get the REAL cognitive weight
@@ -38,9 +49,10 @@ def autonomic_tokenator_heartbeat(root: Path, merkle_root: str, audit_files: lis
         
         real_tokens = count_tokens(total_content)
         
-        # 3. Autonomic Telemetry
-        # This replaces the hardcoded 150 with the REAL count
-        log_session(f"Autonomic DNA Crystallization (NEXUS: {merkle_root[:8]})", real_tokens)
+        # 3. Autonomic Telemetry (v2.9.1 - Information Physics)
+        status_msg = f"Autonomic DNA Crystallization (H={entropy_dna:.2f})"
+        log_session(status_msg, real_tokens)
+        update_md_report(f"Φ_ENTROPY: PROJECT_DNA Audit (H={entropy_dna:.4f})", real_tokens)
         print(f"    [🛰️] Tokenator Heartbeat synchronized: {real_tokens} tokens.")
         
     except ImportError:

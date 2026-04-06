@@ -12,6 +12,8 @@ from rich.progress import Progress
 import tiktoken
 from continuity_pro.continuity_legacy.ene_optimizer import ENEOptimizer
 from continuity_pro.continuity_legacy.zip_bridge import create_portal_zip, verify_portal
+from continuity_pro.continuity_legacy.sovereign_identity import get_identity
+import math
 
 app = typer.Typer(help="Ethernium Tokenator: Autonomic Context Telemetry & Optimization")
 console = Console()
@@ -138,18 +140,19 @@ def update_md_report(task: str, tokens: int):
 
 @app.command()
 def measure_interaction(
-    diff: bool = typer.Option(True, "--diff/--no-diff", help="Analyze last git diff for AI cost")
+    scope: str = typer.Option("current", help="Scope: 'current' (active edits) or 'last' (previous commit)")
 ):
-    """IA-T (AI Telemetry): Measures the token cost and symbolic ROI of the last turn."""
+    """IA-T (AI Telemetry): Measures the real-time token cost and symbolic ROI of your turn."""
     console.print("[bold cyan]ℳᵣ Analyzing IA-T (Interaction Telemetry)...[/bold cyan]")
     try:
         import subprocess
-        # Get the diff of the last commit
-        cmd = "git diff HEAD^ HEAD"
+        # Scope selection
+        cmd = "git diff HEAD" if scope == "current" else "git diff HEAD^ HEAD"
+        
         result = subprocess.check_output(cmd, shell=True, text=True)
         raw_tokens = count_tokens(result)
         
-        # Calculate symbolic potential (v2.8.1)
+        # Calculate symbolic potential (v2.8.5)
         savings = 0.0
         symbolic_tokens = 0
         if raw_tokens > 0:
@@ -157,17 +160,28 @@ def measure_interaction(
             symbolic_version = optimizer.compress(result)
             symbolic_tokens = count_tokens(symbolic_version)
             savings = (1 - (symbolic_tokens / raw_tokens)) * 100
-        
-        table = Table(title="🪐 IA-T (Interaction Telemetry) - Turn Audit")
+        else:
+            # If no diff, we report the cost of the session files edited
+            console.print("[yellow][!] No changes detected in diff. Audit of staged area...[/yellow]")
+            cmd_staged = "git diff --cached"
+            result = subprocess.check_output(cmd_staged, shell=True, text=True)
+            raw_tokens = count_tokens(result)
+            if raw_tokens > 0:
+                optimizer = ENEOptimizer()
+                symbolic_version = optimizer.compress(result)
+                symbolic_tokens = count_tokens(symbolic_version)
+                savings = (1 - (symbolic_tokens / raw_tokens)) * 100
+
+        table = Table(title=f"🪐 IA-T (Interaction Telemetry) - {scope.upper()}")
         table.add_column("Metric", style="cyan")
         table.add_column("Value", style="magenta")
-        table.add_row("Raw Turn Tokens", str(raw_tokens))
-        table.add_row("Symbolic Projection", str(symbolic_tokens))
+        table.add_row("Turn Impact Tokens", str(raw_tokens))
+        table.add_row("Symbolic Optimization", str(symbolic_tokens))
         table.add_row("Efficiency ROI", f"{savings:.1f}%")
         console.print(table)
         
-        # Log to report
-        update_md_report(f"IA-T: Turn Scan (ROI: {savings:.1f}%)", raw_tokens)
+        if raw_tokens > 0:
+            update_md_report(f"IA-T: {scope} Scan (ROI: {savings:.1f}%)", raw_tokens)
         
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
@@ -225,6 +239,69 @@ def audit(file: str = typer.Argument(..., help="Specific file to audit")):
         
     stats = analyze_file_density(f_path)
     console.print(Panel(f"File: {file}\nTokens: {stats['tokens']}\nDensity: {stats['density']} T/L", title="File Insight"))
+
+@app.command()
+def physics(path: str = typer.Argument(".", help="Path to audit")):
+    """Φ_ENTROPY: Measures Shannon Entropy and Information Density of the DNA."""
+    p_path = Path(path)
+    if not p_path.exists(): return
+    
+    def shannon_entropy(data: str) -> float:
+        if not data: return 0.0
+        probabilities = [data.count(c) / len(data) for c in set(data)]
+        return -sum(p * math.log2(p) for p in probabilities)
+
+    results = []
+    for f in p_path.rglob("*.md"):
+        content = f.read_text(encoding="utf-8")
+        h = shannon_entropy(content)
+        results.append((f.name, h, len(content)))
+
+    table = Table(title="⚛️ Ethernium Physics Dashboard (Information Theory)")
+    table.add_column("Nucleotide", style="cyan")
+    table.add_column("Entropy (H)", justify="right", style="magenta")
+    table.add_column("Density (bits/char)", justify="right", style="green")
+    
+    for name, h, size in sorted(results, key=lambda x: x[1]):
+        table.add_row(name, f"{h:.4f}", f"{h/8:.4f}")
+    
+    console.print(table)
+    console.print(Panel("Lower Entropy (H) = Higher Logic Purity. Goal: < 5.0 for ENE scripts.", title="Physics Insight"))
+
+@app.command()
+def authorize(pubkey: str = typer.Argument(..., help="Public key hex to authorize")):
+    """👑_CHOSEN: Authorizes a new collaborator in THE_CHOSEN_ONES."""
+    identity = get_identity()
+    identity.authorize_collaborator(pubkey)
+    console.print(f"[green][✔] Identity {pubkey[:16]}... authorized in THE_CHOSEN_ONES.[/green]")
+
+@app.command()
+def seal(file: str = typer.Argument(..., help="File to seal using SDK")):
+    """🔐_CTX: Seals a file into a Ghost State using Sovereign Identity."""
+    f_path = Path(file)
+    if not f_path.exists(): return
+    identity = get_identity()
+    original = f_path.read_bytes()
+    sealed = identity.seal_context(original)
+    
+    sealed_path = f_path.with_suffix(".locked")
+    sealed_path.write_text(sealed)
+    console.print(f"[green][✔] File {file} sealed into {sealed_path.name}. (Identity Lock Active)[/green]")
+
+@app.command()
+def open_ctx(file: str = typer.Argument(..., help="Sealed file to open")):
+    """🔓_CTX: Opens a Ghost State file using Sovereign Identity."""
+    f_path = Path(file)
+    if not f_path.exists(): return
+    identity = get_identity()
+    sealed = f_path.read_text()
+    try:
+        opened = identity.open_context(sealed)
+        original_path = f_path.with_suffix(".restored.md")
+        original_path.write_bytes(opened)
+        console.print(f"[green][✔] Context opened! Restored to {original_path.name}.[/green]")
+    except Exception as e:
+        console.print(f"[bold red]{e}[/bold red]")
 
 def main():
     app()
