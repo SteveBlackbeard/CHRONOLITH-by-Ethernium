@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
+</p>
+
 [![Version](https://img.shields.io/badge/version-2.1.0-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/releases) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/LICENSE) [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/release/python-3100/) [![Global Parity](https://img.shields.io/badge/Global_Parity-v2.1.0-brightgreen)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium) [![Industrial Guardian](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/industrial_guardian.yml/badge.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/industrial_guardian.yml)
 
 #### Languages
@@ -5,11 +9,7 @@
 
 **"AI doesn't forget anymore."** 🧬
 
-<p align="center">
 
-  <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
-
-</p>
 
 We are proud to announce the **Official v2.1.0 Stable Release** of the **Continuity Legacy Framework**. This version represents the transition of an experimental prototype into a professional-grade infrastructure designed for global AI-Human collaboration.
 

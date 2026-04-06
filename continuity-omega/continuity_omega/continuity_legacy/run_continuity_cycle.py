@@ -15,4 +15,4 @@ def main():
     subprocess.run(cmd)
 
 if __name__ == '__main__':
-    main()
+    main()

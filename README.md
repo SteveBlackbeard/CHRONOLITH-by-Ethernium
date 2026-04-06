@@ -1,7 +1,5 @@
 <p align="center">
-
   <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
-
 </p>
 
 # Continuity Legacy: Persistent Cognitive Layer 🧬
