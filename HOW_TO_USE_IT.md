@@ -7,11 +7,24 @@ Esta guía detalla el despliegue industrial de **Continuity Legacy**, desde la i
 - **Git**: Configurado en el entorno local.
 - **Shell**: PowerShell (recomendado) o Bash.
 
-## 2. 🚀 Instalación y Preparación
-Clona el ecosistema de Continuity Legacy en tu servidor de gobierno documental:
-```powershell
+## 2. 🚀 Instalación y Preparación (Recomendado)
+El método industrial predeterminado es a través de PyPI para garantizar la integridad de las versiones:
+
+```bash
+# Instalar el ecosistema completo (Legacy + Pro + Lite + Omega)
+pip install continuity-legacy
+
+# O instalar solo los módulos necesarios:
+pip install continuity-lite
+pip install continuity-pro
+pip install continuity-omega
+```
+
+Alternativamente, para desarrolladores del núcleo:
+```bash
 git clone https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium.git
 cd CONTINUITY-LEGACY-by-Ethernium
+pip install -e .
 ```
 
 ## 3. 🧬 Enlazando Continuity a un Proyecto
@@ -19,21 +32,20 @@ Puedes proteger el "Linaje Lógico" de cualquier proyecto (nuevo o ya empezado) 
 
 ### Escenario A: Proyecto Nuevo
 1. Crea el directorio de tu proyecto.
-2. Copia la carpeta `continuity-lite` (el motor ligero) a la raíz de tu proyecto.
-3. Inicializa el sistema:
-```powershell
-python continuity-lite/continuity_lite/continuity_legacy/run_continuity_lite.py init
+2. Inicializa el sistema Guardian:
+```bash
+continuity-lite init
 ```
 
 ### Escenario B: Proyecto Existente (Cold Start)
-1. Integra `continuity-lite` en la raíz de tu repositorio actual.
-2. Ejecuta la inicialización soberana:
-```powershell
-python continuity-lite/continuity_lite/continuity_legacy/run_continuity_lite.py init
+1. Navega a la raíz de tu repositorio actual.
+2. Ejecuta la inicialización de alineamiento:
+```bash
+continuity init
 ```
 3. **Crystallize**: Si el proyecto ya tiene documentación, el sistema detectará un "DNA Drift". Debes cristalizar el estado inicial:
-```powershell
-python .github/scripts/crystalize.py
+```bash
+continuity status --fix
 ```
 
 ## 4. 🛰️ Operación del Sentinel Guardian
