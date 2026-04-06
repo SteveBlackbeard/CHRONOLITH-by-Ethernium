@@ -1,7 +1,7 @@
 import hashlib, json
 from pathlib import Path
 
-CANONICAL_AUDIT_DIRS = [".", "OTHER_LANGUAGES", "docs"]
+CANONICAL_AUDIT_DIRS = [".", "OTHER_LANGUAGES"]
 
 def calculate_sha256(path):
     if not (path.exists() and path.is_file()): return ""

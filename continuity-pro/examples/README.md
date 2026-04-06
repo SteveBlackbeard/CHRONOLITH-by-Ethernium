@@ -8,7 +8,7 @@ Use this folder for throwaway copies or validation targets if you want to test t
 
 | Guide | Link |
 | :--- | :--- |
-| [**Industrial Guide**](../../docs/HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](../../docs/HOW_TO_USE_IT.md) |
+| [**Industrial Guide**](../../HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](../../HOW_TO_USE_IT.md) |
 | [**Release Manifest**](../../RELEASE_NOTES_MANIFEST.md) | [RELEASE_NOTES_MANIFEST.md](../../RELEASE_NOTES_MANIFEST.md) |
 
 ---

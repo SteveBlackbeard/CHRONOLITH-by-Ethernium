@@ -45,7 +45,7 @@ _Industrial-grade border guard. Features Enterprise-grade cyber-security, RFC 69
 _Advanced RAG, cognitive mapping, and a stunning 3D Glassmorphic Dashboard for impactful data visualization._
 | Guide | Link |
 | :--- | :--- |
-| [**Industrial Guide**](../docs/HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](../docs/HOW_TO_USE_IT.md) |
+| [**Industrial Guide**](../HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](../HOW_TO_USE_IT.md) |
 | [**Release Manifest**](../RELEASE_NOTES_MANIFEST.md) | [RELEASE_NOTES_MANIFEST.md](../RELEASE_NOTES_MANIFEST.md) |
 
 ---

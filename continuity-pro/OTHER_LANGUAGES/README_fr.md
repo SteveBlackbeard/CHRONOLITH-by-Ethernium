@@ -98,7 +98,7 @@ The **Omega edition** is our Enterprise-grade Tier. It provides a visual, intera
 
 | Guide | Link |
 | :--- | :--- |
-| [**Industrial Guide**](../../docs/HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](../../docs/HOW_TO_USE_IT.md) |
+| [**Industrial Guide**](../../HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](../../HOW_TO_USE_IT.md) |
 | [**Release Manifest**](../../RELEASE_NOTES_MANIFEST.md) | [RELEASE_NOTES_MANIFEST.md](../../RELEASE_NOTES_MANIFEST.md) |
 
 ---

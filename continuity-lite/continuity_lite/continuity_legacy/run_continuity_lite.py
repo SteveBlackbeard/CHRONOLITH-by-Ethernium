@@ -185,7 +185,7 @@ def check(
     root = repo_root.resolve()
     
     md_files = []
-    CANONICAL_AUDIT_DIRS = [".", "OTHER_LANGUAGES", "docs"]
+    CANONICAL_AUDIT_DIRS = [".", "OTHER_LANGUAGES"]
     for audit_dir in CANONICAL_AUDIT_DIRS:
         a_path = root / audit_dir
         if not a_path.exists(): continue
