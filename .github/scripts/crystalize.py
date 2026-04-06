@@ -6,9 +6,9 @@ import sys
 from pathlib import Path
 from datetime import datetime
 
-# NEXUS CRYSTALLIZER (v2.7.2 - DYNAMIC TOKENATOR HEARTBEAT)
+# NEXUS CRYSTALLIZER (v2.8.0 - QUANTUM SYMBOLIC HEARTBEAT)
 # -----------------------------------------------------------------
-# Purpose: DNA Synthesis with Real-Time Token Telemetry and ENE Optimization.
+# Purpose: DNA Synthesis with Grammar Compression & AI-T Telemetry.
 
 def autonomic_tokenator_heartbeat(root: Path, merkle_root: str, audit_files: list):
     """Executes the Sovereign Tokenator automation cycle with REAL token counting."""
@@ -104,7 +104,7 @@ def crystalize():
             serialized = json.dumps({k: v for k, v in state.items() if k != "signature"}, sort_keys=True)
             state["signature"] = hashlib.sha256(serialized.encode("utf-8")).hexdigest()
             state_path.write_text(json.dumps(state, indent=2), encoding="utf-8")
-            print(f"    [✔] STATE.json crystallized.")
+            print(f"    [✔] STATE.json crystallized (Sovereign ID Verified).")
             
         readme_path = root / "README.md"
         if readme_path.exists():

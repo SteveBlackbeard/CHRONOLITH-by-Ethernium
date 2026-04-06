@@ -137,12 +137,45 @@ def update_md_report(task: str, tokens: int):
             report_path.write_text(updated_content, encoding="utf-8")
 
 @app.command()
-def log_session(
-    task: str = typer.Argument(..., help="Description of the task performed"),
-    tokens: int = typer.Argument(..., help="Tokens spent in this turn")
+def measure_interaction(
+    diff: bool = typer.Option(True, "--diff/--no-diff", help="Analyze last git diff for AI cost")
 ):
-    """Logs the current task's token spend to both console and Markdown report."""
-    console.print(Panel(f"Task: {task}\nSpend: [bold magenta]{tokens} tokens[/bold magenta]", title="Token Tachometer (Live)"))
+    """IA-T (AI Telemetry): Measures the token cost and symbolic ROI of the last turn."""
+    console.print("[bold cyan]ℳᵣ Analyzing IA-T (Interaction Telemetry)...[/bold cyan]")
+    try:
+        import subprocess
+        # Get the diff of the last commit
+        cmd = "git diff HEAD^ HEAD"
+        result = subprocess.check_output(cmd, shell=True, text=True)
+        raw_tokens = count_tokens(result)
+        
+        # Calculate symbolic potential
+        optimizer = ENEOptimizer()
+        symbolic_version = optimizer.compress(result)
+        symbolic_tokens = count_tokens(symbolic_version)
+        savings = (1 - (symbolic_tokens / raw_tokens)) * 100
+        
+        table = Table(title="🪐 IA-T (Interaction Telemetry) - Turn Audit")
+        table.add_column("Metric", style="cyan")
+        table.add_column("Value", style="magenta")
+        table.add_row("Raw Turn Tokens", str(raw_tokens))
+        table.add_row("Symbolic Projection", str(symbolic_tokens))
+        table.add_row("Efficiency ROI", f"{savings:.1f}%")
+        console.print(table)
+        
+        # Log to report
+        update_md_report(f"IA-T: Turn Scan (ROI: {savings:.1f}%)", raw_tokens)
+        
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+
+@app.command()
+def log_session(
+    task: str = typer.Argument(..., help="Description of task"),
+    tokens: int = typer.Argument(..., help="Tokens spent")
+):
+    """🆔ₛ Autonomic Session Logger (NEXUS v2.8.0)."""
+    console.print(Panel(f"Task: {task}\nSpend: [bold magenta]{tokens} tokens[/bold magenta]", title="📊 Tokenator Live (IA-T)"))
     update_md_report(task, tokens)
     console.print("[green][✔] Token telemetry updated in SESSION_TOKEN_REPORT.md[/green]")
 
