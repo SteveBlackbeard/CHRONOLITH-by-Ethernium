@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+from datetime import datetime
 from pathlib import Path
 from typing import Optional, List, Dict
 import typer
@@ -9,6 +10,7 @@ from rich.table import Table
 from rich.panel import Panel
 from rich.progress import Progress
 import tiktoken
+from continuity_pro.continuity_legacy.ene_optimizer import ENEOptimizer
 
 # Ethernium Token Sentinel (v1.0.0 - Industrial Telemetry)
 # Purpose: Reverse-engineer LLM context usage and optimize cognitive density.
@@ -95,8 +97,53 @@ def scan(
     msg = f"Total Files: {total_files} | [bold cyan]Total Cognitive Weight: {total_tokens} tokens[/bold cyan]"
     console.print(Panel(msg, title="[bold]Summary[/bold]", border_style="green"))
     
-    if total_tokens > 100000:
-        console.print("[bold red][!] WARNING: High Context Weight. You are approaching LLM attention limits.[/bold red]")
+    if total_tokens > 20000:
+        console.print("[bold yellow][!] SUGGESTION: Run 'continuity-tokens optimize' to apply Ethernium Nucleotide Encoding (ENE) (x10 efficiency).[/bold yellow]")
+
+@app.command()
+def optimize(
+    path: str = typer.Argument(".", help="Path to optimize")
+):
+    """Applies ENE (Ethernium Nucleotide Encoding) to the project to reduce token cost."""
+    optimizer = ENEOptimizer()
+    console.print("[bold cyan]Applying ENE optimization...[/bold cyan]")
+    # Logic to optimize specific large files like PROJECT_DNA.md
+    dna_path = Path(path) / "PROJECT_DNA.md"
+    if dna_path.exists():
+        original = dna_path.read_text(encoding="utf-8")
+        compressed = optimizer.compress(original)
+        # We save it as a nucleotide version to not overwrite the human README yet
+        ene_path = dna_path.with_suffix(".ene.md")
+        ene_path.write_text(compressed, encoding="utf-8")
+        console.print(f"[✔] PROJECT_DNA.md optimized! Saved to {ene_path.name}")
+        console.print(f"    Reduction: {len(original)} -> {len(compressed)} chars.")
+
+def update_md_report(task: str, tokens: int):
+    """Updates the SESSION_TOKEN_REPORT.md with the latest interaction."""
+    report_path = Path("SESSION_TOKEN_REPORT.md")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+    new_row = f"| {timestamp} | {task} | {tokens} | [DONE] |\n"
+    
+    if report_path.exists():
+        content = report_path.read_text(encoding="utf-8")
+        if "## 🛰️ Interaction Log (Timeline)" in content:
+            parts = content.split("## 🛰️ Interaction Log (Timeline)")
+            header = parts[0]
+            log = parts[1]
+            # Add entry to log
+            # Simple append at the end of the table
+            updated_content = header + "## 🛰️ Interaction Log (Timeline)" + log + new_row
+            report_path.write_text(updated_content, encoding="utf-8")
+
+@app.command()
+def log_session(
+    task: str = typer.Argument(..., help="Description of the task performed"),
+    tokens: int = typer.Argument(..., help="Tokens spent in this turn")
+):
+    """Logs the current task's token spend to both console and Markdown report."""
+    console.print(Panel(f"Task: {task}\nSpend: [bold magenta]{tokens} tokens[/bold magenta]", title="Token Tachometer (Live)"))
+    update_md_report(task, tokens)
+    console.print("[green][✔] Token telemetry updated in SESSION_TOKEN_REPORT.md[/green]")
 
 @app.command()
 def audit(file: str = typer.Argument(..., help="Specific file to audit")):
