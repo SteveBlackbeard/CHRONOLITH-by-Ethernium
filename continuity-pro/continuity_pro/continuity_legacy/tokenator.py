@@ -149,11 +149,14 @@ def measure_interaction(
         result = subprocess.check_output(cmd, shell=True, text=True)
         raw_tokens = count_tokens(result)
         
-        # Calculate symbolic potential
-        optimizer = ENEOptimizer()
-        symbolic_version = optimizer.compress(result)
-        symbolic_tokens = count_tokens(symbolic_version)
-        savings = (1 - (symbolic_tokens / raw_tokens)) * 100
+        # Calculate symbolic potential (v2.8.1)
+        savings = 0.0
+        symbolic_tokens = 0
+        if raw_tokens > 0:
+            optimizer = ENEOptimizer()
+            symbolic_version = optimizer.compress(result)
+            symbolic_tokens = count_tokens(symbolic_version)
+            savings = (1 - (symbolic_tokens / raw_tokens)) * 100
         
         table = Table(title="🪐 IA-T (Interaction Telemetry) - Turn Audit")
         table.add_column("Metric", style="cyan")
