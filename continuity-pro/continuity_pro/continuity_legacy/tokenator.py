@@ -13,11 +13,11 @@ import tiktoken
 from continuity_pro.continuity_legacy.ene_optimizer import ENEOptimizer
 from continuity_pro.continuity_legacy.zip_bridge import create_portal_zip, verify_portal
 
-# Ethernium Token Sentinel (v1.0.0 - Industrial Telemetry)
-# Purpose: Reverse-engineer LLM context usage and optimize cognitive density.
-
-app = typer.Typer(help="Ethernium Token Sentinel: Telemetry & Context Audit")
+app = typer.Typer(help="Ethernium Tokenator: Autonomic Context Telemetry & Optimization")
 console = Console()
+
+# ETHERNIUM TOKENATOR (v1.0.4 - NEXUS)
+# Purpose: Reverse-engineer LLM context usage and automate cognitive density.
 
 def count_tokens(text: str, model: str = "gpt-4-0613") -> int:
     """Estimates token count using tiktoken (Industry Standard)."""

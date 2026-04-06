@@ -106,5 +106,12 @@ jobs:
       with:
         python-version: "3.12"
         cache: pip
-    - name: Verify DNA Parity
+    - name: Install Dependencies (Tokenator Engine)
+      run: |
+        python -m pip install --upgrade pip
+        pip install cryptography tiktoken rich typer
+        cd continuity-pro && pip install -e .
+    - name: Verify DNA Parity & Tokenator Loop
+      env:
+        PYTHONPATH: ${{ github.workspace }}/continuity-pro
       run: python .github/scripts/crystalize.py

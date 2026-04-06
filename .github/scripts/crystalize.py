@@ -18,6 +18,18 @@ try:
 except ImportError:
     SENTINEL_ACTIVE = False
 
+def autonomic_tokenator_cycle(merkle_root: str):
+    """Executes the Sovereign Tokenator automation cycle (v2.7.0)."""
+    try:
+        from continuity_pro.continuity_legacy.tokenator import log_session
+        print(f"[🛰️] Tokenator Heartbeat: {merkle_root[:16]}...")
+        # Auto-log the session on each crystallization
+        log_session("Autonomic DNA Crystallization (Nexus Phase)", 150)
+    except ImportError:
+        print("[!] Tokenator Engine (Pro) not found. Skipping telemetry.")
+    except Exception as e:
+        print(f"[!] Tokenator heartbeat failed: {e}")
+
 EXCLUDE_DIRS = [".git", "node_modules", ".continuity", "outputs", ".pytest_cache", "__pycache__", ".venv", ".github", ".idea", ".vscode"]
 CANONICAL_AUDIT_DIRS = [".", "OTHER_LANGUAGES"]
 
@@ -107,8 +119,8 @@ def crystalize():
             readme_path.write_text(content, encoding="utf-8")
             print(f"    [✔] README.md crystal updated.")
             
-        # [NEW] Autonomic Sentinel Cycle
-        autonomic_sentinel_cycle(root, merkle_root)
+        # --- Autonomic Loop (NEXUS v2.7.0) ---
+        autonomic_tokenator_cycle(merkle_root)
 
 if __name__ == "__main__":
     crystalize()
