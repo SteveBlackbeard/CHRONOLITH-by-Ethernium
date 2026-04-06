@@ -16,6 +16,7 @@
 
 "**AI doesn't forget anymore.**"
 
+*This prevents LLMs from losing context and destroying your codebase, mathematically forcing them to align with a cryptographic hash.*
 
 
 ---
@@ -30,8 +31,8 @@ Continuity Legacy solves the "Semantic Drift" in long-term AI-Human collaboratio
 
 <!-- DNA_CRYSTAL -->
 > [!IMPORTANT]
-> **DNA CRYSTAL**: `v2.1.0-884787e237f6bc49`
-> [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-884787e2-blueviolet))))))))))))))))))))))))](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
+> **DNA CRYSTAL**: `v2.1.0-70df05b6a395d17e`
+> [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-70df05b6-blueviolet))))))))))))))))))))))))))](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
 
 ## 🏛️ Table of Contents
 1. [Choose Your Edition](#-choose-your-edition)
