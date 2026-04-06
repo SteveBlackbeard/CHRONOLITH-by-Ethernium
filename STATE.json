@@ -1,7 +1,7 @@
 {
   "phase": "stable",
   "last_update": "2026-04-05T10:55:45.281220",
-  "signature": "799a990c845882e963ce50ddd2dc54ff021979a9d7afcb958da6f3398e0bb32e",
-  "merkle_root": "b56700be787816b2821fbafec86a360f452e01757226b3957db5b104283dfc87",
-  "last_check": "2026-04-05T23:11:59.771302"
+  "signature": "ea2edc1dd552369b6148764f2fad8b6f4ca6678845adf52530d490300795fafd",
+  "merkle_root": "ea9b56cb7a50eeb785a79326a71cbd1a847d463398a55d5a143d7462ccd63cb7",
+  "last_check": "2026-04-05T23:16:32.793529"
 }
