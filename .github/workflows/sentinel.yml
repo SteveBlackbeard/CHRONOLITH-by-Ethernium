@@ -1,0 +1,51 @@
+name: 🛡️ Continuity Sentinel
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  sentinel:
+    name: 🛰️ DNA Parity Sentinel
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout (Full History)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install cryptography tiktoken rich typer
+          cd continuity-pro && pip install -e . || true
+
+      - name: Run Crystallizer (Verify + Update STATE.json)
+        env:
+          PYTHONIOENCODING: utf-8
+          CI: "false"
+        run: python .github/scripts/crystalize.py
+
+      - name: Push Updated State (if changed)
+        run: |
+          git config user.name "Continuity Sentinel"
+          git config user.email "sentinel@continuity-legacy.dev"
+          git add STATE.json README.md SESSION_TOKEN_REPORT.md || true
+          if git diff-index --quiet HEAD; then
+            echo "✔ No drift detected. State is pure."
+          else
+            git commit -m "sentinel: [AUTO] DNA Parity Crystallization 🛡️"
+            git push origin main
+            echo "✔ State crystallized and pushed."
+          fi
