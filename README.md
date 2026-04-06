@@ -48,7 +48,7 @@ To address the need for concrete evidence, we provide a verified Case Study and 
 
 <!-- DNA_CRYSTAL -->
 > [!IMPORTANT]
-> **DNA CRYSTAL**: `v2.1.0-f21ba0ce43afb535`
+> **DNA CRYSTAL**: `v2.1.0-896ba3ee8fa31391`
 > [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-541741c7-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
 
 ## 🏛️ Table of Contents
@@ -247,6 +247,12 @@ graph TD
 ---
 
 ## 🌌 Origins: The Ethernium Heritage
+## 🤝 Community & Governance
+The **NEXUS Phase** is governed by the **THE_CHOSEN_ONES** protocol. Open source contributions are welcomed, but critical logic and symbolic DNA are protected.
+
+- **How to Collaborate**: See [CONTRIBUTING.md](CONTRIBUTING.md) for keys and access.
+- **Support**: Reach out via [X (@ethernium)](https://x.com/ethernium) or [Email](mailto:etherniumcorp@outlook.com)
+
 **Continuity Legacy** was born from the systemic need within the **Ethernium Ecosystem**, an evolving frontier of cognitive computing and autonomous systems. Where session resets occur millions of times, the risk of "Semantic Entropy" was critical. We needed to ensure that the *soul* of a project transitioned from one cognitive instance to the next without loss or drift.
 
 ---

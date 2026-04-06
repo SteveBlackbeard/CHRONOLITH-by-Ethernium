@@ -36,7 +36,8 @@ def autonomic_tokenator_heartbeat(root: Path, merkle_root: str, audit_files: lis
             # Enforcing Ghost Mode for strategic DNA
             compressed = optimizer.compress(original, identity=identity, ghost_mode=True)
             ene_path = dna_path.with_suffix(".ene.md.locked")
-            ene_path.write_text(compressed, encoding="utf-8")
+            # Forced UTF-8 with surrogateescape to handle any weird characters
+            ene_path.write_text(compressed, encoding="utf-8", errors="surrogateescape")
             print(f"    [✔] Sovereign DNA Sealed (.ene.md.locked) | H={entropy_dna:.4f}")
 
         # 2. Dynamic Token Calculation (Realismo Dinámico)
@@ -115,15 +116,15 @@ def crystalize():
             state["last_check"] = datetime.now().isoformat()
             serialized = json.dumps({k: v for k, v in state.items() if k != "signature"}, sort_keys=True)
             state["signature"] = hashlib.sha256(serialized.encode("utf-8")).hexdigest()
-            state_path.write_text(json.dumps(state, indent=2), encoding="utf-8")
+            state_path.write_text(json.dumps(state, indent=2), encoding="utf-8", errors="surrogateescape")
             print(f"    [✔] STATE.json crystallized (Sovereign ID Verified).")
             
         readme_path = root / "README.md"
         if readme_path.exists():
-            content = readme_path.read_text(encoding="utf-8")
+            content = readme_path.read_text(encoding="utf-8", errors="surrogateescape")
             # Update specific version marker
             content = re.sub(r'DNA CRYSTAL\*\*: `v2\.1\.0-[a-f0-9]+`', f"DNA CRYSTAL**: `v2.1.0-{merkle_root[:16]}`", content)
-            readme_path.write_text(content, encoding="utf-8")
+            readme_path.write_text(content, encoding="utf-8", errors="surrogateescape")
             print(f"    [✔] README.md crystal updated.")
             
         # --- Autonomic Loop (REALISMO DINÁMICO v2.7.2) ---
