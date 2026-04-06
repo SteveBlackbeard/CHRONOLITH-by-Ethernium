@@ -89,8 +89,6 @@ class SovereignIdentity:
         return pub_key_hex in chosen
 
     def sign_data(self, data: bytes) -> str:
-
-    def sign_data(self, data: bytes) -> str:
         if not self._private_key:
             raise PermissionError("[!] Sovereign Private Key missing. Cannot sign.")
         signature = self._private_key.sign(data)
