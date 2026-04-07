@@ -229,6 +229,13 @@ Continuity organizes project intelligence into structured nodes:
 ## 🪐 Tokenator v2.9.3: Information Physics & SDK Sealing
 Tokenator is the cognitive engine that manages context density and security. It operates on the principles of **Information Theory** to minimize token cost while maximizing logical purity.
 
+---
+
+## 🔍 The Quality Flow (The Border Guard)
+Continuity actúa como un "Socratic Firewall". Protege tu intención de diseño mediante un bucle de validación determinista.
+
+---
+
 ### 🧪 Technical Flow: The Synthesis Engine
 ```mermaid
 graph LR
