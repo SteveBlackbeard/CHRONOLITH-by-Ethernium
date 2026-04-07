@@ -2,6 +2,7 @@ name: PyPI Publish
 
 on:
   release:
+<<<<<<< HEAD
     types: [published]
   workflow_dispatch:
 
@@ -36,3 +37,41 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         packages-dir: ${{ matrix.package-path }}/dist/
+=======
+      types: [published]
+        workflow_dispatch:
+
+        jobs:
+          build-and-publish:
+              name: Build and Publish to PyPI
+                  runs-on: ubuntu-latest
+                      permissions:
+                            id-token: write
+                                  contents: read
+                                      strategy:
+                                            matrix:
+                                                    package-path: [".", "continuity-lite", "continuity-pro", "continuity-omega"]
+
+                                                        steps:
+                                                              - uses: actions/checkout@v4
+
+                                                                    - name: Set up Python
+                                                                            uses: actions/setup-python@v5
+                                                                                    with:
+                                                                                              python-version: "3.12"
+
+                                                                                                    - name: Install build dependencies
+                                                                                                            run: python -m pip install --upgrade pip build twine
+                                                                                                            
+                                                                                                                  - name: Build binary wheel and source tarball
+                                                                                                                          run: |
+                                                                                                                                    cd ${{ matrix.package-path }}
+                                                                                                                                              rm -rf dist/
+                                                                                                                                                        python -m build
+                                                                                                                                                        
+                                                                                                                                                              - name: Publish to PyPI
+                                                                                                                                                                      uses: pypa/gh-action-pypi-publish@release/v1
+                                                                                                                                                                              with:
+                                                                                                                                                                                        packages-dir: ${{ matrix.package-path }}/dist/
+                                                                                                                                                                                        
+>>>>>>> 95dc16e2661d9c387dee5346d188b9650b46eabe
