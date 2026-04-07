@@ -1,3 +1,4 @@
+# Handshake Signature: v15-STABLE-DNA 🪐🛡️
 name: 🚀 PyPI Publish
 
 on:
@@ -10,9 +11,9 @@ jobs:
     name: 📦 Build and Publish to PyPI
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
       contents: read
     strategy:
+      fail-fast: false
       matrix:
         package-path: [".", "continuity-lite", "continuity-pro", "continuity-omega"]
     
@@ -33,7 +34,11 @@ jobs:
         rm -rf dist/
         python -m build
         
-    - name: Publish to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        packages-dir: ${{ matrix.package-path }}/dist/
+    - name: Publish to PyPI (Raw Injection v15-STABLE)
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        TWINE_NON_INTERACTIVE: true
+      run: |
+        cd ${{ matrix.package-path }}
+        python -m twine upload --skip-existing dist/*
