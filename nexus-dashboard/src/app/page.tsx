@@ -10,17 +10,19 @@ const NexusCore = dynamic(() => import('@/components/NexusCore'), {
 });
 
 export default function Home() {
+  const [linkedProject, setLinkedProject] = React.useState<string | null>(null);
+
   return (
     <main className="relative w-screen h-screen overflow-hidden bg-black">
       {/* Dynamic 3D Layer */}
-      <NexusCore />
+      <NexusCore linkedProject={linkedProject} />
 
       {/* Cinematic Overlays */}
       <div className="vignette" />
       <div className="scanlines" />
 
       {/* Primary UI Layer */}
-      <SovereignHUD />
+      <SovereignHUD linkedProject={linkedProject} setLinkedProject={setLinkedProject} />
 
       {/* Global Grain VFX (Pseudo-Grain with CSS) */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-[200]">

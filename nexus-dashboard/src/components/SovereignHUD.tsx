@@ -28,15 +28,39 @@ const DEFAULT_STATE: StateData = {
   crystallizer_version: "3.0.1",
 };
 
-const SovereignHUD = () => {
+interface HUDProps {
+  linkedProject: string | null;
+  setLinkedProject: (project: string | null) => void;
+}
+
+const SovereignHUD = ({ linkedProject, setLinkedProject }: HUDProps) => {
   const [activeAction, setActiveAction] = useState<string | null>(null);
   const [state, setState] = useState<StateData>(DEFAULT_STATE);
+  const [hoveredItem, setHoveredItem] = useState<{ id: string; text: string; x: number; y: number } | null>(null);
 
   useEffect(() => {
     fetch('/api/state').then(r => r.json()).then(setState).catch(() => {});
   }, []);
 
+  const handleLinkProject = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      // @ts-ignore
+      const path = files[0].webkitRelativePath.split('/')[0] || files[0].name;
+      setLinkedProject(path);
+      triggerAction(`LINK_SUCCESS_${path.toUpperCase()}`);
+    }
+  };
+
+  const showTooltip = (id: string, text: string, e: React.MouseEvent) => {
+    setHoveredItem({ id, text, x: e.clientX, y: e.clientY });
+  };
+
   const triggerAction = async (action: string) => {
+    if (action === 'ACCESS') {
+      document.getElementById('project-linker')?.click();
+      return;
+    }
     setActiveAction(action);
     
     // Map button actions to API endpoints or internal logic
@@ -100,11 +124,17 @@ const SovereignHUD = () => {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-            <div>
+            <div 
+              onMouseEnter={(e) => showTooltip('entropy', 'Measures logical complexity and information density within the project nodes.', e)}
+              onMouseLeave={() => setHoveredItem(null)}
+            >
               <p style={{ fontSize: '0.55rem', color: '#71717a', textTransform: 'uppercase', letterSpacing: '1px' }}>Entropy H(Ω)</p>
               <p style={{ fontSize: '1.8rem', fontWeight: 900, fontVariantNumeric: 'tabular-nums' }}>{state.physics.H.toFixed(4)}</p>
             </div>
-            <div>
+            <div
+              onMouseEnter={(e) => showTooltip('balance', 'Calculates the symmetry of logical weighting across managed modules.', e)}
+              onMouseLeave={() => setHoveredItem(null)}
+            >
               <p style={{ fontSize: '0.55rem', color: '#71717a', textTransform: 'uppercase', letterSpacing: '1px' }}>Balance η</p>
               <p style={{ fontSize: '1.8rem', fontWeight: 900, fontVariantNumeric: 'tabular-nums' }}>{state.physics.eta.toFixed(3)}</p>
             </div>
@@ -123,7 +153,10 @@ const SovereignHUD = () => {
               <p style={{ fontSize: '0.5rem', color: '#52525b' }}>Blocks</p>
               <p style={{ fontSize: '0.75rem', fontWeight: 600 }}>{state.physics.N}</p>
             </div>
-            <div>
+            <div
+              onMouseEnter={(e) => showTooltip('drift', 'Calculates semantic distance from the last crystallized DNA state.', e)}
+              onMouseLeave={() => setHoveredItem(null)}
+            >
               <p style={{ fontSize: '0.5rem', color: '#52525b' }}>D_KL</p>
               <p style={{ fontSize: '0.75rem', fontWeight: 600 }}>{state.drift_kl.toFixed(4)}</p>
             </div>
@@ -149,17 +182,38 @@ const SovereignHUD = () => {
         {/* Command Buttons */}
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: 'auto' }}>
           <p style={{ fontSize: '0.55rem', color: '#52525b', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '4px' }}>Protocols</p>
-          <button onClick={() => triggerAction('CRYSTALLIZE')} className="btn-nexus">
+          <button 
+            onMouseEnter={(e) => showTooltip('synth', 'Crystallizes repository metadata into a fresh cryptographic Merkle Root.', e)}
+            onMouseLeave={() => setHoveredItem(null)}
+            onClick={() => triggerAction('CRYSTALLIZE')} 
+            className="btn-nexus"
+          >
             <Zap size={14} /> <span>SYNTH_DNA</span>
           </button>
-          <button onClick={() => triggerAction('AUDIT')} className="btn-nexus">
+          <button 
+            onMouseEnter={(e) => showTooltip('audit', 'Scans for semantic drift, encoding issues, and logic inconsistencies.', e)}
+            onMouseLeave={() => setHoveredItem(null)}
+            onClick={() => triggerAction('AUDIT')} 
+            className="btn-nexus"
+          >
             <Activity size={14} /> <span>AUDIT_PHYSICS</span>
           </button>
-          <button onClick={() => triggerAction('SEAL')} className="btn-nexus">
+          <button 
+            onMouseEnter={(e) => showTooltip('seal', 'Establishes the Guardian Seal and installs persistent Git-Hooks.', e)}
+            onMouseLeave={() => setHoveredItem(null)}
+            onClick={() => triggerAction('SEAL')} 
+            className="btn-nexus"
+          >
             <Lock size={14} /> <span>SEAL_VAULT</span>
           </button>
-          <button onClick={() => triggerAction('ACCESS')} className="btn-nexus primary" style={{ marginTop: '8px' }}>
-            <Shield size={14} /> <span>OPEN_SOVEREIGN</span>
+          <button 
+            onMouseEnter={(e) => showTooltip('access', linkedProject ? 'Project linked. Re-link to change workspace.' : 'Initializes the logical binding of a local project directory.', e)}
+            onMouseLeave={() => setHoveredItem(null)}
+            onClick={() => triggerAction('ACCESS')} 
+            className="btn-nexus primary" 
+            style={{ marginTop: '8px' }}
+          >
+            <Shield size={14} /> <span>{linkedProject ? `LINKED: ${linkedProject}` : 'LINK_PROJECT'}</span>
           </button>
         </nav>
 
@@ -195,6 +249,47 @@ const SovereignHUD = () => {
                 />
               </div>
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Project Linker Hidden Input */}
+      <input 
+        id="project-linker"
+        type="file" 
+        // @ts-ignore
+        webkitdirectory="" 
+        directory="" 
+        onChange={handleLinkProject} 
+        style={{ display: 'none' }} 
+      />
+
+      {/* Tooltip Overlay */}
+      <AnimatePresence>
+        {hoveredItem && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: 'fixed',
+              left: hoveredItem.x + 20,
+              top: hoveredItem.y - 20,
+              zIndex: 2000,
+              padding: '12px 16px',
+              background: 'rgba(0,0,0,0.8)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              color: '#fff',
+              fontSize: '0.65rem',
+              maxWidth: '240px',
+              pointerEvents: 'none',
+              lineHeight: 1.4,
+              letterSpacing: '0.5px'
+            }}
+          >
+            <div style={{ color: '#71717a', fontSize: '0.5rem', marginBottom: '4px', textTransform: 'uppercase' }}>Protocol_Info</div>
+            {hoveredItem.text}
           </motion.div>
         )}
       </AnimatePresence>
