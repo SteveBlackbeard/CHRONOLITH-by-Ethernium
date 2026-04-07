@@ -1,8 +1,9 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import SovereignHUD from '@/components/SovereignHUD';
 import { ScannedEntry } from '@/lib/graphData';
+import { Language } from '@/lib/i18n';
 
 // Loading 3D Canvas via dynamic import to avoid SSR errors
 const NexusCore = dynamic(() => import('@/components/NexusCore'), { 
@@ -11,13 +12,14 @@ const NexusCore = dynamic(() => import('@/components/NexusCore'), {
 });
 
 export default function Home() {
-  const [linkedProject, setLinkedProject] = React.useState<string | null>(null);
-  const [projectEntries, setProjectEntries] = React.useState<ScannedEntry[]>([]);
+  const [linkedProject, setLinkedProject] = useState<string | null>(null);
+  const [projectEntries, setProjectEntries] = useState<ScannedEntry[]>([]);
+  const [language, setLanguage] = useState<Language>('EN');
 
   return (
     <main className="relative w-screen h-screen overflow-hidden bg-black">
       {/* Dynamic 3D Layer */}
-      <NexusCore linkedProject={linkedProject} projectEntries={projectEntries} />
+      <NexusCore linkedProject={linkedProject} projectEntries={projectEntries} language={language} />
 
       {/* Cinematic Overlays */}
       <div className="vignette" />
@@ -27,7 +29,9 @@ export default function Home() {
       <SovereignHUD 
         linkedProject={linkedProject} 
         setLinkedProject={setLinkedProject} 
-        setProjectEntries={setProjectEntries} 
+        setProjectEntries={setProjectEntries}
+        language={language}
+        setLanguage={setLanguage}
       />
 
       {/* Global Grain VFX (Pseudo-Grain with CSS) */}
