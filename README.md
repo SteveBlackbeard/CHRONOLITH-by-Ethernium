@@ -87,6 +87,7 @@ _Advanced RAG, cognitive mapping, and a stunning 3D Glassmorphic Dashboard for i
 | Guide | Link |
 | :--- | :--- |
 | [**Industrial Guide**](./HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](./HOW_TO_USE_IT.md) |
+| [**Dashboard Guide**](./HOW_TO_USE_DASHBOARD.md) | [HOW_TO_USE_DASHBOARD.md](./HOW_TO_USE_DASHBOARD.md) |
 | [**Release Manifest**](./RELEASE_NOTES_MANIFEST.md) | [RELEASE_NOTES_MANIFEST.md](./RELEASE_NOTES_MANIFEST.md) |
 
 ---
@@ -114,6 +115,13 @@ Continuity provides three levels of depth in governance:
 - **Global Awareness**: Full documentation and CLI support localized in 9 languages.
 - **Diamond Sanitization**: Deep purge of encoding errors (mojibake) and streamlined terminal-friendly directory structures.
 - **[NEW] Token Sentinel (v1.0)**: Integrated telemetry to monitor project "Cognitive Weight" and optimize LLM context consumption.
+
+---
+
+## 🪐 Nexus Dashboard (Information Physics)
+The **Nexus Dashboard** is a glassmorphic command center that monitors the project's logic density. You can perform real-world protocols like **DNA Synthesis** and **Industrial Audits** directly from the UI.
+> [!TIP]
+> **READ MORE:** [**HOW_TO_USE_DASHBOARD.md**](./HOW_TO_USE_DASHBOARD.md)
 
 ---
 

@@ -36,8 +36,36 @@ const SovereignHUD = () => {
     fetch('/api/state').then(r => r.json()).then(setState).catch(() => {});
   }, []);
 
-  const triggerAction = (action: string) => {
+  const triggerAction = async (action: string) => {
     setActiveAction(action);
+    
+    // Map button actions to API endpoints or internal logic
+    const endpointMap: Record<string, string> = {
+      'CRYSTALLIZE': '/api/actions/crystallize',
+      'AUDIT': '/api/actions/audit',
+      'SEAL': '/api/actions/seal',
+    };
+
+    const endpoint = endpointMap[action];
+    
+    if (endpoint) {
+      try {
+        console.log(`[SOVEREIGN] Triggering ${action} via ${endpoint}`);
+        const response = await fetch(endpoint, { method: 'POST' });
+        const result = await response.json();
+        
+        if (result.success) {
+          // Success: Refresh telemetry to show new state
+          const newState = await fetch('/api/state').then(r => r.json());
+          setState(newState);
+        } else {
+          console.error(`[SOVEREIGN] ${action} Failed:`, result.error);
+        }
+      } catch (err) {
+        console.error(`[SOVEREIGN] Network error during ${action}:`, err);
+      }
+    }
+
     setTimeout(() => setActiveAction(null), 2500);
   };
 
