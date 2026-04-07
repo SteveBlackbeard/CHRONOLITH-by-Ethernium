@@ -6,7 +6,8 @@ export const CoreShaderMaterial = {
     u_entropy: { value: 1.0 }, // eta (balance)
     u_drift: { value: 0.0 }, // KL divergence
     u_pulse: { value: 0.0 }, // 0 to 1 shockwave
-    u_baseColor: { value: new THREE.Color('#ffffff') }
+    u_baseColor: { value: new THREE.Color('#ffffff') },
+    u_isWireframe: { value: 0.0 } // 0 = Solid Core, 1 = Lattice Glowing
   },
   vertexShader: `
     uniform float u_time;
@@ -56,6 +57,7 @@ export const CoreShaderMaterial = {
     uniform float u_drift;
     uniform float u_pulse;
     uniform vec3 u_baseColor;
+    uniform float u_isWireframe;
     
     varying vec3 vPosition;
     varying vec3 vNormal;
@@ -65,31 +67,40 @@ export const CoreShaderMaterial = {
       vec3 normal = normalize(vNormal);
       vec3 viewDir = normalize(vViewPosition);
 
-      // FRESNEL (RIM SCATTERING LOGIC)
+      // FRESNEL (RIM SCATTERING) - Only strong on solid core
       float dotProduct = max(0.0, dot(normal, viewDir));
       float rim = 1.0 - dotProduct;
-      float fresnel = pow(rim, 3.0); // sharp edge glow
+      float fresnel = pow(rim, 4.0);
       
       vec3 color = u_baseColor;
       
       // PROCEDURAL SCANLINES
-      float scanline = sin(vPosition.y * 80.0 - u_time * 10.0) * 0.08;
+      float scanline = sin(vPosition.y * 80.0 - u_time * 5.0) * 0.05;
       
-      // DRIFT CONTAMINATION (Shift to Red/Amber)
+      // DRIFT CONTAMINATION (Shift to Red/Amber during drift hazard)
       if (u_drift > 0.0) {
-        float driftMix = min(u_drift * 4.0, 1.0);
-        vec3 hazardColor = mix(vec3(1.0, 0.6, 0.0), vec3(1.0, 0.1, 0.2), driftMix);
-        color = mix(color, hazardColor, driftMix * abs(sin(u_time * 3.0)));
+        float driftMix = min(u_drift * 5.0, 1.0);
+        vec3 hazardColor = mix(vec3(1.0, 0.4, 0.0), vec3(1.0, 0.0, 0.1), driftMix);
+        color = mix(color, hazardColor, driftMix * (0.5 + 0.5 * sin(u_time * 6.0)));
       }
 
-      // PULSE OVERDRIVE
-      vec3 finalColor = mix(color, vec3(1.0, 1.0, 1.0), u_pulse);
+      // PULSE OVERDRIVE (Supernova white flash)
+      color = mix(color, vec3(1.0, 1.0, 1.0), u_pulse);
       
-      // ALPHA CALCULATION (Glass body)
-      float alpha = max(0.1, fresnel) + max(0.0, scanline) + (u_pulse * 0.6);
+      // If wireframe: Multiply RGB intensity massively so Post-Processing Bloom catches it!
+      // If solid core: Keep color solid, add fresnel rim lighting, adjust alpha for glass look.
       
-      // INTENSITY EMISSION MULTIPLIER
-      gl_FragColor = vec4(finalColor * (1.2 + fresnel * 2.5), alpha);
+      if (u_isWireframe > 0.5) {
+          // ENERGY LATTICE 
+          // Color * 3.0 breaks the 1.0 luminance limit -> generates extreme AAA Bloom
+          gl_FragColor = vec4(color * 3.0, 1.0);
+      } else {
+          // SOLID GLASS CORE
+          float alpha = 0.5 + (fresnel * 0.5) + u_pulse + max(0.0, scanline);
+          // Darken the core slightly, let the rim shine
+          vec3 finalColor = color * (0.6 + fresnel * 0.7);
+          gl_FragColor = vec4(finalColor, min(alpha, 1.0));
+      }
     }
   `
 };
