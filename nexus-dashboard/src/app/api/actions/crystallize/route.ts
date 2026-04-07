@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { exec } from 'child_process';
 import { join } from 'path';
 import { promisify } from 'util';
+import { appendEvent } from '@/lib/eventChain';
 
 const execPromise = promisify(exec);
 
@@ -21,6 +22,10 @@ export async function POST() {
       console.error(`[SOVEREIGN] ERR: ${stderr}`);
       return NextResponse.json({ success: false, error: stderr }, { status: 500 });
     }
+
+    // Determine payload or summary if possible
+    const payload = { action: 'Crystallization', status: 'Success' };
+    await appendEvent('CRYSTALLIZE', payload);
 
     return NextResponse.json({ 
       success: true, 
