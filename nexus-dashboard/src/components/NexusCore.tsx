@@ -5,6 +5,7 @@ import { Points, PointMaterial, Float, Octahedron, Sphere, Html, OrbitControls }
 import * as THREE from 'three';
 import { buildStaticGraph, buildProjectNodes, GraphNode, GraphEdge, ScannedEntry } from '@/lib/graphData';
 import { Language, translations } from '@/lib/i18n';
+import { CoreShaderMaterial, BeamShaderMaterial } from './shaders/CoreShader';
 
 // ═══════════════════════════════════════════════════════════
 // PARTICLE FIELD
@@ -33,6 +34,14 @@ function ParticleField({ count = 2000 }) {
 // ═══════════════════════════════════════════════════════════
 function ConnectionBeam({ start, end, color = '#ffffff' }: { start: [number, number, number]; end: [number, number, number]; color?: string }) {
   const count = 20;
+  const matRef = useRef<THREE.ShaderMaterial>(null!);
+  useFrame((state) => {
+    if (matRef.current) {
+      matRef.current.uniforms.u_time.value = state.clock.elapsedTime;
+      matRef.current.uniforms.u_color.value.set(color);
+    }
+  });
+
   const points = useMemo(() => {
     const p = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
@@ -45,7 +54,7 @@ function ConnectionBeam({ start, end, color = '#ffffff' }: { start: [number, num
   }, [start, end]);
   return (
     <Points positions={points} stride={3}>
-      <PointMaterial transparent color={color} size={0.03} sizeAttenuation depthWrite={false} blending={THREE.AdditiveBlending} opacity={0.3} />
+      <shaderMaterial ref={matRef} args={[BeamShaderMaterial]} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
     </Points>
   );
 }
@@ -54,10 +63,12 @@ function ConnectionBeam({ start, end, color = '#ffffff' }: { start: [number, num
 // SYSTEM NODE
 // ═══════════════════════════════════════════════════════════
 function SystemNode({
-  node, isPulsing, onHover, onUnhover, onClick,
+  node, isPulsing, eta = 1.0, drift = 0.0, onHover, onUnhover, onClick,
 }: {
   node: GraphNode;
   isPulsing?: boolean;
+  eta?: number;
+  drift?: number;
   onHover: (n: GraphNode) => void;
   onUnhover: () => void;
   onClick: (n: GraphNode) => void;
@@ -72,13 +83,28 @@ function SystemNode({
   const pOut = useCallback(() => { setHovered(false); onUnhover(); }, [onUnhover]);
   const pClick = useCallback(() => onClick(node), [node, onClick]);
 
+  const matRef = useRef<THREE.ShaderMaterial>(null!);
+  useFrame((state) => {
+    if (matRef.current) {
+      matRef.current.uniforms.u_time.value = state.clock.elapsedTime;
+      matRef.current.uniforms.u_entropy.value = eta;
+      matRef.current.uniforms.u_drift.value = drift;
+      matRef.current.uniforms.u_pulse.value = THREE.MathUtils.lerp(
+        matRef.current.uniforms.u_pulse.value,
+        isPulsing ? 1.0 : 0.0,
+        0.1
+      );
+      matRef.current.uniforms.u_baseColor.value.set(materialColor);
+    }
+  });
+
   // ─── 3D SHAPES ───
   if (node.shape === 'octahedron') {
     return (
       <Float speed={1.5} rotationIntensity={0.8} floatIntensity={0.5} position={node.position}>
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <Octahedron args={[scale, 0]}>
-            <meshBasicMaterial color={materialColor} wireframe={!isPulsing} />
+            <shaderMaterial ref={matRef} args={[CoreShaderMaterial]} wireframe={!isPulsing} transparent blending={THREE.AdditiveBlending} />
           </Octahedron>
           <Html distanceFactor={12} position={[0, -(scale + 0.8), 0]} center>
             <div style={{ color: materialColor, fontSize: '9px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '3px', opacity: 0.7, fontFamily: 'monospace' }}>
@@ -96,7 +122,7 @@ function SystemNode({
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <mesh>
             <tetrahedronGeometry args={[scale, 0]} />
-            <meshBasicMaterial color={materialColor} wireframe={!isPulsing} />
+            <shaderMaterial ref={matRef} args={[CoreShaderMaterial]} wireframe={!isPulsing} transparent blending={THREE.AdditiveBlending} />
           </mesh>
           <Html distanceFactor={12} position={[0, -(scale + 0.5), 0]} center>
             <div style={{ color: materialColor, fontSize: '7px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'monospace' }}>
@@ -113,7 +139,7 @@ function SystemNode({
       <Float speed={2.5} rotationIntensity={0.5} floatIntensity={0.4} position={node.position}>
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <Sphere args={[scale * 0.6, 12, 12]}>
-            <meshBasicMaterial color={materialColor} wireframe={!isPulsing} />
+            <shaderMaterial ref={matRef} args={[CoreShaderMaterial]} wireframe={!isPulsing} transparent blending={THREE.AdditiveBlending} />
           </Sphere>
           <Html distanceFactor={12} position={[0, -(scale * 0.6 + 0.4), 0]} center>
             <div style={{ color: materialColor, fontSize: '7px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'monospace' }}>
@@ -270,6 +296,7 @@ const NexusCore = ({ linkedProject, projectEntries, language, setLinkedProject, 
   const [unlinkModal, setUnlinkModal] = useState<string | null>(null);
   const [pulsingNodes, setPulsingNodes] = useState<Set<string>>(new Set());
   const [toastMsg, setToastMsg] = useState<{ msg: string; detail?: string } | null>(null);
+  const [physics, setPhysics] = useState({ eta: 1.0, drift_kl: 0.0 });
 
   const { staticNodes, staticEdges, dynamicNodes, dynamicEdges } = useMemo(() => {
     const { nodes: sn, edges: se } = buildStaticGraph(language);
@@ -298,6 +325,15 @@ const NexusCore = ({ linkedProject, projectEntries, language, setLinkedProject, 
     allNodes.forEach(n => { map[n.id] = n; });
     return map;
   }, [allNodes]);
+
+  React.useEffect(() => {
+    const fetchP = () => fetch('/api/state').then(r=>r.json()).then(d => {
+      if (d.physics) setPhysics({ eta: d.physics.eta, drift_kl: d.drift_kl || 0.0 });
+    }).catch(()=>{});
+    fetchP();
+    const iv = setInterval(fetchP, 5000);
+    return () => clearInterval(iv);
+  }, []);
 
   // Synaptic Live Wire (SSE File Watcher)
   React.useEffect(() => {
@@ -416,6 +452,9 @@ const NexusCore = ({ linkedProject, projectEntries, language, setLinkedProject, 
             <SystemNode
               key={node.id}
               node={node}
+              isPulsing={pulsingNodes.has(node.id)}
+              eta={physics.eta}
+              drift={physics.drift_kl}
               onHover={setHoveredNode}
               onUnhover={() => setHoveredNode(null)}
               onClick={handleNodeClick}

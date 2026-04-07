@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { exec } from 'child_process';
 import { join } from 'path';
 import { promisify } from 'util';
+import { appendEvent } from '@/lib/eventChain';
 
 const execPromise = promisify(exec);
 
@@ -17,6 +18,8 @@ export async function POST() {
     if (stderr && !stderr.includes('warning')) {
       return NextResponse.json({ success: false, error: stderr }, { status: 500 });
     }
+
+    await appendEvent('SEAL_VAULT', { action: 'Seal Installed' });
 
     return NextResponse.json({ 
       success: true, 

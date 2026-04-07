@@ -42,10 +42,20 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries, lang
   const [state, setState] = useState<StateData>(DEFAULT_STATE);
   const [hoveredItem, setHoveredItem] = useState<{ id: string; text: string; x: number; y: number } | null>(null);
   const [langOpen, setLangOpen] = useState(false);
+  const [chainEvents, setChainEvents] = useState<any[]>([]);
+  const [chainStatus, setChainStatus] = useState<{ intact: boolean; error?: string } | null>(null);
   const t = translations[language] || translations['EN'];
+
+  const fetchEvents = () => fetch('/api/events').then(r => r.json()).then(d => setChainEvents(d.events || [])).catch(() => {});
 
   useEffect(() => {
     fetch('/api/state').then(r => r.json()).then(setState).catch(() => {});
+    fetchEvents();
+    const interval = setInterval(() => {
+      fetch('/api/state').then(r => r.json()).then(setState).catch(() => {});
+      fetchEvents();
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleLinkProject = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,8 +74,16 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries, lang
           body: JSON.stringify({ projectPath: path }),
         });
         const data = await res.json();
-        if (data.success && data.entries) {
-          setProjectEntries(data.entries);
+        if (data.success) {
+          if ('ACCESS' === 'ACCESS') {
+            const projectName = data.output?.match(/ROOT DIRECTORY:\s*([^\n]+)/)?.[1] || path;
+            setLinkedProject(projectName);
+            setProjectEntries(data.entries || []);
+          }
+          setTimeout(() => {
+            fetch('/api/state').then(r => r.json()).then(setState).catch(() => {});
+            fetchEvents();
+          }, 500);
         } else {
           // If scan fails (expected for browser-uploaded dirs), generate nodes from file list
           const seen = new Set<string>();
@@ -146,6 +164,17 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries, lang
     }
 
     setTimeout(() => setActiveAction(null), 2500);
+  };
+
+  const verifyChain = async () => {
+    setChainStatus(null);
+    try {
+      const res = await fetch('/api/events/verify', { method: 'POST' });
+      const data = await res.json();
+      setChainStatus(data);
+    } catch (e: any) {
+      setChainStatus({ intact: false, error: e.message });
+    }
   };
 
   const healthLabel = state.physics.eta >= 0.75
@@ -271,6 +300,37 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries, lang
             <Shield size={14} /> <span>{linkedProject ? `${t['hud.linked']} ${linkedProject}` : t['hud.link_project']}</span>
           </button>
         </nav>
+
+        {/* Event Chain */}
+        <div style={{ marginTop: '24px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '16px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+            <p style={{ fontSize: '0.55rem', color: '#52525b', letterSpacing: '2px', textTransform: 'uppercase' }}>{t['chain.title'] || 'EVENT CHAIN'}</p>
+            <button 
+              onClick={verifyChain}
+              style={{ padding: '4px 8px', fontSize: '0.45rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', cursor: 'pointer', borderRadius: '2px', textTransform: 'uppercase' }}
+            >
+              {t['chain.verify'] || 'VERIFY'}
+            </button>
+          </div>
+          
+          {chainStatus && (
+            <div style={{ marginBottom: '12px', padding: '6px', fontSize: '0.5rem', textAlign: 'center', background: chainStatus.intact ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)', color: chainStatus.intact ? '#4ade80' : '#fca5a5', border: `1px solid ${chainStatus.intact ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)'}` }}>
+              {chainStatus.intact ? (t['chain.intact'] || '✓ CHAIN INTACT') : (t['chain.tampered'] || '✗ CHAIN TAMPERED')}
+            </div>
+          )}
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {chainEvents.slice(0, 5).map((ev, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.5rem', fontFamily: 'monospace', opacity: 0.8 }}>
+                <span style={{ color: '#fff' }}>[{ev.seq}] {ev.type}</span>
+                <span style={{ color: '#71717a' }}>{ev.chain_hash.slice(0, 8)}...</span>
+              </div>
+            ))}
+            {chainEvents.length === 0 && (
+               <div style={{ fontSize: '0.5rem', color: '#71717a', fontStyle: 'italic' }}>{t['chain.empty'] || 'No events'}</div>
+            )}
+          </div>
+        </div>
 
         {/* Footer */}
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '16px', marginTop: '24px' }}>
