@@ -16,28 +16,39 @@ export const CoreShaderMaterial = {
 
     varying vec3 vPosition;
     varying vec2 vUv;
+    varying vec3 vNormal;
+    varying vec3 vViewPosition;
 
-    // Classic 3D noise could go here, but we'll use simple sin wave math for performance
     void main() {
       vUv = uv;
       vPosition = position;
 
-      // Entropy determines how "stable" the geometry is. Low entropy = high distortion
-      float instability = (1.0 - u_entropy) * 2.0; 
+      // Entropy determines geometric stability
+      float instability = (1.0 - u_entropy) * 3.0; 
       
-      // Drift adds higher frequency jitter
-      float noise = sin(position.x * 10.0 + u_time * 5.0) * cos(position.y * 10.0 + u_time * 5.0);
+      // Drift jitter
+      float noise = sin(position.x * 20.0 + u_time * 8.0) * cos(position.y * 20.0 + u_time * 8.0);
       
       vec3 pos = position;
       
-      // Apply ambient geometric distortion
-      pos += normal * noise * instability * 0.1;
-      pos += normal * sin(u_time * 10.0) * u_drift * 0.5;
+      // Ambient distress geometry
+      if (instability > 0.1) {
+        pos += normal * noise * instability * 0.05;
+      }
+      if (u_drift > 0.05) {
+        pos += normal * sin(u_time * 15.0) * u_drift * 0.3;
+      }
 
-      // Apply pulse shockwave (scales up vertices temporarily)
-      pos += normal * u_pulse * 0.5;
+      // Pulse shockwave scaling
+      pos += normal * u_pulse * 0.4;
 
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+      vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+      vViewPosition = -mvPosition.xyz;
+      
+      // Transform normal safely
+      vNormal = normalize(normalMatrix * normal);
+      
+      gl_Position = projectionMatrix * mvPosition;
     }
   `,
   fragmentShader: `
@@ -47,23 +58,38 @@ export const CoreShaderMaterial = {
     uniform vec3 u_baseColor;
     
     varying vec3 vPosition;
+    varying vec3 vNormal;
+    varying vec3 vViewPosition;
 
     void main() {
-      vec3 color = u_baseColor;
+      vec3 normal = normalize(vNormal);
+      vec3 viewDir = normalize(vViewPosition);
 
-      // High drift shifts color towards red
+      // FRESNEL (RIM SCATTERING LOGIC)
+      float dotProduct = max(0.0, dot(normal, viewDir));
+      float rim = 1.0 - dotProduct;
+      float fresnel = pow(rim, 3.0); // sharp edge glow
+      
+      vec3 color = u_baseColor;
+      
+      // PROCEDURAL SCANLINES
+      float scanline = sin(vPosition.y * 80.0 - u_time * 10.0) * 0.08;
+      
+      // DRIFT CONTAMINATION (Shift to Red/Amber)
       if (u_drift > 0.0) {
-        float driftGlow = min(u_drift * 5.0, 1.0);
-        color = mix(color, vec3(1.0, 0.2, 0.2), driftGlow * sin(u_time * 3.0));
+        float driftMix = min(u_drift * 4.0, 1.0);
+        vec3 hazardColor = mix(vec3(1.0, 0.6, 0.0), vec3(1.0, 0.1, 0.2), driftMix);
+        color = mix(color, hazardColor, driftMix * abs(sin(u_time * 3.0)));
       }
 
-      // Pulse creates a bright white flash
-      color = mix(color, vec3(1.0, 1.0, 1.0), u_pulse);
-
-      // Wireframe intensity fade
-      float alpha = 1.0;
-
-      gl_FragColor = vec4(color, alpha);
+      // PULSE OVERDRIVE
+      vec3 finalColor = mix(color, vec3(1.0, 1.0, 1.0), u_pulse);
+      
+      // ALPHA CALCULATION (Glass body)
+      float alpha = max(0.1, fresnel) + max(0.0, scanline) + (u_pulse * 0.6);
+      
+      // INTENSITY EMISSION MULTIPLIER
+      gl_FragColor = vec4(finalColor * (1.2 + fresnel * 2.5), alpha);
     }
   `
 };

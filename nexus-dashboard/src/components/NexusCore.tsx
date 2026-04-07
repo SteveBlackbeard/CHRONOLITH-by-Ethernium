@@ -83,19 +83,23 @@ function SystemNode({
   const pOut = useCallback(() => { setHovered(false); onUnhover(); }, [onUnhover]);
   const pClick = useCallback(() => onClick(node), [node, onClick]);
 
-  const matRef = useRef<THREE.ShaderMaterial>(null!);
+  const matRefSolid = useRef<THREE.ShaderMaterial>(null!);
+  const matRefWire = useRef<THREE.ShaderMaterial>(null!);
+
   useFrame((state) => {
-    if (matRef.current) {
-      matRef.current.uniforms.u_time.value = state.clock.elapsedTime;
-      matRef.current.uniforms.u_entropy.value = eta;
-      matRef.current.uniforms.u_drift.value = drift;
-      matRef.current.uniforms.u_pulse.value = THREE.MathUtils.lerp(
-        matRef.current.uniforms.u_pulse.value,
-        isPulsing ? 1.0 : 0.0,
-        0.1
-      );
-      matRef.current.uniforms.u_baseColor.value.set(materialColor);
-    }
+    [matRefSolid, matRefWire].forEach(ref => {
+      if (ref.current) {
+        ref.current.uniforms.u_time.value = state.clock.elapsedTime;
+        ref.current.uniforms.u_entropy.value = eta;
+        ref.current.uniforms.u_drift.value = drift;
+        ref.current.uniforms.u_pulse.value = THREE.MathUtils.lerp(
+          ref.current.uniforms.u_pulse.value,
+          isPulsing ? 1.0 : 0.0,
+          0.1
+        );
+        ref.current.uniforms.u_baseColor.value.set(materialColor);
+      }
+    });
   });
 
   // ─── 3D SHAPES ───
@@ -103,8 +107,13 @@ function SystemNode({
     return (
       <Float speed={1.5} rotationIntensity={0.8} floatIntensity={0.5} position={node.position}>
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
+          {/* Inner Glass Body */}
+          <Octahedron args={[scale * 0.95, 0]}>
+            <shaderMaterial ref={matRefSolid} args={[CoreShaderMaterial]} transparent depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} />
+          </Octahedron>
+          {/* Outer Energy Lattice */}
           <Octahedron args={[scale, 0]}>
-            <shaderMaterial ref={matRef} args={[CoreShaderMaterial]} wireframe={!isPulsing} transparent blending={THREE.AdditiveBlending} />
+            <shaderMaterial ref={matRefWire} args={[CoreShaderMaterial]} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
           </Octahedron>
           <Html distanceFactor={12} position={[0, -(scale + 0.8), 0]} center>
             <div style={{ color: materialColor, fontSize: '9px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '3px', opacity: 0.7, fontFamily: 'monospace' }}>
@@ -121,8 +130,12 @@ function SystemNode({
       <Float speed={2} rotationIntensity={1.5} floatIntensity={0.3} position={node.position}>
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <mesh>
+            <tetrahedronGeometry args={[scale * 0.95, 0]} />
+            <shaderMaterial ref={matRefSolid} args={[CoreShaderMaterial]} transparent depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} />
+          </mesh>
+          <mesh>
             <tetrahedronGeometry args={[scale, 0]} />
-            <shaderMaterial ref={matRef} args={[CoreShaderMaterial]} wireframe={!isPulsing} transparent blending={THREE.AdditiveBlending} />
+            <shaderMaterial ref={matRefWire} args={[CoreShaderMaterial]} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
           </mesh>
           <Html distanceFactor={12} position={[0, -(scale + 0.5), 0]} center>
             <div style={{ color: materialColor, fontSize: '7px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'monospace' }}>
@@ -138,8 +151,11 @@ function SystemNode({
     return (
       <Float speed={2.5} rotationIntensity={0.5} floatIntensity={0.4} position={node.position}>
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
+          <Sphere args={[scale * 0.55, 12, 12]}>
+            <shaderMaterial ref={matRefSolid} args={[CoreShaderMaterial]} transparent depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} />
+          </Sphere>
           <Sphere args={[scale * 0.6, 12, 12]}>
-            <shaderMaterial ref={matRef} args={[CoreShaderMaterial]} wireframe={!isPulsing} transparent blending={THREE.AdditiveBlending} />
+            <shaderMaterial ref={matRefWire} args={[CoreShaderMaterial]} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
           </Sphere>
           <Html distanceFactor={12} position={[0, -(scale * 0.6 + 0.4), 0]} center>
             <div style={{ color: materialColor, fontSize: '7px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'monospace' }}>
