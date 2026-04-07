@@ -1,13 +1,13 @@
-name: 🚀 PyPI Publish
+name: PyPI Publish
 
 on:
   release:
     types: [published]
-  workflow_dispatch: # Permite lanzamiento manual desde la interfaz de GitHub
+  workflow_dispatch:
 
 jobs:
   build-and-publish:
-    name: 📦 Build and Publish to PyPI
+    name: Build and Publish to PyPI
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -35,6 +35,4 @@ jobs:
     - name: Publish to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
         packages-dir: ${{ matrix.package-path }}/dist/
