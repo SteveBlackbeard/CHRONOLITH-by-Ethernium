@@ -7,11 +7,12 @@ export interface GraphNode {
   position: [number, number, number];
   type: 'core' | 'engine' | 'edition' | 'module' | 'file' | 'folder' | 'link-placeholder';
   shape: 'octahedron' | 'tetrahedron' | 'sphere' | 'document' | 'folder-icon';
-  size: number; // scale factor: 1.5 = large, 1.0 = medium, 0.5 = small
+  size: number;
   parentId: string | null;
-  action?: string; // API endpoint on click
+  action?: string;
   tooltip: string;
   color?: string;
+  filePath?: string; // relative path for reading file content
 }
 
 export interface GraphEdge {
@@ -98,7 +99,7 @@ export function buildStaticGraph(): { nodes: GraphNode[]; edges: GraphEdge[] } {
       parentId: 'core',
       action: eng.action,
       tooltip: eng.tooltip,
-      color: '#ffffff',
+      color: '#22d3ee', // cyan for engines
     });
     edges.push({ from: 'core', to: eng.id });
   });
@@ -116,6 +117,8 @@ export function buildStaticGraph(): { nodes: GraphNode[]; edges: GraphEdge[] } {
       size: 0.4,
       parentId: 'crystallizer',
       tooltip: `Core engine script: ${script}`,
+      color: '#67e8f9', // light cyan
+      filePath: `.github/scripts/${script}`,
     });
     edges.push({ from: 'crystallizer', to: id });
   });
@@ -133,17 +136,21 @@ export function buildStaticGraph(): { nodes: GraphNode[]; edges: GraphEdge[] } {
       size: doc === 'README.md' || doc === 'STATE.json' ? 0.5 : 0.35,
       parentId: 'core',
       tooltip: `Root document: ${doc}`,
+      color: '#d4d4d8', // warm grey for docs
+      filePath: doc,
     });
     edges.push({ from: 'core', to: id });
   });
 
   // ─── EDITIONS ───
+  const editionColors: Record<string, string> = { lite: '#4ade80', pro: '#fb923c', omega: '#a78bfa' };
   const editions = [
-    { id: 'lite', label: 'LITE', files: liteFiles, tooltip: 'Minimalist DNA sync for zero-loss handoffs.' },
-    { id: 'pro', label: 'PRO', files: proFiles, tooltip: 'Industrial-grade border guard with RFC 6962 Merkle Hardening.' },
-    { id: 'omega', label: 'OMEGA', files: omegaFiles, tooltip: 'Advanced RAG, cognitive mapping, and 3D dashboard.' },
+    { id: 'lite', label: 'LITE', files: liteFiles, dir: 'continuity-lite', tooltip: 'Minimalist DNA sync for zero-loss handoffs.' },
+    { id: 'pro', label: 'PRO', files: proFiles, dir: 'continuity-pro', tooltip: 'Industrial-grade border guard with RFC 6962 Merkle Hardening.' },
+    { id: 'omega', label: 'OMEGA', files: omegaFiles, dir: 'continuity-omega', tooltip: 'Advanced RAG, cognitive mapping, and 3D dashboard.' },
   ];
   editions.forEach((ed, i) => {
+    const edColor = editionColors[ed.id];
     nodes.push({
       id: ed.id,
       label: ed.label,
@@ -153,7 +160,7 @@ export function buildStaticGraph(): { nodes: GraphNode[]; edges: GraphEdge[] } {
       size: 1.2,
       parentId: 'core',
       tooltip: ed.tooltip,
-      color: '#ffffff',
+      color: edColor,
     });
     edges.push({ from: 'core', to: ed.id });
 
@@ -170,6 +177,8 @@ export function buildStaticGraph(): { nodes: GraphNode[]; edges: GraphEdge[] } {
         size: 0.35,
         parentId: ed.id,
         tooltip: `${ed.label} module file: ${file}`,
+        color: edColor,
+        filePath: `${ed.dir}/${file}`,
       });
       edges.push({ from: ed.id, to: fileId });
     });
