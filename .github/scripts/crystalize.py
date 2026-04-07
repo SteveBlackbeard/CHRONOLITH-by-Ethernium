@@ -268,7 +268,7 @@ def crystalize():
         state["physics"] = physics
         state["drift_kl"] = d_kl
         state["file_sizes"] = file_sizes
-        state["crystallizer_version"] = "3.0.0"
+        state["crystallizer_version"] = "3.0.1"
 
         serialized = json.dumps({k: v for k, v in state.items() if k != "signature"}, sort_keys=True)
         state["signature"] = hashlib.sha256(serialized.encode("utf-8")).hexdigest()

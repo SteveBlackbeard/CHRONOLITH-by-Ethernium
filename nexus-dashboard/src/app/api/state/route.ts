@@ -15,7 +15,7 @@ export async function GET() {
       last_check: new Date().toISOString(),
       physics: { H: 0, H_max: 0, eta: 0, N: 0, W: 0, gini: 0 },
       drift_kl: 0,
-      crystallizer_version: "3.0.0",
+      crystallizer_version: "3.0.1",
     }, { status: 500 });
   }
 }
