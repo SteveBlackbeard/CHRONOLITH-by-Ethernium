@@ -1,7 +1,8 @@
 "use client";
 import React, { useRef, useMemo, useState, useCallback } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Points, PointMaterial, Float, Octahedron, Sphere, Html, OrbitControls } from '@react-three/drei';
+import { Points, PointMaterial, Float, Octahedron, Sphere, Html, OrbitControls, Grid } from '@react-three/drei';
+import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import { buildStaticGraph, buildProjectNodes, GraphNode, GraphEdge, ScannedEntry } from '@/lib/graphData';
 import { Language, translations } from '@/lib/i18n';
@@ -14,17 +15,20 @@ function ParticleField({ count = 2000 }) {
   const points = useMemo(() => {
     const p = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      p[i * 3] = (Math.random() - 0.5) * 40;
-      p[i * 3 + 1] = (Math.random() - 0.5) * 40;
-      p[i * 3 + 2] = (Math.random() - 0.5) * 40;
+      p[i * 3]     = (Math.random() - 0.5) * 60;
+      p[i * 3 + 1] = (Math.random() - 0.5) * 60;
+      p[i * 3 + 2] = (Math.random() - 0.5) * 60;
     }
     return p;
   }, [count]);
   const ref = useRef<THREE.Points>(null!);
-  useFrame((s: any) => { ref.current.rotation.y = s.clock.getElapsedTime() * 0.02; });
+  useFrame((s: any) => { 
+    ref.current.rotation.y = s.clock.getElapsedTime() * 0.015; 
+    ref.current.rotation.x = Math.sin(s.clock.getElapsedTime() * 0.05) * 0.1;
+  });
   return (
     <Points ref={ref} positions={points} stride={3} frustumCulled={false}>
-      <PointMaterial transparent color="#ffffff" size={0.008} sizeAttenuation depthWrite={false} blending={THREE.AdditiveBlending} />
+      <PointMaterial transparent color="#ffffff" size={0.03} sizeAttenuation depthWrite={false} blending={THREE.AdditiveBlending} opacity={0.6} />
     </Points>
   );
 }
@@ -109,11 +113,11 @@ function SystemNode({
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           {/* Inner Glass Body */}
           <Octahedron args={[scale * 0.95, 0]}>
-            <shaderMaterial ref={matRefSolid} args={[CoreShaderMaterial]} transparent depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} />
+            <shaderMaterial ref={matRefSolid} args={[CoreShaderMaterial]} uniforms-u_isWireframe-value={0.0} transparent depthWrite={false} blending={THREE.NormalBlending} side={THREE.DoubleSide} />
           </Octahedron>
           {/* Outer Energy Lattice */}
           <Octahedron args={[scale, 0]}>
-            <shaderMaterial ref={matRefWire} args={[CoreShaderMaterial]} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
+            <shaderMaterial ref={matRefWire} args={[CoreShaderMaterial]} uniforms-u_isWireframe-value={1.0} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
           </Octahedron>
           <Html distanceFactor={12} position={[0, -(scale + 0.8), 0]} center>
             <div style={{ color: materialColor, fontSize: '9px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '3px', opacity: 0.7, fontFamily: 'monospace' }}>
@@ -131,11 +135,11 @@ function SystemNode({
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <mesh>
             <tetrahedronGeometry args={[scale * 0.95, 0]} />
-            <shaderMaterial ref={matRefSolid} args={[CoreShaderMaterial]} transparent depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} />
+            <shaderMaterial ref={matRefSolid} args={[CoreShaderMaterial]} uniforms-u_isWireframe-value={0.0} transparent depthWrite={false} blending={THREE.NormalBlending} side={THREE.DoubleSide} />
           </mesh>
           <mesh>
             <tetrahedronGeometry args={[scale, 0]} />
-            <shaderMaterial ref={matRefWire} args={[CoreShaderMaterial]} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
+            <shaderMaterial ref={matRefWire} args={[CoreShaderMaterial]} uniforms-u_isWireframe-value={1.0} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
           </mesh>
           <Html distanceFactor={12} position={[0, -(scale + 0.5), 0]} center>
             <div style={{ color: materialColor, fontSize: '7px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'monospace' }}>
@@ -152,10 +156,10 @@ function SystemNode({
       <Float speed={2.5} rotationIntensity={0.5} floatIntensity={0.4} position={node.position}>
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <Sphere args={[scale * 0.55, 12, 12]}>
-            <shaderMaterial ref={matRefSolid} args={[CoreShaderMaterial]} transparent depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} />
+            <shaderMaterial ref={matRefSolid} args={[CoreShaderMaterial]} uniforms-u_isWireframe-value={0.0} transparent depthWrite={false} blending={THREE.NormalBlending} side={THREE.DoubleSide} />
           </Sphere>
           <Sphere args={[scale * 0.6, 12, 12]}>
-            <shaderMaterial ref={matRefWire} args={[CoreShaderMaterial]} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
+            <shaderMaterial ref={matRefWire} args={[CoreShaderMaterial]} uniforms-u_isWireframe-value={1.0} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
           </Sphere>
           <Html distanceFactor={12} position={[0, -(scale * 0.6 + 0.4), 0]} center>
             <div style={{ color: materialColor, fontSize: '7px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'monospace' }}>
@@ -476,6 +480,23 @@ const NexusCore = ({ linkedProject, projectEntries, language, setLinkedProject, 
               onClick={handleNodeClick}
             />
           ))}
+
+          {/* Cyber Corporate Post-Processing and Subgrid */}
+          <Grid 
+            position={[0, -5, 0]} 
+            args={[100, 100]} 
+            cellSize={2} 
+            cellThickness={0.5} 
+            cellColor="#1e293b" 
+            sectionSize={10} 
+            sectionThickness={1} 
+            sectionColor="#334155" 
+            fadeDistance={40} 
+            fadeStrength={1} 
+          />
+          <EffectComposer>
+            <Bloom luminanceThreshold={1.0} luminanceSmoothing={0.3} intensity={1.8} mipmapBlur />
+          </EffectComposer>
         </Canvas>
       </div>
 
