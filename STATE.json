@@ -1,16 +1,16 @@
 {
   "phase": "stable",
   "last_update": "2026-04-05T10:55:45.281220",
-  "signature": "1a990d6710e4bc219b0a7eff0ce1e39cb433c39c8fc931cbc793d9ae56bd3725",
-  "merkle_root": "9adc2f647686f91229765df47473ab6fbb231e17135b744458961b61c3d3ca64",
-  "last_check": "2026-04-07T23:14:18.131698",
+  "signature": "573697fbd68f5a33efbe90917f3e6387ac014d3907c711aa1c56984f93d9b2ce",
+  "merkle_root": "45593480c89eb2801a198d076d524911d6281ad3a97c924983b1df1ec291fd4d",
+  "last_check": "2026-04-07T23:35:57.046742",
   "physics": {
-    "H": 5.024655,
+    "H": 5.022679,
     "H_max": 5.357552,
-    "eta": 0.937864,
+    "eta": 0.937495,
     "N": 41,
-    "W": 132853,
-    "gini": -0.340505
+    "W": 133034,
+    "gini": -0.341303
   },
   "drift_kl": 1.5e-05,
   "file_sizes": {
@@ -54,7 +54,7 @@
     "RELEASE_NOTES_MANIFEST.md": 4438,
     "SECURITY.md": 1656,
     "SESSION_LOG.md": 233,
-    "SESSION_TOKEN_REPORT.md": 11086
+    "SESSION_TOKEN_REPORT.md": 11267
   },
   "crystallizer_version": "3.0.1"
 }
