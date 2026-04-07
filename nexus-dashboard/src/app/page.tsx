@@ -2,6 +2,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import SovereignHUD from '@/components/SovereignHUD';
+import { ScannedEntry } from '@/lib/graphData';
 
 // Loading 3D Canvas via dynamic import to avoid SSR errors
 const NexusCore = dynamic(() => import('@/components/NexusCore'), { 
@@ -11,18 +12,23 @@ const NexusCore = dynamic(() => import('@/components/NexusCore'), {
 
 export default function Home() {
   const [linkedProject, setLinkedProject] = React.useState<string | null>(null);
+  const [projectEntries, setProjectEntries] = React.useState<ScannedEntry[]>([]);
 
   return (
     <main className="relative w-screen h-screen overflow-hidden bg-black">
       {/* Dynamic 3D Layer */}
-      <NexusCore linkedProject={linkedProject} />
+      <NexusCore linkedProject={linkedProject} projectEntries={projectEntries} />
 
       {/* Cinematic Overlays */}
       <div className="vignette" />
       <div className="scanlines" />
 
       {/* Primary UI Layer */}
-      <SovereignHUD linkedProject={linkedProject} setLinkedProject={setLinkedProject} />
+      <SovereignHUD 
+        linkedProject={linkedProject} 
+        setLinkedProject={setLinkedProject} 
+        setProjectEntries={setProjectEntries} 
+      />
 
       {/* Global Grain VFX (Pseudo-Grain with CSS) */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-[200]">

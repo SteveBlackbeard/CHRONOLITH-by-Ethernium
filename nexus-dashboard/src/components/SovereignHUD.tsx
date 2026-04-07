@@ -31,9 +31,10 @@ const DEFAULT_STATE: StateData = {
 interface HUDProps {
   linkedProject: string | null;
   setLinkedProject: (project: string | null) => void;
+  setProjectEntries: (entries: any[]) => void;
 }
 
-const SovereignHUD = ({ linkedProject, setLinkedProject }: HUDProps) => {
+const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries }: HUDProps) => {
   const [activeAction, setActiveAction] = useState<string | null>(null);
   const [state, setState] = useState<StateData>(DEFAULT_STATE);
   const [hoveredItem, setHoveredItem] = useState<{ id: string; text: string; x: number; y: number } | null>(null);
@@ -42,13 +43,62 @@ const SovereignHUD = ({ linkedProject, setLinkedProject }: HUDProps) => {
     fetch('/api/state').then(r => r.json()).then(setState).catch(() => {});
   }, []);
 
-  const handleLinkProject = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLinkProject = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
       // @ts-ignore
-      const path = files[0].webkitRelativePath.split('/')[0] || files[0].name;
+      const path = files[0].webkitRelativePath?.split('/')[0] || files[0].name;
       setLinkedProject(path);
-      triggerAction(`LINK_SUCCESS_${path.toUpperCase()}`);
+      setActiveAction(`SCANNING_${path.toUpperCase()}`);
+
+      // Try to scan the project directory via our backend
+      try {
+        const res = await fetch('/api/actions/scan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ projectPath: path }),
+        });
+        const data = await res.json();
+        if (data.success && data.entries) {
+          setProjectEntries(data.entries);
+        } else {
+          // If scan fails (expected for browser-uploaded dirs), generate nodes from file list
+          const seen = new Set<string>();
+          const entries: any[] = [];
+          for (let i = 0; i < Math.min(files.length, 50); i++) {
+            // @ts-ignore
+            const rel = files[i].webkitRelativePath || files[i].name;
+            const parts = rel.split('/');
+            if (parts.length > 1 && !seen.has(parts[1])) {
+              seen.add(parts[1]);
+              entries.push({
+                name: parts[1],
+                type: parts.length > 2 ? 'dir' : 'file',
+              });
+            }
+          }
+          setProjectEntries(entries);
+        }
+      } catch {
+        // Fallback: derive structure from uploaded file paths
+        const seen = new Set<string>();
+        const entries: any[] = [];
+        for (let i = 0; i < Math.min(files.length, 50); i++) {
+          // @ts-ignore
+          const rel = files[i].webkitRelativePath || files[i].name;
+          const parts = rel.split('/');
+          if (parts.length > 1 && !seen.has(parts[1])) {
+            seen.add(parts[1]);
+            entries.push({
+              name: parts[1],
+              type: parts.length > 2 ? 'dir' : 'file',
+            });
+          }
+        }
+        setProjectEntries(entries);
+      }
+
+      setTimeout(() => setActiveAction(null), 2500);
     }
   };
 
