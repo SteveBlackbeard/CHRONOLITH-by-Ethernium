@@ -290,6 +290,12 @@ const NexusCore = ({ linkedProject, projectEntries, language }: NexusCoreProps) 
   }, [allNodes]);
 
   const handleNodeClick = useCallback(async (node: GraphNode) => {
+    // If it's the placeholder node to link a project
+    if (node.id === 'link-placeholder') {
+      document.getElementById('project-linker')?.click();
+      return;
+    }
+
     // If engine with an action → execute it
     if (node.action) {
       try { await fetch(node.action, { method: 'POST' }); } catch {}
