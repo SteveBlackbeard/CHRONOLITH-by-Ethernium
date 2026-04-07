@@ -91,9 +91,8 @@ Each edition is optimized for specific resource footprints:
 
 ```bash
 
-# Install the Enterprise edition from its folder
-
-pip install -e .
+# Install the Enterprise edition from PyPI
+pip install ethernium-continuity-omega
 
 
 

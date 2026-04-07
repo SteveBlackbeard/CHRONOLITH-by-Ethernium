@@ -91,9 +91,8 @@ Each edition is optimized for specific resource footprints:
 
 ```bash
 
-# Install the Lite edition from its folder
-
-pip install -e .
+# Install the Lite edition from PyPI
+pip install ethernium-continuity-lite
 
 
 

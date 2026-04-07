@@ -25,7 +25,7 @@ const DEFAULT_STATE: StateData = {
   last_check: new Date().toISOString(),
   physics: { H: 0, H_max: 0, eta: 0, N: 0, W: 0, gini: 0 },
   drift_kl: 0,
-  crystallizer_version: "3.0.0",
+  crystallizer_version: "3.0.1",
 };
 
 const SovereignHUD = () => {
@@ -99,6 +99,22 @@ const SovereignHUD = () => {
               <p style={{ fontSize: '0.5rem', color: '#52525b' }}>D_KL</p>
               <p style={{ fontSize: '0.75rem', fontWeight: 600 }}>{state.drift_kl.toFixed(4)}</p>
             </div>
+          </div>
+        </div>
+
+        {/* Modular Nodes */}
+        <div style={{ marginBottom: '24px' }}>
+          <p style={{ fontSize: '0.55rem', color: '#52525b', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>Modular Cluster</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+            {['LITE', 'PRO', 'OMEGA'].map((node) => (
+              <div key={node} style={{ border: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.02)', padding: '8px', textAlign: 'center' }}>
+                <p style={{ fontSize: '0.45rem', color: '#71717a', marginBottom: '4px' }}>{node}</p>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
+                  <div className="pulse-dot" style={{ width: '4px', height: '4px', background: '#fff' }} />
+                  <span style={{ fontSize: '0.5rem', fontWeight: 700 }}>LIVE</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
