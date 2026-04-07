@@ -1,4 +1,4 @@
-﻿<p align="center">
+<p align="center">
   <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
 </p>
 
@@ -9,9 +9,20 @@
 
 **"The AI doesn't just remember; it reflects."** 
 
-##  v2.11.0: THE CINEMATIC SINGULARITY (NEXUS)
+## 🌌 v3.0.1: THE GREAT CONJUNCTION (MODULAR)
+This landmark release marks the transition of **Continuity Legacy** into its final, modular industrial form. All core protocols have been decentralized and projected onto PyPI for global synchronization.
 
-Welcome to the **NEXUS Phase**. This version (v2.11.0) is the evolution of the stable v2.1.0, integrating **Information Physics** and a **Sovereign Aesthetic Mirror** to bridge the gap between abstract logic and human intuition.
+### 🧩 Key Innovations (v3.0.1):
+- **Modular Sovereignty**: The monolithic core has been split into 4 independent distribution nodes: `ethernium-continuity-legacy`, `-lite`, `-pro`, and `-omega`.
+- **Functional Nexus Dashboard**: The glassmorphic HUD is now active. You can command **DNA Synthesis** and **Industrial Audits** directly from the visual interface.
+- **PyPI Synchronization**: Official branding is now enforced across the global package registry under the `ethernium-` prefix.
+- **Hardened Handshake**: CI/CD pipelines now use a direct API-Token handshake to bypass security-identity drift during publication.
+
+---
+
+## 🏛️ v2.11.0: THE CINEMATIC SINGULARITY (NEXUS)
+Welcome to the **NEXUS Phase**. This version (v2.11.0) was the foundation of the 3D aesthetic era...
+
 
 ###  Key Innovations:
 - **The Cinematic Mirror**: A professional B&W Dashboard powered by **Three.js (R3F)** and **VFX Shaders**, visualizing the Merkle Tree as a living core.
