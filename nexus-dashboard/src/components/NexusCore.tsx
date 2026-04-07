@@ -255,11 +255,14 @@ interface NexusCoreProps {
   linkedProject: string | null;
   projectEntries?: ScannedEntry[];
   language: Language;
+  setLinkedProject: (project: string | null) => void;
+  setProjectEntries: (entries: ScannedEntry[]) => void;
 }
 
-const NexusCore = ({ linkedProject, projectEntries, language }: NexusCoreProps) => {
+const NexusCore = ({ linkedProject, projectEntries, language, setLinkedProject, setProjectEntries }: NexusCoreProps) => {
   const [hoveredNode, setHoveredNode] = useState<GraphNode | null>(null);
   const [openDoc, setOpenDoc] = useState<{ fileName: string; content: string; truncated: boolean } | null>(null);
+  const [unlinkModal, setUnlinkModal] = useState<string | null>(null);
 
   const { staticNodes, staticEdges, dynamicNodes, dynamicEdges } = useMemo(() => {
     const { nodes: sn, edges: se } = buildStaticGraph(language);
@@ -290,9 +293,15 @@ const NexusCore = ({ linkedProject, projectEntries, language }: NexusCoreProps) 
   }, [allNodes]);
 
   const handleNodeClick = useCallback(async (node: GraphNode) => {
-    // If it's the placeholder node to link a project
+    // If it's the click-to-link node
     if (node.id === 'link-placeholder') {
       document.getElementById('project-linker')?.click();
+      return;
+    }
+
+    // If it's a linked project module, offer to unlink
+    if (node.type === 'module' && node.id.startsWith('project-')) {
+      setUnlinkModal(node.label);
       return;
     }
 
@@ -372,6 +381,42 @@ const NexusCore = ({ linkedProject, projectEntries, language }: NexusCoreProps) 
           onClose={() => setOpenDoc(null)}
           language={language}
         />
+      )}
+
+      {/* Unlink Confirmation Modal */}
+      {unlinkModal && (
+        <div style={{
+          position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 6000,
+          background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,100,100,0.3)',
+          padding: '24px 32px', textAlign: 'center', fontFamily: 'monospace', color: '#fff',
+          display: 'flex', flexDirection: 'column', gap: '12px', borderRadius: '4px',
+          boxShadow: '0px 10px 40px rgba(0,0,0,0.8)'
+        }}>
+          <div style={{ fontSize: '1rem', letterSpacing: '2px', fontWeight: 700, color: '#fca5a5' }}>
+            {translations[language]['graph.unlink.title'] || 'Unlink this project?'}
+          </div>
+          <div style={{ color: '#aaa', fontSize: '0.75rem', marginBottom: '8px' }}>
+            {unlinkModal}
+          </div>
+          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+            <button 
+              onClick={() => { setLinkedProject(null); setProjectEntries([]); setUnlinkModal(null); }}
+              style={{ background: 'rgba(255,100,100,0.2)', border: '1px solid rgba(255,100,100,0.5)', padding: '6px 20px', color: '#fca5a5', cursor: 'pointer', borderRadius: '2px', transition: 'background 0.2s' }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,100,100,0.3)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,100,100,0.2)'}
+            >
+              {translations[language]['graph.unlink.yes'] || 'YES'}
+            </button>
+            <button 
+              onClick={() => setUnlinkModal(null)}
+              style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', padding: '6px 20px', color: '#fff', cursor: 'pointer', borderRadius: '2px', transition: 'background 0.2s' }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+            >
+              {translations[language]['graph.unlink.no'] || 'NO'}
+            </button>
+          </div>
+        </div>
       )}
 
       {/* Tooltip Bar */}

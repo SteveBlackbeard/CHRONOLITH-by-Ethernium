@@ -36,6 +36,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.omega.tooltip': 'Advanced RAG, cognitive mapping, and 3D dashboard.',
     'graph.link.label': 'LINK PROJECT',
     'graph.link.tooltip': 'Click to link an external project directory.',
+    'graph.unlink.title': 'Unlink this project?',
+    'graph.unlink.yes': 'YES',
+    'graph.unlink.no': 'NO',
   },
   ES: {
     'hud.brand': 'por Ethernium',
@@ -71,6 +74,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.omega.tooltip': 'RAG avanzado, mapeo cognitivo y dashboard 3D.',
     'graph.link.label': 'ENLAZAR PROYECTO',
     'graph.link.tooltip': 'Haz clic para enlazar un directorio de proyecto externo.',
+    'graph.unlink.title': '¿Desvincular proyecto?',
+    'graph.unlink.yes': 'SÍ',
+    'graph.unlink.no': 'NO',
   },
   JA: {
     'hud.brand': 'by Ethernium',
@@ -106,6 +112,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.omega.tooltip': '高度なRAG、認知マッピング、および3Dダッシュボード。',
     'graph.link.label': 'プロジェクトをリンク',
     'graph.link.tooltip': 'クリックして外部プロジェクトディレクトリをリンクします。',
+    'graph.unlink.title': 'リンクを解除しますか？',
+    'graph.unlink.yes': 'はい',
+    'graph.unlink.no': 'いいえ',
   },
   ZH: {
     'hud.brand': '由 Ethernium 提供',
@@ -141,6 +150,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.omega.tooltip': '高级 RAG、认知映射和 3D 仪表板。',
     'graph.link.label': '链接项目',
     'graph.link.tooltip': '单击以链接外部项目目录。',
+    'graph.unlink.title': '取消链接此项目？',
+    'graph.unlink.yes': '是',
+    'graph.unlink.no': '否',
   },
   RU: {
     'hud.brand': 'от Ethernium',
@@ -176,9 +188,11 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.omega.tooltip': 'Продвинутый RAG, когнитивное картирование и 3D-дашборд.',
     'graph.link.label': 'СВЯЗАТЬ ПРОЕКТ',
     'graph.link.tooltip': 'Нажмите, чтобы связать каталог внешнего проекта.',
+    'graph.unlink.title': 'Отвязать этот проект?',
+    'graph.unlink.yes': 'ДA',
+    'graph.unlink.no': 'НЕТ',
   },
   FR: {
-    // English fallbacks for un-translated values for brevity, translated key elements
     'hud.brand': 'par Ethernium',
     'hud.health.healthy': 'SAIN',
     'hud.health.moderate': 'DÉRIVE_MODÉRÉE',
@@ -212,6 +226,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.omega.tooltip': 'RAG avancé, cartographie cognitive et tableau de bord 3D.',
     'graph.link.label': 'LIER LE PROJET',
     'graph.link.tooltip': 'Cliquez pour lier un répertoire de projet externe.',
+    'graph.unlink.title': 'Dissocier ce projet?',
+    'graph.unlink.yes': 'OUI',
+    'graph.unlink.no': 'NON',
   },
   IT: {
     'hud.brand': 'da Ethernium',
@@ -247,6 +264,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.omega.tooltip': 'RAG avanzato, mappatura cognitiva e dashboard 3D.',
     'graph.link.label': 'COLLEGA PROGETTO',
     'graph.link.tooltip': 'Fai clic per collegare una directory di progetto esterna.',
+    'graph.unlink.title': 'Scollegare progetto?',
+    'graph.unlink.yes': 'SÌ',
+    'graph.unlink.no': 'NO',
   },
   DE: {
     'hud.brand': 'von Ethernium',
@@ -282,6 +302,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.omega.tooltip': 'Erweitertes RAG, kognitive Kartierung und 3D-Dashboard.',
     'graph.link.label': 'PROJEKT VERKNÜPFEN',
     'graph.link.tooltip': 'Klicken, um ein externes Projektverzeichnis zu verknüpfen.',
+    'graph.unlink.title': 'Projekt trennen?',
+    'graph.unlink.yes': 'JA',
+    'graph.unlink.no': 'NEIN',
   },
   PT: {
     'hud.brand': 'por Ethernium',
@@ -317,5 +340,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.omega.tooltip': 'RAG avançado, mapeamento cognitivo e painel 3D.',
     'graph.link.label': 'VINCULAR PROJETO',
     'graph.link.tooltip': 'Clique para vincular um diretório de projeto externo.',
+    'graph.unlink.title': 'Desvincular projeto?',
+    'graph.unlink.yes': 'SIM',
+    'graph.unlink.no': 'NÃO',
   }
 };

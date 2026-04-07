@@ -19,7 +19,13 @@ export default function Home() {
   return (
     <main className="relative w-screen h-screen overflow-hidden bg-black">
       {/* Dynamic 3D Layer */}
-      <NexusCore linkedProject={linkedProject} projectEntries={projectEntries} language={language} />
+      <NexusCore 
+        linkedProject={linkedProject} 
+        projectEntries={projectEntries} 
+        language={language}
+        setLinkedProject={setLinkedProject}
+        setProjectEntries={setProjectEntries}
+      />
 
       {/* Cinematic Overlays */}
       <div className="vignette" />
