@@ -39,6 +39,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.unlink.title': 'Unlink this project?',
     'graph.unlink.yes': 'YES',
     'graph.unlink.no': 'NO',
+    'watch.change': 'MODIFIED',
+    'watch.add': 'CREATED',
+    'watch.unlink': 'DELETED',
+    'watch.connection': 'SYNAPTIC LINK ACTIVE',
   },
   ES: {
     'hud.brand': 'por Ethernium',
@@ -77,6 +81,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.unlink.title': '¿Desvincular proyecto?',
     'graph.unlink.yes': 'SÍ',
     'graph.unlink.no': 'NO',
+    'watch.change': 'MODIFICADO',
+    'watch.add': 'CREADO',
+    'watch.unlink': 'ELIMINADO',
+    'watch.connection': 'ENLACE SINÁPTICO ACTIVO',
   },
   JA: {
     'hud.brand': 'by Ethernium',
@@ -115,6 +123,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.unlink.title': 'リンクを解除しますか？',
     'graph.unlink.yes': 'はい',
     'graph.unlink.no': 'いいえ',
+    'watch.change': '変更されました',
+    'watch.add': '作成されました',
+    'watch.unlink': '削除されました',
+    'watch.connection': 'シナップスリンク アクティブ',
   },
   ZH: {
     'hud.brand': '由 Ethernium 提供',
@@ -153,6 +165,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.unlink.title': '取消链接此项目？',
     'graph.unlink.yes': '是',
     'graph.unlink.no': '否',
+    'watch.change': '已修改',
+    'watch.add': '已创建',
+    'watch.unlink': '已删除',
+    'watch.connection': '突触链接激活',
   },
   RU: {
     'hud.brand': 'от Ethernium',
@@ -191,6 +207,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.unlink.title': 'Отвязать этот проект?',
     'graph.unlink.yes': 'ДA',
     'graph.unlink.no': 'НЕТ',
+    'watch.change': 'ИЗМЕНЕНО',
+    'watch.add': 'СОЗДАНО',
+    'watch.unlink': 'УДАЛЕНО',
+    'watch.connection': 'СИНАПТИЧЕСКАЯ СВЯЗЬ АКТИВНА',
   },
   FR: {
     'hud.brand': 'par Ethernium',
@@ -229,6 +249,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.unlink.title': 'Dissocier ce projet?',
     'graph.unlink.yes': 'OUI',
     'graph.unlink.no': 'NON',
+    'watch.change': 'MODIFIÉ',
+    'watch.add': 'CRÉÉ',
+    'watch.unlink': 'SUPPRIMÉ',
+    'watch.connection': 'LIEN SYNAPTIQUE ACTIF',
   },
   IT: {
     'hud.brand': 'da Ethernium',
@@ -267,6 +291,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.unlink.title': 'Scollegare progetto?',
     'graph.unlink.yes': 'SÌ',
     'graph.unlink.no': 'NO',
+    'watch.change': 'MODIFICATO',
+    'watch.add': 'CREATO',
+    'watch.unlink': 'ELIMINATO',
+    'watch.connection': 'COLLEGAMENTO SINAPTICO ATTIVO',
   },
   DE: {
     'hud.brand': 'von Ethernium',
@@ -305,6 +333,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.unlink.title': 'Projekt trennen?',
     'graph.unlink.yes': 'JA',
     'graph.unlink.no': 'NEIN',
+    'watch.change': 'GEÄNDERT',
+    'watch.add': 'ERSTELLT',
+    'watch.unlink': 'GELÖSCHT',
+    'watch.connection': 'SYNAPTISCHER LINK AKTIV',
   },
   PT: {
     'hud.brand': 'por Ethernium',
@@ -343,5 +375,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'graph.unlink.title': 'Desvincular projeto?',
     'graph.unlink.yes': 'SIM',
     'graph.unlink.no': 'NÃO',
+    'watch.change': 'MODIFICADO',
+    'watch.add': 'CRIADO',
+    'watch.unlink': 'EXCLUÍDO',
+    'watch.connection': 'LINK SINÁPTICO ATIVO',
   }
 };

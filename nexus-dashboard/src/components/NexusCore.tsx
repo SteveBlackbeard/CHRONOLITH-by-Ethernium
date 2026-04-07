@@ -54,9 +54,10 @@ function ConnectionBeam({ start, end, color = '#ffffff' }: { start: [number, num
 // SYSTEM NODE
 // ═══════════════════════════════════════════════════════════
 function SystemNode({
-  node, onHover, onUnhover, onClick,
+  node, isPulsing, onHover, onUnhover, onClick,
 }: {
   node: GraphNode;
+  isPulsing?: boolean;
   onHover: (n: GraphNode) => void;
   onUnhover: () => void;
   onClick: (n: GraphNode) => void;
@@ -64,7 +65,8 @@ function SystemNode({
   const [hovered, setHovered] = useState(false);
   const baseColor = node.color || '#888';
   const activeColor = hovered ? '#60a5fa' : baseColor;
-  const scale = hovered ? node.size * 1.15 : node.size;
+  const materialColor = isPulsing ? '#ffffff' : activeColor;
+  const scale = (hovered ? node.size * 1.15 : node.size) * (isPulsing ? 1.4 : 1);
 
   const pOver = useCallback(() => { setHovered(true); onHover(node); }, [node, onHover]);
   const pOut = useCallback(() => { setHovered(false); onUnhover(); }, [onUnhover]);
@@ -76,10 +78,10 @@ function SystemNode({
       <Float speed={1.5} rotationIntensity={0.8} floatIntensity={0.5} position={node.position}>
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <Octahedron args={[scale, 0]}>
-            <meshBasicMaterial color={activeColor} wireframe />
+            <meshBasicMaterial color={materialColor} wireframe={!isPulsing} />
           </Octahedron>
           <Html distanceFactor={12} position={[0, -(scale + 0.8), 0]} center>
-            <div style={{ color: activeColor, fontSize: '9px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '3px', opacity: 0.7, fontFamily: 'monospace' }}>
+            <div style={{ color: materialColor, fontSize: '9px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '3px', opacity: 0.7, fontFamily: 'monospace' }}>
               {node.label}
             </div>
           </Html>
@@ -94,10 +96,10 @@ function SystemNode({
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <mesh>
             <tetrahedronGeometry args={[scale, 0]} />
-            <meshBasicMaterial color={activeColor} wireframe />
+            <meshBasicMaterial color={materialColor} wireframe={!isPulsing} />
           </mesh>
           <Html distanceFactor={12} position={[0, -(scale + 0.5), 0]} center>
-            <div style={{ color: activeColor, fontSize: '7px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'monospace' }}>
+            <div style={{ color: materialColor, fontSize: '7px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'monospace' }}>
               ⚡ {node.label}
             </div>
           </Html>
@@ -111,10 +113,10 @@ function SystemNode({
       <Float speed={2.5} rotationIntensity={0.5} floatIntensity={0.4} position={node.position}>
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <Sphere args={[scale * 0.6, 12, 12]}>
-            <meshBasicMaterial color={activeColor} wireframe />
+            <meshBasicMaterial color={materialColor} wireframe={!isPulsing} />
           </Sphere>
           <Html distanceFactor={12} position={[0, -(scale * 0.6 + 0.4), 0]} center>
-            <div style={{ color: activeColor, fontSize: '7px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'monospace' }}>
+            <div style={{ color: materialColor, fontSize: '7px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'monospace' }}>
               {node.label}
             </div>
           </Html>
@@ -142,11 +144,14 @@ function SystemNode({
             opacity: hovered ? 1 : 0.65,
           }}
         >
-          <span style={{ fontSize: `${Math.max(14, node.size * 32)}px`, filter: hovered ? 'none' : 'grayscale(0.6)' }}>
+          <span style={{ 
+            fontSize: `${Math.max(14, node.size * 32)}px`, 
+            filter: isPulsing ? 'drop-shadow(0 0 10px #fff)' : hovered ? 'none' : 'grayscale(0.6)' 
+          }}>
             {icon}
           </span>
           <span style={{
-            color: hovered ? '#60a5fa' : labelColor,
+            color: isPulsing ? '#fff' : hovered ? '#60a5fa' : labelColor,
             fontSize: '5.5px', fontFamily: 'monospace',
             whiteSpace: 'nowrap', letterSpacing: '0.5px',
             maxWidth: '90px', overflow: 'hidden', textOverflow: 'ellipsis',
@@ -263,6 +268,8 @@ const NexusCore = ({ linkedProject, projectEntries, language, setLinkedProject, 
   const [hoveredNode, setHoveredNode] = useState<GraphNode | null>(null);
   const [openDoc, setOpenDoc] = useState<{ fileName: string; content: string; truncated: boolean } | null>(null);
   const [unlinkModal, setUnlinkModal] = useState<string | null>(null);
+  const [pulsingNodes, setPulsingNodes] = useState<Set<string>>(new Set());
+  const [toastMsg, setToastMsg] = useState<{ msg: string; detail?: string } | null>(null);
 
   const { staticNodes, staticEdges, dynamicNodes, dynamicEdges } = useMemo(() => {
     const { nodes: sn, edges: se } = buildStaticGraph(language);
@@ -291,6 +298,51 @@ const NexusCore = ({ linkedProject, projectEntries, language, setLinkedProject, 
     allNodes.forEach(n => { map[n.id] = n; });
     return map;
   }, [allNodes]);
+
+  // Synaptic Live Wire (SSE File Watcher)
+  React.useEffect(() => {
+    const es = new EventSource('/api/watch');
+    
+    es.addEventListener('file-change', (e) => {
+      try {
+        const data = JSON.parse(e.data);
+        const filename = data.path.split(/[/\\]/).pop();
+        
+        let targetId = '';
+        // Find corresponding node
+        allNodes.forEach(n => {
+          if (n.label === filename || (n.filePath && n.filePath.endsWith(filename))) {
+            targetId = n.id;
+          }
+        });
+
+        if (targetId) {
+          setPulsingNodes(prev => new Set(prev).add(targetId));
+          setToastMsg({ msg: translations[language][`watch.${data.event}`] || data.event, detail: filename });
+          
+          setTimeout(() => {
+            setPulsingNodes(prev => {
+              const next = new Set(prev);
+              next.delete(targetId);
+              return next;
+            });
+          }, 1500);
+
+          setTimeout(() => setToastMsg(null), 3000);
+        }
+      } catch {}
+    });
+    
+    es.addEventListener('connected', (e) => {
+      try {
+        const data = JSON.parse(e.data);
+        setToastMsg({ msg: translations[language]['watch.connection'] || 'SYNAPTIC LINK ACTIVE', detail: '' });
+        setTimeout(() => setToastMsg(null), 3000);
+      } catch {}
+    });
+
+    return () => es.close();
+  }, [allNodes, language]);
 
   const handleNodeClick = useCallback(async (node: GraphNode) => {
     // If it's the click-to-link node
@@ -416,6 +468,27 @@ const NexusCore = ({ linkedProject, projectEntries, language, setLinkedProject, 
               {translations[language]['graph.unlink.no'] || 'NO'}
             </button>
           </div>
+        </div>
+      )}
+
+      {/* Synaptic Watcher Toast */}
+      {toastMsg && (
+        <div style={{
+          position: 'fixed', top: '32px', left: '50%', transform: 'translateX(-50%)', zIndex: 7000,
+          background: 'rgba(96, 165, 250, 0.1)', border: '1px solid rgba(96, 165, 250, 0.4)',
+          backdropFilter: 'blur(10px)', padding: '8px 16px', borderRadius: '4px',
+          display: 'flex', alignItems: 'center', gap: '8px', pointerEvents: 'none',
+          boxShadow: '0 0 20px rgba(96, 165, 250, 0.2)'
+        }}>
+          <div className="pulse-dot" style={{ background: '#60a5fa', width: '6px', height: '6px' }} />
+          <span style={{ color: '#60a5fa', fontSize: '0.65rem', fontFamily: 'monospace', fontWeight: 700, textTransform: 'uppercase' }}>
+            {toastMsg.msg}
+          </span>
+          {toastMsg.detail && (
+            <span style={{ color: '#fff', fontSize: '0.65rem', fontFamily: 'monospace' }}>
+              {toastMsg.detail}
+            </span>
+          )}
         </div>
       )}
 
