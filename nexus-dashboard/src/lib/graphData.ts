@@ -1,5 +1,6 @@
 // Graph Data Model for the Nexus Constellation
 // Defines all nodes and their relationships in the Ethernium ecosystem
+import { Language, translations } from './i18n';
 
 export interface GraphNode {
   id: string;
@@ -65,7 +66,8 @@ const liteFiles = ['run_continuity_lite.py', 'STATE.json', 'PROJECT_CONTEXT.md',
 const proFiles = ['run_continuity_pro.py', 'STATE.json', 'PROJECT_CONTEXT.md', 'SECURITY.md', 'pyproject.toml'];
 const omegaFiles = ['run_continuity_omega.py', 'PROJECT_CONTEXT.md', 'pyproject.toml'];
 
-export function buildStaticGraph(): { nodes: GraphNode[]; edges: GraphEdge[] } {
+export function buildStaticGraph(lang: Language): { nodes: GraphNode[]; edges: GraphEdge[] } {
+  const t = translations[lang];
   const nodes: GraphNode[] = [];
   const edges: GraphEdge[] = [];
 
@@ -78,15 +80,15 @@ export function buildStaticGraph(): { nodes: GraphNode[]; edges: GraphEdge[] } {
     shape: 'octahedron',
     size: 1.8,
     parentId: null,
-    tooltip: 'Central governance engine of the Ethernium ecosystem.',
+    tooltip: t['graph.core.tooltip'] || 'Central governance engine of the Ethernium ecosystem.',
     color: '#ffffff',
   });
 
   // ─── ENGINES ───
   const engines = [
-    { id: 'crystallizer', label: 'CRYSTALLIZER', action: '/api/actions/crystallize', tooltip: 'Synthesizes DNA by scanning all canonical files into a Merkle Root.' },
-    { id: 'auditor', label: 'AUDITOR', action: '/api/actions/audit', tooltip: 'Scans for encoding errors, dead links, and tonal drift.' },
-    { id: 'guardian', label: 'GUARDIAN', action: '/api/actions/seal', tooltip: 'Installs Git-Hooks and seals the repository against unauthorized mutation.' },
+    { id: 'crystallizer', label: 'CRYSTALLIZER', action: '/api/actions/crystallize', tooltip: t['graph.cryst.tooltip'] },
+    { id: 'auditor', label: 'AUDITOR', action: '/api/actions/audit', tooltip: t['graph.audit.tooltip'] },
+    { id: 'guardian', label: 'GUARDIAN', action: '/api/actions/seal', tooltip: t['graph.guard.tooltip'] },
   ];
   engines.forEach((eng, i) => {
     nodes.push({
@@ -145,9 +147,9 @@ export function buildStaticGraph(): { nodes: GraphNode[]; edges: GraphEdge[] } {
   // ─── EDITIONS ───
   const editionColors: Record<string, string> = { lite: '#4ade80', pro: '#fb923c', omega: '#a78bfa' };
   const editions = [
-    { id: 'lite', label: 'LITE', files: liteFiles, dir: 'continuity-lite', tooltip: 'Minimalist DNA sync for zero-loss handoffs.' },
-    { id: 'pro', label: 'PRO', files: proFiles, dir: 'continuity-pro', tooltip: 'Industrial-grade border guard with RFC 6962 Merkle Hardening.' },
-    { id: 'omega', label: 'OMEGA', files: omegaFiles, dir: 'continuity-omega', tooltip: 'Advanced RAG, cognitive mapping, and 3D dashboard.' },
+    { id: 'lite', label: 'LITE', files: liteFiles, dir: 'continuity-lite', tooltip: t['graph.lite.tooltip'] },
+    { id: 'pro', label: 'PRO', files: proFiles, dir: 'continuity-pro', tooltip: t['graph.pro.tooltip'] },
+    { id: 'omega', label: 'OMEGA', files: omegaFiles, dir: 'continuity-omega', tooltip: t['graph.omega.tooltip'] },
   ];
   editions.forEach((ed, i) => {
     const edColor = editionColors[ed.id];
@@ -187,13 +189,13 @@ export function buildStaticGraph(): { nodes: GraphNode[]; edges: GraphEdge[] } {
   // ─── LINK PLACEHOLDER ───
   nodes.push({
     id: 'link-placeholder',
-    label: 'ENLAZA TU PROYECTO',
+    label: t['graph.link.label'] || 'LINK PROJECT',
     position: [0, 5, -4],
     type: 'link-placeholder',
     shape: 'sphere',
     size: 0.8,
     parentId: null,
-    tooltip: 'Click to link an external project directory.',
+    tooltip: t['graph.link.tooltip'] || 'Click to link an external project directory.',
     color: '#333333',
   });
 
@@ -212,8 +214,10 @@ export interface ScannedEntry {
 
 export function buildProjectNodes(
   projectName: string,
-  entries: ScannedEntry[]
+  entries: ScannedEntry[],
+  lang: Language
 ): { nodes: GraphNode[]; edges: GraphEdge[] } {
+  const t = translations[lang];
   const nodes: GraphNode[] = [];
   const edges: GraphEdge[] = [];
 

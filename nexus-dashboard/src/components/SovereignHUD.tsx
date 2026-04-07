@@ -1,7 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Shield, Zap, Hexagon, Activity, Lock, Terminal } from 'lucide-react';
+import { Shield, Zap, Hexagon, Activity, Lock, Terminal, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Language, LANGUAGES, translations } from '@/lib/i18n';
 
 interface PhysicsData {
   H: number;
@@ -32,12 +33,16 @@ interface HUDProps {
   linkedProject: string | null;
   setLinkedProject: (project: string | null) => void;
   setProjectEntries: (entries: any[]) => void;
+  language: Language;
+  setLanguage: (lang: Language) => void;
 }
 
-const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries }: HUDProps) => {
+const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries, language, setLanguage }: HUDProps) => {
   const [activeAction, setActiveAction] = useState<string | null>(null);
   const [state, setState] = useState<StateData>(DEFAULT_STATE);
   const [hoveredItem, setHoveredItem] = useState<{ id: string; text: string; x: number; y: number } | null>(null);
+  const [langOpen, setLangOpen] = useState(false);
+  const t = translations[language] || translations['EN'];
 
   useEffect(() => {
     fetch('/api/state').then(r => r.json()).then(setState).catch(() => {});
@@ -144,8 +149,8 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries }: HU
   };
 
   const healthLabel = state.physics.eta >= 0.75
-    ? "HEALTHY" : state.physics.eta >= 0.50
-    ? "MODERATE_DRIFT" : "SEVERE_DRIFT";
+    ? t['hud.health.healthy'] : state.physics.eta >= 0.50
+    ? t['hud.health.moderate'] : t['hud.health.severe'];
 
   const healthColor = state.physics.eta >= 0.75
     ? "#ffffff" : state.physics.eta >= 0.50
@@ -162,7 +167,7 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries }: HU
           </div>
           <div>
             <h1 className="text-gradient" style={{ fontSize: '1.25rem', fontWeight: 900, lineHeight: 1.1 }}>CONTINUITY LEGACY</h1>
-            <p style={{ fontSize: '0.55rem', color: '#71717a', letterSpacing: '3px', textTransform: 'uppercase' }}>by Ethernium // v{state.crystallizer_version}</p>
+            <p style={{ fontSize: '0.55rem', color: '#71717a', letterSpacing: '3px', textTransform: 'uppercase' }}>{t['hud.brand']} // v{state.crystallizer_version}</p>
           </div>
         </div>
 
@@ -175,17 +180,17 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries }: HU
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div 
-              onMouseEnter={(e) => showTooltip('entropy', 'Measures logical complexity and information density within the project nodes.', e)}
+              onMouseEnter={(e) => showTooltip('entropy', t['hud.tooltip.entropy'], e)}
               onMouseLeave={() => setHoveredItem(null)}
             >
-              <p style={{ fontSize: '0.55rem', color: '#71717a', textTransform: 'uppercase', letterSpacing: '1px' }}>Entropy H(Ω)</p>
+              <p style={{ fontSize: '0.55rem', color: '#71717a', textTransform: 'uppercase', letterSpacing: '1px' }}>{t['hud.entropy']}</p>
               <p style={{ fontSize: '1.8rem', fontWeight: 900, fontVariantNumeric: 'tabular-nums' }}>{state.physics.H.toFixed(4)}</p>
             </div>
             <div
-              onMouseEnter={(e) => showTooltip('balance', 'Calculates the symmetry of logical weighting across managed modules.', e)}
+              onMouseEnter={(e) => showTooltip('balance', t['hud.tooltip.balance'], e)}
               onMouseLeave={() => setHoveredItem(null)}
             >
-              <p style={{ fontSize: '0.55rem', color: '#71717a', textTransform: 'uppercase', letterSpacing: '1px' }}>Balance η</p>
+              <p style={{ fontSize: '0.55rem', color: '#71717a', textTransform: 'uppercase', letterSpacing: '1px' }}>{t['hud.balance']}</p>
               <p style={{ fontSize: '1.8rem', fontWeight: 900, fontVariantNumeric: 'tabular-nums' }}>{state.physics.eta.toFixed(3)}</p>
             </div>
           </div>
@@ -200,14 +205,14 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries }: HU
               <p style={{ fontSize: '0.75rem', fontWeight: 600 }}>{Math.abs(state.physics.gini).toFixed(3)}</p>
             </div>
             <div>
-              <p style={{ fontSize: '0.5rem', color: '#52525b' }}>Blocks</p>
+              <p style={{ fontSize: '0.5rem', color: '#52525b' }}>{t['hud.blocks']}</p>
               <p style={{ fontSize: '0.75rem', fontWeight: 600 }}>{state.physics.N}</p>
             </div>
             <div
-              onMouseEnter={(e) => showTooltip('drift', 'Calculates semantic distance from the last crystallized DNA state.', e)}
+              onMouseEnter={(e) => showTooltip('drift', t['hud.tooltip.drift'], e)}
               onMouseLeave={() => setHoveredItem(null)}
             >
-              <p style={{ fontSize: '0.5rem', color: '#52525b' }}>D_KL</p>
+              <p style={{ fontSize: '0.5rem', color: '#52525b' }}>{t['hud.drift']}</p>
               <p style={{ fontSize: '0.75rem', fontWeight: 600 }}>{state.drift_kl.toFixed(4)}</p>
             </div>
           </div>
@@ -215,14 +220,14 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries }: HU
 
         {/* Modular Nodes */}
         <div style={{ marginBottom: '24px' }}>
-          <p style={{ fontSize: '0.55rem', color: '#52525b', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>Modular Cluster</p>
+          <p style={{ fontSize: '0.55rem', color: '#52525b', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>{t['hud.cluster']}</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
             {['LITE', 'PRO', 'OMEGA'].map((node) => (
               <div key={node} style={{ border: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.02)', padding: '8px', textAlign: 'center' }}>
                 <p style={{ fontSize: '0.45rem', color: '#71717a', marginBottom: '4px' }}>{node}</p>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
                   <div className="pulse-dot" style={{ width: '4px', height: '4px', background: '#fff' }} />
-                  <span style={{ fontSize: '0.5rem', fontWeight: 700 }}>LIVE</span>
+                  <span style={{ fontSize: '0.5rem', fontWeight: 700 }}>{t['hud.live']}</span>
                 </div>
               </div>
             ))}
@@ -231,39 +236,39 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries }: HU
 
         {/* Command Buttons */}
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: 'auto' }}>
-          <p style={{ fontSize: '0.55rem', color: '#52525b', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '4px' }}>Protocols</p>
+          <p style={{ fontSize: '0.55rem', color: '#52525b', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '4px' }}>{t['hud.protocols']}</p>
           <button 
-            onMouseEnter={(e) => showTooltip('synth', 'Crystallizes repository metadata into a fresh cryptographic Merkle Root.', e)}
+            onMouseEnter={(e) => showTooltip('synth', t['hud.tooltip.synth'], e)}
             onMouseLeave={() => setHoveredItem(null)}
             onClick={() => triggerAction('CRYSTALLIZE')} 
             className="btn-nexus"
           >
-            <Zap size={14} /> <span>SYNTH_DNA</span>
+            <Zap size={14} /> <span>{t['hud.synth_dna']}</span>
           </button>
           <button 
-            onMouseEnter={(e) => showTooltip('audit', 'Scans for semantic drift, encoding issues, and logic inconsistencies.', e)}
+            onMouseEnter={(e) => showTooltip('audit', t['hud.tooltip.audit'], e)}
             onMouseLeave={() => setHoveredItem(null)}
             onClick={() => triggerAction('AUDIT')} 
             className="btn-nexus"
           >
-            <Activity size={14} /> <span>AUDIT_PHYSICS</span>
+            <Activity size={14} /> <span>{t['hud.audit_physics']}</span>
           </button>
           <button 
-            onMouseEnter={(e) => showTooltip('seal', 'Establishes the Guardian Seal and installs persistent Git-Hooks.', e)}
+            onMouseEnter={(e) => showTooltip('seal', t['hud.tooltip.seal'], e)}
             onMouseLeave={() => setHoveredItem(null)}
             onClick={() => triggerAction('SEAL')} 
             className="btn-nexus"
           >
-            <Lock size={14} /> <span>SEAL_VAULT</span>
+            <Lock size={14} /> <span>{t['hud.seal_vault']}</span>
           </button>
           <button 
-            onMouseEnter={(e) => showTooltip('access', linkedProject ? 'Project linked. Re-link to change workspace.' : 'Initializes the logical binding of a local project directory.', e)}
+            onMouseEnter={(e) => showTooltip('access', linkedProject ? t['hud.tooltip.linked'] : t['hud.tooltip.link'], e)}
             onMouseLeave={() => setHoveredItem(null)}
             onClick={() => triggerAction('ACCESS')} 
             className="btn-nexus primary" 
             style={{ marginTop: '8px' }}
           >
-            <Shield size={14} /> <span>{linkedProject ? `LINKED: ${linkedProject}` : 'LINK_PROJECT'}</span>
+            <Shield size={14} /> <span>{linkedProject ? `${t['hud.linked']} ${linkedProject}` : t['hud.link_project']}</span>
           </button>
         </nav>
 
@@ -345,13 +350,64 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries }: HU
       </AnimatePresence>
 
       {/* Telemetry Overlay */}
-      <div style={{ position: 'absolute', top: '32px', right: '48px', textAlign: 'right', opacity: 0.15, pointerEvents: 'none' }}>
+      <div style={{ position: 'absolute', top: '32px', right: '48px', textAlign: 'right', opacity: 0.15, pointerEvents: 'none', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '16px' }}>
         <p style={{ fontSize: '0.55rem', fontFamily: 'monospace', lineHeight: 1.8 }}>
           CONTINUITY_LEGACY_MIRROR<br />
           CRYSTALLIZER_ENGINE: v{state.crystallizer_version}<br />
           MERKLE: {state.merkle_root.slice(0, 24)}...<br />
           MASS: {state.physics.W.toLocaleString()} bytes
         </p>
+      </div>
+
+      {/* Language Selector Overlay */}
+      <div style={{ position: 'absolute', top: '24px', right: '350px', zIndex: 50, pointerEvents: 'auto' }}>
+        <div style={{ position: 'relative' }}>
+          <button
+            onClick={() => setLangOpen(!langOpen)}
+            style={{
+              background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255,255,255,0.1)', color: '#fff',
+              padding: '6px 12px', fontSize: '0.65rem', fontFamily: 'monospace',
+              display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer',
+              borderRadius: '4px'
+            }}
+          >
+            <Globe size={14} color="#60a5fa" />
+            {language}
+          </button>
+          <AnimatePresence>
+            {langOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                style={{
+                  position: 'absolute', top: '100%', right: 0, marginTop: '8px',
+                  background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px',
+                  display: 'flex', flexDirection: 'column', padding: '4px 0',
+                  minWidth: '80px'
+                }}
+              >
+                {LANGUAGES.map((lang) => (
+                  <div
+                    key={lang}
+                    onClick={() => { setLanguage(lang); setLangOpen(false); }}
+                    style={{
+                      padding: '8px 16px', fontSize: '0.65rem', fontFamily: 'monospace',
+                      cursor: 'pointer', color: lang === language ? '#60a5fa' : '#fff',
+                      background: lang === language ? 'rgba(255,255,255,0.05)' : 'transparent',
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = lang === language ? 'rgba(255,255,255,0.05)' : 'transparent')}
+                  >
+                    {lang}
+                  </div>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );

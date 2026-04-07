@@ -4,6 +4,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial, Float, Octahedron, Sphere, Html, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import { buildStaticGraph, buildProjectNodes, GraphNode, GraphEdge, ScannedEntry } from '@/lib/graphData';
+import { Language, translations } from '@/lib/i18n';
 
 // ═══════════════════════════════════════════════════════════
 // PARTICLE FIELD
@@ -161,9 +162,13 @@ function SystemNode({
 // ═══════════════════════════════════════════════════════════
 // DOCUMENT READER PANEL
 // ═══════════════════════════════════════════════════════════
-function DocumentPanel({ fileName, content, truncated, onClose }: {
-  fileName: string; content: string; truncated: boolean; onClose: () => void;
+function DocumentPanel({ fileName, content, truncated, onClose, language }: {
+  fileName: string; content: string; truncated: boolean; onClose: () => void; language: Language;
 }) {
+  const t = translations[language];
+  const clickToClose = language === 'ES' ? 'CLIC PARA CERRAR' : 'CLICK TO CLOSE';
+  const truncatedMsg = language === 'ES' ? '⚠ Contenido truncado a 10,000 caracteres.' : '⚠ Content truncated at 10,000 characters.';
+
   return (
     <div
       onClick={onClose}
@@ -185,7 +190,7 @@ function DocumentPanel({ fileName, content, truncated, onClose }: {
           📄 {fileName}
         </span>
         <span style={{ color: '#555', fontSize: '0.6rem', fontFamily: 'monospace' }}>
-          CLICK TO CLOSE
+          {clickToClose}
         </span>
       </div>
       {/* Content */}
@@ -197,7 +202,7 @@ function DocumentPanel({ fileName, content, truncated, onClose }: {
         {content}
         {truncated && (
           <div style={{ color: '#f59e0b', marginTop: '16px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '8px' }}>
-            ⚠ Content truncated at 10,000 characters.
+            {truncatedMsg}
           </div>
         )}
       </div>
@@ -208,7 +213,7 @@ function DocumentPanel({ fileName, content, truncated, onClose }: {
 // ═══════════════════════════════════════════════════════════
 // TOOLTIP BAR
 // ═══════════════════════════════════════════════════════════
-function TooltipBar({ node }: { node: GraphNode | null }) {
+function TooltipBar({ node, language }: { node: GraphNode | null; language: Language }) {
   if (!node) return null;
   const typeColors: Record<string, string> = {
     core: '#fff', engine: '#22d3ee', edition: node.color || '#fff',
@@ -220,6 +225,9 @@ function TooltipBar({ node }: { node: GraphNode | null }) {
     file: '📄 FILE', folder: '📁 FOLDER', module: '🔗 MODULE',
     'link-placeholder': '🔗 LINK',
   };
+  const execText = language === 'ES' ? 'CLIC PARA EJECUTAR' : 'CLICK TO EXECUTE';
+  const readText = language === 'ES' ? 'CLIC PARA LEER' : 'CLICK TO READ';
+
   return (
     <div style={{
       position: 'fixed', bottom: '24px', left: '50%', transform: 'translateX(-50%)',
@@ -234,8 +242,8 @@ function TooltipBar({ node }: { node: GraphNode | null }) {
       </div>
       <div style={{ fontWeight: 700, marginBottom: '2px' }}>{node.label}</div>
       <div style={{ color: '#888', fontSize: '0.55rem' }}>{node.tooltip}</div>
-      {node.action && <div style={{ color: '#22d3ee', fontSize: '0.45rem', marginTop: '4px' }}>CLICK TO EXECUTE</div>}
-      {node.filePath && <div style={{ color: '#d4d4d8', fontSize: '0.45rem', marginTop: '4px' }}>CLICK TO READ</div>}
+      {node.action && <div style={{ color: '#22d3ee', fontSize: '0.45rem', marginTop: '4px' }}>{execText}</div>}
+      {node.filePath && <div style={{ color: '#d4d4d8', fontSize: '0.45rem', marginTop: '4px' }}>{readText}</div>}
     </div>
   );
 }
@@ -246,23 +254,24 @@ function TooltipBar({ node }: { node: GraphNode | null }) {
 interface NexusCoreProps {
   linkedProject: string | null;
   projectEntries?: ScannedEntry[];
+  language: Language;
 }
 
-const NexusCore = ({ linkedProject, projectEntries }: NexusCoreProps) => {
+const NexusCore = ({ linkedProject, projectEntries, language }: NexusCoreProps) => {
   const [hoveredNode, setHoveredNode] = useState<GraphNode | null>(null);
   const [openDoc, setOpenDoc] = useState<{ fileName: string; content: string; truncated: boolean } | null>(null);
 
   const { staticNodes, staticEdges, dynamicNodes, dynamicEdges } = useMemo(() => {
-    const { nodes: sn, edges: se } = buildStaticGraph();
+    const { nodes: sn, edges: se } = buildStaticGraph(language);
     let dn: GraphNode[] = [];
     let de: GraphEdge[] = [];
     if (linkedProject && projectEntries && projectEntries.length > 0) {
-      const result = buildProjectNodes(linkedProject, projectEntries);
+      const result = buildProjectNodes(linkedProject, projectEntries, language);
       dn = result.nodes;
       de = result.edges;
     }
     return { staticNodes: sn, staticEdges: se, dynamicNodes: dn, dynamicEdges: de };
-  }, [linkedProject, projectEntries]);
+  }, [linkedProject, projectEntries, language]);
 
   const allNodes = useMemo(() => {
     const merged = [...staticNodes, ...dynamicNodes];
@@ -355,11 +364,12 @@ const NexusCore = ({ linkedProject, projectEntries }: NexusCoreProps) => {
           content={openDoc.content}
           truncated={openDoc.truncated}
           onClose={() => setOpenDoc(null)}
+          language={language}
         />
       )}
 
       {/* Tooltip Bar */}
-      <TooltipBar node={hoveredNode} />
+      <TooltipBar node={hoveredNode} language={language} />
     </>
   );
 };
