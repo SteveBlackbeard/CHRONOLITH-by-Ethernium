@@ -1,18 +1,18 @@
 {
   "phase": "stable",
   "last_update": "2026-04-05T10:55:45.281220",
-  "signature": "a797236efb96aca7c0d4bfc61c5e4721960514c68fdd5fe46c37261d927e60ed",
-  "merkle_root": "6da03d4c263a2fcd540a760042589cfdefd1516559d0b54bfa2e1ff4ef154f4c",
-  "last_check": "2026-04-07T21:32:21.733003",
+  "signature": "2023b14c3b51767258c773c6b27900e80e70cb444e7e6d2ab0ae1fb9ada42405",
+  "merkle_root": "1bdab769c61c5c879f7a5d331b77e2568b0da1e27c1a03c3bef3221f89b2121b",
+  "last_check": "2026-04-07T21:48:47.033428",
   "physics": {
-    "H": 5.039542,
+    "H": 5.037777,
     "H_max": 5.357552,
-    "eta": 0.940643,
+    "eta": 0.940313,
     "N": 41,
-    "W": 131405,
-    "gini": -0.334045
+    "W": 131586,
+    "gini": -0.33486
   },
-  "drift_kl": 1.8e-05,
+  "drift_kl": 1.7e-05,
   "file_sizes": {
     "BENCHMARKS.md": 1487,
     "CASE_STUDY_DRIFT.md": 2401,
@@ -54,7 +54,7 @@
     "RELEASE_NOTES_MANIFEST.md": 4438,
     "SECURITY.md": 1656,
     "SESSION_LOG.md": 233,
-    "SESSION_TOKEN_REPORT.md": 9638
+    "SESSION_TOKEN_REPORT.md": 9819
   },
   "crystallizer_version": "3.0.1"
 }
