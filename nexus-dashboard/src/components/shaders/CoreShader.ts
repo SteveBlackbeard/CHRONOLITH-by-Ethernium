@@ -7,7 +7,19 @@ export const CoreShaderMaterial = {
     u_drift: { value: 0.0 }, // KL divergence
     u_pulse: { value: 0.0 }, // 0 to 1 shockwave
     u_baseColor: { value: new THREE.Color('#ffffff') },
-    u_isWireframe: { value: 0.0 } // 0 = Solid Core, 1 = Lattice Glowing
+    u_isWireframe: { value: 0.0 }, // 0 = Solid Core, 1 = Lattice Glowing
+    u_intensity: { value: 1.0 }
+  },
+  clone: function() {
+    return {
+      u_time: { value: 0 },
+      u_entropy: { value: 1.0 },
+      u_drift: { value: 0.0 },
+      u_pulse: { value: 0.0 },
+      u_baseColor: { value: new THREE.Color('#ffffff') },
+      u_isWireframe: { value: 0.0 },
+      u_intensity: { value: 1.0 }
+    };
   },
   vertexShader: `
     uniform float u_time;
@@ -58,6 +70,7 @@ export const CoreShaderMaterial = {
     uniform float u_pulse;
     uniform vec3 u_baseColor;
     uniform float u_isWireframe;
+    uniform float u_intensity;
     
     varying vec3 vPosition;
     varying vec3 vNormal;
@@ -92,13 +105,13 @@ export const CoreShaderMaterial = {
       
       if (u_isWireframe > 0.5) {
           // ENERGY LATTICE 
-          // Color * 3.0 breaks the 1.0 luminance limit -> generates extreme AAA Bloom
-          gl_FragColor = vec4(color * 3.0, 1.0);
+          // Color * 3.0 * intensity breaks the 1.0 luminance limit -> generates extreme AAA Bloom
+          gl_FragColor = vec4(color * 3.0 * u_intensity, 1.0);
       } else {
           // SOLID GLASS CORE
           float alpha = 0.5 + (fresnel * 0.5) + u_pulse + max(0.0, scanline);
-          // Darken the core slightly, let the rim shine
-          vec3 finalColor = color * (0.6 + fresnel * 0.7);
+          // Darken the core slightly, let the rim shine, apply intensity to Fresnel
+          vec3 finalColor = color * (0.6 + fresnel * 0.7 * u_intensity);
           gl_FragColor = vec4(finalColor, min(alpha, 1.0));
       }
     }
