@@ -70,7 +70,7 @@ export const CoreShaderMaterial = shaderMaterial(
       vec3 color = u_baseColor;
       
       // Procedural scanlines
-      float scanline = sin(vPosition.y * 80.0 - u_time * 5.0) * 0.05;
+      float scanline = sin(vPosition.y * 80.0 - u_time * 5.0) * 0.02;
       
       // Pulse flash
       color = mix(color, vec3(1.0, 1.0, 1.0), u_pulse);
@@ -79,8 +79,9 @@ export const CoreShaderMaterial = shaderMaterial(
           // Energetic wireframe for AAA Bloom
           gl_FragColor = vec4(color * 3.0 * u_intensity, 1.0);
       } else {
-          // Solid glass look
-          float alpha = 0.5 + (fresnel * 0.5) + u_pulse + max(0.0, scanline);
+          // Solid glass look with high-freq signal noise
+          float flicker = 0.98 + sin(u_time * 60.0) * 0.02;
+          float alpha = (0.4 + (fresnel * 0.5) + u_pulse + max(0.0, scanline)) * flicker;
           vec3 finalColor = color * (0.6 + fresnel * 0.7 * u_intensity);
           gl_FragColor = vec4(finalColor, min(alpha, 1.0));
       }
