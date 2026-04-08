@@ -147,13 +147,12 @@ function SystemNode({
         ref.current.u_time = t;
         ref.current.u_entropy = eta;
         ref.current.u_drift = drift;
-        // Pulse logic now combines manual isPulsing with the global Kinetic Sync
         const combinedPulse = Math.max(isPulsing ? 1.0 : 0.0, syncFlare * 0.6);
         ref.current.u_pulse = THREE.MathUtils.lerp(ref.current.u_pulse, combinedPulse, 0.1);
         ref.current.u_baseColor.set(materialColor);
         ref.current.u_isWireframe = idx === 1 ? 1.0 : 0.0;
-        // Balanced intensity: lower baseline (0.8) to prevent washout, high peak (2.2) for flares.
-        ref.current.u_intensity = hovered ? 2.5 : (0.8 + syncFlare * 1.5);
+        // Omega Ocular Pass: Halved peak intensity (0.25) for surgically sharp visuals.
+        ref.current.u_intensity = hovered ? 1.8 : (0.25 + syncFlare * 0.35);
       }
     });
   });
@@ -259,8 +258,18 @@ function SystemNode({
 
   // 📄 DOCUMENT SHAPE (Restored Forensic Files)
   if (node.shape === 'document') {
+    const isPy = node.label.endsWith('.py');
+    const isJson = node.label.endsWith('.json');
+    const isMd = node.label.endsWith('.md');
+    
+    // Specific cryptographic markers for forensic identification.
+    let icon = '📄';
+    if (isPy) icon = '🐍'; 
+    if (isJson) icon = '💎'; 
+    if (isMd) icon = '📜'; 
+
     return (
-      <Float speed={1.2} rotationIntensity={0.4} floatIntensity={0.2} position={node.position}>
+      <Float speed={isPy ? 2.2 : 1.4} rotationIntensity={isPy ? 1.2 : 0.5} floatIntensity={0.3} position={node.position}>
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <mesh>
             <planeGeometry args={[scale * 0.8, scale * 1.1]} />
@@ -283,8 +292,18 @@ function SystemNode({
             />
           </mesh>
           <Html distanceFactor={12} position={[0, -(scale * 0.7), 0]} center>
-            <div style={{ color: materialColor, fontSize: '6px', whiteSpace: 'nowrap', letterSpacing: '1px', fontFamily: 'monospace' }}>
-               {node.label}
+            <div style={{ 
+              color: materialColor, 
+              fontSize: '6px', 
+              whiteSpace: 'nowrap', 
+              letterSpacing: '1px', 
+              fontFamily: 'monospace', 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '4px',
+              textShadow: '0 0 10px rgba(0,0,0,1.0)' 
+            }}>
+               <span style={{ fontSize: '10px', opacity: 0.9 }}>{icon}</span> {node.label}
             </div>
           </Html>
         </group>
@@ -447,10 +466,10 @@ const NexusCore = ({ linkedProject, projectEntries, language, setLinkedProject, 
         ))}
 
         <Grid infiniteGrid fadeDistance={50} sectionSize={5} sectionColor="#1e293b" cellColor="#0f172a" />
-        <OrbitControls enableDamping dampingFactor={0.05} rotateSpeed={0.5} />
+        <OrbitControls enableDamping dampingFactor={0.02} rotateSpeed={0.5} />
 
         <EffectComposer>
-          <Bloom luminanceThreshold={1.2} intensity={1.2} levels={8} mipmapBlur />
+          <Bloom luminanceThreshold={1.2} intensity={0.18} levels={8} mipmapBlur />
           <Vignette eskil={false} offset={0.1} darkness={1.1} />
           <Noise opacity={0.05} />
           <ChromaticAberration offset={new THREE.Vector2(0.0015, 0.0015)} />
