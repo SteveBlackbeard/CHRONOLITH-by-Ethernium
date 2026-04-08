@@ -1,12 +1,23 @@
 "use client";
 import React, { useRef, useMemo, useState, useCallback } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, extend, ThreeElement } from '@react-three/fiber';
 import { Points, PointMaterial, Float, Octahedron, Sphere, Html, OrbitControls, Grid } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette, Noise, ChromaticAberration } from '@react-three/postprocessing';
 import * as THREE from 'three';
+import { CoreShaderMaterial, BeamShaderMaterial } from './shaders/CoreShader';
 import { buildStaticGraph, buildProjectNodes, GraphNode, GraphEdge, ScannedEntry } from '@/lib/graphData';
 import { Language, translations } from '@/lib/i18n';
-import { CoreShaderMaterial, BeamShaderMaterial } from './shaders/CoreShader';
+
+// Register materials for JSX use
+extend({ CoreShaderMaterial, BeamShaderMaterial });
+
+// Add types for JSX
+declare module '@react-three/fiber' {
+  interface ThreeElements {
+    coreShaderMaterial: ThreeElement<typeof CoreShaderMaterial>;
+    beamShaderMaterial: ThreeElement<typeof BeamShaderMaterial>;
+  }
+}
 
 // ═══════════════════════════════════════════════════════════
 // PARTICLE FIELD
@@ -28,18 +39,13 @@ function ParticleField({ count = 2000 }) {
   const mouseVec = new THREE.Vector3();
 
   useFrame((s: any) => { 
-    // Passive rotation
     ref.current.rotation.y = s.clock.getElapsedTime() * 0.01; 
     ref.current.rotation.x = Math.sin(s.clock.getElapsedTime() * 0.05) * 0.05;
 
-    // MAGNANETIC ATTRACTION LOGIC
-    // Mouse is in NDC (-1 to +1), let's map it roughly to world space range
-    mouseVec.set(s.mouse.x * 20, s.mouse.y * 15, 0); 
+    mouseVec.set(s.mouse.x * 25, s.mouse.y * 20, 0); 
     
     const positions = ref.current.geometry.attributes.position.array as Float32Array;
     const originals = originalPoints;
-    
-    mouseVec.set(s.mouse.x * 25, s.mouse.y * 20, 0); 
     
     for (let i = 0; i < count; i++) {
         const ix = i * 3;
@@ -73,11 +79,12 @@ function ParticleField({ count = 2000 }) {
 // ═══════════════════════════════════════════════════════════
 function ConnectionBeam({ start, end, color = '#ffffff' }: { start: [number, number, number]; end: [number, number, number]; color?: string }) {
   const count = 20;
-  const matRef = useRef<THREE.ShaderMaterial>(null!);
+  const matRef = useRef<any>(null!);
+  
   useFrame((state) => {
     if (matRef.current) {
-      matRef.current.uniforms.u_time.value = state.clock.elapsedTime;
-      matRef.current.uniforms.u_color.value.set(color);
+      matRef.current.u_time = state.clock.elapsedTime;
+      matRef.current.u_color.set(color);
     }
   });
 
@@ -92,20 +99,12 @@ function ConnectionBeam({ start, end, color = '#ffffff' }: { start: [number, num
       pr[i] = t;
     }
     return { points: p, progress: pr };
-  }, [start, end]);
+  }, [start, end, count]);
 
   return (
     <Points positions={points} stride={3}>
       <bufferAttribute attach="geometry-attributes-aProgress" args={[progress, 1]} />
-      <shaderMaterial 
-        ref={matRef} 
-        vertexShader={BeamShaderMaterial.vertexShader}
-        fragmentShader={BeamShaderMaterial.fragmentShader}
-        uniforms={BeamShaderMaterial.uniforms}
-        transparent 
-        depthWrite={false} 
-        blending={THREE.AdditiveBlending} 
-      />
+      <beamShaderMaterial ref={matRef} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
     </Points>
   );
 }
@@ -134,24 +133,19 @@ function SystemNode({
   const pOut = useCallback(() => { setHovered(false); onUnhover(); }, [onUnhover]);
   const pClick = useCallback(() => onClick(node), [node, onClick]);
 
-  // AAA Chromatic Fix: Unique memory for every node instance
-  const uniformsSolid = useMemo(() => CoreShaderMaterial.clone(), []);
-  const uniformsWire = useMemo(() => CoreShaderMaterial.clone(), []);
-  
-  const matRefSolid = useRef<THREE.ShaderMaterial>(null!);
-  const matRefWire = useRef<THREE.ShaderMaterial>(null!);
+  const matRefSolid = useRef<any>(null!);
+  const matRefWire = useRef<any>(null!);
 
   useFrame((state) => {
     [matRefSolid, matRefWire].forEach((ref, idx) => {
       if (ref.current) {
-        const u = ref.current.uniforms;
-        u.u_time.value = state.clock.elapsedTime;
-        u.u_entropy.value = eta;
-        u.u_drift.value = drift;
-        u.u_pulse.value = THREE.MathUtils.lerp(u.u_pulse.value, isPulsing ? 1.0 : 0.0, 0.1);
-        u.u_baseColor.value.set(materialColor);
-        u.u_isWireframe.value = idx === 1 ? 1.0 : 0.0;
-        u.u_intensity.value = hovered ? 2.5 : 1.2;
+        ref.current.u_time = state.clock.elapsedTime;
+        ref.current.u_entropy = eta;
+        ref.current.u_drift = drift;
+        ref.current.u_pulse = THREE.MathUtils.lerp(ref.current.u_pulse, isPulsing ? 1.0 : 0.0, 0.1);
+        ref.current.u_baseColor.set(materialColor);
+        ref.current.u_isWireframe = idx === 1 ? 1.0 : 0.0;
+        ref.current.u_intensity = hovered ? 2.5 : 1.2;
       }
     });
   });
@@ -161,26 +155,18 @@ function SystemNode({
     return (
       <Float speed={1.5} rotationIntensity={0.8} floatIntensity={0.5} position={node.position}>
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
-          {/* Inner Glass Body */}
           <Octahedron args={[scale * 0.95, 0]}>
-            <shaderMaterial 
+            <coreShaderMaterial 
               ref={matRefSolid} 
-              uniforms={uniformsSolid} 
-              vertexShader={CoreShaderMaterial.vertexShader}
-              fragmentShader={CoreShaderMaterial.fragmentShader}
               transparent 
               depthWrite={false} 
               blending={THREE.NormalBlending} 
               side={THREE.DoubleSide} 
             />
           </Octahedron>
-          {/* Outer Energy Lattice */}
           <Octahedron args={[scale, 0]}>
-            <shaderMaterial 
+            <coreShaderMaterial 
               ref={matRefWire} 
-              uniforms={uniformsWire} 
-              vertexShader={CoreShaderMaterial.vertexShader}
-              fragmentShader={CoreShaderMaterial.fragmentShader}
               transparent 
               depthWrite={false} 
               blending={THREE.AdditiveBlending} 
@@ -203,11 +189,8 @@ function SystemNode({
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <mesh>
             <tetrahedronGeometry args={[scale * 0.95, 0]} />
-            <shaderMaterial 
+            <coreShaderMaterial 
               ref={matRefSolid} 
-              uniforms={uniformsSolid} 
-              vertexShader={CoreShaderMaterial.vertexShader}
-              fragmentShader={CoreShaderMaterial.fragmentShader}
               transparent 
               depthWrite={false} 
               blending={THREE.NormalBlending} 
@@ -216,11 +199,8 @@ function SystemNode({
           </mesh>
           <mesh>
             <tetrahedronGeometry args={[scale, 0]} />
-            <shaderMaterial 
+            <coreShaderMaterial 
               ref={matRefWire} 
-              uniforms={uniformsWire} 
-              vertexShader={CoreShaderMaterial.vertexShader}
-              fragmentShader={CoreShaderMaterial.fragmentShader}
               transparent 
               depthWrite={false} 
               blending={THREE.AdditiveBlending} 
@@ -242,11 +222,8 @@ function SystemNode({
       <Float speed={2.5} rotationIntensity={0.5} floatIntensity={0.4} position={node.position}>
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <Sphere args={[scale * 0.55, 12, 12]}>
-            <shaderMaterial 
+            <coreShaderMaterial 
               ref={matRefSolid} 
-              uniforms={uniformsSolid} 
-              vertexShader={CoreShaderMaterial.vertexShader}
-              fragmentShader={CoreShaderMaterial.fragmentShader}
               transparent 
               depthWrite={false} 
               blending={THREE.NormalBlending} 
@@ -254,11 +231,8 @@ function SystemNode({
             />
           </Sphere>
           <Sphere args={[scale * 0.6, 12, 12]}>
-            <shaderMaterial 
+            <coreShaderMaterial 
               ref={matRefWire} 
-              uniforms={uniformsWire} 
-              vertexShader={CoreShaderMaterial.vertexShader}
-              fragmentShader={CoreShaderMaterial.fragmentShader}
               transparent 
               depthWrite={false} 
               blending={THREE.AdditiveBlending} 
@@ -267,7 +241,7 @@ function SystemNode({
           </Sphere>
           <Html distanceFactor={12} position={[0, -(scale * 0.6 + 0.4), 0]} center>
             <div style={{ color: materialColor, fontSize: '7px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'monospace' }}>
-              {node.label}
+              ⚛️ {node.label}
             </div>
           </Html>
         </group>
@@ -275,164 +249,19 @@ function SystemNode({
     );
   }
 
-  // ─── DOCUMENT / FOLDER ICONS ───
-  const isFolder = node.shape === 'folder-icon';
-  const icon = isFolder ? '📁' : '📄';
-  const labelColor = node.color || (isFolder ? '#fbbf24' : '#999');
-
-  return (
-    <group position={node.position}>
-      <Html distanceFactor={10} center>
-        <div
-          onMouseEnter={() => { setHovered(true); onHover(node); }}
-          onMouseLeave={() => { setHovered(false); onUnhover(); }}
-          onClick={() => pClick()}
-          style={{
-            cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-            transform: hovered ? 'scale(1.4) translateY(-5px)' : 'scale(1)',
-            opacity: isPulsing ? 1 : (hovered ? 1 : 0.7),
-            padding: '12px',
-            background: hovered ? 'rgba(255,255,255,0.03)' : 'none',
-            borderRadius: '12px',
-            border: hovered ? `1px solid ${labelColor}33` : '1px solid transparent',
-            backdropFilter: hovered ? 'blur(8px)' : 'none',
-            boxShadow: (hovered || isPulsing) ? `0 0 20px ${isPulsing ? '#fff' : labelColor}33` : 'none'
-          }}
-        >
-          <div style={{ 
-            fontSize: '1.8rem', 
-            filter: isPulsing ? 'drop-shadow(0 0 12px #fff)' : hovered ? `drop-shadow(0 0 8px ${labelColor})` : 'grayscale(0.5)',
-            transition: 'filter 0.3s'
-          }}>
-            {icon}
-          </div>
-          <div style={{
-            color: isPulsing ? '#fff' : hovered ? '#fff' : labelColor,
-            fontSize: '7px', fontFamily: 'monospace', fontWeight: 700,
-            whiteSpace: 'nowrap', letterSpacing: '2px', textTransform: 'uppercase',
-            textShadow: hovered ? `0 0 10px ${labelColor}` : 'none',
-            transition: 'all 0.3s'
-          }}>
-            {node.label}
-          </div>
-        </div>
-      </Html>
-    </group>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════
-// DOCUMENT READER PANEL
-// ═══════════════════════════════════════════════════════════
-function DocumentPanel({ fileName, content, truncated, onClose, language }: {
-  fileName: string; content: string; truncated: boolean; onClose: () => void; language: Language;
-}) {
-  const t = translations[language];
-  const clickToClose = language === 'ES' ? 'CLIC PARA CERRAR' : 'CLICK TO CLOSE';
-  const truncatedMsg = language === 'ES' ? '⚠ Contenido truncado a 10,000 caracteres.' : '⚠ Content truncated at 10,000 characters.';
-
-  return (
-    <div
-      onClick={onClose}
-      style={{
-        position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-        zIndex: 5000, width: '700px', maxWidth: '90vw', maxHeight: '80vh',
-        background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)',
-        border: '1px solid rgba(255,255,255,0.1)',
-        display: 'flex', flexDirection: 'column', overflow: 'hidden',
-        cursor: 'pointer',
-      }}
-    >
-      {/* Header */}
-      <div style={{
-        padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)',
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-      }}>
-        <span style={{ color: '#60a5fa', fontSize: '0.7rem', fontFamily: 'monospace', letterSpacing: '2px', textTransform: 'uppercase' }}>
-          📄 {fileName}
-        </span>
-        <span style={{ color: '#555', fontSize: '0.6rem', fontFamily: 'monospace' }}>
-          {clickToClose}
-        </span>
-      </div>
-      {/* Content */}
-      <div style={{
-        padding: '20px', overflowY: 'auto', flex: 1,
-        color: '#d4d4d8', fontSize: '0.65rem', fontFamily: 'monospace',
-        lineHeight: 1.7, whiteSpace: 'pre-wrap', wordBreak: 'break-word',
-      }}>
-        {content}
-        {truncated && (
-          <div style={{ color: '#f59e0b', marginTop: '16px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '8px' }}>
-            {truncatedMsg}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════
-// TOOLTIP BAR
-// ═══════════════════════════════════════════════════════════
-function TooltipBar({ node, language }: { node: GraphNode | null; language: Language }) {
-  if (!node) return null;
-  const typeColors: Record<string, string> = {
-    core: '#fff', engine: '#22d3ee', edition: node.color || '#fff',
-    file: node.color || '#d4d4d8', folder: '#fbbf24', module: '#fff',
-    'link-placeholder': '#555',
-  };
-  const typeLabel: Record<string, string> = {
-    core: '◆ CORE', engine: '⚡ ENGINE', edition: '📦 EDITION',
-    file: '📄 FILE', folder: '📁 FOLDER', module: '🔗 MODULE',
-    'link-placeholder': '🔗 LINK',
-  };
-  const execText = language === 'ES' ? 'CLIC PARA EJECUTAR' : 'CLICK TO EXECUTE';
-  const readText = language === 'ES' ? 'CLIC PARA LEER' : 'CLICK TO READ';
-
-  return (
-    <div style={{
-      position: 'fixed', bottom: '24px', left: '50%', transform: 'translateX(-50%)',
-      zIndex: 3000, padding: '10px 24px',
-      background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(12px)',
-      border: `1px solid ${typeColors[node.type] || '#333'}33`,
-      color: '#fff', fontSize: '0.65rem', maxWidth: '420px',
-      textAlign: 'center', fontFamily: 'monospace', pointerEvents: 'none',
-    }}>
-      <div style={{ color: typeColors[node.type], fontSize: '0.5rem', marginBottom: '4px', letterSpacing: '2px' }}>
-        {typeLabel[node.type] || 'NODE'}
-      </div>
-      <div style={{ fontWeight: 700, marginBottom: '2px' }}>{node.label}</div>
-      <div style={{ color: '#888', fontSize: '0.55rem' }}>{node.tooltip}</div>
-      {node.action && <div style={{ color: '#22d3ee', fontSize: '0.45rem', marginTop: '4px' }}>{execText}</div>}
-      {node.filePath && <div style={{ color: '#d4d4d8', fontSize: '0.45rem', marginTop: '4px' }}>{readText}</div>}
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════
-// ATMospheric Camera Motion
-// ═══════════════════════════════════════════════════════════
-function AtmosphericCamera() {
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    state.camera.position.x += Math.sin(t * 0.4) * 0.001;
-    state.camera.position.y += Math.cos(t * 0.3) * 0.001;
-    state.camera.rotation.z += Math.sin(t * 0.2) * 0.0002;
-  });
   return null;
 }
 
 // ═══════════════════════════════════════════════════════════
-// MAIN COMPONENT
+// UI OVERLAYS & CONTROLS
 // ═══════════════════════════════════════════════════════════
-interface NexusCoreProps {
-  linkedProject: string | null;
-  projectEntries?: ScannedEntry[];
-  language: Language;
-  setLinkedProject: (project: string | null) => void;
-  setProjectEntries: (entries: ScannedEntry[]) => void;
+function Atmosphere() {
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    state.camera.position.x += Math.sin(t * 0.4) * 0.001;
+    state.camera.position.y += Math.cos(t * 0.3) * 0.001;
+  });
+  return null;
 }
 
 const NexusCore = ({ linkedProject, projectEntries, language, setLinkedProject, setProjectEntries }: NexusCoreProps) => {
@@ -455,21 +284,8 @@ const NexusCore = ({ linkedProject, projectEntries, language, setLinkedProject, 
     return { staticNodes: sn, staticEdges: se, dynamicNodes: dn, dynamicEdges: de };
   }, [linkedProject, projectEntries, language]);
 
-  const allNodes = useMemo(() => {
-    const merged = [...staticNodes, ...dynamicNodes];
-    if (linkedProject && projectEntries && projectEntries.length > 0) {
-      return merged.filter(n => n.id !== 'link-placeholder');
-    }
-    return merged;
-  }, [staticNodes, dynamicNodes, linkedProject, projectEntries]);
-
+  const allNodes = useMemo(() => [...staticNodes, ...dynamicNodes], [staticNodes, dynamicNodes]);
   const allEdges = useMemo(() => [...staticEdges, ...dynamicEdges], [staticEdges, dynamicEdges]);
-
-  const nodeMap = useMemo(() => {
-    const map: Record<string, GraphNode> = {};
-    allNodes.forEach(n => { map[n.id] = n; });
-    return map;
-  }, [allNodes]);
 
   React.useEffect(() => {
     const fetchP = () => fetch('/api/state').then(r=>r.json()).then(d => {
@@ -480,227 +296,158 @@ const NexusCore = ({ linkedProject, projectEntries, language, setLinkedProject, 
     return () => clearInterval(iv);
   }, []);
 
-  // Synaptic Live Wire (SSE File Watcher)
   React.useEffect(() => {
     const es = new EventSource('/api/watch');
-    
     es.addEventListener('file-change', (e) => {
       try {
         const data = JSON.parse(e.data);
         const filename = data.path.split(/[/\\]/).pop();
-        
         let targetId = '';
-        // Find corresponding node
         allNodes.forEach(n => {
           if (n.label === filename || (n.filePath && n.filePath.endsWith(filename))) {
             targetId = n.id;
           }
         });
-
         if (targetId) {
           setPulsingNodes(prev => new Set(prev).add(targetId));
           setToastMsg({ msg: translations[language][`watch.${data.event}`] || data.event, detail: filename });
-          
-          setTimeout(() => {
-            setPulsingNodes(prev => {
-              const next = new Set(prev);
-              next.delete(targetId);
-              return next;
-            });
-          }, 1500);
-
-          setTimeout(() => setToastMsg(null), 3000);
+          setTimeout(() => setPulsingNodes(prev => { const n = new Set(prev); n.delete(targetId); return n; }), 2000);
+          setTimeout(() => setToastMsg(null), 4000);
         }
-      } catch {}
+      } catch(ex){}
     });
-    
-    es.addEventListener('connected', (e) => {
-      try {
-        const data = JSON.parse(e.data);
-        setToastMsg({ msg: translations[language]['watch.connection'] || 'SYNAPTIC LINK ACTIVE', detail: '' });
-        setTimeout(() => setToastMsg(null), 3000);
-      } catch {}
-    });
-
     return () => es.close();
   }, [allNodes, language]);
 
-  const handleNodeClick = useCallback(async (node: GraphNode) => {
-    // If it's the click-to-link node
-    if (node.id === 'link-placeholder') {
-      document.getElementById('project-linker')?.click();
-      return;
-    }
-
-    // If it's a linked project module, offer to unlink
-    if (node.type === 'module' && node.id.startsWith('project-')) {
-      setUnlinkModal(node.label);
-      return;
-    }
-
-    // If engine with an action → execute it
+  const handleNodeClick = async (node: GraphNode) => {
+    if (node.type === 'link-placeholder') { setUnlinkModal('link'); return; }
     if (node.action) {
-      try { await fetch(node.action, { method: 'POST' }); } catch {}
+      setToastMsg({ msg: `EXECUTING: ${node.label}...` });
+      try { await fetch(node.action); setToastMsg({ msg: `SUCCESS: ${node.label} completed.` }); }
+      catch(e){ setToastMsg({ msg: `FAILURE: ${node.label} failed.` }); }
+      setTimeout(() => setToastMsg(null), 3000);
       return;
     }
-
-    // If file with a path → read and show content
     if (node.filePath) {
-      // Toggle: if same doc is open, close it
-      if (openDoc && openDoc.fileName === node.label) {
-        setOpenDoc(null);
-        return;
-      }
       try {
-        const res = await fetch('/api/actions/read', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ filePath: node.filePath }),
-        });
+        const res = await fetch(`/api/read?path=${encodeURIComponent(node.filePath)}`);
         const data = await res.json();
-        if (data.success) {
-          setOpenDoc({ fileName: data.fileName, content: data.content, truncated: data.truncated });
-        }
-      } catch {}
+        setOpenDoc({ fileName: node.label, content: data.content, truncated: data.truncated });
+      } catch(e){}
     }
-  }, [openDoc]);
+  };
 
   return (
-    <>
-      <div className="w-full h-full absolute inset-0" style={{ pointerEvents: 'auto' }}>
-        <Canvas camera={{ position: [0, 2, 18], fov: 55 }} dpr={[1, 2]}>
-          <color attach="background" args={['#050505']} />
-          <fog attach="fog" args={['#050505', 12, 40]} />
-          <ambientLight intensity={0.3} />
+    <div style={{ width: '100%', height: '100%', position: 'relative', background: '#020617', overflow: 'hidden' }}>
+      <Canvas camera={{ position: [0, 0, 20], fov: 45 }}>
+        <color attach="background" args={['#020617']} />
+        <fog attach="fog" args={['#020617', 10, 50]} />
+        <ambientLight intensity={0.4} />
+        <pointLight position={[10, 10, 10]} intensity={1} />
+        
+        <ParticleField />
+        <Atmosphere />
 
-          {/* Orbit Controls: click+drag to rotate, scroll to zoom */}
-          <OrbitControls
-            enablePan={true}
-            enableZoom={true}
-            enableRotate={true}
-            autoRotate={true}
-            autoRotateSpeed={0.3}
-            minDistance={5}
-            maxDistance={35}
+        {allEdges.map((edge, i) => {
+          const from = allNodes.find(n => n.id === edge.from);
+          const to = allNodes.find(n => n.id === edge.to);
+          if (!from || !to) return null;
+          return <ConnectionBeam key={`edge-${i}`} start={from.position} end={to.position} color={from.color} />;
+        })}
+
+        {allNodes.map((node) => (
+          <SystemNode
+            key={node.id}
+            node={node}
+            isPulsing={pulsingNodes.has(node.id)}
+            eta={physics.eta}
+            drift={physics.drift_kl}
+            onHover={setHoveredNode}
+            onUnhover={() => setHoveredNode(null)}
+            onClick={handleNodeClick}
           />
+        ))}
 
-          <ParticleField />
+        <Grid infiniteGrid fadeDistance={50} sectionSize={5} sectionColor="#1e293b" cellColor="#0f172a" />
+        <OrbitControls enableDamping dampingFactor={0.05} rotateSpeed={0.5} />
 
-          {allEdges.map((edge, i) => {
-            const from = nodeMap[edge.from];
-            const to = nodeMap[edge.to];
-            if (!from || !to) return null;
-            return <ConnectionBeam key={`e-${i}`} start={from.position} end={to.position} color={to.color || '#444'} />;
-          })}
+        <EffectComposer disableNormalPass>
+          <Bloom luminanceThreshold={1.2} intensity={1.8} levels={8} mipmapBlur />
+          <Vignette eskil={false} offset={0.1} darkness={1.1} />
+          <Noise opacity={0.05} />
+          <ChromaticAberration offset={new THREE.Vector2(0.0015, 0.0015)} />
+        </EffectComposer>
+      </Canvas>
 
-          {allNodes.map((node) => (
-            <SystemNode
-              key={node.id}
-              node={node}
-              isPulsing={pulsingNodes.has(node.id)}
-              eta={physics.eta}
-              drift={physics.drift_kl}
-              onHover={setHoveredNode}
-              onUnhover={() => setHoveredNode(null)}
-              onClick={handleNodeClick}
-            />
-          ))}
-
-          {/* Cyber Corporate Post-Processing and Subgrid */}
-          <Grid 
-            position={[0, -5, 0]} 
-            args={[100, 100]} 
-            cellSize={2} 
-            cellThickness={0.5} 
-            cellColor="#1e293b" 
-            sectionSize={10} 
-            sectionThickness={1} 
-            sectionColor="#334155" 
-            fadeDistance={60} 
-            fadeStrength={1.5} 
-          />
-          <ambientLight intensity={0.2} />
-          <EffectComposer>
-            <Bloom luminanceThreshold={1.2} luminanceSmoothing={0.5} intensity={1.8} mipmapBlur />
-            <ChromaticAberration offset={new THREE.Vector2(0.0015, 0.0015)} />
-            <Vignette eskil={false} offset={0.1} darkness={1.1} />
-            <Noise opacity={0.04} />
-          </EffectComposer>
-        </Canvas>
+      {/* TOP HUD */}
+      <div style={{ position: 'absolute', top: 30, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', pointerEvents: 'none' }}>
+        <h1 style={{ color: '#fff', fontSize: '1.2rem', margin: 0, letterSpacing: '8px', fontWeight: 200, opacity: 0.8 }}>
+          NEXUS OPERATING SYSTEM
+        </h1>
+        <div style={{ color: '#22d3ee', fontSize: '0.6rem', letterSpacing: '4px', marginTop: '5px' }}>
+          PHASE 10: CONTINUITY IMMUTABLE FORENSICS
+        </div>
       </div>
 
-      {/* Document Reader Panel */}
-      {openDoc && (
-        <DocumentPanel
-          fileName={openDoc.fileName}
-          content={openDoc.content}
-          truncated={openDoc.truncated}
-          onClose={() => setOpenDoc(null)}
-          language={language}
-        />
-      )}
-
-      {/* Unlink Confirmation Modal */}
-      {unlinkModal && (
+      {/* NODE INFO OVERLAY */}
+      {hoveredNode && (
         <div style={{
-          position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 6000,
-          background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,100,100,0.3)',
-          padding: '24px 32px', textAlign: 'center', fontFamily: 'monospace', color: '#fff',
-          display: 'flex', flexDirection: 'column', gap: '12px', borderRadius: '4px',
-          boxShadow: '0px 10px 40px rgba(0,0,0,0.8)'
+          position: 'absolute', bottom: 40, left: 40, background: 'rgba(2, 6, 23, 0.85)', padding: '25px', 
+          border: '1px solid #1e293b', borderRadius: '4px', color: '#fff', width: '300px', boxRendering: 'optimizeSpeed',
+          backdropFilter: 'blur(10px)', borderLeft: `4px solid ${hoveredNode.color || '#fff'}`
         }}>
-          <div style={{ fontSize: '1rem', letterSpacing: '2px', fontWeight: 700, color: '#fca5a5' }}>
-            {translations[language]['graph.unlink.title'] || 'Unlink this project?'}
-          </div>
-          <div style={{ color: '#aaa', fontSize: '0.75rem', marginBottom: '8px' }}>
-            {unlinkModal}
-          </div>
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
-            <button 
-              onClick={() => { setLinkedProject(null); setProjectEntries([]); setUnlinkModal(null); }}
-              style={{ background: 'rgba(255,100,100,0.2)', border: '1px solid rgba(255,100,100,0.5)', padding: '6px 20px', color: '#fca5a5', cursor: 'pointer', borderRadius: '2px', transition: 'background 0.2s' }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,100,100,0.3)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,100,100,0.2)'}
-            >
-              {translations[language]['graph.unlink.yes'] || 'YES'}
-            </button>
-            <button 
-              onClick={() => setUnlinkModal(null)}
-              style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', padding: '6px 20px', color: '#fff', cursor: 'pointer', borderRadius: '2px', transition: 'background 0.2s' }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
-            >
-              {translations[language]['graph.unlink.no'] || 'NO'}
-            </button>
+          <div style={{ color: '#64748b', fontSize: '0.6rem', marginBottom: '8px', letterSpacing: '2px' }}>MODULE IDENTIFIER</div>
+          <div style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '5px' }}>{hoveredNode.label}</div>
+          <div style={{ color: '#94a3b8', fontSize: '0.8rem', lineHeight: '1.4' }}>{hoveredNode.tooltip}</div>
+          <div style={{ marginTop: '15px', display: 'flex', gap: '10px' }}>
+             <div style={{ background: '#0f172a', padding: '5px 10px', fontSize: '0.6rem', border: '1px solid #1e293b' }}>
+               ID: {hoveredNode.id}
+             </div>
+             <div style={{ background: '#0f172a', padding: '5px 10px', fontSize: '0.6rem', border: '1px solid #1e293b' }}>
+               TYPE: {hoveredNode.type.toUpperCase()}
+             </div>
           </div>
         </div>
       )}
 
-      {/* Synaptic Watcher Toast */}
+      {/* FILE VIEWER */}
+      {openDoc && (
+        <div style={{
+          position: 'absolute', top: '10%', left: '15%', width: '70%', height: '80%', background: '#09090b',
+          border: '1px solid #27272a', zIndex: 100, display: 'flex', flexDirection: 'column', color: '#e4e4e7'
+        }}>
+          <div style={{ padding: '15px', borderBottom: '1px solid #27272a', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: '0.8rem', letterSpacing: '2px' }}>FILE_STREAM // {openDoc.fileName}</span>
+            <button onClick={() => setOpenDoc(null)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '1.2rem' }}>×</button>
+          </div>
+          <div style={{ flex: 1, padding: '20px', overflow: 'auto', fontFamily: 'monospace', fontSize: '0.85rem', lineHeight: '1.6', background: '#000' }}>
+            {openDoc.truncated && <div style={{ color: '#f59e0b', marginBottom: '10px' }}>[!] LARGE FILE TRUNCATED FOR PERFORMANCE</div>}
+            <pre style={{ margin: 0 }}>{openDoc.content}</pre>
+          </div>
+        </div>
+      )}
+
+      {/* TOAST NOTIFICATIONS */}
       {toastMsg && (
         <div style={{
-          position: 'fixed', top: '32px', left: '50%', transform: 'translateX(-50%)', zIndex: 7000,
-          background: 'rgba(96, 165, 250, 0.1)', border: '1px solid rgba(96, 165, 250, 0.4)',
-          backdropFilter: 'blur(10px)', padding: '8px 16px', borderRadius: '4px',
-          display: 'flex', alignItems: 'center', gap: '8px', pointerEvents: 'none',
-          boxShadow: '0 0 20px rgba(96, 165, 250, 0.2)'
+          position: 'absolute', top: 100, right: 30, background: 'rgba(2, 6, 23, 0.9)', padding: '15px 25px', 
+          borderLeft: '4px solid #22d3ee', borderTop: '1px solid #1e293b', borderRight: '1px solid #1e293b', borderBottom: '1px solid #1e293b',
+          color: '#fff', zIndex: 1000, animation: 'slideIn 0.3s ease-out'
         }}>
-          <div className="pulse-dot" style={{ background: '#60a5fa', width: '6px', height: '6px' }} />
-          <span style={{ color: '#60a5fa', fontSize: '0.65rem', fontFamily: 'monospace', fontWeight: 700, textTransform: 'uppercase' }}>
-            {toastMsg.msg}
-          </span>
-          {toastMsg.detail && (
-            <span style={{ color: '#fff', fontSize: '0.65rem', fontFamily: 'monospace' }}>
-              {toastMsg.detail}
-            </span>
-          )}
+          <div style={{ fontSize: '0.8rem', fontWeight: 600 }}>{toastMsg.msg}</div>
+          {toastMsg.detail && <div style={{ fontSize: '0.6rem', color: '#94a3b8', marginTop: '4px' }}>{toastMsg.detail}</div>}
         </div>
       )}
-
-      {/* Tooltip Bar */}
-      <TooltipBar node={hoveredNode} language={language} />
-    </>
+    </div>
   );
 };
+
+interface NexusCoreProps {
+  linkedProject: string | null;
+  projectEntries?: ScannedEntry[];
+  language: Language;
+  setLinkedProject: (project: string | null) => void;
+  setProjectEntries: (entries: ScannedEntry[]) => void;
+}
 
 export default NexusCore;
