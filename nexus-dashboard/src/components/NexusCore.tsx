@@ -21,14 +21,49 @@ function ParticleField({ count = 2000 }) {
     }
     return p;
   }, [count]);
+
+  const originalPoints = useMemo(() => new Float32Array(points), [points]);
   const ref = useRef<THREE.Points>(null!);
+  const tempVec = new THREE.Vector3();
+  const mouseVec = new THREE.Vector3();
+
   useFrame((s: any) => { 
-    ref.current.rotation.y = s.clock.getElapsedTime() * 0.015; 
-    ref.current.rotation.x = Math.sin(s.clock.getElapsedTime() * 0.05) * 0.1;
+    // Passive rotation
+    ref.current.rotation.y = s.clock.getElapsedTime() * 0.01; 
+    ref.current.rotation.x = Math.sin(s.clock.getElapsedTime() * 0.05) * 0.05;
+
+    // MAGNANETIC ATTRACTION LOGIC
+    // Mouse is in NDC (-1 to +1), let's map it roughly to world space range
+    mouseVec.set(s.mouse.x * 20, s.mouse.y * 15, 0); 
+    
+    const positions = ref.current.geometry.attributes.position.array as Float32Array;
+    const originals = originalPoints;
+    
+    mouseVec.set(s.mouse.x * 25, s.mouse.y * 20, 0); 
+    
+    for (let i = 0; i < count; i++) {
+        const ix = i * 3;
+        const iy = i * 3 + 1;
+        const iz = i * 3 + 2;
+
+        tempVec.set(originals[ix], originals[iy], originals[iz]);
+        const dist = tempVec.distanceTo(mouseVec);
+        
+        if (dist < 10.0) {
+            const force = (1.0 - dist / 10.0) * 0.8;
+            positions[ix] = THREE.MathUtils.lerp(positions[ix], mouseVec.x, force * 0.05);
+            positions[iy] = THREE.MathUtils.lerp(positions[iy], mouseVec.y, force * 0.05);
+        } else {
+            positions[ix] = THREE.MathUtils.lerp(positions[ix], originals[ix], 0.05);
+            positions[iy] = THREE.MathUtils.lerp(positions[iy], originals[iy], 0.05);
+        }
+    }
+    ref.current.geometry.attributes.position.needsUpdate = true;
   });
+
   return (
     <Points ref={ref} positions={points} stride={3} frustumCulled={false}>
-      <PointMaterial transparent color="#ffffff" size={0.03} sizeAttenuation depthWrite={false} blending={THREE.AdditiveBlending} opacity={0.6} />
+      <PointMaterial transparent color="#ffffff" size={0.04} sizeAttenuation depthWrite={false} blending={THREE.AdditiveBlending} opacity={0.3} />
     </Points>
   );
 }
@@ -46,20 +81,23 @@ function ConnectionBeam({ start, end, color = '#ffffff' }: { start: [number, num
     }
   });
 
-  const points = useMemo(() => {
+  const { points, progress } = useMemo(() => {
     const p = new Float32Array(count * 3);
+    const pr = new Float32Array(count);
     for (let i = 0; i < count; i++) {
-      const t = i / count;
+      const t = i / (count - 1);
       p[i * 3] = start[0] + (end[0] - start[0]) * t;
       p[i * 3 + 1] = start[1] + (end[1] - start[1]) * t;
       p[i * 3 + 2] = start[2] + (end[2] - start[2]) * t;
+      pr[i] = t;
     }
-    return p;
+    return { points: p, progress: pr };
   }, [start, end]);
+
   return (
     <Points positions={points} stride={3}>
+      <bufferAttribute attach="geometry-attributes-aProgress" args={[progress, 1]} />
       <shaderMaterial ref={matRef} args={[BeamShaderMaterial]} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
-      <PointMaterial transparent color={color} size={0.06} sizeAttenuation depthWrite={false} blending={THREE.AdditiveBlending} opacity={0.4} />
     </Points>
   );
 }

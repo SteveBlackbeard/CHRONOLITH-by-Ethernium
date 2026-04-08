@@ -91,8 +91,10 @@ export const CoreShaderMaterial = {
       float scanline = sin(vPosition.y * 80.0 - u_time * 5.0) * 0.05;
       
       // DRIFT CONTAMINATION (Shift to Red/Amber during drift hazard)
-      if (u_drift > 0.0) {
-        float driftMix = min(u_drift * 5.0, 1.0);
+      // Safety threshold: only trigger drift alert if KL divergence > 0.1
+      if (u_drift > 0.1) {
+        float normalizedDrift = (u_drift - 0.1) / 0.9;
+        float driftMix = min(normalizedDrift * 5.0, 1.0);
         vec3 hazardColor = mix(vec3(1.0, 0.4, 0.0), vec3(1.0, 0.0, 0.1), driftMix);
         color = mix(color, hazardColor, driftMix * (0.5 + 0.5 * sin(u_time * 6.0)));
       }
@@ -125,11 +127,21 @@ export const BeamShaderMaterial = {
   },
   vertexShader: `
     uniform float u_time;
+    attribute float aProgress;
     varying float vAlpha;
+
     void main() {
-      vAlpha = max(0.1, 0.5 + 0.5 * sin(position.x * 5.0 + position.y * 5.0 - u_time * 5.0));
+      // Logic for scrolling flow using normalized progress:
+      // Speed 2.5, flow fract based on aProgress and time
+      float flow = fract(aProgress - u_time * 0.8);
+      
+      // Impulse wave (sharper pulse)
+      vAlpha = pow(1.0 - abs(flow - 0.5) * 2.0, 6.0);
+      
       vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-      gl_PointSize = (2.0 + vAlpha * 2.0) * (30.0 / -mvPosition.z);
+      
+      // Points grow when the pulse passes through them
+      gl_PointSize = (1.5 + vAlpha * 8.0) * (20.0 / -mvPosition.z);
       gl_Position = projectionMatrix * mvPosition;
     }
   `,
@@ -137,10 +149,12 @@ export const BeamShaderMaterial = {
     uniform vec3 u_color;
     varying float vAlpha;
     void main() {
-      // Circular particle
       vec2 coord = gl_PointCoord - vec2(0.5);
       if(length(coord) > 0.5) discard;
-      gl_FragColor = vec4(u_color, vAlpha * 0.6);
+      
+      // The pulse is much brighter to trigger Bloom
+      vec3 glow = u_color * (1.0 + vAlpha * 5.0);
+      gl_FragColor = vec4(glow, max(0.1, vAlpha * 0.8));
     }
   `
 };
