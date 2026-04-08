@@ -90,6 +90,7 @@ export const CoreShaderMaterial = {
       // PROCEDURAL SCANLINES
       float scanline = sin(vPosition.y * 80.0 - u_time * 5.0) * 0.05;
       
+      /* 
       // DRIFT CONTAMINATION (Shift to Red/Amber during drift hazard)
       // Safety threshold: only trigger drift alert if KL divergence > 0.1
       if (u_drift > 0.1) {
@@ -98,6 +99,7 @@ export const CoreShaderMaterial = {
         vec3 hazardColor = mix(vec3(1.0, 0.4, 0.0), vec3(1.0, 0.0, 0.1), driftMix);
         color = mix(color, hazardColor, driftMix * (0.5 + 0.5 * sin(u_time * 6.0)));
       }
+      */
 
       // PULSE OVERDRIVE (Supernova white flash)
       color = mix(color, vec3(1.0, 1.0, 1.0), u_pulse);
