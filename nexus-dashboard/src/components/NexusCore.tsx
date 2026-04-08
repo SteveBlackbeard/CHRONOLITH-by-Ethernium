@@ -2,7 +2,7 @@
 import React, { useRef, useMemo, useState, useCallback } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial, Float, Octahedron, Sphere, Html, OrbitControls, Grid } from '@react-three/drei';
-import { EffectComposer, Bloom, Vignette, Noise } from '@react-three/postprocessing';
+import { EffectComposer, Bloom, Vignette, Noise, ChromaticAberration } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import { buildStaticGraph, buildProjectNodes, GraphNode, GraphEdge, ScannedEntry } from '@/lib/graphData';
 import { Language, translations } from '@/lib/i18n';
@@ -312,6 +312,19 @@ function TooltipBar({ node, language }: { node: GraphNode | null; language: Lang
 }
 
 // ═══════════════════════════════════════════════════════════
+// ATMospheric Camera Motion
+// ═══════════════════════════════════════════════════════════
+function AtmosphericCamera() {
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    state.camera.position.x += Math.sin(t * 0.4) * 0.001;
+    state.camera.position.y += Math.cos(t * 0.3) * 0.001;
+    state.camera.rotation.z += Math.sin(t * 0.2) * 0.0002;
+  });
+  return null;
+}
+
+// ═══════════════════════════════════════════════════════════
 // MAIN COMPONENT
 // ═══════════════════════════════════════════════════════════
 interface NexusCoreProps {
@@ -508,9 +521,10 @@ const NexusCore = ({ linkedProject, projectEntries, language, setLinkedProject, 
           />
           <ambientLight intensity={0.2} />
           <EffectComposer>
-            <Bloom luminanceThreshold={1.2} luminanceSmoothing={0.5} intensity={2.0} mipmapBlur />
+            <Bloom luminanceThreshold={1.2} luminanceSmoothing={0.5} intensity={1.8} mipmapBlur />
+            <ChromaticAberration offset={new THREE.Vector2(0.0015, 0.0015)} />
             <Vignette eskil={false} offset={0.1} darkness={1.1} />
-            <Noise opacity={0.05} />
+            <Noise opacity={0.04} />
           </EffectComposer>
         </Canvas>
       </div>
