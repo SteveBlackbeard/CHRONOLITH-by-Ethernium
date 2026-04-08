@@ -97,7 +97,15 @@ function ConnectionBeam({ start, end, color = '#ffffff' }: { start: [number, num
   return (
     <Points positions={points} stride={3}>
       <bufferAttribute attach="geometry-attributes-aProgress" args={[progress, 1]} />
-      <shaderMaterial ref={matRef} args={[BeamShaderMaterial]} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+      <shaderMaterial 
+        ref={matRef} 
+        vertexShader={BeamShaderMaterial.vertexShader}
+        fragmentShader={BeamShaderMaterial.fragmentShader}
+        uniforms={BeamShaderMaterial.uniforms}
+        transparent 
+        depthWrite={false} 
+        blending={THREE.AdditiveBlending} 
+      />
     </Points>
   );
 }
@@ -155,11 +163,29 @@ function SystemNode({
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           {/* Inner Glass Body */}
           <Octahedron args={[scale * 0.95, 0]}>
-            <shaderMaterial ref={matRefSolid} uniforms={uniformsSolid} transparent depthWrite={false} blending={THREE.NormalBlending} side={THREE.DoubleSide} />
+            <shaderMaterial 
+              ref={matRefSolid} 
+              uniforms={uniformsSolid} 
+              vertexShader={CoreShaderMaterial.vertexShader}
+              fragmentShader={CoreShaderMaterial.fragmentShader}
+              transparent 
+              depthWrite={false} 
+              blending={THREE.NormalBlending} 
+              side={THREE.DoubleSide} 
+            />
           </Octahedron>
           {/* Outer Energy Lattice */}
           <Octahedron args={[scale, 0]}>
-            <shaderMaterial ref={matRefWire} uniforms={uniformsWire} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
+            <shaderMaterial 
+              ref={matRefWire} 
+              uniforms={uniformsWire} 
+              vertexShader={CoreShaderMaterial.vertexShader}
+              fragmentShader={CoreShaderMaterial.fragmentShader}
+              transparent 
+              depthWrite={false} 
+              blending={THREE.AdditiveBlending} 
+              wireframe={true} 
+            />
           </Octahedron>
           <Html distanceFactor={12} position={[0, -(scale + 0.8), 0]} center>
             <div style={{ color: materialColor, fontSize: '9px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '3px', opacity: 0.7, fontFamily: 'monospace' }}>
@@ -177,11 +203,29 @@ function SystemNode({
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <mesh>
             <tetrahedronGeometry args={[scale * 0.95, 0]} />
-            <shaderMaterial ref={matRefSolid} uniforms={uniformsSolid} transparent depthWrite={false} blending={THREE.NormalBlending} side={THREE.DoubleSide} />
+            <shaderMaterial 
+              ref={matRefSolid} 
+              uniforms={uniformsSolid} 
+              vertexShader={CoreShaderMaterial.vertexShader}
+              fragmentShader={CoreShaderMaterial.fragmentShader}
+              transparent 
+              depthWrite={false} 
+              blending={THREE.NormalBlending} 
+              side={THREE.DoubleSide} 
+            />
           </mesh>
           <mesh>
             <tetrahedronGeometry args={[scale, 0]} />
-            <shaderMaterial ref={matRefWire} uniforms={uniformsWire} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
+            <shaderMaterial 
+              ref={matRefWire} 
+              uniforms={uniformsWire} 
+              vertexShader={CoreShaderMaterial.vertexShader}
+              fragmentShader={CoreShaderMaterial.fragmentShader}
+              transparent 
+              depthWrite={false} 
+              blending={THREE.AdditiveBlending} 
+              wireframe={true} 
+            />
           </mesh>
           <Html distanceFactor={12} position={[0, -(scale + 0.5), 0]} center>
             <div style={{ color: materialColor, fontSize: '7px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'monospace' }}>
@@ -198,10 +242,28 @@ function SystemNode({
       <Float speed={2.5} rotationIntensity={0.5} floatIntensity={0.4} position={node.position}>
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <Sphere args={[scale * 0.55, 12, 12]}>
-            <shaderMaterial ref={matRefSolid} uniforms={uniformsSolid} transparent depthWrite={false} blending={THREE.NormalBlending} side={THREE.DoubleSide} />
+            <shaderMaterial 
+              ref={matRefSolid} 
+              uniforms={uniformsSolid} 
+              vertexShader={CoreShaderMaterial.vertexShader}
+              fragmentShader={CoreShaderMaterial.fragmentShader}
+              transparent 
+              depthWrite={false} 
+              blending={THREE.NormalBlending} 
+              side={THREE.DoubleSide} 
+            />
           </Sphere>
           <Sphere args={[scale * 0.6, 12, 12]}>
-            <shaderMaterial ref={matRefWire} uniforms={uniformsWire} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
+            <shaderMaterial 
+              ref={matRefWire} 
+              uniforms={uniformsWire} 
+              vertexShader={CoreShaderMaterial.vertexShader}
+              fragmentShader={CoreShaderMaterial.fragmentShader}
+              transparent 
+              depthWrite={false} 
+              blending={THREE.AdditiveBlending} 
+              wireframe={true} 
+            />
           </Sphere>
           <Html distanceFactor={12} position={[0, -(scale * 0.6 + 0.4), 0]} center>
             <div style={{ color: materialColor, fontSize: '7px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'monospace' }}>
