@@ -2,7 +2,7 @@
 import React, { useRef, useMemo, useState, useCallback } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial, Float, Octahedron, Sphere, Html, OrbitControls, Grid } from '@react-three/drei';
-import { EffectComposer, Bloom } from '@react-three/postprocessing';
+import { EffectComposer, Bloom, Vignette, Noise } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import { buildStaticGraph, buildProjectNodes, GraphNode, GraphEdge, ScannedEntry } from '@/lib/graphData';
 import { Language, translations } from '@/lib/i18n';
@@ -59,6 +59,7 @@ function ConnectionBeam({ start, end, color = '#ffffff' }: { start: [number, num
   return (
     <Points positions={points} stride={3}>
       <shaderMaterial ref={matRef} args={[BeamShaderMaterial]} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+      <PointMaterial transparent color={color} size={0.06} sizeAttenuation depthWrite={false} blending={THREE.AdditiveBlending} opacity={0.4} />
     </Points>
   );
 }
@@ -87,21 +88,24 @@ function SystemNode({
   const pOut = useCallback(() => { setHovered(false); onUnhover(); }, [onUnhover]);
   const pClick = useCallback(() => onClick(node), [node, onClick]);
 
+  // AAA Chromatic Fix: Unique memory for every node instance
+  const uniformsSolid = useMemo(() => CoreShaderMaterial.clone(), []);
+  const uniformsWire = useMemo(() => CoreShaderMaterial.clone(), []);
+  
   const matRefSolid = useRef<THREE.ShaderMaterial>(null!);
   const matRefWire = useRef<THREE.ShaderMaterial>(null!);
 
   useFrame((state) => {
-    [matRefSolid, matRefWire].forEach(ref => {
+    [matRefSolid, matRefWire].forEach((ref, idx) => {
       if (ref.current) {
-        ref.current.uniforms.u_time.value = state.clock.elapsedTime;
-        ref.current.uniforms.u_entropy.value = eta;
-        ref.current.uniforms.u_drift.value = drift;
-        ref.current.uniforms.u_pulse.value = THREE.MathUtils.lerp(
-          ref.current.uniforms.u_pulse.value,
-          isPulsing ? 1.0 : 0.0,
-          0.1
-        );
-        ref.current.uniforms.u_baseColor.value.set(materialColor);
+        const u = ref.current.uniforms;
+        u.u_time.value = state.clock.elapsedTime;
+        u.u_entropy.value = eta;
+        u.u_drift.value = drift;
+        u.u_pulse.value = THREE.MathUtils.lerp(u.u_pulse.value, isPulsing ? 1.0 : 0.0, 0.1);
+        u.u_baseColor.value.set(materialColor);
+        u.u_isWireframe.value = idx === 1 ? 1.0 : 0.0;
+        u.u_intensity.value = hovered ? 2.5 : 1.2;
       }
     });
   });
@@ -113,11 +117,11 @@ function SystemNode({
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           {/* Inner Glass Body */}
           <Octahedron args={[scale * 0.95, 0]}>
-            <shaderMaterial ref={matRefSolid} args={[CoreShaderMaterial]} uniforms-u_isWireframe-value={0.0} transparent depthWrite={false} blending={THREE.NormalBlending} side={THREE.DoubleSide} />
+            <shaderMaterial ref={matRefSolid} uniforms={uniformsSolid} transparent depthWrite={false} blending={THREE.NormalBlending} side={THREE.DoubleSide} />
           </Octahedron>
           {/* Outer Energy Lattice */}
           <Octahedron args={[scale, 0]}>
-            <shaderMaterial ref={matRefWire} args={[CoreShaderMaterial]} uniforms-u_isWireframe-value={1.0} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
+            <shaderMaterial ref={matRefWire} uniforms={uniformsWire} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
           </Octahedron>
           <Html distanceFactor={12} position={[0, -(scale + 0.8), 0]} center>
             <div style={{ color: materialColor, fontSize: '9px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '3px', opacity: 0.7, fontFamily: 'monospace' }}>
@@ -135,11 +139,11 @@ function SystemNode({
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <mesh>
             <tetrahedronGeometry args={[scale * 0.95, 0]} />
-            <shaderMaterial ref={matRefSolid} args={[CoreShaderMaterial]} uniforms-u_isWireframe-value={0.0} transparent depthWrite={false} blending={THREE.NormalBlending} side={THREE.DoubleSide} />
+            <shaderMaterial ref={matRefSolid} uniforms={uniformsSolid} transparent depthWrite={false} blending={THREE.NormalBlending} side={THREE.DoubleSide} />
           </mesh>
           <mesh>
             <tetrahedronGeometry args={[scale, 0]} />
-            <shaderMaterial ref={matRefWire} args={[CoreShaderMaterial]} uniforms-u_isWireframe-value={1.0} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
+            <shaderMaterial ref={matRefWire} uniforms={uniformsWire} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
           </mesh>
           <Html distanceFactor={12} position={[0, -(scale + 0.5), 0]} center>
             <div style={{ color: materialColor, fontSize: '7px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'monospace' }}>
@@ -156,10 +160,10 @@ function SystemNode({
       <Float speed={2.5} rotationIntensity={0.5} floatIntensity={0.4} position={node.position}>
         <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <Sphere args={[scale * 0.55, 12, 12]}>
-            <shaderMaterial ref={matRefSolid} args={[CoreShaderMaterial]} uniforms-u_isWireframe-value={0.0} transparent depthWrite={false} blending={THREE.NormalBlending} side={THREE.DoubleSide} />
+            <shaderMaterial ref={matRefSolid} uniforms={uniformsSolid} transparent depthWrite={false} blending={THREE.NormalBlending} side={THREE.DoubleSide} />
           </Sphere>
           <Sphere args={[scale * 0.6, 12, 12]}>
-            <shaderMaterial ref={matRefWire} args={[CoreShaderMaterial]} uniforms-u_isWireframe-value={1.0} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
+            <shaderMaterial ref={matRefWire} uniforms={uniformsWire} transparent depthWrite={false} blending={THREE.AdditiveBlending} wireframe={true} />
           </Sphere>
           <Html distanceFactor={12} position={[0, -(scale * 0.6 + 0.4), 0]} center>
             <div style={{ color: materialColor, fontSize: '7px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'monospace' }}>
@@ -184,26 +188,34 @@ function SystemNode({
           onMouseLeave={() => { setHovered(false); onUnhover(); }}
           onClick={() => pClick()}
           style={{
-            cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px',
-            transition: 'transform 0.2s, opacity 0.2s',
-            transform: hovered ? 'scale(1.3)' : 'scale(1)',
-            opacity: hovered ? 1 : 0.65,
+            cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            transform: hovered ? 'scale(1.4) translateY(-5px)' : 'scale(1)',
+            opacity: isPulsing ? 1 : (hovered ? 1 : 0.7),
+            padding: '12px',
+            background: hovered ? 'rgba(255,255,255,0.03)' : 'none',
+            borderRadius: '12px',
+            border: hovered ? `1px solid ${labelColor}33` : '1px solid transparent',
+            backdropFilter: hovered ? 'blur(8px)' : 'none',
+            boxShadow: (hovered || isPulsing) ? `0 0 20px ${isPulsing ? '#fff' : labelColor}33` : 'none'
           }}
         >
-          <span style={{ 
-            fontSize: `${Math.max(14, node.size * 32)}px`, 
-            filter: isPulsing ? 'drop-shadow(0 0 10px #fff)' : hovered ? 'none' : 'grayscale(0.6)' 
+          <div style={{ 
+            fontSize: '1.8rem', 
+            filter: isPulsing ? 'drop-shadow(0 0 12px #fff)' : hovered ? `drop-shadow(0 0 8px ${labelColor})` : 'grayscale(0.5)',
+            transition: 'filter 0.3s'
           }}>
             {icon}
-          </span>
-          <span style={{
-            color: isPulsing ? '#fff' : hovered ? '#60a5fa' : labelColor,
-            fontSize: '5.5px', fontFamily: 'monospace',
-            whiteSpace: 'nowrap', letterSpacing: '0.5px',
-            maxWidth: '90px', overflow: 'hidden', textOverflow: 'ellipsis',
+          </div>
+          <div style={{
+            color: isPulsing ? '#fff' : hovered ? '#fff' : labelColor,
+            fontSize: '7px', fontFamily: 'monospace', fontWeight: 700,
+            whiteSpace: 'nowrap', letterSpacing: '2px', textTransform: 'uppercase',
+            textShadow: hovered ? `0 0 10px ${labelColor}` : 'none',
+            transition: 'all 0.3s'
           }}>
             {node.label}
-          </span>
+          </div>
         </div>
       </Html>
     </group>
@@ -491,11 +503,14 @@ const NexusCore = ({ linkedProject, projectEntries, language, setLinkedProject, 
             sectionSize={10} 
             sectionThickness={1} 
             sectionColor="#334155" 
-            fadeDistance={40} 
-            fadeStrength={1} 
+            fadeDistance={60} 
+            fadeStrength={1.5} 
           />
+          <ambientLight intensity={0.2} />
           <EffectComposer>
-            <Bloom luminanceThreshold={1.0} luminanceSmoothing={0.3} intensity={1.8} mipmapBlur />
+            <Bloom luminanceThreshold={1.2} luminanceSmoothing={0.5} intensity={2.0} mipmapBlur />
+            <Vignette eskil={false} offset={0.1} darkness={1.1} />
+            <Noise opacity={0.05} />
           </EffectComposer>
         </Canvas>
       </div>
