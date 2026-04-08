@@ -137,15 +137,23 @@ function SystemNode({
   const matRefWire = useRef<any>(null!);
 
   useFrame((state) => {
+    // Kinetic Sync logic: Flare exactly when the beam pulse (speed 0.8) hits the node edge.
+    // The beam pulse peaks at flow=0.5. At node end (progress=1), this happens when fract(1-t*0.8)=0.5.
+    const t = state.clock.elapsedTime;
+    const syncFlare = Math.pow(Math.max(0, Math.cos(t * 0.8 * Math.PI * 2 - Math.PI)), 12.0);
+
     [matRefSolid, matRefWire].forEach((ref, idx) => {
       if (ref.current) {
-        ref.current.u_time = state.clock.elapsedTime;
+        ref.current.u_time = t;
         ref.current.u_entropy = eta;
         ref.current.u_drift = drift;
-        ref.current.u_pulse = THREE.MathUtils.lerp(ref.current.u_pulse, isPulsing ? 1.0 : 0.0, 0.1);
+        // Pulse logic now combines manual isPulsing with the global Kinetic Sync
+        const combinedPulse = Math.max(isPulsing ? 1.0 : 0.0, syncFlare * 0.6);
+        ref.current.u_pulse = THREE.MathUtils.lerp(ref.current.u_pulse, combinedPulse, 0.1);
         ref.current.u_baseColor.set(materialColor);
         ref.current.u_isWireframe = idx === 1 ? 1.0 : 0.0;
-        ref.current.u_intensity = hovered ? 2.5 : 1.2;
+        // Balanced intensity: lower baseline (0.8) to prevent washout, high peak (2.2) for flares.
+        ref.current.u_intensity = hovered ? 2.5 : (0.8 + syncFlare * 1.5);
       }
     });
   });
@@ -242,6 +250,76 @@ function SystemNode({
           <Html distanceFactor={12} position={[0, -(scale * 0.6 + 0.4), 0]} center>
             <div style={{ color: materialColor, fontSize: '7px', whiteSpace: 'nowrap', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'monospace' }}>
               ⚛️ {node.label}
+            </div>
+          </Html>
+        </group>
+      </Float>
+    );
+  }
+
+  // 📄 DOCUMENT SHAPE (Restored Forensic Files)
+  if (node.shape === 'document') {
+    return (
+      <Float speed={1.2} rotationIntensity={0.4} floatIntensity={0.2} position={node.position}>
+        <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
+          <mesh>
+            <planeGeometry args={[scale * 0.8, scale * 1.1]} />
+            <coreShaderMaterial 
+              ref={matRefSolid} 
+              transparent 
+              depthWrite={false} 
+              blending={THREE.NormalBlending} 
+              side={THREE.DoubleSide} 
+            />
+          </mesh>
+          <mesh position={[0, 0, 0.01]}>
+            <planeGeometry args={[scale * 0.85, scale * 1.15]} />
+            <coreShaderMaterial 
+              ref={matRefWire} 
+              transparent 
+              depthWrite={false} 
+              blending={THREE.AdditiveBlending} 
+              wireframe={true} 
+            />
+          </mesh>
+          <Html distanceFactor={12} position={[0, -(scale * 0.7), 0]} center>
+            <div style={{ color: materialColor, fontSize: '6px', whiteSpace: 'nowrap', letterSpacing: '1px', fontFamily: 'monospace' }}>
+               {node.label}
+            </div>
+          </Html>
+        </group>
+      </Float>
+    );
+  }
+
+  // 📂 FOLDER SHAPE
+  if (node.shape === 'folder-icon') {
+    return (
+      <Float speed={1} rotationIntensity={0.2} floatIntensity={0.1} position={node.position}>
+        <group onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
+          <mesh>
+            <boxGeometry args={[scale * 0.9, scale * 0.7, scale * 0.2]} />
+            <coreShaderMaterial 
+              ref={matRefSolid} 
+              transparent 
+              depthWrite={false} 
+              blending={THREE.NormalBlending} 
+              side={THREE.DoubleSide} 
+            />
+          </mesh>
+          <mesh>
+            <boxGeometry args={[scale * 0.95, scale * 0.75, scale * 0.25]} />
+            <coreShaderMaterial 
+              ref={matRefWire} 
+              transparent 
+              depthWrite={false} 
+              blending={THREE.AdditiveBlending} 
+              wireframe={true} 
+            />
+          </mesh>
+          <Html distanceFactor={12} position={[0, -(scale * 0.5), 0]} center>
+            <div style={{ color: materialColor, fontSize: '6px', whiteSpace: 'nowrap', letterSpacing: '1px', fontFamily: 'monospace' }}>
+               /{node.label}
             </div>
           </Html>
         </group>
@@ -371,8 +449,8 @@ const NexusCore = ({ linkedProject, projectEntries, language, setLinkedProject, 
         <Grid infiniteGrid fadeDistance={50} sectionSize={5} sectionColor="#1e293b" cellColor="#0f172a" />
         <OrbitControls enableDamping dampingFactor={0.05} rotateSpeed={0.5} />
 
-        <EffectComposer disableNormalPass>
-          <Bloom luminanceThreshold={1.2} intensity={1.8} levels={8} mipmapBlur />
+        <EffectComposer>
+          <Bloom luminanceThreshold={1.2} intensity={1.2} levels={8} mipmapBlur />
           <Vignette eskil={false} offset={0.1} darkness={1.1} />
           <Noise opacity={0.05} />
           <ChromaticAberration offset={new THREE.Vector2(0.0015, 0.0015)} />
@@ -393,7 +471,7 @@ const NexusCore = ({ linkedProject, projectEntries, language, setLinkedProject, 
       {hoveredNode && (
         <div style={{
           position: 'absolute', bottom: 40, left: 40, background: 'rgba(2, 6, 23, 0.85)', padding: '25px', 
-          border: '1px solid #1e293b', borderRadius: '4px', color: '#fff', width: '300px', boxRendering: 'optimizeSpeed',
+          border: '1px solid #1e293b', borderRadius: '4px', color: '#fff', width: '300px',
           backdropFilter: 'blur(10px)', borderLeft: `4px solid ${hoveredNode.color || '#fff'}`
         }}>
           <div style={{ color: '#64748b', fontSize: '0.6rem', marginBottom: '8px', letterSpacing: '2px' }}>MODULE IDENTIFIER</div>
