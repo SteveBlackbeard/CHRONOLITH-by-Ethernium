@@ -1,4 +1,4 @@
-name: 🚀 PyPI Publish
+name: PyPI Publish
 
 on:
   release:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-publish:
-    name: 📦 Build and Publish to PyPI
+    name: Build and Publish to PyPI
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -33,6 +33,11 @@ jobs:
         rm -rf dist/
         python -m build
         
+    - name: Validate built artifacts
+      run: |
+        cd ${{ matrix.package-path }}
+        python -m twine check dist/*
+
     - name: Publish to PyPI
       env:
         TWINE_USERNAME: __token__
