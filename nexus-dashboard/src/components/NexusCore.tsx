@@ -2438,6 +2438,7 @@ const NexusCore = ({
   const [editModePassword, setEditModePassword] = useState('');
   const [selectedSentinelIndex, setSelectedSentinelIndex] = useState<number | null>(null);
   const [sentinelAssetDraft, setSentinelAssetDraft] = useState<Partial<NodeAssetStage> | null>(null);
+  const [linkedSystemScanTimes, setLinkedSystemScanTimes] = useState<Record<string, number>>({});
   const audioContextRef = useRef<AudioContext | null>(null);
   const controlsRef = useRef<any>(null);
   const assetFileInputRef = useRef<HTMLInputElement>(null);
@@ -3073,6 +3074,7 @@ const NexusCore = ({
       setLinkedSystems((prev) =>
         prev.map((entry) => (entry.id === system.id ? { ...entry, entries: payload.entries || [] } : entry)),
       );
+      setLinkedSystemScanTimes((prev) => ({ ...prev, [system.id]: Date.now() }));
     } catch (error: any) {
       setToastMsg({ msg: 'SCAN_FAILED', detail: error?.message || system.name });
       setTimeout(() => setToastMsg(null), 2400);
@@ -3619,6 +3621,18 @@ const NexusCore = ({
           ? `${tt(t, 'core.active_system', 'SYSTEM')}: ${primaryLinkedSystem.name}`
           : modeReasonText
       );
+  const formatScanAge = useCallback((timestamp?: number) => {
+    if (!timestamp) return 'NEVER';
+    const deltaMs = Date.now() - timestamp;
+    const seconds = Math.max(0, Math.floor(deltaMs / 1000));
+    if (seconds < 60) return `${seconds}s`;
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h`;
+    const days = Math.floor(hours / 24);
+    return `${days}d`;
+  }, []);
   const dockSystemLabel = selectedSentinelIndex !== null
     ? 'SENTINEL_FAMILY'
     : inspectorCapabilities.system?.name || primaryLinkedSystem?.name || 'ROOT';
@@ -3860,25 +3874,52 @@ const NexusCore = ({
                 <div style={{ fontSize: '0.5rem', color: 'rgba(255,255,255,0.55)' }}>NO_LINKED_SYSTEMS</div>
               )}
               {imperiumSystems.map((system) => (
-                <div key={system.id} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-                  <button
-                    onClick={() => {
-                      setActiveLinkedSystemId(system.id);
-                      const node = allNodes.find((n) => n.id === `project-${system.id}`) || null;
-                      if (node) focusNode(node);
-                    }}
-                    className="btn-nexus"
-                    style={dockCommandButtonStyle({ id: `focus-${system.id}`, label: 'FOCUS', onClick: () => {} })}
-                  >
-                    {`FOCUS ${system.name}`}
-                  </button>
-                  <button
-                    onClick={() => setActiveLinkedSystemId(system.id)}
-                    className="btn-nexus"
-                    style={dockCommandButtonStyle({ id: `active-${system.id}`, label: 'SET_ACTIVE', onClick: () => {} })}
-                  >
-                    {`SET_ACTIVE`}
-                  </button>
+                <div key={system.id} style={{ display: 'flex', flexDirection: 'column', gap: '6px', padding: '6px 8px', border: `1px solid ${signals.palette.border}`, background: 'rgba(10,16,26,0.72)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', fontSize: '0.48rem', letterSpacing: '1.6px', color: 'rgba(255,255,255,0.72)' }}>
+                    <span>{system.name}</span>
+                    <span>{system.accessMode ? system.accessMode.toUpperCase() : 'RUNTIME'}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', fontSize: '0.44rem', letterSpacing: '1.4px', color: 'rgba(255,255,255,0.5)' }}>
+                    <span>{`ENTRIES ${system.entries.length}`}</span>
+                    <span>{`LAST_SCAN ${formatScanAge(linkedSystemScanTimes[system.id])}`}</span>
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                    <button
+                      onClick={() => {
+                        setActiveLinkedSystemId(system.id);
+                        const node = allNodes.find((n) => n.id === `project-${system.id}`) || null;
+                        if (node) focusNode(node);
+                      }}
+                      className="btn-nexus"
+                      style={dockCommandButtonStyle({ id: `focus-${system.id}`, label: 'FOCUS', onClick: () => {} })}
+                    >
+                      {`FOCUS`}
+                    </button>
+                    <button
+                      onClick={() => setActiveLinkedSystemId(system.id)}
+                      className="btn-nexus"
+                      style={dockCommandButtonStyle({ id: `active-${system.id}`, label: 'SET_ACTIVE', onClick: () => {} })}
+                    >
+                      {`SET_ACTIVE`}
+                    </button>
+                    <button
+                      onClick={() => void refreshLinkedSystem(system)}
+                      className="btn-nexus"
+                      style={dockCommandButtonStyle({ id: `scan-${system.id}`, label: 'SCAN', onClick: () => {} })}
+                    >
+                      {`SCAN`}
+                    </button>
+                    <button
+                      onClick={() => {
+                        setActiveLinkedSystemId(system.id);
+                        setUnlinkModal('unlink');
+                      }}
+                      className="btn-nexus"
+                      style={dockCommandButtonStyle({ id: `unlink-${system.id}`, label: 'UNLINK', onClick: () => {} })}
+                    >
+                      {`UNLINK`}
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
