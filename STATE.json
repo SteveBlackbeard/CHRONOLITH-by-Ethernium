@@ -1,18 +1,18 @@
 {
   "phase": "stable",
   "last_update": "2026-04-05T10:55:45.281220",
-  "signature": "4669359e7cf5698ae53500aa25e7d0bd88e446a5c1c62b7a2016583840e1831b",
-  "merkle_root": "54c569a4e988056748c865d9ae751dad284d44861b4520b1d1ee4f1a8529b24f",
-  "last_check": "2026-04-12T08:19:14.444188",
+  "signature": "1506e0e1199f11176015f9e2a01d43f17637a0c2e0551ac3c627e653a840bba0",
+  "merkle_root": "6332c42067f02ee23b9ed469a104b8c684d2c492abb4cfeb713cbaa400ac7ae7",
+  "last_check": "2026-04-12T15:49:15.968915",
   "physics": {
-    "H": 4.965771,
+    "H": 4.965145,
     "H_max": 5.426265,
-    "eta": 0.915136,
+    "eta": 0.915021,
     "N": 43,
-    "W": 149606,
-    "gini": -0.37863
+    "W": 150088,
+    "gini": -0.379282
   },
-  "drift_kl": 0.000403,
+  "drift_kl": 0.000145,
   "file_sizes": {
     "BENCHMARKS.md": 1487,
     "CASE_STUDY_DRIFT.md": 2401,
@@ -53,10 +53,10 @@
     "README.md": 22569,
     "RELEASE_NOTES_MANIFEST.md": 5070,
     "RELEASE_STAGING_PLAN.md": 2760,
-    "REPO_AND_PYPI_RELEASE_CHECKLIST.md": 2991,
+    "REPO_AND_PYPI_RELEASE_CHECKLIST.md": 3292,
     "SECURITY.md": 1656,
     "SESSION_LOG.md": 233,
-    "SESSION_TOKEN_REPORT.md": 13801
+    "SESSION_TOKEN_REPORT.md": 13982
   },
   "crystallizer_version": "3.0.1"
 }
