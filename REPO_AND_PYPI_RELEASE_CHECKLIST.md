@@ -103,6 +103,10 @@ So the honest conclusion is:
 
 - GitHub release: `pypi-v3.0.2` (title: `v3.0.2 - HOTFIX`)
 - PyPI package: `ethernium-continuity-legacy==3.0.2`
+  https://pypi.org/project/ethernium-continuity-legacy/3.0.2/
 - PyPI package: `ethernium-continuity-lite==3.0.2`
+  https://pypi.org/project/ethernium-continuity-lite/3.0.2/
 - PyPI package: `ethernium-continuity-pro==3.0.2`
+  https://pypi.org/project/ethernium-continuity-pro/3.0.2/
 - PyPI package: `ethernium-continuity-omega==3.0.2`
+  https://pypi.org/project/ethernium-continuity-omega/3.0.2/
