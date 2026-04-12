@@ -409,3 +409,9 @@ The **NEXUS Phase** is governed by the **THE_CHOSEN_ONES** protocol. Open source
 | `continuity-pro/.continuity/templates/README.md` | Template overview for continuity scaffolds. |
 | `continuity-pro/.continuity/templates/external_docs/README.md` | External-document template usage notes. |
 | `continuity-pro/.continuity/registry/README.md` | Registry notes for internal continuity bookkeeping. |
+
+### PyPI Links (v3.0.2)
+- `https://pypi.org/project/ethernium-continuity-legacy/3.0.2/`
+- `https://pypi.org/project/ethernium-continuity-lite/3.0.2/`
+- `https://pypi.org/project/ethernium-continuity-pro/3.0.2/`
+- `https://pypi.org/project/ethernium-continuity-omega/3.0.2/`
