@@ -181,7 +181,7 @@ Continuity Legacy uses a **Total Decoupling** design. Editions are not a monolit
 *   **Common Substrate**: All editions share the `.continuity/STATE.json` and `PROJECT_CONTEXT.md`.
 *   **Passive Interoperability**: A change registered by one edition is immediately visible to others, ensuring the logical lineage flows without friction.
 
-### 📊 The NEXUS v2.10.0 Sovereign Audit Cycle
+### 📊 The NEXUS v2.10.0 Cryptographic Audit Cycle
 ```mermaid
 sequenceDiagram
     participant D as Developer (Architect)
@@ -191,7 +191,7 @@ sequenceDiagram
     participant DNA as DNA Ledger (STATE.json)
 
     D->>SDK: Sign Context Seed
-    SDK->>HG: Verify Sovereign Identity
+    SDK->>HG: Verify Cryptographic Identity
     HG->>TC: Audit Collaborator Key
     alt Identity Verified
         TC->>HG: Grant Access (Open Nucleotides)
@@ -217,7 +217,7 @@ Continuity Legacy can be integrated into your workflow in three main ways:
 ## 🧠 Key Features (Industrial Symphony)
 - **Metabolism Optimization**: Typ-Rich engine with <100ms startup and lazy-loading of cores.
 - **DNA Synthesis**: Merkle Tree cryptographic protection (SHA-256).
-- **Sovereign Identity**: Digital signing of Project DNA using ED25519 (v2.6.0+).
+- **Cryptographic Identity**: Digital signing of Project DNA using ED25519 (v2.6.0+).
 - **Dual Bridge Portals**: Symmetric Identity for ZIP files (`Ethernium_Portal_Inside/Outside`).
 - **Token Sentinel**: Context telemetry and x10 optimization via ENE.
 - **Governance**: Sentinel Guardian with automatic Git-Hooks and session logging.
@@ -267,7 +267,7 @@ graph LR
 graph TD
     A[Context Gravity] -- "Raw Fragments" --> B((Entropy Reduction))
     B -- "Minimizing H(X)" --> C[Logic Density Maximized]
-    C -- "NEXUS Core" --> D{Sovereign Persistence}
+    C -- "NEXUS Core" --> D{Cryptographic Persistence}
     D -- "Authorized" --> E[Instant Context Restoration]
     D -- "Unauthorized" --> F[Semantic Silence]
 ```
