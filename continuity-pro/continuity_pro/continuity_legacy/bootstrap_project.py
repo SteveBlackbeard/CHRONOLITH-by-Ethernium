@@ -4,9 +4,14 @@ import argparse
 import json
 from pathlib import Path
 
-from core.automation_common import load_config, resolve_repo_root, save_config, write_text
-from core.hook_utils import install_pre_commit_hook
-from sync_external_dev_context import sync_external_dev_context
+try:
+    from .automation_common import load_config, resolve_repo_root, save_config, write_text
+    from .hook_utils import install_pre_commit_hook
+    from .sync_external_dev_context import sync_external_dev_context
+except (ImportError, ValueError):
+    from automation_common import load_config, resolve_repo_root, save_config, write_text
+    from hook_utils import install_pre_commit_hook
+    from sync_external_dev_context import sync_external_dev_context
 
 
 TOKEN_FILES = [
@@ -62,7 +67,10 @@ def bootstrap_project(
     # Run Discovery if enabled
     discovery_performed = False
     if discover:
-        from discover_project import generate_context_draft
+        try:
+            from .discover_project import generate_context_draft
+        except (ImportError, ValueError):
+            from discover_project import generate_context_draft
         draft_content = generate_context_draft(repo_root, project_name)
         (repo_root / "PROJECT_CONTEXT.md").write_text(draft_content, encoding="utf-8")
         discovery_performed = True
@@ -119,7 +127,10 @@ def bootstrap_project(
         external_report = {"status": "skipped", "reason": "external_docs_disabled"}
 
     # Install Git Hooks for automation by default
-    from core.hook_utils import install_pre_commit_hook, install_pre_push_hook
+    try:
+        from .hook_utils import install_pre_commit_hook, install_pre_push_hook
+    except (ImportError, ValueError):
+        from hook_utils import install_pre_commit_hook, install_pre_push_hook
     hooks_installed = install_pre_commit_hook(repo_root) and install_pre_push_hook(repo_root)
 
     return {

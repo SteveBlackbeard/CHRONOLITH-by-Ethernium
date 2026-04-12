@@ -88,7 +88,10 @@ def generate_project_dna(repo_root, collection):
     # 1. Cryptographic Layer: Merkle Tree of all project Markdown files
     # This maintains strict parity with Lite and Pro editions.
     try:
-        from core.automation_common import build_merkle_tree, calculate_sha256
+        try:
+            from .automation_common import build_merkle_tree, calculate_sha256
+        except ImportError:
+            from automation_common import build_merkle_tree, calculate_sha256
         md_files = sorted(list(Path(repo_root).rglob("*.md")))
         nucleotides = []
         md_hashes = {}

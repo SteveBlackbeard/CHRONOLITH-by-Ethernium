@@ -3,12 +3,20 @@ from __future__ import annotations
 import argparse
 import json
 
-from core.automation_common import (
-    ALLOWED_MEMBERSHIP_STATUSES,
-    load_membership_registry,
-    resolve_repo_root,
-    utc_now_iso,
-)
+try:
+    from .automation_common import (
+        ALLOWED_MEMBERSHIP_STATUSES,
+        load_membership_registry,
+        resolve_repo_root,
+        utc_now_iso,
+    )
+except (ImportError, ValueError):
+    from automation_common import (
+        ALLOWED_MEMBERSHIP_STATUSES,
+        load_membership_registry,
+        resolve_repo_root,
+        utc_now_iso,
+    )
 
 
 def check_system_membership(repo_root: str) -> dict:
