@@ -2256,18 +2256,26 @@ function SceneRig({
 
 function ZoomTierTracker({
   onZoomTierChange,
+  onZoomChange,
 }: {
   onZoomTierChange: (tier: ZoomTier) => void;
+  onZoomChange?: (zoom: number) => void;
 }) {
   const { camera } = useThree();
   const tierRef = useRef<ZoomTier>(deriveZoomTier(('zoom' in camera ? (camera as THREE.OrthographicCamera).zoom : 30)));
+  const lastZoomRef = useRef<number>('zoom' in camera ? (camera as THREE.OrthographicCamera).zoom : 30);
 
   useFrame(() => {
     if (!('zoom' in camera)) return;
-    const nextTier = deriveZoomTier((camera as THREE.OrthographicCamera).zoom);
+    const zoom = (camera as THREE.OrthographicCamera).zoom;
+    const nextTier = deriveZoomTier(zoom);
     if (nextTier !== tierRef.current) {
       tierRef.current = nextTier;
       onZoomTierChange(nextTier);
+    }
+    if (onZoomChange && Math.abs(zoom - lastZoomRef.current) > 0.01) {
+      lastZoomRef.current = zoom;
+      onZoomChange(zoom);
     }
   });
 
@@ -2417,6 +2425,7 @@ const NexusCore = ({
   const [audioArmed, setAudioArmed] = useState(false);
   const [cameraMode, setCameraMode] = useState<CameraMode>('overview');
   const [zoomTier, setZoomTier] = useState<ZoomTier>('cluster');
+  const [cameraZoom, setCameraZoom] = useState(30);
   const [merkleReplay, setMerkleReplay] = useState<MerkleReplayEntry[]>([]);
   const [docQuery, setDocQuery] = useState('');
   const [isRightRailOpen, setIsRightRailOpen] = useState(false);
@@ -3942,6 +3951,7 @@ const NexusCore = ({
     );
   };
   const sentinelAnchor = (primaryLinkedSystem && nodesById.get(`project-${primaryLinkedSystem.id}`)?.position) || nodesById.get('core')?.position || [0, 0, 0];
+  const showRecoveryHint = cameraZoom < 3 || cameraZoom > 90;
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, zIndex: 1, background: 'transparent', overflow: 'hidden' }}>
@@ -3955,7 +3965,7 @@ const NexusCore = ({
       >
         <CanvasBackgroundSync background={signals.palette.sceneBg} fog={signals.palette.fog} />
         <SceneRig signals={signals} reducedMotion={reducedMotion} cameraMode={cameraMode} focusedNode={selectedNode} controlsRef={controlsRef} sceneBounds={sceneBounds} />
-        <ZoomTierTracker onZoomTierChange={setZoomTier} />
+        <ZoomTierTracker onZoomTierChange={setZoomTier} onZoomChange={setCameraZoom} />
         <ambientLight intensity={0.7} color="#f8fafc" />
         <directionalLight intensity={0.38} color={signals.palette.emphasis} position={[12, 28, 6]} />
         <directionalLight intensity={0.24} color={signals.palette.secondary} position={[-10, 22, -8]} />
@@ -4087,6 +4097,61 @@ const NexusCore = ({
 
       </Canvas>
       </SceneErrorBoundary>
+
+      <div
+        style={{
+          position: 'absolute',
+          top: isPhone ? 10 : 14,
+          right: isPhone ? 12 : 18,
+          zIndex: 260,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '6px',
+          pointerEvents: 'auto',
+        }}
+      >
+        <button
+          onClick={resetView}
+          className="btn-nexus"
+          style={{
+            padding: '6px 10px',
+            fontSize: '0.42rem',
+            letterSpacing: '1.8px',
+            borderColor: signals.palette.border,
+            background: 'rgba(2,6,23,0.7)',
+          }}
+        >
+          RESET_VIEW
+        </button>
+        <button
+          onClick={() => focusNode(coreNode)}
+          className="btn-nexus"
+          style={{
+            padding: '6px 10px',
+            fontSize: '0.42rem',
+            letterSpacing: '1.8px',
+            borderColor: signals.palette.border,
+            background: 'rgba(2,6,23,0.7)',
+          }}
+        >
+          FOCUS_CORE
+        </button>
+        {showRecoveryHint && (
+          <div
+            style={{
+              padding: '6px 8px',
+              fontSize: '0.38rem',
+              letterSpacing: '1.8px',
+              color: signals.palette.warning,
+              border: `1px solid ${signals.palette.border}`,
+              background: 'rgba(2,6,23,0.68)',
+              textAlign: 'center',
+            }}
+          >
+            ZOOM_EXTREME // USE RESET
+          </div>
+        )}
+      </div>
 
       <input
         ref={assetFileInputRef}
