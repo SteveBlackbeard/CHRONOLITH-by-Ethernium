@@ -1,7 +1,8 @@
-import logging
+﻿import logging
 import hashlib
 import os
 import json
+import sys
 from pathlib import Path
 from datetime import datetime
 from typing import Optional, List
@@ -13,16 +14,32 @@ from rich.table import Table
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich import print as rprint
 
+def _configure_stdio_for_unicode() -> bool:
+    for stream_name in ("stdout", "stderr"):
+        stream = getattr(sys, stream_name, None)
+        if stream is not None and hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
+    encoding = ((getattr(sys.stdout, "encoding", None) or "") + (getattr(sys.stderr, "encoding", None) or "")).lower()
+    return "utf" in encoding
+
+UNICODE_OK = _configure_stdio_for_unicode()
+
+PRO_ICON = "PRO"
+CHECK_ICON = "OK"
+
 # CONTINUITY LEGACY Pro (v2.1.0) - Solemne Evolution DNA Guardian
 # -------------------------------------------------------------
 # [!] Industrial Grade Refactor: Typer CLI, Rich UI, SHA-256 Signatures, Structured Logs.
 
 app = typer.Typer(
-    help="🏛️ Continuity Legacy Pro: The enterprise AI continuity framework for industrial handoffs.",
+    help=f"{PRO_ICON} Continuity Legacy Pro: The enterprise AI continuity framework for industrial handoffs.",
     add_completion=False,
-    no_args_is_help=True
+    no_args_is_help=True,
 )
-console = Console()
+console = Console(emoji=False)
 
 ASCII_ART = """
 [bold magenta]
@@ -95,7 +112,7 @@ def crystallize_readme(repo_root: Path, merkle_root: str):
         parts = content.split(marker)
         new_content = parts[0] + marker + crystal_text + marker.join(parts[1:])
         readme_path.write_text(new_content, encoding="utf-8")
-        console.log(f"[bold magenta][✔][/bold magenta] README Crystallized: {merkle_root[:8]}")
+        console.log(f"[bold magenta][âœ”][/bold magenta] README Crystallized: {merkle_root[:8]}")
 
 @app.command()
 def init(
@@ -121,7 +138,7 @@ def init(
         if not path.exists():
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(template, encoding="utf-8")
-            console.log(f"    [green][✔][/green] Crystallized: [italic]{filename}[/italic]")
+            console.log(f"    [green][âœ”][/green] Crystallized: [italic]{filename}[/italic]")
 
     if not no_hook:
         hook_path = root / ".git" / "hooks" / "pre-push"
@@ -129,7 +146,7 @@ def init(
         hook_content = f"#!/bin/sh\n# Continuity Pro Evolution Hook\necho '[*] Guarding Pro DNA...'\npython \"{Path(__file__).resolve()}\" check --strict || exit 1\n"
         hook_path.write_text(hook_content, encoding="utf-8")
         if os.name != "nt": os.chmod(hook_path, 0o755)
-        console.log(f"[bold green][✔][/bold green] Pro Push Hook installed.")
+        console.log(f"[bold green][âœ”][/bold green] Pro Push Hook installed.")
 
 @app.command()
 def check(
@@ -202,7 +219,7 @@ def log(
     with open(log_path, "a", encoding="utf-8") as f:
         f.write(f"| {datetime.utcnow().strftime('%Y-%m-%d')} | Intent: {intent} | Developer Session | Solemne Admin |\n")
     
-    console.log(f"[bold magenta][✔][/bold magenta] Intent logged into [italic]DECISIONS_LOG.md[/italic]")
+    console.log(f"[bold magenta][âœ”][/bold magenta] Intent logged into [italic]DECISIONS_LOG.md[/italic]")
 
 def main():
     app()

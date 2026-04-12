@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ethernium-continuity-lite"
-version = "3.0.1"
+version = "3.0.2"
 authors = [
   { name = "SteveBlackbeard" },
 ]
@@ -17,7 +17,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "typer[all]>=0.9.0",
+    "typer>=0.9.0",
     "rich>=13.0.0",
 ]
 
@@ -30,5 +30,3 @@ continuity-lite = "continuity_lite.continuity_legacy.run_continuity_lite:main"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["continuity_lite*"]
-
-

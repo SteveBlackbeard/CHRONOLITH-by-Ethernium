@@ -1,7 +1,8 @@
-import logging
+﻿import logging
 import hashlib
 import os
 import json
+import sys
 from pathlib import Path
 from datetime import datetime
 from typing import Optional, List
@@ -13,17 +14,31 @@ from rich.table import Table
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich import print as rprint
 
+def _configure_stdio_for_unicode() -> bool:
+    for stream_name in ("stdout", "stderr"):
+        stream = getattr(sys, stream_name, None)
+        if stream is not None and hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
+    encoding = ((getattr(sys.stdout, "encoding", None) or "") + (getattr(sys.stderr, "encoding", None) or "")).lower()
+    return "utf" in encoding
+
+UNICODE_OK = _configure_stdio_for_unicode()
+
+OMEGA_ICON = "OMEGA"
+
 # CONTINUITY LEGACY OMEGA (v2.1.0) - Celestial Cognitive Oracle
 # -------------------------------------------------------------
 # [!] Industrial Grade Refactor: Typer CLI, Rich UI, RAG, Cognitive Maps.
 
 app = typer.Typer(
-    help="🏛️ Continuity Legacy Omega: The pinnacle AI oracle. Advanced RAG and cognitive mapping.",
+    help=f"{OMEGA_ICON} Continuity Legacy Omega: The pinnacle AI oracle. Advanced RAG and cognitive mapping.",
     add_completion=False,
-    no_args_is_help=True
+    no_args_is_help=True,
 )
-console = Console()
-
+console = Console(emoji=False)
 ASCII_ART = """
 [bold blue]
    ______ ____   _   __ ______ ____ _   __ _   __ ____ ______  __  __
@@ -91,7 +106,7 @@ def init(
         if not path.exists():
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(template, encoding="utf-8")
-            console.log(f"    [cyan][✔][/cyan] Crystallized: [italic]{filename}[/italic]")
+            console.log(f"    [cyan][âœ”][/cyan] Crystallized: [italic]{filename}[/italic]")
 
     if not no_hook:
         hook_path = root / ".git" / "hooks" / "pre-push"
@@ -99,7 +114,7 @@ def init(
         hook_content = f"#!/bin/sh\n# Continuity Omega Evolution Hook\necho '[*] Guarding Celestial DNA...'\npython \"{Path(__file__).resolve()}\" index || exit 1\n"
         hook_path.write_text(hook_content, encoding="utf-8")
         if os.name != "nt": os.chmod(hook_path, 0o755)
-        console.log(f"[bold blue][✔][/bold blue] Omega Push Hook (Auto-Index) installed.")
+        console.log(f"[bold blue][âœ”][/bold blue] Omega Push Hook (Auto-Index) installed.")
 
 @app.command()
 def index(
@@ -191,7 +206,7 @@ def log(
     with open(log_path, "a", encoding="utf-8") as f:
         f.write(f"- [{datetime.now().isoformat()}Z] {intent}\n")
     
-    console.log(f"[bold blue][✔][/bold blue] Intent captured in SESSION_LOG.md")
+    console.log(f"[bold blue][âœ”][/bold blue] Intent captured in SESSION_LOG.md")
 
 def main():
     app()
