@@ -13,7 +13,6 @@ export const CoreShaderMaterial = shaderMaterial(
     u_isWireframe: 0.0,
     u_intensity: 1.0
   },
-  // Vertex Shader
   `
     uniform float u_time;
     uniform float u_entropy;
@@ -27,17 +26,17 @@ export const CoreShaderMaterial = shaderMaterial(
     void main() {
       vPosition = position;
       
-      // Entropy and Drift stabilization logic
-      float instability = (1.0 - u_entropy) * 3.0;
+      float instability = (1.0 - u_entropy) * 2.4 + u_drift * 1.4;
       vec3 pos = position;
       
       if (instability > 0.1) {
-        float noise = sin(position.x * 20.0 + u_time * 8.0) * cos(position.y * 20.0 + u_time * 8.0);
-        pos += normal * noise * instability * 0.05;
+        float waveA = sin(position.x * 5.5 + u_time * 0.9);
+        float waveB = cos(position.z * 4.8 - u_time * 0.75);
+        float liquid = waveA * waveB;
+        pos += normal * liquid * instability * 0.024;
       }
       
-      // Pulse scaling
-      pos += normal * u_pulse * 0.4;
+      pos += normal * u_pulse * 0.12;
 
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
       vViewPosition = -mvPosition.xyz;
@@ -45,7 +44,6 @@ export const CoreShaderMaterial = shaderMaterial(
       gl_Position = projectionMatrix * mvPosition;
     }
   `,
-  // Fragment Shader
   `
     uniform float u_time;
     uniform float u_drift;
@@ -61,29 +59,24 @@ export const CoreShaderMaterial = shaderMaterial(
     void main() {
       vec3 normal = normalize(vNormal);
       vec3 viewDir = normalize(vViewPosition);
+      float ndv = max(0.0, dot(normal, viewDir));
+      float rim = pow(1.0 - ndv, 2.4);
+      float specular = pow(max(0.0, dot(reflect(-viewDir, normal), vec3(0.0, 1.0, 0.25))), 12.0);
+      float liquidSweep = 0.5 + 0.5 * sin((vPosition.x + vPosition.z) * 4.0 - u_time * 1.8);
+      float pulseFactor = u_pulse * 0.55;
 
-      // Fresnel rim effect
-      float dotProduct = max(0.0, dot(normal, viewDir));
-      float rim = 1.0 - dotProduct;
-      float fresnel = pow(rim, 4.0);
-      
-      vec3 color = u_baseColor;
-      
-      // Procedural scanlines
-      float scanline = sin(vPosition.y * 80.0 - u_time * 5.0) * 0.02;
-      
-      // Pulse flash
-      color = mix(color, vec3(1.0, 1.0, 1.0), u_pulse);
-      
+      vec3 shadowMetal = u_baseColor * 0.22;
+      vec3 bodyMetal = u_baseColor * (0.34 + liquidSweep * 0.08);
+      vec3 liquidLight = mix(vec3(0.55), vec3(0.78), liquidSweep) * (0.035 + rim * 0.05 + pulseFactor * 0.03);
+      vec3 reflected = vec3(1.0) * (specular * 0.08 + rim * 0.04);
+      vec3 finalColor = (shadowMetal + bodyMetal + liquidLight + reflected) * max(0.14, u_intensity);
+
       if (u_isWireframe > 0.5) {
-          // Energetic wireframe for AAA Bloom
-          gl_FragColor = vec4(color * 3.0 * u_intensity, 1.0);
+        float wireAlpha = clamp(0.03 + rim * 0.05 + pulseFactor * 0.02, 0.03, 0.1);
+        gl_FragColor = vec4(mix(u_baseColor * 0.76, vec3(0.88), rim * 0.08) * max(0.06, u_intensity), wireAlpha);
       } else {
-          // Solid glass look with high-freq signal noise
-          float flicker = 0.98 + sin(u_time * 60.0) * 0.02;
-          float alpha = (0.4 + (fresnel * 0.5) + u_pulse + max(0.0, scanline)) * flicker;
-          vec3 finalColor = color * (0.6 + fresnel * 0.7 * u_intensity);
-          gl_FragColor = vec4(finalColor, min(alpha, 1.0));
+        float alpha = clamp(0.18 + rim * 0.08 + specular * 0.03 + pulseFactor * 0.02, 0.16, 0.3);
+        gl_FragColor = vec4(finalColor, alpha);
       }
     }
   `
