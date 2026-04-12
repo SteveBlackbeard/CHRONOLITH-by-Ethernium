@@ -945,6 +945,7 @@ function NodeGlyphSprite({
 
 function getNodeBadge(node: GraphNode) {
   const lowerLabel = node.label.toLowerCase();
+  if (node.id === 'imperium') return 'IMPERIUM_NODE';
   if (node.cluster === 'linked-root') return 'LINKED_SYSTEM';
   if (node.cluster === 'dashboard' && node.orbitLevel === 2) return 'DASHBOARD_CORE';
   if (node.cluster === 'agents' && node.orbitLevel === 2) return 'AGENT_CORE';
@@ -1292,7 +1293,7 @@ class NodeAssetErrorBoundary extends React.Component<
 
 // SYSTEM NODE
 function SystemNode({
-  node, isPulsing, isSelected = false, eta = 1.0, drift = 0.0, signals, zoomTier, reducedMotion = false, familyAssetOverrides, activityState = 'neutral', editMode, onHover, onUnhover, onClick, onOpenAssetPicker, onSelectForEdit, onDraftAssetOffset, onCommitAssetOffset, onDraftAssetRotation, onCommitAssetRotation, onDraftAssetScale, onCommitAssetScale,
+  node, isPulsing, isSelected = false, eta = 1.0, drift = 0.0, signals, zoomTier, reducedMotion = false, familyAssetOverrides, activityState = 'neutral', editMode, onHover, onUnhover, onClick, onOpenAssetPicker, onSelectForEdit, onDraftAssetOffset, onCommitAssetOffset, onDraftAssetRotation, onCommitAssetRotation, onDraftAssetScale, onCommitAssetScale, imperiumOrbit,
 }: {
   node: GraphNode;
   isPulsing?: boolean;
@@ -1316,12 +1317,15 @@ function SystemNode({
   onCommitAssetRotation?: (nodeId: string) => void;
   onDraftAssetScale?: (nodeId: string, scale: number) => void;
   onCommitAssetScale?: (nodeId: string) => void;
+  imperiumOrbit?: { center: [number, number, number]; radius: number };
 }) {
   const [hovered, setHovered] = useState(false);
   const groupRef = useRef<THREE.Group>(null!);
+  const anchorRef = useRef<THREE.Group>(null!);
   const draggingRef = useRef(false);
   const rotatingRef = useRef(false);
   const scalingRef = useRef(false);
+  const isImperium = node.id === 'imperium';
   const isLinkPlaceholder = node.type === 'link-placeholder';
   const isSphereNode = node.shape === 'sphere';
   const baseColor = node.color || '#888';
@@ -1549,6 +1553,20 @@ function SystemNode({
     ? <NodeGlyphSprite kind="folder" accent={familyAccent} scale={scale * 1.28} opacity={Math.max(0.34, labelOpacity * 0.8)} />
     : null;
 
+  const wrapWithAnchor = (children: React.ReactNode) =>
+    isImperium ? <group ref={anchorRef}>{children}</group> : <NodeAnchor position={node.position}>{children}</NodeAnchor>;
+
+  useFrame((state) => {
+    if (!isImperium || !imperiumOrbit || !anchorRef.current) return;
+    const t = state.clock.elapsedTime;
+    const angle = t * 0.08;
+    anchorRef.current.position.set(
+      imperiumOrbit.center[0] + Math.cos(angle) * imperiumOrbit.radius,
+      node.position[1],
+      imperiumOrbit.center[2] + Math.sin(angle) * imperiumOrbit.radius,
+    );
+  });
+
   useFrame((state, delta) => {
     if (!groupRef.current) return;
     const t = state.clock.elapsedTime + node.id.length * 0.09;
@@ -1590,9 +1608,8 @@ function SystemNode({
   });
 
   if (usesExternalAsset) {
-    return (
-      <NodeAnchor position={node.position}>
-        <group ref={groupRef} onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
+    return wrapWithAnchor(
+      <group ref={groupRef} onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <mesh visible={false} onClick={pClick} onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerLeave={endDrag}>
             <sphereGeometry args={[scale * 0.84, 18, 18]} />
           </mesh>
@@ -1671,16 +1688,14 @@ function SystemNode({
               </div>
             </Html>
           )}
-        </group>
-      </NodeAnchor>
+      </group>,
     );
   }
 
   // 3D SHAPES
   if (node.shape === 'octahedron') {
-    return (
-      <NodeAnchor position={node.position}>
-        <group ref={groupRef} onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
+    return wrapWithAnchor(
+      <group ref={groupRef} onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           {/* 3D Invisible Hitbox for Guaranteed Selection */}
           <mesh visible={false} onClick={pClick}>
             <sphereGeometry args={[scale * 0.8, 16, 16]} />
@@ -1696,15 +1711,13 @@ function SystemNode({
               <NodeLabel badge={badge} label={node.label} color={familyAccent} opacity={labelOpacity} />
             </group>
           )}
-        </group>
-      </NodeAnchor>
+      </group>,
     );
   }
 
   if (node.shape === 'tetrahedron') {
-    return (
-      <NodeAnchor position={node.position}>
-        <group ref={groupRef} onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
+    return wrapWithAnchor(
+      <group ref={groupRef} onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <mesh visible={false} onClick={pClick}>
             <sphereGeometry args={[scale * 0.8, 16, 16]} />
           </mesh>
@@ -1721,15 +1734,13 @@ function SystemNode({
               <NodeLabel badge={badge} label={node.label} color={familyAccent} opacity={labelOpacity} />
             </group>
           )}
-        </group>
-      </NodeAnchor>
+      </group>,
     );
   }
 
   if (node.shape === 'sphere') {
-    return (
-      <NodeAnchor position={node.position}>
-        <group ref={groupRef} onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
+    return wrapWithAnchor(
+      <group ref={groupRef} onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <mesh visible={false} onClick={pClick}>
             <sphereGeometry args={[scale * 0.6, 16, 16]} />
           </mesh>
@@ -1748,8 +1759,7 @@ function SystemNode({
               <NodeLabel badge={badge} label={node.label} color={familyAccent} opacity={labelOpacity} />
             </group>
           )}
-        </group>
-      </NodeAnchor>
+      </group>,
     );
   }
 
@@ -1767,9 +1777,8 @@ function SystemNode({
       ? 'markdown'
       : 'generic';
 
-    return (
-      <NodeAnchor position={node.position}>
-        <group ref={groupRef} onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
+    return wrapWithAnchor(
+      <group ref={groupRef} onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <mesh visible={false} onClick={pClick}>
             <sphereGeometry args={[scale * 0.8, 16, 16]} />
           </mesh>
@@ -1784,16 +1793,14 @@ function SystemNode({
               <NodeLabel badge={badge} label={node.label} color={familyAccent} compact opacity={labelOpacity} />
             </group>
           )}
-        </group>
-      </NodeAnchor>
+      </group>,
     );
   }
 
   // FOLDER SHAPE
   if (node.shape === 'folder-icon') {
-    return (
-      <NodeAnchor position={node.position}>
-        <group ref={groupRef} onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
+    return wrapWithAnchor(
+      <group ref={groupRef} onPointerOver={pOver} onPointerOut={pOut} onClick={pClick}>
           <mesh visible={false} onClick={pClick}>
             <sphereGeometry args={[scale * 0.8, 16, 16]} />
           </mesh>
@@ -1803,8 +1810,7 @@ function SystemNode({
               <NodeLabel badge={badge} label={`/${node.label}`} color={familyAccent} compact opacity={labelOpacity} />
             </group>
           )}
-        </group>
-      </NodeAnchor>
+      </group>,
     );
   }
 
@@ -2767,6 +2773,15 @@ const NexusCore = ({
       maxZ: Number.NEGATIVE_INFINITY,
     });
   }, [allNodes]);
+
+  const imperiumOrbit = useMemo(() => {
+    const centerX = (sceneBounds.minX + sceneBounds.maxX) / 2;
+    const centerZ = (sceneBounds.minZ + sceneBounds.maxZ) / 2;
+    const extentX = Math.max(4, (sceneBounds.maxX - sceneBounds.minX) / 2);
+    const extentZ = Math.max(4, (sceneBounds.maxZ - sceneBounds.minZ) / 2);
+    const radius = Math.max(extentX, extentZ) + 6.5;
+    return { center: [centerX, 0, centerZ] as [number, number, number], radius };
+  }, [sceneBounds]);
   const visibleNodeIds = useMemo(() => new Set(visibleNodes.map((node) => node.id)), [visibleNodes]);
   const visibleEdges = useMemo(
     () => allEdges.filter((edge) => visibleNodeIds.has(edge.from) && visibleNodeIds.has(edge.to)),
@@ -3898,6 +3913,7 @@ const NexusCore = ({
               onCommitAssetRotation={commitNodeAssetRotation}
               onDraftAssetScale={draftNodeAssetScale}
               onCommitAssetScale={commitNodeAssetScale}
+              imperiumOrbit={imperiumOrbit}
             />
         ))}
 
@@ -4517,4 +4533,3 @@ interface NexusCoreProps {
 }
 
 export default NexusCore;
-
