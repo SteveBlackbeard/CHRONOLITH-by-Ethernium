@@ -98,3 +98,11 @@ So the honest conclusion is:
 2. Split dashboard changes from Python/package changes if possible.
 3. Run a clean package build/install test.
 4. Tag only after the clean install passes.
+
+## Latest release status (v3.0.2)
+
+- GitHub release: `pypi-v3.0.2` (title: `v3.0.2 - HOTFIX`)
+- PyPI package: `ethernium-continuity-legacy==3.0.2`
+- PyPI package: `ethernium-continuity-lite==3.0.2`
+- PyPI package: `ethernium-continuity-pro==3.0.2`
+- PyPI package: `ethernium-continuity-omega==3.0.2`
