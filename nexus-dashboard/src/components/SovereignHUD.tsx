@@ -1,27 +1,13 @@
-"use client";
-import React, { useState, useEffect } from 'react';
-import { Shield, Zap, Hexagon, Activity, Lock, Terminal, Globe } from 'lucide-react';
+﻿"use client";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Shield, Zap, Activity, Lock, Terminal, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Language, LANGUAGES, translations } from '@/lib/i18n';
+import { Language, LANGUAGES, LANGUAGE_NAMES, translations, translateActiveCommand, translateModeLabel, translateReason, translateTrust, tt } from '@/lib/i18n';
+import { LinkedSystem, ScannedEntry } from '@/lib/graphData';
+import { ChainEventSnapshot, ChainStatusSnapshot, deriveDashboardSignals, StateSnapshot } from '@/lib/telemetry';
+import { listTopLevelEntriesFromHandle, registerLinkedSystemHandle, removeLinkedSystemHandle } from '@/lib/filesystemHandles';
 
-interface PhysicsData {
-  H: number;
-  H_max: number;
-  eta: number;
-  N: number;
-  W: number;
-  gini: number;
-}
-
-interface StateData {
-  merkle_root: string;
-  last_check: string;
-  physics: PhysicsData;
-  drift_kl: number;
-  crystallizer_version: string;
-}
-
-const DEFAULT_STATE: StateData = {
+const DEFAULT_STATE: StateSnapshot = {
   merkle_root: "awaiting_crystallization",
   last_check: new Date().toISOString(),
   physics: { H: 0, H_max: 0, eta: 0, N: 0, W: 0, gini: 0 },
@@ -30,41 +16,119 @@ const DEFAULT_STATE: StateData = {
 };
 
 interface HUDProps {
-  linkedProject: string | null;
-  setLinkedProject: (project: string | null) => void;
-  setProjectEntries: (entries: any[]) => void;
+  linkedSystems: LinkedSystem[];
+  activeLinkedSystemId: string | null;
+  setLinkedSystems: React.Dispatch<React.SetStateAction<LinkedSystem[]>>;
+  setActiveLinkedSystemId: React.Dispatch<React.SetStateAction<string | null>>;
   language: Language;
   setLanguage: (lang: Language) => void;
+  externalState?: StateSnapshot | null;
+  chainEvents: ChainEventSnapshot[];
+  chainStatus: ChainStatusSnapshot | null;
+  setChainStatus: React.Dispatch<React.SetStateAction<ChainStatusSnapshot | null>>;
+  activeCommand: string | null;
+  setActiveCommand: React.Dispatch<React.SetStateAction<string | null>>;
+  refreshChainEvents: () => Promise<any> | void;
+  refreshSystemState: () => Promise<any> | void;
 }
 
-const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries, language, setLanguage }: HUDProps) => {
-  const [activeAction, setActiveAction] = useState<string | null>(null);
-  const [state, setState] = useState<StateData>(DEFAULT_STATE);
+type DirectoryPickerWindow = Window & {
+  showDirectoryPicker?: (options?: { mode?: 'read' | 'readwrite' }) => Promise<FileSystemDirectoryHandle>;
+};
+
+const SovereignHUD = ({
+  linkedSystems,
+  activeLinkedSystemId,
+  setLinkedSystems,
+  setActiveLinkedSystemId,
+  language,
+  setLanguage,
+  externalState,
+  chainEvents,
+  chainStatus,
+  setChainStatus,
+  activeCommand,
+  setActiveCommand,
+  refreshChainEvents,
+  refreshSystemState,
+}: HUDProps) => {
+  const state = externalState || DEFAULT_STATE;
   const [hoveredItem, setHoveredItem] = useState<{ id: string; text: string; x: number; y: number } | null>(null);
   const [langOpen, setLangOpen] = useState(false);
-  const [chainEvents, setChainEvents] = useState<any[]>([]);
-  const [chainStatus, setChainStatus] = useState<{ intact: boolean; error?: string } | null>(null);
+  const [viewportWidth, setViewportWidth] = useState(1440);
   const t = translations[language] || translations['EN'];
-
-  const fetchEvents = () => fetch('/api/events').then(r => r.json()).then(d => setChainEvents(d.events || [])).catch(() => {});
+  const primaryLinkedSystem = linkedSystems.find((system) => system.id === activeLinkedSystemId) || linkedSystems[0] || null;
 
   useEffect(() => {
-    fetch('/api/state').then(r => r.json()).then(setState).catch(() => {});
-    fetchEvents();
-    const interval = setInterval(() => {
-      fetch('/api/state').then(r => r.json()).then(setState).catch(() => {});
-      fetchEvents();
-    }, 5000);
-    return () => clearInterval(interval);
+    const updateViewport = () => setViewportWidth(window.innerWidth);
+    updateViewport();
+    window.addEventListener('resize', updateViewport);
+    return () => window.removeEventListener('resize', updateViewport);
   }, []);
+
+  const createSystemId = (name: string) => `system-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}-${Date.now().toString(36)}`;
+
+  const upsertLinkedSystem = (
+    systemName: string,
+    rootPath: string,
+    entries: ScannedEntry[],
+    accessMode: LinkedSystem['accessMode'] = 'runtime',
+  ) => {
+    const normalizedRoot = (rootPath || systemName).trim();
+    const existing = linkedSystems.find((system) => system.rootPath === normalizedRoot || system.name === systemName);
+    const nextSystem: LinkedSystem = existing || {
+      id: createSystemId(systemName),
+      name: systemName,
+      rootPath: normalizedRoot,
+      entries: [],
+      accessMode,
+    };
+
+    setLinkedSystems((prev) => {
+      if (existing) {
+        return prev.map((system) => system.id === existing.id ? { ...system, name: systemName, rootPath: normalizedRoot, entries, accessMode } : system);
+      }
+      return [...prev, { ...nextSystem, entries, accessMode }];
+    });
+    setActiveLinkedSystemId(nextSystem.id);
+    return nextSystem.id;
+  };
+
+  const unlinkSystem = (systemId: string) => {
+    removeLinkedSystemHandle(systemId);
+    setLinkedSystems((prev) => {
+      const remaining = prev.filter((system) => system.id !== systemId);
+      setActiveLinkedSystemId((current) => current === systemId ? (remaining[0]?.id || null) : current);
+      return remaining;
+    });
+  };
+
+  const deriveStructuralEntries = (files: FileList) => {
+    const seen = new Set<string>();
+    const entries: ScannedEntry[] = [];
+
+    for (let i = 0; i < Math.min(files.length, 64); i++) {
+      // @ts-ignore
+      const rel = files[i].webkitRelativePath || files[i].name;
+      const parts = rel.split('/');
+      if (parts.length > 1 && !seen.has(parts[1])) {
+        seen.add(parts[1]);
+        entries.push({
+          name: parts[1],
+          type: parts.length > 2 ? 'dir' : 'file',
+        });
+      }
+    }
+
+    return entries;
+  };
 
   const handleLinkProject = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
       // @ts-ignore
       const path = files[0].webkitRelativePath?.split('/')[0] || files[0].name;
-      setLinkedProject(path);
-      setActiveAction(`SCANNING_${path.toUpperCase()}`);
+      setActiveCommand(`SCANNING_${path.toUpperCase()}`);
 
       // Try to scan the project directory via our backend
       try {
@@ -75,55 +139,63 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries, lang
         });
         const data = await res.json();
         if (data.success) {
-          if ('ACCESS' === 'ACCESS') {
-            const projectName = data.output?.match(/ROOT DIRECTORY:\s*([^\n]+)/)?.[1] || path;
-            setLinkedProject(projectName);
-            setProjectEntries(data.entries || []);
-          }
+          const projectName = data.output?.match(/ROOT DIRECTORY:\s*([^\n]+)/)?.[1] || path;
+          const systemId = upsertLinkedSystem(projectName, path, data.entries || [], 'runtime');
+          removeLinkedSystemHandle(systemId);
           setTimeout(() => {
-            fetch('/api/state').then(r => r.json()).then(setState).catch(() => {});
-            fetchEvents();
+            refreshChainEvents();
+            refreshSystemState();
           }, 500);
         } else {
-          // If scan fails (expected for browser-uploaded dirs), generate nodes from file list
-          const seen = new Set<string>();
-          const entries: any[] = [];
-          for (let i = 0; i < Math.min(files.length, 50); i++) {
-            // @ts-ignore
-            const rel = files[i].webkitRelativePath || files[i].name;
-            const parts = rel.split('/');
-            if (parts.length > 1 && !seen.has(parts[1])) {
-              seen.add(parts[1]);
-              entries.push({
-                name: parts[1],
-                type: parts.length > 2 ? 'dir' : 'file',
-              });
-            }
-          }
-          setProjectEntries(entries);
+          const systemId = upsertLinkedSystem(path, path, deriveStructuralEntries(files), 'structural');
+          removeLinkedSystemHandle(systemId);
         }
       } catch {
-        // Fallback: derive structure from uploaded file paths
-        const seen = new Set<string>();
-        const entries: any[] = [];
-        for (let i = 0; i < Math.min(files.length, 50); i++) {
-          // @ts-ignore
-          const rel = files[i].webkitRelativePath || files[i].name;
-          const parts = rel.split('/');
-          if (parts.length > 1 && !seen.has(parts[1])) {
-            seen.add(parts[1]);
-            entries.push({
-              name: parts[1],
-              type: parts.length > 2 ? 'dir' : 'file',
-            });
-          }
-        }
-        setProjectEntries(entries);
+        const systemId = upsertLinkedSystem(path, path, deriveStructuralEntries(files), 'structural');
+        removeLinkedSystemHandle(systemId);
       }
 
-      setTimeout(() => setActiveAction(null), 2500);
+      setTimeout(() => setActiveCommand(null), 2500);
+      e.target.value = '';
     }
   };
+
+  const openLinkFlow = useCallback(async () => {
+    setActiveCommand('ACCESS_PORT');
+    const pickerWindow = window as DirectoryPickerWindow;
+
+    if (typeof pickerWindow.showDirectoryPicker === 'function') {
+      try {
+        const directoryHandle = await pickerWindow.showDirectoryPicker({ mode: 'read' });
+        const entries = await listTopLevelEntriesFromHandle(directoryHandle);
+        const systemId = upsertLinkedSystem(directoryHandle.name, directoryHandle.name, entries, 'handle');
+        registerLinkedSystemHandle(systemId, directoryHandle);
+        setTimeout(() => {
+          refreshChainEvents();
+          refreshSystemState();
+        }, 300);
+        setTimeout(() => setActiveCommand(null), 1500);
+        return;
+      } catch (error) {
+        const pickerError = error as DOMException | undefined;
+        if (pickerError?.name === 'AbortError') {
+          setActiveCommand(null);
+          return;
+        }
+      }
+    }
+
+    document.getElementById('project-linker')?.click();
+  }, [refreshChainEvents, refreshSystemState, setActiveCommand]);
+
+  useEffect(() => {
+    const handleConfirmLink = () => {
+      void openLinkFlow();
+    };
+
+    window.addEventListener('continuity:confirm-link', handleConfirmLink);
+    return () => window.removeEventListener('continuity:confirm-link', handleConfirmLink);
+  }, [openLinkFlow]);
 
   const showTooltip = (id: string, text: string, e: React.MouseEvent) => {
     setHoveredItem({ id, text, x: e.clientX, y: e.clientY });
@@ -131,10 +203,10 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries, lang
 
   const triggerAction = async (action: string) => {
     if (action === 'ACCESS') {
-      document.getElementById('project-linker')?.click();
+      window.dispatchEvent(new CustomEvent('continuity:open-link-modal'));
       return;
     }
-    setActiveAction(action);
+    setActiveCommand(action);
     
     // Map button actions to API endpoints or internal logic
     const endpointMap: Record<string, string> = {
@@ -152,9 +224,13 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries, lang
         const result = await response.json();
         
         if (result.success) {
-          // Success: Refresh telemetry to show new state
-          const newState = await fetch('/api/state').then(r => r.json());
-          setState(newState);
+          // Success: Root will fetch new state automatically via polling
+          refreshChainEvents();
+          refreshSystemState();
+          setTimeout(() => {
+            refreshChainEvents();
+            refreshSystemState();
+          }, 450);
         } else {
           console.error(`[SOVEREIGN] ${action} Failed:`, result.error);
         }
@@ -163,7 +239,7 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries, lang
       }
     }
 
-    setTimeout(() => setActiveAction(null), 2500);
+    setTimeout(() => setActiveCommand(null), 2500);
   };
 
   const verifyChain = async () => {
@@ -177,86 +253,163 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries, lang
     }
   };
 
-  const healthLabel = state.physics.eta >= 0.75
-    ? t['hud.health.healthy'] : state.physics.eta >= 0.50
-    ? t['hud.health.moderate'] : t['hud.health.severe'];
+  const signals = useMemo(() => deriveDashboardSignals({
+    state,
+    chainEvents,
+    chainStatus,
+    activeAction: activeCommand,
+    linkedProject: primaryLinkedSystem?.name || null,
+    linkedProjectCount: linkedSystems.length,
+  }), [activeCommand, chainEvents, chainStatus, linkedSystems.length, primaryLinkedSystem?.name, state]);
+  const modeLabelText = translateModeLabel(signals.modeLabel, t);
+  const modeReasonText = translateReason(signals.modeReason, t);
+  const chainTrustText = translateTrust(signals.chainTrustLabel, t);
+  const activeCommandText = translateActiveCommand(activeCommand, t);
 
-  const healthColor = state.physics.eta >= 0.75
-    ? "#ffffff" : state.physics.eta >= 0.50
-    ? "#a1a1aa" : "#ef4444";
+  const glowText = { color: '#ffffff', textShadow: '0 0 18px rgba(255,255,255,0.24)' } as const;
+  const softText = { color: 'rgba(255,255,255,0.76)', textShadow: '0 0 12px rgba(255,255,255,0.16)' } as const;
+  const faintText = { color: 'rgba(255,255,255,0.64)', textShadow: '0 0 10px rgba(255,255,255,0.12)' } as const;
+  const isTablet = viewportWidth < 1180;
+  const isPhone = viewportWidth < 780;
+  const isTiny = viewportWidth < 420;
+  const rootPadding = isTiny ? 10 : isPhone ? 12 : isTablet ? 18 : 24;
+  const rightTabReserve = isTiny ? 28 : isPhone ? 34 : isTablet ? 46 : 56;
+  const sidebarWidth = isTablet
+    ? Math.max(
+        isTiny ? 170 : isPhone ? 190 : 250,
+        Math.min(isPhone ? 228 : 300, viewportWidth - rightTabReserve - rootPadding * 3),
+      )
+    : 336;
+  const compactButtonStyle = isPhone
+    ? { padding: '9px 14px', fontSize: '0.56rem', letterSpacing: '2px' as const }
+    : isTablet
+    ? { padding: '10px 18px', fontSize: '0.6rem', letterSpacing: '2.4px' as const }
+    : undefined;
+  const chainPreviewCount = isPhone ? 3 : 4;
 
   return (
-    <div style={{ position: 'absolute', inset: 0, zIndex: 10, display: 'flex', padding: '24px', pointerEvents: 'none', overflow: 'hidden' }}>
+    <div style={{ position: 'absolute', inset: 0, zIndex: 10, display: 'flex', padding: `${rootPadding}px`, pointerEvents: 'none', overflow: 'hidden' }}>
       {/* Sidebar */}
-      <aside className="glass-panel" style={{ width: '340px', display: 'flex', flexDirection: 'column', pointerEvents: 'auto', padding: '24px', background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(40px)' }}>
+      <aside
+        className="glass-panel hide-scrollbar"
+        style={{
+          width: `${sidebarWidth}px`,
+          display: 'flex',
+          flexDirection: 'column',
+          pointerEvents: 'auto',
+          padding: isPhone ? '16px 14px 14px' : isTablet ? '18px 16px 16px' : '20px 20px 18px',
+          background: signals.palette.panel,
+          backdropFilter: 'none',
+          border: `1px solid ${signals.palette.border}`,
+          boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08), 0 18px 48px rgba(0,0,0,0.16)',
+          maxHeight: `calc(100vh - ${rootPadding * 2}px)`,
+          overflowY: 'auto',
+        }}
+      >
         {/* Brand */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '40px' }}>
-          <div style={{ width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff' }}>
-            <Hexagon size={18} color="#000" />
-          </div>
-          <div>
-            <h1 className="text-gradient" style={{ fontSize: '1.25rem', fontWeight: 900, lineHeight: 1.1 }}>CONTINUITY LEGACY</h1>
-            <p style={{ fontSize: '0.55rem', color: '#71717a', letterSpacing: '3px', textTransform: 'uppercase' }}>{t['hud.brand']} // v{state.crystallizer_version}</p>
-          </div>
-        </div>
-
-        {/* Physics Telemetry */}
-        <div style={{ padding: '16px', border: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.02)', marginBottom: '16px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-            <div className="pulse-dot" />
-            <span style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '2px', color: healthColor }}>{healthLabel}</span>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-            <div 
-              onMouseEnter={(e) => showTooltip('entropy', t['hud.tooltip.entropy'], e)}
-              onMouseLeave={() => setHoveredItem(null)}
-            >
-              <p style={{ fontSize: '0.55rem', color: '#71717a', textTransform: 'uppercase', letterSpacing: '1px' }}>{t['hud.entropy']}</p>
-              <p style={{ fontSize: '1.8rem', fontWeight: 900, fontVariantNumeric: 'tabular-nums' }}>{state.physics.H.toFixed(4)}</p>
-            </div>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: isPhone ? '10px' : '14px', marginBottom: isPhone ? '20px' : '28px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: isPhone ? '12px' : '16px', minWidth: 0 }}>
             <div
-              onMouseEnter={(e) => showTooltip('balance', t['hud.tooltip.balance'], e)}
-              onMouseLeave={() => setHoveredItem(null)}
+              style={{
+                position: 'relative',
+                width: isPhone ? '44px' : '48px',
+                height: isPhone ? '44px' : '48px',
+                padding: '2px',
+                background: `linear-gradient(145deg, ${signals.palette.border}, rgba(255,255,255,0.06))`,
+                borderRadius: '14px',
+                flexShrink: 0,
+                boxShadow: `0 0 0 1px ${signals.palette.border}, 0 12px 28px rgba(0,0,0,0.22)`,
+              }}
             >
-              <p style={{ fontSize: '0.55rem', color: '#71717a', textTransform: 'uppercase', letterSpacing: '1px' }}>{t['hud.balance']}</p>
-              <p style={{ fontSize: '1.8rem', fontWeight: 900, fontVariantNumeric: 'tabular-nums' }}>{state.physics.eta.toFixed(3)}</p>
+              <div style={{ position: 'absolute', inset: '-5px', borderRadius: '18px', border: `1px solid ${signals.palette.border}`, opacity: 0.42 }} />
+              <div style={{ position: 'relative', width: '100%', height: '100%', background: '#000', borderRadius: '12px', overflow: 'hidden' }}>
+                <img
+                  src="/assets/branding/dawdad.png"
+                  alt="Ethernium mark"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(255,255,255,0.04), transparent 48%, rgba(255,255,255,0.02))', mixBlendMode: 'normal' }} />
+              </div>
+            </div>
+            <div style={{ minWidth: 0 }}>
+              <h1 className="text-gradient" style={{ fontSize: '1.25rem', fontWeight: 900, lineHeight: 1.1 }}>CONTINUITY LEGACY</h1>
+              <p style={{ ...softText, fontSize: '0.55rem', letterSpacing: '3px', textTransform: 'uppercase' }}>{t['hud.brand']} // v{state.crystallizer_version}</p>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginTop: '8px', padding: '4px 8px', background: signals.palette.panelSoft, border: `1px solid ${signals.palette.border}`, boxShadow: `0 0 22px ${signals.palette.accent}14` }}>
+                <div className="pulse-dot" style={{ width: '6px', height: '6px', background: signals.palette.accent, boxShadow: `0 0 12px ${signals.palette.accent}` }} />
+                <span style={{ ...glowText, fontSize: '0.46rem', letterSpacing: '2px', color: signals.palette.emphasis }}>{modeLabelText}</span>
+              </div>
+              <div style={{ ...faintText, fontSize: '0.42rem', letterSpacing: '2px', marginTop: '7px', fontFamily: 'var(--font-mono)' }}>SIGNATURE_MARK // ETHERNIUM</div>
             </div>
           </div>
-
-          <div style={{ marginTop: '12px', display: 'flex', gap: '16px' }}>
-            <div>
-              <p style={{ fontSize: '0.5rem', color: '#52525b' }}>H_max</p>
-              <p style={{ fontSize: '0.75rem', fontWeight: 600 }}>{state.physics.H_max.toFixed(2)} bits</p>
-            </div>
-            <div>
-              <p style={{ fontSize: '0.5rem', color: '#52525b' }}>Gini</p>
-              <p style={{ fontSize: '0.75rem', fontWeight: 600 }}>{Math.abs(state.physics.gini).toFixed(3)}</p>
-            </div>
-            <div>
-              <p style={{ fontSize: '0.5rem', color: '#52525b' }}>{t['hud.blocks']}</p>
-              <p style={{ fontSize: '0.75rem', fontWeight: 600 }}>{state.physics.N}</p>
-            </div>
-            <div
-              onMouseEnter={(e) => showTooltip('drift', t['hud.tooltip.drift'], e)}
-              onMouseLeave={() => setHoveredItem(null)}
+          <div style={{ position: 'relative', flexShrink: 0 }}>
+            <button
+              onClick={() => setLangOpen(!langOpen)}
+              className="btn-liquid-3d"
+              style={{ padding: isPhone ? '6px 12px' : '6px 16px', fontSize: '0.6rem', borderRadius: '50px', background: '#ffffff', color: '#000' }}
+              title={tt(t, 'hud.language', 'LANGUAGE')}
             >
-              <p style={{ fontSize: '0.5rem', color: '#52525b' }}>{t['hud.drift']}</p>
-              <p style={{ fontSize: '0.75rem', fontWeight: 600 }}>{state.drift_kl.toFixed(4)}</p>
-            </div>
+              <Globe size={14} color="#000" style={{ marginRight: '8px' }} />
+              {language}
+            </button>
+            <AnimatePresence>
+              {langOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  style={{
+                    position: 'absolute',
+                    top: '100%',
+                     right: 0,
+                     marginTop: '8px',
+                     background: 'rgba(8,8,8,0.96)',
+                     backdropFilter: 'none',
+                     border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    padding: '4px 0',
+                    minWidth: '126px',
+                    zIndex: 20,
+                  }}
+                >
+                  {LANGUAGES.map((lang) => (
+                    <div
+                      key={lang}
+                      onClick={() => { setLanguage(lang); setLangOpen(false); }}
+                      style={{
+                        padding: '8px 12px',
+                        fontSize: '0.62rem',
+                        fontFamily: 'var(--font-mono)',
+                        cursor: 'pointer',
+                        color: lang === language ? '#60a5fa' : '#fff',
+                        background: lang === language ? 'rgba(255,255,255,0.05)' : 'transparent',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: '10px',
+                      }}
+                    >
+                      <span>{lang}</span>
+                      <span style={{ opacity: 0.68 }}>{LANGUAGE_NAMES[lang]}</span>
+                    </div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
         {/* Modular Nodes */}
-        <div style={{ marginBottom: '24px' }}>
-          <p style={{ fontSize: '0.55rem', color: '#52525b', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>{t['hud.cluster']}</p>
+        <div style={{ marginBottom: '18px' }}>
+          <p style={{ ...faintText, fontSize: '0.55rem', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>{t['hud.cluster']}</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
             {['LITE', 'PRO', 'OMEGA'].map((node) => (
               <div key={node} style={{ border: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.02)', padding: '8px', textAlign: 'center' }}>
-                <p style={{ fontSize: '0.45rem', color: '#71717a', marginBottom: '4px' }}>{node}</p>
+                <p style={{ ...softText, fontSize: '0.45rem', marginBottom: '4px' }}>{node}</p>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
-                  <div className="pulse-dot" style={{ width: '4px', height: '4px', background: '#fff' }} />
-                  <span style={{ fontSize: '0.5rem', fontWeight: 700 }}>{t['hud.live']}</span>
+                  <div className="pulse-dot" style={{ width: '4px', height: '4px', background: signals.palette.accent, boxShadow: `0 0 10px ${signals.palette.accent}` }} />
+                  <span style={{ ...glowText, fontSize: '0.5rem', fontWeight: 700 }}>{t['hud.live']}</span>
                 </div>
               </div>
             ))}
@@ -264,78 +417,127 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries, lang
         </div>
 
         {/* Command Buttons */}
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: 'auto' }}>
-          <p style={{ fontSize: '0.55rem', color: '#52525b', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '4px' }}>{t['hud.protocols']}</p>
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: isPhone ? '10px' : '12px', marginBottom: 'auto' }}>
+          <p style={{ ...faintText, fontSize: '0.6rem', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '8px' }}>{t['hud.protocols']}</p>
           <button 
             onMouseEnter={(e) => showTooltip('synth', t['hud.tooltip.synth'], e)}
             onMouseLeave={() => setHoveredItem(null)}
             onClick={() => triggerAction('CRYSTALLIZE')} 
-            className="btn-nexus"
+            className="btn-liquid-3d"
+            style={compactButtonStyle}
           >
-            <Zap size={14} /> <span>{t['hud.synth_dna']}</span>
+            <Zap size={14} style={{ marginRight: '10px' }} /> <span>{t['hud.synth_dna']}</span>
           </button>
           <button 
             onMouseEnter={(e) => showTooltip('audit', t['hud.tooltip.audit'], e)}
             onMouseLeave={() => setHoveredItem(null)}
             onClick={() => triggerAction('AUDIT')} 
-            className="btn-nexus"
+            className="btn-liquid-3d"
+            style={compactButtonStyle}
           >
-            <Activity size={14} /> <span>{t['hud.audit_physics']}</span>
+            <Activity size={14} style={{ marginRight: '10px' }} /> <span>{t['hud.audit_physics']}</span>
           </button>
           <button 
             onMouseEnter={(e) => showTooltip('seal', t['hud.tooltip.seal'], e)}
             onMouseLeave={() => setHoveredItem(null)}
             onClick={() => triggerAction('SEAL')} 
-            className="btn-nexus"
+            className="btn-liquid-3d"
+            style={compactButtonStyle}
           >
-            <Lock size={14} /> <span>{t['hud.seal_vault']}</span>
+            <Lock size={14} style={{ marginRight: '10px' }} /> <span>{t['hud.seal_vault']}</span>
           </button>
           <button 
-            onMouseEnter={(e) => showTooltip('access', linkedProject ? t['hud.tooltip.linked'] : t['hud.tooltip.link'], e)}
+            onMouseEnter={(e) => showTooltip('access', linkedSystems.length > 0 ? t['hud.tooltip.linked'] : t['hud.tooltip.link'], e)}
             onMouseLeave={() => setHoveredItem(null)}
             onClick={() => triggerAction('ACCESS')} 
-            className="btn-nexus primary" 
-            style={{ marginTop: '8px' }}
+            className="btn-liquid-3d" 
+            style={{ ...compactButtonStyle, marginTop: isPhone ? '8px' : '12px' }}
           >
-            <Shield size={14} /> <span>{linkedProject ? `${t['hud.linked']} ${linkedProject}` : t['hud.link_project']}</span>
+            <Shield size={14} style={{ marginRight: '10px' }} /> <span>{linkedSystems.length > 0 ? `${tt(t, 'hud.add_system', 'ADD_SYSTEM')} // ${linkedSystems.length}` : t['hud.link_project']}</span>
           </button>
         </nav>
 
+        {linkedSystems.length > 0 && (
+          <div style={{ marginTop: '18px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '14px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+              <p style={{ ...faintText, fontSize: '0.55rem', letterSpacing: '2px', textTransform: 'uppercase' }}>{tt(t, 'hud.ecosystem', 'ECOSYSTEM')}</p>
+              <span style={{ ...softText, fontSize: '0.48rem', fontFamily: 'var(--font-mono)' }}>{tt(t, 'hud.systems_linked', 'SYSTEMS_LINKED')}: {linkedSystems.length}</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {linkedSystems.map((system, index) => {
+                const active = system.id === activeLinkedSystemId || (!activeLinkedSystemId && index === 0);
+                return (
+                  <div
+                    key={system.id}
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '1fr auto',
+                      gap: '8px',
+                      padding: '8px',
+                      border: `1px solid ${active ? signals.palette.accent : 'rgba(255,255,255,0.08)'}`,
+                      background: active ? signals.palette.panelSoft : 'rgba(255,255,255,0.02)',
+                      boxShadow: active ? `0 0 18px ${signals.palette.accent}18` : 'none',
+                    }}
+                  >
+                    <button
+                      onClick={() => setActiveLinkedSystemId(system.id)}
+                      style={{ background: 'transparent', border: 'none', color: '#fff', textAlign: 'left', padding: 0, cursor: 'pointer', minWidth: 0 }}
+                    >
+                      <div style={{ ...glowText, fontSize: '0.55rem', letterSpacing: '1.5px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{system.name}</div>
+                      <div style={{ ...softText, fontSize: '0.44rem', letterSpacing: '1.5px', fontFamily: 'var(--font-mono)' }}>
+                        {system.entries.length} nodes // {tt(t, `hud.access.${system.accessMode || 'runtime'}`, (system.accessMode || 'runtime').toUpperCase())} // {system.rootPath}
+                      </div>
+                    </button>
+                    <button
+                      onClick={() => unlinkSystem(system.id)}
+                      className="btn-nexus"
+                      style={{ padding: '6px 10px', fontSize: '0.46rem', letterSpacing: '1.5px', alignSelf: 'center' }}
+                    >
+                      {tt(t, 'hud.unlink_system', 'UNLINK')}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Event Chain */}
-        <div style={{ marginTop: '24px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '16px' }}>
+        <div style={{ marginTop: '18px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '14px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-            <p style={{ fontSize: '0.55rem', color: '#52525b', letterSpacing: '2px', textTransform: 'uppercase' }}>{t['chain.title'] || 'EVENT CHAIN'}</p>
+            <p style={{ ...faintText, fontSize: '0.55rem', letterSpacing: '2px', textTransform: 'uppercase' }}>{tt(t, 'chain.title', 'EVENT CHAIN')}</p>
             <button 
               onClick={verifyChain}
-              style={{ padding: '4px 8px', fontSize: '0.45rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', cursor: 'pointer', borderRadius: '2px', textTransform: 'uppercase' }}
+              className="btn-liquid-3d"
+              style={{ padding: '4px 12px', fontSize: '0.5rem', borderRadius: '50px' }}
             >
-              {t['chain.verify'] || 'VERIFY'}
+              {tt(t, 'chain.verify', 'VERIFY')}
             </button>
           </div>
           
           {chainStatus && (
             <div style={{ marginBottom: '12px', padding: '6px', fontSize: '0.5rem', textAlign: 'center', background: chainStatus.intact ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)', color: chainStatus.intact ? '#4ade80' : '#fca5a5', border: `1px solid ${chainStatus.intact ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)'}` }}>
-              {chainStatus.intact ? (t['chain.intact'] || '✓ CHAIN INTACT') : (t['chain.tampered'] || '✗ CHAIN TAMPERED')}
+              {chainStatus.intact ? tt(t, 'chain.intact', 'CHAIN INTACT') : tt(t, 'chain.tampered', 'CHAIN TAMPERED')}
             </div>
           )}
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {chainEvents.slice(0, 5).map((ev, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.5rem', fontFamily: 'monospace', opacity: 0.8 }}>
-                <span style={{ color: '#fff' }}>[{ev.seq}] {ev.type}</span>
-                <span style={{ color: '#71717a' }}>{ev.chain_hash.slice(0, 8)}...</span>
+            {chainEvents.slice(0, chainPreviewCount).map((ev, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.5rem', fontFamily: 'var(--font-mono)', opacity: 0.8 }}>
+                <span style={{ ...glowText }}>[{ev.seq}] {ev.type}</span>
+                <span style={{ ...softText }}>{ev.chain_hash?.slice(0, 8) || '00000000'}...</span>
               </div>
             ))}
             {chainEvents.length === 0 && (
-               <div style={{ fontSize: '0.5rem', color: '#71717a', fontStyle: 'italic' }}>{t['chain.empty'] || 'No events'}</div>
-            )}
+               <div style={{ ...softText, fontSize: '0.5rem', fontStyle: 'italic' }}>{tt(t, 'chain.empty', 'NO EVENTS')}</div>
+             )}
           </div>
         </div>
 
         {/* Footer */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '16px', marginTop: '24px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', opacity: 0.3, fontSize: '0.5rem', fontFamily: 'monospace' }}>
-            <span>ROOT</span>
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '14px', marginTop: '18px' }}>
+          <div style={{ ...softText, display: 'flex', justifyContent: 'space-between', fontSize: '0.5rem', fontFamily: 'var(--font-mono)' }}>
+            <span>{tt(t, 'hud.root', 'ROOT')}</span>
             <span>[{state.merkle_root.slice(0, 12)}]</span>
           </div>
         </div>
@@ -343,24 +545,25 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries, lang
 
       {/* Action VFX Overlay */}
       <AnimatePresence>
-        {activeAction && (
+        {activeCommand && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
             style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '80px', pointerEvents: 'none' }}
           >
-            <div className="glass-panel" style={{ padding: '80px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '32px', border: '1px solid rgba(255,255,255,0.4)' }}>
+            <div className="glass-panel" style={{ padding: isPhone ? '28px 20px' : '80px', width: isPhone ? 'min(320px, 100%)' : 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: isPhone ? '20px' : '32px', border: `1px solid ${signals.palette.border}`, background: signals.palette.panel }}>
               <motion.div animate={{ rotate: 360 }} transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}>
-                <Terminal size={40} color="#fff" />
+                <Terminal size={40} color={signals.palette.emphasis} />
               </motion.div>
-              <h2 style={{ fontSize: '2rem', fontWeight: 900, letterSpacing: '20px', textTransform: 'uppercase' }}>{activeAction}</h2>
-              <div style={{ width: '400px', height: '2px', background: 'rgba(255,255,255,0.1)', overflow: 'hidden' }}>
+              <h2 style={{ fontSize: isPhone ? '1rem' : '2rem', fontWeight: 900, letterSpacing: isPhone ? '8px' : '20px', textTransform: 'uppercase', textAlign: 'center', color: signals.palette.emphasis }}>{activeCommandText}</h2>
+              <div style={{ ...softText, fontSize: isPhone ? '0.52rem' : '0.62rem', letterSpacing: '3px', textTransform: 'uppercase' }}>{modeReasonText}</div>
+              <div style={{ width: isPhone ? '100%' : '400px', height: '2px', background: 'rgba(255,255,255,0.1)', overflow: 'hidden' }}>
                 <motion.div
                   initial={{ x: '-100%' }}
                   animate={{ x: '100%' }}
                   transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                  style={{ width: '100%', height: '100%', background: '#fff' }}
+                  style={{ width: '100%', height: '100%', background: signals.palette.accent }}
                 />
               </div>
             </div>
@@ -392,85 +595,26 @@ const SovereignHUD = ({ linkedProject, setLinkedProject, setProjectEntries, lang
               top: hoveredItem.y - 20,
               zIndex: 2000,
               padding: '12px 16px',
-              background: 'rgba(0,0,0,0.8)',
-              backdropFilter: 'blur(10px)',
+              background: 'rgba(8,8,8,0.96)',
+              backdropFilter: 'none',
               border: '1px solid rgba(255,255,255,0.1)',
               color: '#fff',
+              textShadow: '0 0 12px rgba(255,255,255,0.18)',
               fontSize: '0.65rem',
-              maxWidth: '240px',
+              maxWidth: isPhone ? '180px' : '240px',
               pointerEvents: 'none',
               lineHeight: 1.4,
               letterSpacing: '0.5px'
             }}
           >
-            <div style={{ color: '#71717a', fontSize: '0.5rem', marginBottom: '4px', textTransform: 'uppercase' }}>Protocol_Info</div>
+            <div style={{ ...softText, fontSize: '0.5rem', marginBottom: '4px', textTransform: 'uppercase' }}>{tt(t, 'hud.protocols', 'PROTOCOLS')}</div>
             {hoveredItem.text}
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Telemetry Overlay */}
-      <div style={{ position: 'absolute', top: '32px', right: '48px', textAlign: 'right', opacity: 0.15, pointerEvents: 'none', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '16px' }}>
-        <p style={{ fontSize: '0.55rem', fontFamily: 'monospace', lineHeight: 1.8 }}>
-          CONTINUITY_LEGACY_MIRROR<br />
-          CRYSTALLIZER_ENGINE: v{state.crystallizer_version}<br />
-          MERKLE: {state.merkle_root.slice(0, 24)}...<br />
-          MASS: {state.physics.W.toLocaleString()} bytes
-        </p>
-      </div>
-
-      {/* Language Selector Overlay */}
-      <div style={{ position: 'absolute', top: '24px', right: '350px', zIndex: 50, pointerEvents: 'auto' }}>
-        <div style={{ position: 'relative' }}>
-          <button
-            onClick={() => setLangOpen(!langOpen)}
-            style={{
-              background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.1)', color: '#fff',
-              padding: '6px 12px', fontSize: '0.65rem', fontFamily: 'monospace',
-              display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer',
-              borderRadius: '4px'
-            }}
-          >
-            <Globe size={14} color="#60a5fa" />
-            {language}
-          </button>
-          <AnimatePresence>
-            {langOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                style={{
-                  position: 'absolute', top: '100%', right: 0, marginTop: '8px',
-                  background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px',
-                  display: 'flex', flexDirection: 'column', padding: '4px 0',
-                  minWidth: '80px'
-                }}
-              >
-                {LANGUAGES.map((lang) => (
-                  <div
-                    key={lang}
-                    onClick={() => { setLanguage(lang); setLangOpen(false); }}
-                    style={{
-                      padding: '8px 16px', fontSize: '0.65rem', fontFamily: 'monospace',
-                      cursor: 'pointer', color: lang === language ? '#60a5fa' : '#fff',
-                      background: lang === language ? 'rgba(255,255,255,0.05)' : 'transparent',
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = lang === language ? 'rgba(255,255,255,0.05)' : 'transparent')}
-                  >
-                    {lang}
-                  </div>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
     </div>
   );
 };
 
 export default SovereignHUD;
+

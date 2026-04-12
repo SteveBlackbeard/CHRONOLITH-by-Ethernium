@@ -76,12 +76,18 @@ export async function verifyChain(): Promise<{ intact: boolean; error?: string }
     const lines = content.trim().split('\n').filter(Boolean);
     
     let expectedParentHash = '0'.repeat(64);
+    let expectedInputHash = '0'.repeat(64);
     
     for (let i = 0; i < lines.length; i++) {
       const event = JSON.parse(lines[i]) as ChainEvent;
       
       if (event.seq !== i) return { intact: false, error: `Sequence mismatch at seq ${i}` };
-      if (event.parent_hash !== expectedParentHash) return { intact: false, error: `Chain broken at seq ${i}` };
+      if (event.parent_hash !== expectedParentHash) return { intact: false, error: `Parent chain broken at seq ${i}` };
+      
+      // State Transition Verification: input_hash[n] must match output_hash[n-1]
+      if (i > 0 && event.input_hash !== expectedInputHash) {
+        return { intact: false, error: `State transition tampered at seq ${i}` };
+      }
       
       const { chain_hash, ...core } = event;
       const deterministicStr = JSON.stringify(core, Object.keys(core).sort());
@@ -90,6 +96,7 @@ export async function verifyChain(): Promise<{ intact: boolean; error?: string }
       if (computed !== chain_hash) return { intact: false, error: `Hash tampered at seq ${i}` };
       
       expectedParentHash = chain_hash;
+      expectedInputHash = event.output_hash;
     }
     
     return { intact: true };
