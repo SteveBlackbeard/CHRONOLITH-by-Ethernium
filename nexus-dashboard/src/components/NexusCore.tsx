@@ -2401,10 +2401,10 @@ function ModeDirectiveField({
   );
 }
 
-const NexusCore = ({ 
+const NexusCore = ({
   linkedSystems,
   activeLinkedSystemId,
-  language, 
+  language,
   setLinkedSystems,
   setActiveLinkedSystemId,
   physics: externalPhysics,
@@ -2414,6 +2414,11 @@ const NexusCore = ({
   chainStatus,
   activeCommand,
 }: NexusCoreProps) => {
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('NEXUS_CORE_READY'));
+    }
+  }, []);
   const [hoveredNode, setHoveredNode] = useState<GraphNode | null>(null);
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   const [openDoc, setOpenDoc] = useState<OpenDocState | null>(null);
@@ -3055,6 +3060,17 @@ const NexusCore = ({
       controls.update();
     }
   }, [signals.mode]);
+
+  useEffect(() => {
+    const handleReset = () => resetView();
+    const handleFocus = () => focusNode(coreNode);
+    window.addEventListener('NEXUS_RESET_VIEW', handleReset);
+    window.addEventListener('NEXUS_FOCUS_CORE', handleFocus);
+    return () => {
+      window.removeEventListener('NEXUS_RESET_VIEW', handleReset);
+      window.removeEventListener('NEXUS_FOCUS_CORE', handleFocus);
+    };
+  }, [coreNode, focusNode, resetView]);
 
   const focusLinkedRoot = useCallback(() => {
     const linkedRoot = primaryLinkedSystem

@@ -55,6 +55,7 @@ const SovereignHUD = ({
   const state = externalState || DEFAULT_STATE;
   const [hoveredItem, setHoveredItem] = useState<{ id: string; text: string; x: number; y: number } | null>(null);
   const [langOpen, setLangOpen] = useState(false);
+  const [nexusReady, setNexusReady] = useState(false);
   const [viewportWidth, setViewportWidth] = useState(1440);
   const t = translations[language] || translations['EN'];
   const primaryLinkedSystem = linkedSystems.find((system) => system.id === activeLinkedSystemId) || linkedSystems[0] || null;
@@ -64,6 +65,12 @@ const SovereignHUD = ({
     updateViewport();
     window.addEventListener('resize', updateViewport);
     return () => window.removeEventListener('resize', updateViewport);
+  }, []);
+
+  useEffect(() => {
+    const handleReady = () => setNexusReady(true);
+    window.addEventListener('NEXUS_CORE_READY', handleReady);
+    return () => window.removeEventListener('NEXUS_CORE_READY', handleReady);
   }, []);
 
   const createSystemId = (name: string) => `system-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}-${Date.now().toString(36)}`;
@@ -265,6 +272,10 @@ const SovereignHUD = ({
   const modeReasonText = translateReason(signals.modeReason, t);
   const chainTrustText = translateTrust(signals.chainTrustLabel, t);
   const activeCommandText = translateActiveCommand(activeCommand, t);
+  const sendNexusEvent = useCallback((name: 'NEXUS_RESET_VIEW' | 'NEXUS_FOCUS_CORE') => {
+    if (typeof window === 'undefined') return;
+    window.dispatchEvent(new Event(name));
+  }, []);
 
   const glowText = { color: '#ffffff', textShadow: '0 0 18px rgba(255,255,255,0.24)' } as const;
   const softText = { color: 'rgba(255,255,255,0.76)', textShadow: '0 0 12px rgba(255,255,255,0.16)' } as const;
@@ -339,6 +350,45 @@ const SovereignHUD = ({
                 <span style={{ ...glowText, fontSize: '0.46rem', letterSpacing: '2px', color: signals.palette.emphasis }}>{modeLabelText}</span>
               </div>
               <div style={{ ...faintText, fontSize: '0.42rem', letterSpacing: '2px', marginTop: '7px', fontFamily: 'var(--font-mono)' }}>SIGNATURE_MARK // ETHERNIUM</div>
+              <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                <div
+                  style={{
+                    padding: '4px 8px',
+                    fontSize: '0.4rem',
+                    letterSpacing: '2px',
+                    border: `1px solid ${signals.palette.border}`,
+                    background: nexusReady ? 'rgba(16,185,129,0.12)' : 'rgba(244,63,94,0.12)',
+                    color: nexusReady ? '#a7f3d0' : '#fecdd3',
+                  }}
+                >
+                  {nexusReady ? 'SCENE_ONLINE' : 'SCENE_OFFLINE'}
+                </div>
+                {!nexusReady && (
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="btn-nexus"
+                    style={{ padding: '6px 10px', fontSize: '0.42rem', letterSpacing: '2px' }}
+                  >
+                    RELOAD
+                  </button>
+                )}
+              </div>
+              <div style={{ display: 'flex', gap: '8px', marginTop: '10px', flexWrap: 'wrap' }}>
+                <button
+                  onClick={() => sendNexusEvent('NEXUS_RESET_VIEW')}
+                  className="btn-nexus"
+                  style={{ padding: '7px 10px', fontSize: '0.46rem', letterSpacing: '2px' }}
+                >
+                  RESET_VIEW
+                </button>
+                <button
+                  onClick={() => sendNexusEvent('NEXUS_FOCUS_CORE')}
+                  className="btn-nexus"
+                  style={{ padding: '7px 10px', fontSize: '0.46rem', letterSpacing: '2px' }}
+                >
+                  FOCUS_CORE
+                </button>
+              </div>
             </div>
           </div>
           <div style={{ position: 'relative', flexShrink: 0 }}>
@@ -617,4 +667,3 @@ const SovereignHUD = ({
 };
 
 export default SovereignHUD;
-
