@@ -4,8 +4,12 @@ import argparse
 import json
 from pathlib import Path
 
-from core.automation_common import bootstrap_output_path, resolve_repo_root
-from core.context_loader import build_context_snapshot, summarize_snapshot
+try:
+    from .automation_common import bootstrap_output_path, resolve_repo_root
+    from .context_loader import build_context_snapshot, summarize_snapshot
+except (ImportError, ValueError):
+    from automation_common import bootstrap_output_path, resolve_repo_root
+    from context_loader import build_context_snapshot, summarize_snapshot
 
 
 def parse_args() -> argparse.Namespace:

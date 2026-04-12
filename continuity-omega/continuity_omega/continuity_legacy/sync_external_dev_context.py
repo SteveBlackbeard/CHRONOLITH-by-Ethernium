@@ -3,8 +3,12 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from core.automation_common import external_root, load_config, read_text, resolve_repo_root
-from core.context_loader import build_context_snapshot
+try:
+    from .automation_common import external_root, load_config, read_text, resolve_repo_root
+    from .context_loader import build_context_snapshot
+except (ImportError, ValueError):
+    from automation_common import external_root, load_config, read_text, resolve_repo_root
+    from context_loader import build_context_snapshot
 
 
 def _write_text(path: Path, content: str) -> None:

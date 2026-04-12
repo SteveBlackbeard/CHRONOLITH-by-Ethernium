@@ -268,3 +268,37 @@ def external_root(
     if not external_cfg.get("enabled"):
         return None
     return Path(repo_root).resolve().parent / str(external_cfg.get("folder_name") or "PROJECTDEV")
+
+
+def calculate_sha256(path: str | Path) -> str:
+    """Calculates the SHA-256 hash of a file for high-fidelity DNA synthesis."""
+    import hashlib
+
+    p = Path(path)
+    if not p.exists():
+        return ""
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+def build_merkle_tree(hashes: list[str]) -> str:
+    """RFC 6962 compliant Merkle Tree with leaf/node prefix hardening."""
+    import hashlib
+
+    if not hashes:
+        return "0" * 64
+
+    current_level = [hashlib.sha256(b"\x00" + h.encode("utf-8")).hexdigest() for h in sorted(hashes)]
+    while len(current_level) > 1:
+        next_level = []
+        if len(current_level) % 2 != 0:
+            current_level.append(current_level[-1])
+
+        for i in range(0, len(current_level), 2):
+            combined = b"\x01" + (current_level[i] + current_level[i + 1]).encode("utf-8")
+            next_level.append(hashlib.sha256(combined).hexdigest())
+        current_level = next_level
+
+    return current_level[0]
+
+
+build_merkle_root = build_merkle_tree

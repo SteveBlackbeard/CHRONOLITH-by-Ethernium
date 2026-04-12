@@ -4,7 +4,10 @@ import argparse
 import subprocess
 from pathlib import Path
 
-from core.automation_common import Color, echo, resolve_repo_root
+try:
+    from .automation_common import Color, echo, resolve_repo_root
+except (ImportError, ValueError):
+    from automation_common import Color, echo, resolve_repo_root
 
 
 def get_git_diff_summary(root: Path) -> str:

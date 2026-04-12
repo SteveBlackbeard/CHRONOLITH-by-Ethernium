@@ -3,14 +3,24 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from core.automation_common import (
-    Color,
-    continuity_report_path,
-    echo,
-    load_config,
-    read_json,
-    resolve_repo_root,
-)
+try:
+    from .automation_common import (
+        Color,
+        continuity_report_path,
+        echo,
+        load_config,
+        read_json,
+        resolve_repo_root,
+    )
+except (ImportError, ValueError):
+    from automation_common import (
+        Color,
+        continuity_report_path,
+        echo,
+        load_config,
+        read_json,
+        resolve_repo_root,
+    )
 
 
 def display_status(repo_root: str | Path) -> None:

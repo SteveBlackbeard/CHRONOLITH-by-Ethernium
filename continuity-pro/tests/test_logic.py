@@ -36,7 +36,9 @@ class TestDecisionEngine(unittest.TestCase):
     
     def setUp(self):
         """Create a temporary directory simulating a project root."""
-        self.test_dir = tempfile.TemporaryDirectory()
+        local_tmp_root = current_dir.parent.parent / ".pytest_tmp" / "unittest"
+        local_tmp_root.mkdir(parents=True, exist_ok=True)
+        self.test_dir = tempfile.TemporaryDirectory(dir=local_tmp_root)
         self.root_path = Path(self.test_dir.name)
         
     def tearDown(self):
