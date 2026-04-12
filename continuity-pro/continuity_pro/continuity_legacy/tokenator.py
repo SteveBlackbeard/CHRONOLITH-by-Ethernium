@@ -15,8 +15,20 @@ from continuity_pro.continuity_legacy.zip_bridge import create_portal_zip, verif
 from continuity_pro.continuity_legacy.sovereign_identity import get_identity
 import math
 
+def _configure_stdio_for_unicode() -> bool:
+    for stream_name in ("stdout", "stderr"):
+        stream = getattr(sys, stream_name, None)
+        if stream is not None and hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
+    encoding = ((getattr(sys.stdout, "encoding", None) or "") + (getattr(sys.stderr, "encoding", None) or "")).lower()
+    return "utf" in encoding
+
 app = typer.Typer(help="Ethernium Tokenator: Autonomic Context Telemetry & Optimization")
-console = Console()
+UNICODE_OK = _configure_stdio_for_unicode()
+console = Console(emoji=False)
 
 # ETHERNIUM TOKENATOR (v1.0.4 - NEXUS)
 # Purpose: Reverse-engineer LLM context usage and automate cognitive density.

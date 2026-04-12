@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ethernium-continuity-legacy"
-version = "3.0.1"
+version = "3.0.2"
 authors = [
   { name = "SteveBlackbeard" },
 ]
@@ -27,7 +27,7 @@ classifiers = [
     "Topic :: Security :: Cryptography",
 ]
 dependencies = [
-    "typer[all]>=0.9.0",
+    "typer>=0.9.0",
     "rich>=13.0.0",
     "pydantic>=2.0.0",
     "networkx>=3.0",
@@ -44,7 +44,7 @@ continuity = "continuity_pro.continuity_legacy.run_continuity_cycle:main"
 continuity-lite = "continuity_lite.continuity_legacy.run_continuity_lite:main"
 continuity-pro = "continuity_pro.continuity_legacy.run_continuity_cycle:main"
 continuity-omega = "continuity_omega.continuity_legacy.run_continuity_omega:main"
-continuity-tokens = "continuity_pro.continuity_legacy.token_sentinel:main"
+continuity-tokens = "continuity_pro.continuity_legacy.tokenator:main"
 
 [tool.setuptools.packages.find]
 where = ["continuity-lite", "continuity-pro", "continuity-omega"]

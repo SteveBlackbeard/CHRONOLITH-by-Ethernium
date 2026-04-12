@@ -1,4 +1,4 @@
-import logging
+﻿import logging
 import hashlib
 import os
 import json
@@ -14,17 +14,31 @@ from rich.table import Table
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich import print as rprint
 
+def _configure_stdio_for_unicode() -> bool:
+    for stream_name in ("stdout", "stderr"):
+        stream = getattr(sys, stream_name, None)
+        if stream is not None and hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
+    encoding = ((getattr(sys.stdout, "encoding", None) or "") + (getattr(sys.stderr, "encoding", None) or "")).lower()
+    return "utf" in encoding
+
+UNICODE_OK = _configure_stdio_for_unicode()
+
+LITE_ICON = "LITE"
+
 # CONTINUITY LEGACY Lite (v2.1.0) - Evolution DNA Guardian
 # -------------------------------------------------------------
 # [!] Industrial Grade Refactor: Typer CLI, Rich UI, SHA-256 Signatures, Structured Logs.
 
 app = typer.Typer(
-    help="🏛️ Continuity Legacy Lite: The professional AI continuity framework.",
+    help=f"{LITE_ICON} Continuity Legacy Lite: The professional AI continuity framework.",
     add_completion=False,
-    no_args_is_help=True
+    no_args_is_help=True,
 )
-console = Console()
-
+console = Console(emoji=False)
 def setup_logger(repo_root: Path):
     log_dir = repo_root / ".continuity" / "logs"
     log_dir.mkdir(parents=True, exist_ok=True)
@@ -99,7 +113,7 @@ def ensure_file(path: Path, template: str, description: str):
         console.log(f"[yellow][?][/yellow] Missing Nucleotide: [bold]{description}[/bold]")
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(template, encoding="utf-8")
-        console.log(f"    [green][✔][/green] Re-synthesized: [italic]{path.name}[/italic]")
+        console.log(f"    [green][âœ”][/green] Re-synthesized: [italic]{path.name}[/italic]")
         return True
     return False
 
@@ -113,13 +127,13 @@ def install_hooks(repo_root: Path):
     abs_python = sys.executable.replace("\\", "/")
     abs_script = Path(__file__).resolve().as_posix()
     
-    # Vector 3: Mantener política Fail-Closed (|| exit 1)
-    hook_content = f"#!/bin/sh\n# Continuity Sentinel Guardian (Fail-Closed Security)\necho '[*] 🏛️ Ethernium: Guarding DNA Lineage...'\n\"{abs_python}\" \"{abs_script}\" check\nRESULT=$?\nif [ $RESULT -ne 0 ]; then\n  echo '[!] PUSH REJECTED: DNA Drift Detected. Run continuity-lite check.'\n  exit 1\nfi\nexit 0\n"
+    # Vector 3: Mantener polÃ­tica Fail-Closed (|| exit 1)
+    hook_content = f"#!/bin/sh\n# Continuity Sentinel Guardian (Fail-Closed Security)\necho '[*] ðŸ›ï¸ Ethernium: Guarding DNA Lineage...'\n\"{abs_python}\" \"{abs_script}\" check\nRESULT=$?\nif [ $RESULT -ne 0 ]; then\n  echo '[!] PUSH REJECTED: DNA Drift Detected. Run continuity-lite check.'\n  exit 1\nfi\nexit 0\n"
     hook_path.parent.mkdir(parents=True, exist_ok=True)
     hook_path.write_text(hook_content, encoding="utf-8")
     
     if os.name != "nt": os.chmod(hook_path, 0o755)
-    console.log(f"[green][✔][/green] Push Hook Guardian (v2.1.0) installed and active.")
+    console.log(f"[green][âœ”][/green] Push Hook Guardian (v2.1.0) installed and active.")
 
 
 def build_merkle_root(hashes: list[str]) -> str:
@@ -167,12 +181,12 @@ def init(
             state_data = {"phase": "stable", "last_update": datetime.utcnow().isoformat()}
             state_data["signature"] = sign_state(state_data)
             state_path.write_text(json.dumps(state_data, indent=2), encoding="utf-8")
-            console.log(f"    [green][✔][/green] Crystallized + Signed: [italic]STATE.json[/italic]")
+            console.log(f"    [green][âœ”][/green] Crystallized + Signed: [italic]STATE.json[/italic]")
 
     if not no_hook:
         install_hooks(root)
     
-    console.print(Panel("[bold green]Success:[/bold green] Continuity Core crystallized at root level. 🏛️💎🦾", title="Init Complete", expand=False))
+    console.print(Panel("[bold green]Success:[/bold green] Continuity Core crystallized at root level. ðŸ›ï¸ðŸ’ŽðŸ¦¾", title="Init Complete", expand=False))
 
 @app.command()
 def check(
@@ -207,7 +221,7 @@ def check(
     nucleotides = []
     
     if verbose:
-        table = Table(title="Nucleotide Audit Audit 🛰️", show_header=True, header_style="bold yellow")
+        table = Table(title="Nucleotide Audit Audit ðŸ›°ï¸", show_header=True, header_style="bold yellow")
         table.add_column("File", style="cyan")
         table.add_column("SHA-256 (LF-Norm)")
         
@@ -238,7 +252,7 @@ def check(
     
     if drift_detected:
         if interactive:
-            confirm = typer.confirm("⚠️ DNA mismatch detected. This might indicate unauthorized changes. Proceed anyway?", default=False)
+            confirm = typer.confirm("âš ï¸ DNA mismatch detected. This might indicate unauthorized changes. Proceed anyway?", default=False)
             if not confirm:
                 console.print("[bold red]Aborting as requested.[/bold red]")
                 raise typer.Exit(code=1)
@@ -274,7 +288,7 @@ def status(
 
     state = json.loads(state_path.read_text(encoding="utf-8"))
     
-    table = Table(title="Lineage Status 🏛️", show_header=True, header_style="bold magenta")
+    table = Table(title="Lineage Status ðŸ›ï¸", show_header=True, header_style="bold magenta")
     table.add_column("Property", style="dim")
     table.add_column("Value")
     
@@ -298,7 +312,7 @@ def log(
     with open(log_path, "a", encoding="utf-8") as f:
         f.write(f"- [{datetime.utcnow().isoformat()}Z] {intent}\n")
     
-    console.log(f"[green][✔][/green] Intent captured in SESSION_LOG.md")
+    console.log(f"[green][âœ”][/green] Intent captured in SESSION_LOG.md")
 
 def main():
     app()
