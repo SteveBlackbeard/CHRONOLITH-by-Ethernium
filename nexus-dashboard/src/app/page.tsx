@@ -1,16 +1,10 @@
 "use client";
 import React, { startTransition, useCallback, useState } from 'react';
-import dynamic from 'next/dynamic';
 import SovereignHUD from '@/components/SovereignHUD';
+import NexusCore from '@/components/NexusCore';
 import { LinkedSystem } from '@/lib/graphData';
 import { Language } from '@/lib/i18n';
 import { ChainEventSnapshot, ChainStatusSnapshot, StateSnapshot } from '@/lib/telemetry';
-
-// Loading 3D Canvas via dynamic import to avoid SSR errors
-const NexusCore = dynamic(() => import('@/components/NexusCore'), { 
-  ssr: false,
-  loading: () => <div className="absolute inset-0 bg-black" />
-});
 
 function samePhysics(left?: StateSnapshot['physics'], right?: StateSnapshot['physics']) {
   if (!left && !right) return true;
