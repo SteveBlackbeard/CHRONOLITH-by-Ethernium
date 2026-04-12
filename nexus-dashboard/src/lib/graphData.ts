@@ -242,21 +242,23 @@ export function buildStaticGraph(lang: Language, linkedSystemCount = 0): { nodes
     motionProfile: 'sentinel-linked',
   });
 
-  nodes.push({
-    id: 'imperium',
-    label: 'IMPERIUM',
-    position: [0, 0, 0],
-    type: 'edition',
-    shape: 'octahedron',
-    size: 2.6,
-    parentId: null,
-    tooltip: t['graph.imperium.tooltip'] || 'Sovereign control node for linked systems.',
-    color: '#f8fafc',
-    orbitLevel: 0,
-    importance: 'primary',
-    systemId: null,
-    motionProfile: 'sentinel-linked',
-  });
+  if (linkedSystemCount > 0) {
+    nodes.push({
+      id: 'imperium',
+      label: 'IMPERIUM',
+      position: [0, 0, 0],
+      type: 'edition',
+      shape: 'octahedron',
+      size: 2.6,
+      parentId: null,
+      tooltip: t['graph.imperium.tooltip'] || 'Sovereign control node for linked systems.',
+      color: '#f8fafc',
+      orbitLevel: 0,
+      importance: 'primary',
+      systemId: null,
+      motionProfile: 'sentinel-linked',
+    });
+  }
 
   const engines = [
     { id: 'crystallizer', label: 'CRYSTALLIZER', action: '/api/actions/crystallize', tooltip: t['graph.cryst.tooltip'] },
