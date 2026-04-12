@@ -1,4 +1,4 @@
-<p align="center">
+﻿<p align="center">
   <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
 </p>
 
@@ -8,6 +8,17 @@
 [![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_es.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/RELEASE_NOTES_MANIFEST.md) 
 
 **"The AI doesn't just remember; it reflects."** 
+
+## 🩹 v3.0.2: HOTFIX — CLI STABILITY & TOKENATOR REPAIR
+This hotfix locks CLI stability on Windows and repairs the Tokenator entrypoint so all packages run cleanly out of the box.
+
+### Fixes (v3.0.2):
+- **CLI Unicode Stability**: Standardized console output for Windows `cp1252` environments to prevent `--help` crashes.
+- **Tokenator Entrypoint**: Restored `continuity-tokens` to the real module (`tokenator`) so it executes correctly.
+- **Typer Dependency Cleanup**: Removed invalid `typer[all]` extra across packages.
+- **Package Refresh**: Rebuilt and validated all four wheels (`legacy`, `lite`, `pro`, `omega`).
+
+---
 
 ## 🌌 v3.0.1: THE GREAT CONJUNCTION (MODULAR)
 This landmark release marks the transition of **Continuity Legacy** into its final, modular industrial form. All core protocols have been decentralized and projected onto PyPI for global synchronization.
