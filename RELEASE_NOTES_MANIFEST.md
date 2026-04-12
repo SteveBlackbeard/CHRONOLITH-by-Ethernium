@@ -18,6 +18,12 @@ This hotfix locks CLI stability on Windows and repairs the Tokenator entrypoint 
 - **Typer Dependency Cleanup**: Removed invalid `typer[all]` extra across packages.
 - **Package Refresh**: Rebuilt and validated all four wheels (`legacy`, `lite`, `pro`, `omega`).
 
+### PyPI Links (v3.0.2)
+- `https://pypi.org/project/ethernium-continuity-legacy/3.0.2/`
+- `https://pypi.org/project/ethernium-continuity-lite/3.0.2/`
+- `https://pypi.org/project/ethernium-continuity-pro/3.0.2/`
+- `https://pypi.org/project/ethernium-continuity-omega/3.0.2/`
+
 ---
 
 ## 🌌 v3.0.1: THE GREAT CONJUNCTION (MODULAR)
