@@ -1,16 +1,16 @@
 {
   "phase": "stable",
   "last_update": "2026-04-05T10:55:45.281220",
-  "signature": "8e5c748ffb5900843f97e92ac09b17d2f3ec97d0b158b14b82a92a5b16e5ce04",
-  "merkle_root": "7da3867cfbe75a59dfa2174fe75f4881437d7a948b8eebf06ddcc9baf4e74287",
-  "last_check": "2026-04-12T07:06:13.065407",
+  "signature": "c5990b5daa0382da05fd1bc6a6feba150b347a9a00edab4d0497890c22e8634b",
+  "merkle_root": "a0ac7d5f6ec35ee2dd701affc187689b3042c6a2b293db31adb6ec972ee9169d",
+  "last_check": "2026-04-12T07:14:07.934631",
   "physics": {
-    "H": 4.971252,
+    "H": 4.969431,
     "H_max": 5.426265,
-    "eta": 0.916146,
+    "eta": 0.915811,
     "N": 43,
-    "W": 148432,
-    "gini": -0.374991
+    "W": 148613,
+    "gini": -0.375667
   },
   "drift_kl": 1.1e-05,
   "file_sizes": {
@@ -56,7 +56,7 @@
     "REPO_AND_PYPI_RELEASE_CHECKLIST.md": 2991,
     "SECURITY.md": 1656,
     "SESSION_LOG.md": 233,
-    "SESSION_TOKEN_REPORT.md": 13258
+    "SESSION_TOKEN_REPORT.md": 13439
   },
   "crystallizer_version": "3.0.1"
 }
