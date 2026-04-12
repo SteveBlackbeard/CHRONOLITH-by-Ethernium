@@ -1,24 +1,24 @@
 {
   "phase": "stable",
   "last_update": "2026-04-05T10:55:45.281220",
-  "signature": "e8d3fd09bca9634c1ecdda004bce8d5fd29eb5930db228816e57340b27606e62",
-  "merkle_root": "941537483eaeab56b0c9b7303fedc696c3d9885ed8e255f3c0d326d32db3817a",
-  "last_check": "2026-04-12T05:54:42.813863",
+  "signature": "47f53d922a16182cb162a9d292f244bf272e36a55c7841ec1ceed31ce49f15ee",
+  "merkle_root": "7a6f8c2fe9ada7aa594870ff06f55d657ca26fdebc8c3d5e1c974b5dbd792cd8",
+  "last_check": "2026-04-12T06:47:25.893822",
   "physics": {
-    "H": 5.08631,
+    "H": 4.973056,
     "H_max": 5.426265,
-    "eta": 0.93735,
+    "eta": 0.916479,
     "N": 43,
-    "W": 140432,
-    "gini": -0.340077
+    "W": 148251,
+    "gini": -0.374313
   },
-  "drift_kl": 0.41023,
+  "drift_kl": 0.014637,
   "file_sizes": {
     "BENCHMARKS.md": 1487,
     "CASE_STUDY_DRIFT.md": 2401,
-    "CHANGELOG.md": 1375,
-    "CONTRIBUTING.md": 1707,
-    "CONTRIBUTORS.md": 450,
+    "CHANGELOG.md": 1341,
+    "CONTRIBUTING.md": 1692,
+    "CONTRIBUTORS.md": 440,
     "ETHERNIUM_UNIVERSAL_DNA.md": 2101,
     "GOVERNANCE.md": 800,
     "HOW_TO_USE_DASHBOARD.md": 2412,
@@ -50,13 +50,13 @@
     "RELEASE_v2.1.0_ru.md": 2812,
     "RELEASE_v2.1.0_zh.md": 2088,
     "PROJECT_CONTEXT.md": 5270,
-    "README.md": 14872,
+    "README.md": 22569,
     "RELEASE_NOTES_MANIFEST.md": 4439,
     "RELEASE_STAGING_PLAN.md": 2760,
     "REPO_AND_PYPI_RELEASE_CHECKLIST.md": 2991,
     "SECURITY.md": 1656,
     "SESSION_LOG.md": 233,
-    "SESSION_TOKEN_REPORT.md": 12896
+    "SESSION_TOKEN_REPORT.md": 13077
   },
   "crystallizer_version": "3.0.1"
 }
