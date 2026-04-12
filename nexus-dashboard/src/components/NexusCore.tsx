@@ -3762,6 +3762,9 @@ const NexusCore = ({
   const renderDockContextActions = () => {
     if (!inspectorNode) return null;
 
+    const isImperium = inspectorNode.id === 'imperium';
+    const imperiumSystems = isImperium ? linkedSystems : [];
+
     const actionItems: DockCommandItem[] = [
       ...(inspectorCapabilities.kind !== 'access' && inspectorCapabilities.canFocus
         ? [{ id: 'focus', label: tt(t, 'nav.focus_core', 'FOCUS'), onClick: () => focusNode(inspectorNode) }]
@@ -3785,17 +3788,52 @@ const NexusCore = ({
   ];
 
     return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '8px' }}>
-        {actionItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={item.onClick}
-            className="btn-nexus"
-            style={dockCommandButtonStyle(item)}
-          >
-            {item.label}
-          </button>
-        ))}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        {isImperium && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '10px', border: `1px solid ${signals.palette.border}`, background: 'rgba(8,12,22,0.6)' }}>
+            <div style={{ fontSize: '0.46rem', letterSpacing: '2px', color: 'rgba(255,255,255,0.52)' }}>IMPERIUM_CONSOLE</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              {imperiumSystems.length === 0 && (
+                <div style={{ fontSize: '0.5rem', color: 'rgba(255,255,255,0.55)' }}>NO_LINKED_SYSTEMS</div>
+              )}
+              {imperiumSystems.map((system) => (
+                <div key={system.id} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                  <button
+                    onClick={() => {
+                      setActiveLinkedSystemId(system.id);
+                      const node = allNodes.find((n) => n.id === `project-${system.id}`) || null;
+                      if (node) focusNode(node);
+                    }}
+                    className="btn-nexus"
+                    style={dockCommandButtonStyle({ id: `focus-${system.id}`, label: 'FOCUS', onClick: () => {} })}
+                  >
+                    {`FOCUS ${system.name}`}
+                  </button>
+                  <button
+                    onClick={() => setActiveLinkedSystemId(system.id)}
+                    className="btn-nexus"
+                    style={dockCommandButtonStyle({ id: `active-${system.id}`, label: 'SET_ACTIVE', onClick: () => {} })}
+                  >
+                    {`SET_ACTIVE`}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '8px' }}>
+          {actionItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={item.onClick}
+              className="btn-nexus"
+              style={dockCommandButtonStyle(item)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
       </div>
     );
   };
