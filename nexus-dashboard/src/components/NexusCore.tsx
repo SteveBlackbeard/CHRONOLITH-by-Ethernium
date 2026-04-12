@@ -1,5 +1,5 @@
 ﻿"use client";
-import React, { Suspense, useRef, useMemo, useState, useCallback, useEffect, useDeferredValue } from 'react';
+import React, { useRef, useMemo, useState, useCallback, useEffect, useDeferredValue } from 'react';
 import { Canvas, useFrame, extend, ThreeElement, useThree } from '@react-three/fiber';
 import { Points, PointMaterial, Octahedron, Sphere, OrbitControls, Text, Html } from '@react-three/drei';
 import * as THREE from 'three';
@@ -11,7 +11,7 @@ import { createNodeGlyphTexture, DocumentGlyphKind } from '@/lib/nodeGlyphTextur
 import { Language, translations, translateActiveCommand, translateModeLabel, translateReason, translateSeverity, translateTrust, tt } from '@/lib/i18n';
 import { ChainEventSnapshot, ChainStatusSnapshot, DashboardSignals, deriveDashboardSignals, PhysicsSnapshot } from '@/lib/telemetry';
 import { readHandleBackedFile, removeLinkedSystemHandle } from '@/lib/filesystemHandles';
-const LazyNodeAssetRig = React.lazy(() => import('./NodeAssetRig'));
+import NodeAssetRig from './NodeAssetRig';
 
 type QualityTier = 'ultra' | 'balanced' | 'safe';
 type OpenDocState = { fileName: string; filePath: string; content: string; truncated: boolean };
@@ -665,16 +665,14 @@ function SentinelDrone({
       </mesh>
       <group ref={visualRef}>
         <NodeAssetErrorBoundary resetKey={assetResetKey} fallback={proceduralFallback}>
-          <Suspense fallback={proceduralFallback}>
-            <LazyNodeAssetRig
-              node={sentinelNode}
-              accent={isAlert ? '#ef4444' : color}
-              scale={0.575}
-              pulsing
-              selected={isAlert}
-              profile={sentinelAssetProfile}
-            />
-          </Suspense>
+          <NodeAssetRig
+            node={sentinelNode}
+            accent={isAlert ? '#ef4444' : color}
+            scale={0.575}
+            pulsing
+            selected={isAlert}
+            profile={sentinelAssetProfile}
+          />
         </NodeAssetErrorBoundary>
       </group>
       <mesh rotation={[Math.PI / 2, 0, 0]}>
@@ -1620,16 +1618,14 @@ function SystemNode({
           {resolvedAssetProfile.preserveFallback !== false && assetHybridBody}
           {resolvedAssetProfile.preserveFallback !== false && assetSupportVisual}
           <NodeAssetErrorBoundary resetKey={assetResetKey} fallback={assetFallback}>
-            <Suspense fallback={assetFallback}>
-              <LazyNodeAssetRig
-                node={node}
-                accent={familyAccent}
-                scale={scale * 1.02}
-                pulsing={Boolean(isPulsing)}
-                selected={isSelected}
-                profile={resolvedAssetProfile}
-              />
-            </Suspense>
+            <NodeAssetRig
+              node={node}
+              accent={familyAccent}
+              scale={scale * 1.02}
+              pulsing={Boolean(isPulsing)}
+              selected={isSelected}
+              profile={resolvedAssetProfile}
+            />
           </NodeAssetErrorBoundary>
           {showLabel && (
             <group position={[0, 0, -(scale * 0.7 + 1.0)]}>
@@ -2294,10 +2290,10 @@ function CanvasBackgroundSync({
   const { gl, scene } = useThree();
 
   useEffect(() => {
-    gl.setClearColor('#000000', 0);
-    scene.background = null;
+    gl.setClearColor(background || '#020617', 1);
+    scene.background = new THREE.Color(background || '#020617');
     scene.fog = null;
-  }, [gl, scene]);
+  }, [background, gl, scene]);
 
   return null;
 }
@@ -3972,15 +3968,21 @@ const NexusCore = ({
   };
   const sentinelAnchor = (primaryLinkedSystem && nodesById.get(`project-${primaryLinkedSystem.id}`)?.position) || nodesById.get('core')?.position || [0, 0, 0];
   const showRecoveryHint = cameraZoom < 3 || cameraZoom > 90;
+  const canvasBackdropStyle: React.CSSProperties = {
+    backgroundColor: '#020202',
+    backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.16) 0.9px, transparent 1.3px)',
+    backgroundSize: '32px 32px',
+    backgroundPosition: '0 0',
+  };
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, zIndex: 1, background: 'transparent', overflow: 'hidden' }}>
       <SceneErrorBoundary dictionary={t}>
       <Canvas
-        style={{ position: 'absolute', inset: 0, zIndex: 0, background: 'transparent' }}
+        style={{ position: 'absolute', inset: 0, zIndex: 0, background: 'transparent', ...canvasBackdropStyle }}
         orthographic
         dpr={qualityProfile.dpr}
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance', stencil: false }}
+        gl={{ antialias: true, alpha: false, powerPreference: 'high-performance', stencil: false }}
         camera={{ position: [0, 35, 0.001], zoom: 30, near: 0.1, far: 200 }}
       >
         <CanvasBackgroundSync background={signals.palette.sceneBg} fog={signals.palette.fog} />
