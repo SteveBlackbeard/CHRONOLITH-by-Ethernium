@@ -11,6 +11,7 @@ export type NodeAssetFamily =
   | 'sentinel';
 export type CanonicalAssetTarget =
   | 'core'
+  | 'imperium'
   | 'lite'
   | 'pro'
   | 'omega'
@@ -59,6 +60,7 @@ export type NodeAssetFamilyOverrides = Partial<Record<NodeAssetFamily, NodeAsset
 
 export const CANONICAL_ASSET_FILES: Record<CanonicalAssetTarget, string> = {
   core: '/assets/nodes/core/Core0.glb',
+  imperium: '/assets/nodes/imperium/Imperium.glb',
   lite: '/assets/nodes/edition/lite/Core1.glb',
   pro: '/assets/nodes/edition/pro/Core2.glb',
   omega: '/assets/nodes/edition/omega/Core3.glb',
@@ -75,6 +77,13 @@ const CANONICAL_ASSET_STAGE_OVERRIDES: Record<CanonicalAssetTarget, Partial<Node
     offset: [0, 0, 0],
     rotation: [0.44, 0.2, 0],
     normalizationMode: 'spatial',
+    anchorMode: 'origin',
+  },
+  imperium: {
+    scale: 1.28,
+    offset: [0, 0, 0],
+    rotation: [0, 0, 0],
+    normalizationMode: 'planar',
     anchorMode: 'origin',
   },
   lite: {
@@ -224,6 +233,7 @@ function createCanonicalStage(target: CanonicalAssetTarget, src: string, label: 
 
 export function resolveCanonicalAssetTarget(node: GraphNode): CanonicalAssetTarget | null {
   if (node.id === 'core') return 'core';
+  if (node.id === 'imperium') return 'imperium';
   if (node.id === 'lite') return 'lite';
   if (node.id === 'pro') return 'pro';
   if (node.id === 'omega') return 'omega';
