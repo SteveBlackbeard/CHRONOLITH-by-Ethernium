@@ -14,7 +14,7 @@ Continuity Legacy es un marco de sincronización de grado profesional diseñado 
 
 ##  Navigation Explorer
 *   [**Industrial Guide** (HOW_TO_USE_IT.md)](../HOW_TO_USE_IT.md)
-*   [**Main Documentation** (README.md)](../README_es.md)
+*   [**Main Documentation** (README.md)](./README_es.md)
 *   [**Legal Heritage** (LICENSE)](../LICENSE)
 *   [**Decision Log** (.continuity/DECISIONS_LOG.md)](../.continuity/DECISIONS_LOG.md)
 

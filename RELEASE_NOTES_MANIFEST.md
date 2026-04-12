@@ -13,7 +13,7 @@
 This landmark release marks the transition of **Continuity Legacy** into its final, modular industrial form. All core protocols have been decentralized and projected onto PyPI for global synchronization.
 
 ### 🧩 Key Innovations (v3.0.1):
-- **Modular Sovereignty**: The monolithic core has been split into 4 independent distribution nodes: `ethernium-continuity-legacy`, `-lite`, `-pro`, and `-omega`.
+- **Modular Isolation**: The monolithic core has been split into 4 independent distribution nodes: `ethernium-continuity-legacy`, `-lite`, `-pro`, and `-omega`.
 - **Functional Nexus Dashboard**: The glassmorphic HUD is now active. You can command **DNA Synthesis** and **Industrial Audits** directly from the visual interface.
 - **PyPI Synchronization**: Official branding is now enforced across the global package registry under the `ethernium-` prefix.
 - **Hardened Handshake**: CI/CD pipelines now use a direct API-Token handshake to bypass security-identity drift during publication.
@@ -27,7 +27,7 @@ Welcome to the **NEXUS Phase**. This version (v2.11.0) was the foundation of the
 ###  Key Innovations:
 - **The Cinematic Mirror**: A professional B&W Dashboard powered by **Three.js (R3F)** and **VFX Shaders**, visualizing the Merkle Tree as a living core.
 - **Information Physics (Shannon Entropy)**: Real-time auditing of "Logical Purity" (H < 5.2). If the code drifts, the entropy rises; NEXUS detects it.
-- **SDK (Signature-Derived Key) Sealing**: Sovereign Identity integration. Your private key (ED25519) is now the only way to unlock industrial secrets.
+- **SDK (Signature-Derived Key) Sealing**: Cryptographic identity integration. Your private key (ED25519) is now the only way to unlock industrial secrets.
 - **Ghost Mode**: Symbolic logic is now invisible to unauthorized eyes, protecting intellectual property through cryptographic obfuscation.
 
 ---
@@ -44,7 +44,7 @@ _Industrial-grade border guard with security audits and global synchronization._
 
 [![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-omega/)
 
-_The NEXUS Core: Advanced RAG, 3D mapping, and sovereign encryption._
+_The NEXUS Core: Advanced RAG, 3D mapping, and hardened encryption._
 
 ---
 

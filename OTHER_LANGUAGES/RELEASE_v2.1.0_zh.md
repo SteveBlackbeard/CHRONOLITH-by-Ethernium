@@ -14,7 +14,7 @@ Continuity Legacy 是一个专业级同步框架，旨在保护软件的逻辑�
 
 ##  Navigation Explorer
 *   [**Industrial Guide** (HOW_TO_USE_IT.md)](../HOW_TO_USE_IT.md)
-*   [**Main Documentation** (README.md)](../README_zh.md)
+*   [**Main Documentation** (README.md)](./README_zh.md)
 *   [**Legal Heritage** (LICENSE)](../LICENSE)
 *   [**Decision Log** (.continuity/DECISIONS_LOG.md)](../.continuity/DECISIONS_LOG.md)
 
