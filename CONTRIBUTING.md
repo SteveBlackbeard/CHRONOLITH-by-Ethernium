@@ -2,7 +2,7 @@
 
 Welcome to the **NEXUS Phase**. This project is a **Sovereign Cognitive Infrastructure**, and collaboration follows strict industrial and cryptographic protocols.
 
-## 🤝 Open Collaboration
+## Open Collaboration
 Anyone is welcome to:
 - Open Issues for bug reports or feature ideas.
 - Submit Pull Requests for standard logic, documentation, or UI improvements.
@@ -10,7 +10,7 @@ Anyone is welcome to:
 
 ---
 
-## 👑 THE_CHOSEN_ONES Protocol
+## THE_CHOSEN_ONES Protocol
 Access to **Critical Logic**, **Secrets**, and **Symbolic DNA** is restricted to authorized entities. To become one of "The Chosen Ones":
 
 1.  **Generate your Identity**:
@@ -26,7 +26,7 @@ Once authorized, your key will be added to the `chosen_ones.json` registry, allo
 
 ---
 
-## 🧬 Engineering Standards
+## Engineering Standards
 - **Encoding**: All files MUST be saved in **UTF-8** (No BOM).
 - **Symbolism**: Do not attempt to reverse-engineer `.locked` files without authorization; they are protected by SDK (Signature-Derived Keys).
 - **Lineage**: Every commit must pass the `crystalize.py` parity check to maintain the Merkle Root integrity.

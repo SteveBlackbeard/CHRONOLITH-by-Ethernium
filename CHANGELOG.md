@@ -1,9 +1,9 @@
-# Changelog: Continuity Legacy (Industrial Evolution) 🏛️💎🦾
+# Changelog: Continuity Legacy (Industrial Evolution)
 
 All notable changes to the Continuity Legacy ecosystem will be documented in this file.
 
 ## [2.1.0] - 2026-04-05
-### 🛰️ Industrial Hardening (Major Evolution)
+### Industrial Hardening (Major Evolution)
 - **Unified Typ-Rich CLI**: Complete refactor of Lite, Pro, and Omega editions to Typer + Rich UI.
 - **Symmetry Architectures**: Distinct themes (Industrial, Solemne, Celestial) across all command-line interfaces.
 - **deterministic Governance**: Established `SECURITY.md` and `CONTRIBUTING.md` standards.
@@ -14,13 +14,13 @@ All notable changes to the Continuity Legacy ecosystem will be documented in thi
 - **Observability**: Structured JSON logging for enterprise auditability.
 
 ## [1.5.0] - 2026-04-02
-### 🧠 Ethernium Synchronization
+### Ethernium Synchronization
 - Initial transition to 9 languages.
 - Basic DNA Synthesis with Merkle Trees.
 - Placeholder badges and tactical Quickstart.
 
 ## [1.3.1] - 2026-03-20
-### 🧬 Genesis Lite
+### Genesis Lite
 - Alpha version of the Lite engine.
 - Experimental command-line interface.
 
