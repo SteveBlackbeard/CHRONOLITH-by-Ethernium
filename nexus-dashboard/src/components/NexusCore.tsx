@@ -3058,6 +3058,39 @@ const NexusCore = ({
     setCameraMode('overview');
   }, [allNodes, focusNode, primaryLinkedSystem]);
 
+  const refreshLinkedSystem = useCallback(async (system: LinkedSystem) => {
+    if (!system.rootPath) return;
+    try {
+      const res = await fetch('/api/actions/scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ projectPath: system.rootPath }),
+      });
+      const payload = await res.json().catch(() => ({}));
+      if (!payload?.success) {
+        throw new Error(payload?.error || 'SCAN_FAILED');
+      }
+      setLinkedSystems((prev) =>
+        prev.map((entry) => (entry.id === system.id ? { ...entry, entries: payload.entries || [] } : entry)),
+      );
+    } catch (error: any) {
+      setToastMsg({ msg: 'SCAN_FAILED', detail: error?.message || system.name });
+      setTimeout(() => setToastMsg(null), 2400);
+    }
+  }, [setLinkedSystems]);
+
+  const refreshAllLinkedSystems = useCallback(async () => {
+    if (!linkedSystems.length) return;
+    setToastMsg({ msg: 'SCANNING_ALL_LINKED_SYSTEMS', detail: `${linkedSystems.length}` });
+    try {
+      await Promise.all(linkedSystems.map((system) => refreshLinkedSystem(system)));
+      setToastMsg({ msg: 'SCAN_COMPLETE', detail: 'LINKED_SYSTEMS_REFRESHED' });
+    } catch {
+      setToastMsg({ msg: 'SCAN_FAILED', detail: 'ONE_OR_MORE_SYSTEMS' });
+    }
+    setTimeout(() => setToastMsg(null), 2400);
+  }, [linkedSystems, refreshLinkedSystem]);
+
   const cycleActiveSystem = useCallback(() => {
     if (linkedSystems.length <= 1) return;
     const nextIndex = activeSystemIndex >= 0 ? (activeSystemIndex + 1) % linkedSystems.length : 0;
@@ -3792,6 +3825,36 @@ const NexusCore = ({
         {isImperium && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '10px', border: `1px solid ${signals.palette.border}`, background: 'rgba(8,12,22,0.6)' }}>
             <div style={{ fontSize: '0.46rem', letterSpacing: '2px', color: 'rgba(255,255,255,0.52)' }}>IMPERIUM_CONSOLE</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              <button
+                onClick={() => void refreshAllLinkedSystems()}
+                className="btn-nexus"
+                style={dockCommandButtonStyle({ id: 'scan-all', label: 'SCAN_ALL', onClick: () => {} })}
+              >
+                SCAN_ALL
+              </button>
+              <button
+                onClick={() => { void fetch('/api/actions/crystallize'); }}
+                className="btn-nexus"
+                style={dockCommandButtonStyle({ id: 'crystallize', label: 'CRYSTALLIZE_CORE', onClick: () => {} })}
+              >
+                CRYSTALLIZE_CORE
+              </button>
+              <button
+                onClick={() => { void fetch('/api/actions/audit'); }}
+                className="btn-nexus"
+                style={dockCommandButtonStyle({ id: 'audit', label: 'AUDIT_CORE', onClick: () => {} })}
+              >
+                AUDIT_CORE
+              </button>
+              <button
+                onClick={() => { void fetch('/api/actions/seal'); }}
+                className="btn-nexus"
+                style={dockCommandButtonStyle({ id: 'seal', label: 'SEAL_CORE', onClick: () => {} })}
+              >
+                SEAL_CORE
+              </button>
+            </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {imperiumSystems.length === 0 && (
                 <div style={{ fontSize: '0.5rem', color: 'rgba(255,255,255,0.55)' }}>NO_LINKED_SYSTEMS</div>
