@@ -56,6 +56,8 @@ const SovereignHUD = ({
   const [hoveredItem, setHoveredItem] = useState<{ id: string; text: string; x: number; y: number } | null>(null);
   const [langOpen, setLangOpen] = useState(false);
   const [nexusReady, setNexusReady] = useState(false);
+  const [sceneError, setSceneError] = useState<string | null>(null);
+  const [runtimeError, setRuntimeError] = useState<string | null>(null);
   const [viewportWidth, setViewportWidth] = useState(1440);
   const t = translations[language] || translations['EN'];
   const primaryLinkedSystem = linkedSystems.find((system) => system.id === activeLinkedSystemId) || linkedSystems[0] || null;
@@ -71,6 +73,31 @@ const SovereignHUD = ({
     const handleReady = () => setNexusReady(true);
     window.addEventListener('NEXUS_CORE_READY', handleReady);
     return () => window.removeEventListener('NEXUS_CORE_READY', handleReady);
+  }, []);
+
+  useEffect(() => {
+    const handleSceneError = (event: Event) => {
+      const detail = (event as CustomEvent).detail;
+      setSceneError(detail ? String(detail) : 'SCENE_ERROR');
+    };
+    const handleRuntimeError = (event: ErrorEvent) => {
+      if (!event.message) return;
+      setRuntimeError(event.message);
+    };
+    const handleRejection = (event: PromiseRejectionEvent) => {
+      const reason = (event.reason as Error | undefined)?.message || String(event.reason || '');
+      if (reason) {
+        setRuntimeError(reason);
+      }
+    };
+    window.addEventListener('NEXUS_SCENE_ERROR', handleSceneError as EventListener);
+    window.addEventListener('error', handleRuntimeError);
+    window.addEventListener('unhandledrejection', handleRejection);
+    return () => {
+      window.removeEventListener('NEXUS_SCENE_ERROR', handleSceneError as EventListener);
+      window.removeEventListener('error', handleRuntimeError);
+      window.removeEventListener('unhandledrejection', handleRejection);
+    };
   }, []);
 
   const createSystemId = (name: string) => `system-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}-${Date.now().toString(36)}`;
@@ -373,6 +400,24 @@ const SovereignHUD = ({
                   </button>
                 )}
               </div>
+              {(sceneError || runtimeError) && (
+                <div
+                  style={{
+                    marginTop: '8px',
+                    padding: '6px 8px',
+                    border: `1px solid ${signals.palette.border}`,
+                    background: 'rgba(2,6,23,0.82)',
+                    color: '#fda4af',
+                    fontSize: '0.4rem',
+                    letterSpacing: '1.4px',
+                    lineHeight: 1.4,
+                    maxWidth: '260px',
+                    wordBreak: 'break-word',
+                  }}
+                >
+                  {sceneError ? `SCENE_ERROR // ${sceneError}` : `RUNTIME_ERROR // ${runtimeError}`}
+                </div>
+              )}
               <div style={{ display: 'flex', gap: '8px', marginTop: '10px', flexWrap: 'wrap' }}>
                 <button
                   onClick={() => sendNexusEvent('NEXUS_RESET_VIEW')}

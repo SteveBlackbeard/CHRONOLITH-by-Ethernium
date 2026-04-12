@@ -1221,6 +1221,10 @@ class SceneErrorBoundary extends React.Component<
 
   componentDidCatch(error: unknown) {
     console.error('[NEXUS_CORE] Scene runtime failure:', error);
+    if (typeof window !== 'undefined') {
+      const message = error instanceof Error ? error.message : String(error);
+      window.dispatchEvent(new CustomEvent('NEXUS_SCENE_ERROR', { detail: message }));
+    }
   }
 
   render() {
