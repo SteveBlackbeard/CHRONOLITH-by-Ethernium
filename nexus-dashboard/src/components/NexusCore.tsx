@@ -2299,6 +2299,30 @@ function CanvasBackgroundSync({
   return null;
 }
 
+function DotsBackdrop({ color = '#ffffff' }: { color?: string }) {
+  const points = useMemo(() => {
+    const count = 900;
+    const radius = 120;
+    const positions = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const dist = Math.sqrt(Math.random()) * radius;
+      positions[i * 3] = Math.cos(angle) * dist;
+      positions[i * 3 + 1] = Math.sin(angle) * dist;
+      positions[i * 3 + 2] = 0;
+    }
+    return positions;
+  }, []);
+
+  return (
+    <group rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.2, 0]}>
+      <Points positions={points} stride={3} frustumCulled>
+        <PointMaterial size={0.16} color={color} transparent opacity={0.55} depthWrite={false} />
+      </Points>
+    </group>
+  );
+}
+
 function IntegrityHalo({
   signals,
   chainStatus,
@@ -3987,6 +4011,7 @@ const NexusCore = ({
         camera={{ position: [0, 35, 0.001], zoom: 30, near: 0.1, far: 200 }}
       >
         <CanvasBackgroundSync background={signals.palette.sceneBg} fog={signals.palette.fog} />
+        <DotsBackdrop color="rgba(255,255,255,0.7)" />
         <SceneRig signals={signals} reducedMotion={reducedMotion} cameraMode={cameraMode} focusedNode={selectedNode} controlsRef={controlsRef} sceneBounds={sceneBounds} />
         <ZoomTierTracker onZoomTierChange={setZoomTier} onZoomChange={setCameraZoom} />
         <ambientLight intensity={0.7} color="#f8fafc" />
