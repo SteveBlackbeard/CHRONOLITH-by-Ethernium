@@ -2283,6 +2283,7 @@ function ZoomTierTracker({
 }
 
 function CanvasBackgroundSync({
+  background,
 }: {
   background: string;
   fog: string;
