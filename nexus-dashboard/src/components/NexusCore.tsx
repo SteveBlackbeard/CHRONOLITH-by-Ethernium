@@ -2301,8 +2301,8 @@ function CanvasBackgroundSync({
 
 function DotsBackdrop({ color = '#ffffff' }: { color?: string }) {
   const points = useMemo(() => {
-    const count = 900;
-    const radius = 120;
+    const count = 1400;
+    const radius = 140;
     const positions = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
       const angle = Math.random() * Math.PI * 2;
@@ -2315,9 +2315,18 @@ function DotsBackdrop({ color = '#ffffff' }: { color?: string }) {
   }, []);
 
   return (
-    <group rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.2, 0]}>
+    <group rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.4, 0]}>
       <Points positions={points} stride={3} frustumCulled>
-        <PointMaterial size={0.16} color={color} transparent opacity={0.55} depthWrite={false} />
+        <PointMaterial
+          size={0.38}
+          color={color}
+          transparent
+          opacity={0.7}
+          depthWrite={false}
+          depthTest={false}
+          sizeAttenuation={false}
+          blending={THREE.AdditiveBlending}
+        />
       </Points>
     </group>
   );
@@ -2468,6 +2477,7 @@ const NexusCore = ({
   const [nodeAssetOverrides, setNodeAssetOverrides] = useState<Record<string, GraphNodeAssetOverride>>({});
   const [nodeAssetDrafts, setNodeAssetDrafts] = useState<Record<string, GraphNodeAssetOverride>>({});
   const [familyAssetOverrides, setFamilyAssetOverrides] = useState<NodeAssetFamilyOverrides>({});
+  const [canonicalChecked, setCanonicalChecked] = useState(false);
   const [editModeSessionBaseline, setEditModeSessionBaseline] = useState<EditModeSessionBaseline | null>(null);
   const [isProcessingCanonicalAssets, setIsProcessingCanonicalAssets] = useState(false);
   const [pendingAssetTarget, setPendingAssetTarget] = useState<PendingAssetTarget | null>(null);
@@ -2729,6 +2739,24 @@ const NexusCore = ({
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (canonicalChecked) return;
+    setCanonicalChecked(true);
+    void fetch('/api/node-assets', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'process-canonical-assets' }),
+    })
+      .then((response) => response.json())
+      .then((payload) => {
+        if (payload?.success) {
+          if (payload.overrides) setNodeAssetOverrides(payload.overrides);
+          if (payload.familyProfiles) setFamilyAssetOverrides(payload.familyProfiles);
+        }
+      })
+      .catch(() => {});
+  }, [canonicalChecked]);
 
 
   const { staticNodes, staticEdges, dynamicNodes, dynamicEdges } = useMemo(() => {
