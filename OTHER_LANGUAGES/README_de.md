@@ -9,7 +9,7 @@
 [![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](./continuity-omega/)
 
 #### Languages
-[![ES](https://img.shields.io/badge/ES-white)](./OTHER_LANGUAGES/README_es.md) [![JA](https://img.shields.io/badge/JA-white)](./OTHER_LANGUAGES/README_ja.md) [![RU](https://img.shields.io/badge/RU-white)](./OTHER_LANGUAGES/README_ru.md) [![ZH](https://img.shields.io/badge/ZH-white)](./OTHER_LANGUAGES/README_zh.md) [![FR](https://img.shields.io/badge/FR-white)](./OTHER_LANGUAGES/README_fr.md) [![IT](https://img.shields.io/badge/IT-white)](./OTHER_LANGUAGES/README_it.md) [![DE](https://img.shields.io/badge/DE-white)](./OTHER_LANGUAGES/README_de.md) [![PT](https://img.shields.io/badge/PT-white)](./OTHER_LANGUAGES/README_pt.md) [![EN](https://img.shields.io/badge/EN-white)](./README.md) 
+[![ES](https://img.shields.io/badge/ES-white)](./OTHER_LANGUAGES/README_es.md) [![JA](https://img.shields.io/badge/JA-white)](./OTHER_LANGUAGES/README_ja.md) [![RU](https://img.shields.io/badge/RU-white)](./OTHER_LANGUAGES/README_ru.md) [![ZH](https://img.shields.io/badge/ZH-white)](./OTHER_LANGUAGES/README_zh.md) [![FR](https://img.shields.io/badge/FR-white)](./OTHER_LANGUAGES/README_fr.md) [![IT](https://img.shields.io/badge/IT-white)](./OTHER_LANGUAGES/README_it.md) [![DE](https://img.shields.io/badge/DE-white)](./OTHER_LANGUAGES/README_de.md) [![PT](https://img.shields.io/badge/PT-white)](./OTHER_LANGUAGES/README_pt.md) [![KO](https://img.shields.io/badge/KO-white)](./OTHER_LANGUAGES/README_ko.md) [![AR](https://img.shields.io/badge/AR-white)](./OTHER_LANGUAGES/README_ar.md) [![EN](https://img.shields.io/badge/EN-white)](./README.md) 
 
 -----
 
