@@ -1,5 +1,5 @@
 {
-  "change_contract": "docs/change-contracts/2026-06-18-golden-baseline-refresh-contract.md",
+  "change_contract": "docs/change-contracts/2026-06-18-modernize-pyproject-license.md",
   "files": {
     ".continuity/feature-registry.json": {
       "bytes": 2395,
@@ -46,8 +46,8 @@
       "sha256": "b1768e02c2bd840154992745a5699ff8253e3aeb13ac5b56ae0c3a8ffd1fd994"
     },
     "pyproject.toml": {
-      "bytes": 2096,
-      "sha256": "3f4d84db86b42e3898a90b67c92d5c5f67fb555f3495c1a940b72101013f0707"
+      "bytes": 2041,
+      "sha256": "fdf9b4c3f41d51a83184a315bd69d3bad0287de28b124e08c294e8945a7b22e5"
     },
     "scripts/autophagy_report.py": {
       "bytes": 5075,
@@ -62,7 +62,7 @@
       "sha256": "8733bb9258090c54caaa86106b0ce96dfd60211b463ae9181c1c6f0ff8e7145d"
     }
   },
-  "generated_at": "2026-06-18T07:39:02+00:00",
+  "generated_at": "2026-06-18T07:48:28+00:00",
   "generated_by": "python scripts/golden_baseline.py refresh",
   "policy": {
     "destructive": false,

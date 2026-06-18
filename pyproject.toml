@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=77.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -11,7 +11,7 @@ authors = [
 description = "Continuity Legacy: Persistent Cognitive Layer for AI context handoffs. Deterministic Merkle-based integrity with Shannon Entropy physics. Includes Lite, Pro, and Omega editions."
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = "MIT"
 keywords = ["ai", "context", "continuity", "llm", "handover", "merkle-tree", "cybersecurity", "rag", "automation", "entropy", "governance"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -21,7 +21,6 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Topic :: Software Development :: Build Tools",
     "Topic :: Security :: Cryptography",
