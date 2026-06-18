@@ -1,4 +1,5 @@
 {
+  "change_contract": "docs/change-contracts/2026-06-18-golden-baseline-refresh-contract.md",
   "files": {
     ".continuity/feature-registry.json": {
       "bytes": 2395,
@@ -53,18 +54,19 @@
       "sha256": "cf9a1672c332756bfc00f8bfc6b0bbb4049ae72e13b635b7b0114f2660b0fa12"
     },
     "scripts/golden_baseline.py": {
-      "bytes": 4917,
-      "sha256": "764289591e70923a0046bc0e50e3cfcca6abdf0d65f546fb3ea15399c54aeeed"
+      "bytes": 5986,
+      "sha256": "128e27474436f03ebc90fbc08f8de24f58503a2d20e46153e914ce65970f0a36"
     },
     "scripts/health_guard.py": {
       "bytes": 7889,
       "sha256": "8733bb9258090c54caaa86106b0ce96dfd60211b463ae9181c1c6f0ff8e7145d"
     }
   },
-  "generated_at": "2026-06-18T07:14:58+00:00",
+  "generated_at": "2026-06-18T07:39:02+00:00",
   "generated_by": "python scripts/golden_baseline.py refresh",
   "policy": {
     "destructive": false,
+    "refresh_requires_contract_when_existing": true,
     "refresh_requires_human_intent": true,
     "tracks_release_critical_files_only": true
   },

@@ -50,7 +50,7 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
-def build_baseline(paths: list[str]) -> dict[str, Any]:
+def build_baseline(paths: list[str], contract: str | None = None) -> dict[str, Any]:
     files: dict[str, dict[str, Any]] = {}
     missing: list[str] = []
     for item in paths:
@@ -72,10 +72,12 @@ def build_baseline(paths: list[str]) -> dict[str, Any]:
         "scope": "continuity-legacy-golden-baseline",
         "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "generated_by": "python scripts/golden_baseline.py refresh",
+        "change_contract": contract,
         "policy": {
             "destructive": False,
             "tracks_release_critical_files_only": True,
             "refresh_requires_human_intent": True,
+            "refresh_requires_contract_when_existing": True,
         },
         "files": files,
     }
@@ -119,11 +121,28 @@ def verify() -> int:
     return 0
 
 
-def refresh() -> int:
-    baseline = build_baseline(DEFAULT_PATHS)
+def validate_contract(contract: str | None) -> str | None:
+    if not BASELINE_PATH.exists():
+        return contract
+    if not contract:
+        raise ValueError("Refreshing an existing baseline requires --contract PATH.")
+
+    contract_path = ROOT / contract
+    if not contract_path.exists() or not contract_path.is_file():
+        raise FileNotFoundError(f"Change contract not found: {contract}")
+    if not contract_path.resolve().is_relative_to((ROOT / "docs" / "change-contracts").resolve()):
+        raise ValueError("Change contract must live under docs/change-contracts/.")
+    return rel(contract_path)
+
+
+def refresh(contract: str | None) -> int:
+    contract_ref = validate_contract(contract)
+    baseline = build_baseline(DEFAULT_PATHS, contract_ref)
     BASELINE_PATH.parent.mkdir(parents=True, exist_ok=True)
     BASELINE_PATH.write_text(json.dumps(baseline, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(f"golden-baseline: refreshed {rel(BASELINE_PATH)}")
+    if contract_ref:
+        print(f"golden-baseline: contract {contract_ref}")
     return 0
 
 
@@ -137,7 +156,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Verify or refresh the Continuity golden baseline.")
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("verify", help="Verify tracked files against the golden baseline.")
-    subparsers.add_parser("refresh", help="Refresh the golden baseline after human-approved changes.")
+    refresh_parser = subparsers.add_parser("refresh", help="Refresh the golden baseline after human-approved changes.")
+    refresh_parser.add_argument("--contract", help="Reviewed contract under docs/change-contracts/ for existing baseline refreshes.")
     subparsers.add_parser("list", help="List files tracked by the golden baseline.")
     args = parser.parse_args(argv)
 
@@ -145,7 +165,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "verify":
             return verify()
         if args.command == "refresh":
-            return refresh()
+            return refresh(args.contract)
         if args.command == "list":
             return list_files()
     except (FileNotFoundError, ValueError, json.JSONDecodeError) as exc:
