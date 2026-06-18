@@ -51,10 +51,16 @@
       "modules": [
         ".continuity/rulebook.json",
         ".continuity/feature-registry.json",
+        ".continuity/golden-baseline.json",
         "scripts/health_guard.py",
-        "scripts/autophagy_report.py"
+        "scripts/autophagy_report.py",
+        "scripts/golden_baseline.py"
       ],
-      "tests": ["python scripts/health_guard.py", "python scripts/autophagy_report.py"],
+      "tests": [
+        "python scripts/health_guard.py",
+        "python scripts/autophagy_report.py",
+        "python scripts/golden_baseline.py verify"
+      ],
       "docs": ["docs/CONTINUITY_GOVERNANCE_KERNEL.md", "docs/CHANGE_CONTRACT_TEMPLATE.md"],
       "rollback": "Remove Phase 1 governance files and CI step; no runtime package behavior is affected.",
       "risk": "low"

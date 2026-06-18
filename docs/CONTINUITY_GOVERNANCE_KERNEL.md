@@ -206,6 +206,24 @@ Add:
 - golden baseline manifest
 - frozen-path check
 
+The lightweight golden baseline lives at:
+
+```text
+.continuity/golden-baseline.json
+```
+
+Verification:
+
+```text
+python scripts/golden_baseline.py verify
+```
+
+Refresh is an explicit maintainer action after reviewing the change:
+
+```text
+python scripts/golden_baseline.py refresh
+```
+
 ### Phase 3: Autophagy
 
 Add:

@@ -42,6 +42,7 @@ Required checks:
 
 ```text
 python scripts/health_guard.py
+python scripts/golden_baseline.py verify
 pytest
 ```
 

@@ -18,24 +18,28 @@
     "GOVERNANCE.md",
     "REPO_AND_PYPI_RELEASE_CHECKLIST.md",
     "docs/CHANGE_CONTRACT_TEMPLATE.md",
-    "docs/CONTINUITY_GOVERNANCE_KERNEL.md"
+    "docs/CONTINUITY_GOVERNANCE_KERNEL.md",
+    "docs/CONEKTA_ADAPTER_CONTRACT.md"
   ],
   "required_state_files": [
     "STATE.json",
     ".continuity/STATE.json",
     ".continuity/DECISIONS_LOG.md",
-    ".continuity/LIVE_HANDOFF.md"
+    ".continuity/LIVE_HANDOFF.md",
+    ".continuity/golden-baseline.json"
   ],
-  "required_checks": [
+    "required_checks": [
     "python scripts/health_guard.py",
     "python scripts/autophagy_report.py",
+    "python scripts/golden_baseline.py verify",
     "pytest",
     "python -m build",
     "twine check dist/*"
   ],
-  "frozen_paths": [
+    "frozen_paths": [
     "LICENSE",
     "PROJECT_DNA.ene.md.locked",
+    ".continuity/golden-baseline.json",
     "assets/",
     "banners/"
   ],

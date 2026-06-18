@@ -1,0 +1,73 @@
+{
+  "files": {
+    ".continuity/feature-registry.json": {
+      "bytes": 2395,
+      "sha256": "67ee6cd1d7a287629e54bf58b16cb5052d22eb3c30b6615b42283c0b16ef48d4"
+    },
+    ".continuity/rulebook.json": {
+      "bytes": 2418,
+      "sha256": "4fb5e0f6b81ffa986a838152a212d8dd7254eaed73039206ca1d04ffac91f7f3"
+    },
+    ".github/workflows/industrial_guardian.yml": {
+      "bytes": 4092,
+      "sha256": "61b29c3aeeca2662e050a028f282e58e1617ed1fcf098e6e39f87c2a02cc5d3a"
+    },
+    "GOVERNANCE.md": {
+      "bytes": 1644,
+      "sha256": "91b368e5bc9d002ef5884351f25c86fd383e54c3f0a80fabe5276d5266bd283e"
+    },
+    "LICENSE": {
+      "bytes": 1088,
+      "sha256": "d3a0020af058f178cc2a75469f41c867afea80dd10422826457ee5b9c05ee0b0"
+    },
+    "PROJECT_CONTEXT.md": {
+      "bytes": 5270,
+      "sha256": "e2e92d1a94e23751ad6fd94694742add9fd3cb3888e701b89f95c487b144a1bf"
+    },
+    "PROJECT_DNA.ene.md.locked": {
+      "bytes": 8204,
+      "sha256": "1b10779ee96ad6b4f7aef99f1d3af7a6275ce3e04ba9bc008ba90009e4b7db27"
+    },
+    "PROJECT_DNA.md": {
+      "bytes": 6263,
+      "sha256": "8a629dac66e8f898c30d6f12a0fcf8fdbe7b21c86b8b16d2893dd3d6dfe04354"
+    },
+    "README.md": {
+      "bytes": 23075,
+      "sha256": "0c178a271af99acec4c52c6b0a17b123026704a1023e3ad189d3f644cfea0bda"
+    },
+    "STATE.json": {
+      "bytes": 1909,
+      "sha256": "67af1e84ed3c92841fb8e6e71b771589e3722521adb285e60d98a5be8f4a7366"
+    },
+    "VERSION": {
+      "bytes": 7,
+      "sha256": "b1768e02c2bd840154992745a5699ff8253e3aeb13ac5b56ae0c3a8ffd1fd994"
+    },
+    "pyproject.toml": {
+      "bytes": 2096,
+      "sha256": "3f4d84db86b42e3898a90b67c92d5c5f67fb555f3495c1a940b72101013f0707"
+    },
+    "scripts/autophagy_report.py": {
+      "bytes": 5075,
+      "sha256": "cf9a1672c332756bfc00f8bfc6b0bbb4049ae72e13b635b7b0114f2660b0fa12"
+    },
+    "scripts/golden_baseline.py": {
+      "bytes": 4917,
+      "sha256": "764289591e70923a0046bc0e50e3cfcca6abdf0d65f546fb3ea15399c54aeeed"
+    },
+    "scripts/health_guard.py": {
+      "bytes": 7889,
+      "sha256": "8733bb9258090c54caaa86106b0ce96dfd60211b463ae9181c1c6f0ff8e7145d"
+    }
+  },
+  "generated_at": "2026-06-18T07:14:58+00:00",
+  "generated_by": "python scripts/golden_baseline.py refresh",
+  "policy": {
+    "destructive": false,
+    "refresh_requires_human_intent": true,
+    "tracks_release_critical_files_only": true
+  },
+  "scope": "continuity-legacy-golden-baseline",
+  "version": "1.0.0"
+}
