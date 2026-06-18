@@ -151,7 +151,11 @@ def check_mojibake(rulebook: dict[str, Any]) -> list[Finding]:
         "CONTINUITY_CONEKTA",
     }
     for dirpath, dirnames, filenames in os.walk(ROOT):
-        dirnames[:] = [dirname for dirname in dirnames if dirname not in ignored_dirs]
+        dirnames[:] = [
+            dirname
+            for dirname in dirnames
+            if dirname not in ignored_dirs and not dirname.startswith(".pypi-smoke-")
+        ]
         base = Path(dirpath)
         for filename in filenames:
             path = base / filename

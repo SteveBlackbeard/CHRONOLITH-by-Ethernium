@@ -97,10 +97,11 @@ So the honest conclusion is:
 
 ## Recommended next actions
 
-1. Create a clean branch for release preparation.
+1. Reconcile local `main` with `origin/main` without reintroducing `nexus-dashboard/`.
 2. Keep Conekta changes in `D:\Experimentos\continuity-conekta`.
-3. Run a clean package build/install test.
-4. Tag only after the clean install passes.
+3. Keep AgentOps extractable and outside the Python package runtime.
+4. Run a clean package build/install test.
+5. Tag only after the clean install passes.
 
 ## Latest release status (v3.0.2)
 
@@ -113,3 +114,9 @@ So the honest conclusion is:
   https://pypi.org/project/ethernium-continuity-pro/3.0.2/
 - PyPI package: `ethernium-continuity-omega==3.0.2`
   https://pypi.org/project/ethernium-continuity-omega/3.0.2/
+
+## Next release target
+
+If the current governance and documentation cleanup is published to PyPI, use `3.0.3`.
+
+Do not upload over `3.0.2`; PyPI releases are immutable.

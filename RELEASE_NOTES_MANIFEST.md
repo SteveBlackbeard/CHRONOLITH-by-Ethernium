@@ -1,13 +1,40 @@
-﻿<p align="center">
+<p align="center">
   <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
 </p>
 
-[![Version](https://img.shields.io/badge/version-2.11.0-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/releases) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/LICENSE) [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/release/python-3100/) [![NEXUS_CINEMATIC](https://img.shields.io/badge/NEXUS_Mirror-v2.11.0-brightgreen)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium) [![Industrial Guardian](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/industrial_guardian.yml/badge.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/industrial_guardian.yml)
+[![Version](https://img.shields.io/badge/version-3.0.3-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/releases) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/LICENSE) [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/release/python-3100/) [![Governed Release](https://img.shields.io/badge/Governed_Release-v3.0.3-brightgreen)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium) [![Industrial Guardian](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/industrial_guardian.yml/badge.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/industrial_guardian.yml)
 
 #### Languages
-[![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/RELEASE_v2.1.0_es.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/RELEASE_NOTES_MANIFEST.md) 
+[![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_es.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/RELEASE_NOTES_MANIFEST.md) [![KO](https://img.shields.io/badge/KO-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ko.md) [![AR](https://img.shields.io/badge/AR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ar.md)
 
 **"The AI doesn't just remember; it reflects."** 
+
+## v3.0.3: GOVERNED RELEASE CANDIDATE
+This release candidate turns Continuity Legacy from a package family with integrity tools into a governed Python framework with explicit contracts, golden baseline verification, and cleaner separation from dashboard tooling.
+
+### Release Asset
+The canonical banner for this release is `banners/ethernium_header.png`.
+
+### What Changed
+- All four package lines are prepared for `3.0.3`: `legacy`, `lite`, `pro`, and `omega`.
+- Governance now has machine-readable guardrails in `.continuity/rulebook.json` and `.continuity/feature-registry.json`.
+- Golden baseline refreshes require a documented change contract.
+- KO and AR language entry points are present at the root documentation level.
+- Continuity Conekta remains a separate dashboard product and is not reintroduced into the Python package.
+- AgentOps is documented as a separate incubated tool, not a release dependency.
+
+### Quality Gates
+- `python scripts\golden_baseline.py verify`
+- `python scripts\health_guard.py --strict`
+- `python scripts\autophagy_report.py`
+- `pytest -q`
+- `python -m build`
+- `python -m twine check dist\*`
+
+### PyPI Status
+`3.0.3` is the next release target. The latest published PyPI line remains `3.0.2` until upload is explicitly performed.
+
+Full notes: [`docs/releases/v3.0.3.md`](./docs/releases/v3.0.3.md)
 
 ## 🩹 v3.0.2: HOTFIX — CLI STABILITY & TOKENATOR REPAIR
 This hotfix locks CLI stability on Windows and repairs the Tokenator entrypoint so all packages run cleanly out of the box.

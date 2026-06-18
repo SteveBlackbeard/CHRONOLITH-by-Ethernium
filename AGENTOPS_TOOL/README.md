@@ -62,3 +62,17 @@ status: incubation
 relationship_to_continuity: none
 safe_to_extract: true
 ```
+
+## Governance
+
+The local governance seed is in `GOVERNANCE.md`.
+
+AgentOps should adopt Continuity-style discipline only where it adds leverage:
+
+- clear boundary
+- explicit health gate
+- clean-room policy
+- extraction contract
+- measurable value
+
+It should not inherit the full Continuity Legacy baseline system until it becomes a real standalone tool with executable code.

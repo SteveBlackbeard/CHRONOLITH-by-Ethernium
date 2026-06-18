@@ -89,7 +89,11 @@ def rel(path: Path) -> str:
 def iter_text_files() -> list[Path]:
     paths: list[Path] = []
     for dirpath, dirnames, filenames in os.walk(ROOT):
-        dirnames[:] = [dirname for dirname in dirnames if dirname not in IGNORED_DIRS]
+        dirnames[:] = [
+            dirname
+            for dirname in dirnames
+            if dirname not in IGNORED_DIRS and not dirname.startswith(".pypi-smoke-")
+        ]
         base = Path(dirpath)
         for filename in filenames:
             path = base / filename
