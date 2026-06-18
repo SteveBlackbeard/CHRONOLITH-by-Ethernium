@@ -69,3 +69,11 @@ Update `.continuity/LIVE_HANDOFF.md` or the relevant session log with:
 - warnings
 - skipped checks
 - next action
+
+## Baseline Refresh
+
+If this contract approves a golden baseline refresh, run:
+
+```text
+python scripts/golden_baseline.py refresh --contract docs/change-contracts/<this-file>.md
+```

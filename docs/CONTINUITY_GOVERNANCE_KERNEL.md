@@ -221,7 +221,7 @@ python scripts/golden_baseline.py verify
 Refresh is an explicit maintainer action after reviewing the change:
 
 ```text
-python scripts/golden_baseline.py refresh
+python scripts/golden_baseline.py refresh --contract docs/change-contracts/YYYY-MM-DD-short-name.md
 ```
 
 ### Phase 3: Autophagy
