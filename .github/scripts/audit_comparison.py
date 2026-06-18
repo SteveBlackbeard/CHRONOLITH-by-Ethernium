@@ -23,7 +23,7 @@ EXCLUDE_DIRS = {
     "dist",
 }
 TEXT_EXTENSIONS = {".md", ".json", ".py", ".txt", ".yml", ".yaml", ".toml", ".cfg", ".ini"}
-SUSPICIOUS_MARKERS = ("Ã", "â", "ð", "ï»¿", "Î", "Â", "\ufffd")
+SUSPICIOUS_MARKERS = ("\u0102", "\u00e2", "\u0111", "\u010f\u00bb\u017c", "\u00ce", "\u00c2", "\ufffd")
 BOM_ENCODINGS = (
     (b"\xef\xbb\xbf", "utf-8-sig"),
     (b"\xff\xfe\x00\x00", "utf-32"),

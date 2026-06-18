@@ -9,7 +9,8 @@ param(
     [string]$MoltbotBaseUrl = "http://127.0.0.1:3002",
     [string]$OllamaModel = "llama3.1",
     [switch]$SkipDashboard,
-    [switch]$StartDashboard
+    [switch]$StartDashboard,
+    [string]$ConektaPath = "..\continuity-conekta"
 )
 
 $ErrorActionPreference = "Stop"
@@ -54,9 +55,9 @@ function Set-Or-AppendEnvLine {
 
 $repoRoot = (Resolve-Path $RootPath).Path
 $venvPath = Join-Path $repoRoot $VenvName
-$dashboardPath = Join-Path $repoRoot "nexus-dashboard"
-$dashboardEnvExample = Join-Path $dashboardPath ".env.example"
-$dashboardEnvLocal = Join-Path $dashboardPath ".env.local"
+$conektaPath = if ([System.IO.Path]::IsPathRooted($ConektaPath)) { $ConektaPath } else { Join-Path $repoRoot $ConektaPath }
+$conektaEnvExample = Join-Path $conektaPath ".env.example"
+$conektaEnvLocal = Join-Path $conektaPath ".env.local"
 
 $rootWheel = Get-ChildItem (Join-Path $repoRoot "dist") -Filter "ethernium_continuity_legacy-*.whl" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 $liteWheel = Get-ChildItem (Join-Path $repoRoot "continuity-lite\dist") -Filter "ethernium_continuity_lite-*.whl" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
@@ -64,7 +65,6 @@ $proWheel = Get-ChildItem (Join-Path $repoRoot "continuity-pro\dist") -Filter "e
 $omegaWheel = Get-ChildItem (Join-Path $repoRoot "continuity-omega\dist") -Filter "ethernium_continuity_omega-*.whl" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 
 Assert-Path $repoRoot "Repository root not found: $repoRoot"
-Assert-Path $dashboardPath "Dashboard folder not found: $dashboardPath"
 if (-not $rootWheel) { throw "Missing root wheel in dist/. Build artifacts are required before bootstrap." }
 if (-not $liteWheel) { throw "Missing Lite wheel in continuity-lite/dist/." }
 if (-not $proWheel) { throw "Missing Pro wheel in continuity-pro/dist/." }
@@ -95,43 +95,45 @@ Write-Step "Validating core Continuity CLI commands"
 & $venvPython -m continuity_legacy status | Out-Null
 & $venvPython -m continuity_legacy init --help | Out-Null
 
-Write-Step "Preparing dashboard environment"
-Assert-Path $dashboardEnvExample "Missing dashboard env template: $dashboardEnvExample"
-if (-not (Test-Path $dashboardEnvLocal)) {
-    Copy-Item $dashboardEnvExample $dashboardEnvLocal
-}
+if (-not $SkipDashboard -and (Test-Path $conektaPath)) {
+    Write-Step "Preparing Continuity Conekta environment"
+    Assert-Path $conektaEnvExample "Missing Conekta env template: $conektaEnvExample"
+    if (-not (Test-Path $conektaEnvLocal)) {
+        Copy-Item $conektaEnvExample $conektaEnvLocal
+    }
 
-Set-Or-AppendEnvLine -FilePath $dashboardEnvLocal -Key "CONTINUITY_CHAT_PROVIDER" -Value $ChatProvider
-Set-Or-AppendEnvLine -FilePath $dashboardEnvLocal -Key "CONTINUITY_OPENCLAW_BASE_URL" -Value $OpenClawBaseUrl
-Set-Or-AppendEnvLine -FilePath $dashboardEnvLocal -Key "CONTINUITY_OLLAMA_BASE_URL" -Value $OllamaBaseUrl
-Set-Or-AppendEnvLine -FilePath $dashboardEnvLocal -Key "CONTINUITY_MOLTBOT_BASE_URL" -Value $MoltbotBaseUrl
-Set-Or-AppendEnvLine -FilePath $dashboardEnvLocal -Key "CONTINUITY_OLLAMA_MODEL" -Value $OllamaModel
-Set-Or-AppendEnvLine -FilePath $dashboardEnvLocal -Key "CONTINUITY_OPENCLAW_ENABLED" -Value ($(if ($ChatProvider -eq "openclaw") { "true" } else { "false" }))
-Set-Or-AppendEnvLine -FilePath $dashboardEnvLocal -Key "CONTINUITY_OLLAMA_ENABLED" -Value ($(if ($ChatProvider -eq "ollama") { "true" } else { "false" }))
-Set-Or-AppendEnvLine -FilePath $dashboardEnvLocal -Key "CONTINUITY_MOLTBOT_ENABLED" -Value ($(if ($ChatProvider -eq "moltbot") { "true" } else { "false" }))
+    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_CHAT_PROVIDER" -Value $ChatProvider
+    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_OPENCLAW_BASE_URL" -Value $OpenClawBaseUrl
+    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_OLLAMA_BASE_URL" -Value $OllamaBaseUrl
+    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_MOLTBOT_BASE_URL" -Value $MoltbotBaseUrl
+    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_OLLAMA_MODEL" -Value $OllamaModel
+    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_OPENCLAW_ENABLED" -Value ($(if ($ChatProvider -eq "openclaw") { "true" } else { "false" }))
+    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_OLLAMA_ENABLED" -Value ($(if ($ChatProvider -eq "ollama") { "true" } else { "false" }))
+    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_MOLTBOT_ENABLED" -Value ($(if ($ChatProvider -eq "moltbot") { "true" } else { "false" }))
 
-if (-not $SkipDashboard) {
-    Write-Step "Installing dashboard dependencies"
-    Push-Location $dashboardPath
+    Write-Step "Installing Continuity Conekta dependencies"
+    Push-Location $conektaPath
     try {
         npm install
 
-        Write-Step "Building dashboard"
+        Write-Step "Building Continuity Conekta"
         npm run build
 
         if ($StartDashboard) {
-            Write-Step "Starting dashboard"
+            Write-Step "Starting Continuity Conekta"
             npm run start
         }
     }
     finally {
         Pop-Location
     }
+} elseif (-not $SkipDashboard) {
+    Write-Step "Continuity Conekta not found at $conektaPath; skipping external UI bootstrap"
 }
 
 Write-Step "Bootstrap complete"
 Write-Host "Virtual environment: $venvPath" -ForegroundColor Green
-Write-Host "Dashboard env file: $dashboardEnvLocal" -ForegroundColor Green
+Write-Host "Continuity Conekta path: $conektaPath" -ForegroundColor Green
 Write-Host "Chat provider: $ChatProvider" -ForegroundColor Green
 Write-Host ""
 Write-Host "PyPI upload was intentionally skipped." -ForegroundColor Yellow

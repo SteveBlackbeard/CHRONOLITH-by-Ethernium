@@ -2,26 +2,26 @@
 
 ## Current judgment
 
-The current working tree is stronger than the last GitHub snapshot in **dashboard capability**:
+The current working tree is stronger than the last GitHub snapshot in **governance and release hygiene**:
 
-- multi-system graph
-- node asset pipeline
-- edit mode with protected access
-- local chat bridge for `openclaw` / `ollama` / `moltbot`
-- direct canonical asset folders
-- persistent node asset overrides
+- strict governance health guard
+- feature registry and machine-readable rulebook
+- non-destructive autophagy report
+- live handoff state
+- separated AgentOps incubation
+- extracted Continuity Conekta control surface
 
-The previous repo snapshot is stronger in **stability / cleanliness**:
+The previous repo snapshot kept the dashboard colocated. The current direction is cleaner:
 
-- smaller change surface
-- fewer generated files
-- fewer moving parts in the dashboard runtime
+- Continuity Legacy remains the Python package/runtime truth
+- Continuity Conekta owns the web dashboard in its own repository
+- dashboard build/lint state no longer blocks PyPI release
 
 So the honest conclusion is:
 
-- **current tree is better functionally**
-- **older repo state is cleaner operationally**
-- before pushing, we should publish the current tree only after a hygiene pass
+- **current tree is better governed**
+- **Conekta is now a separate product**
+- before pushing, verify the package and governance checks independently from Conekta
 
 ## Before pushing to GitHub
 
@@ -32,21 +32,24 @@ So the honest conclusion is:
    - local env files
 
 2. Review these areas as separate commit groups.
-   - dashboard runtime and UI
-   - asset pipeline
-   - local AI bridge
+   - Continuity governance kernel
+   - Continuity Conekta extraction boundary
+   - encoding/version cleanup
    - Python/runtime package changes
    - release docs / translations
 
 3. Verify locally.
-   - `npm run build` in `nexus-dashboard`
-   - Python tests that matter for `continuity-pro` / `continuity-omega`
-   - smoke test on `localhost:3000`
+   - `python scripts/health_guard.py --strict`
+   - `python scripts/autophagy_report.py`
+   - `pytest -q`
+   - `python -m build`
+   - `twine check dist/*`
 
 4. Confirm the repo message.
-   - dashboard is now a sovereign control surface
-   - package remains the runtime truth
-   - local AI bridge is adapter-based, not hardwired to one provider
+   - Continuity Legacy is the runtime/governance kernel
+   - Continuity Conekta is external
+   - AgentOps is external/incubated
+   - adapter contracts are explicit
 
 ## Before publishing PyPI
 
@@ -63,7 +66,7 @@ So the honest conclusion is:
    - release notes / changelog
 
 3. Verify CLI parity.
-   - do not advertise dashboard actions as package commands unless the CLI actually supports them
+   - do not advertise Conekta actions as package commands unless the CLI actually supports them
    - keep package/runtime truth strict
 
 4. Build distributions.
@@ -79,23 +82,23 @@ So the honest conclusion is:
 
 ## Recommended commit sequence
 
-1. `chore: ignore local dashboard artifacts`
-2. `feat: sovereign dashboard multi-system asset runtime`
-3. `feat: local chat bridge for openclaw/ollama/moltbot`
-4. `docs: release and deployment preparation`
-5. `feat/fix: continuity package updates` (Python side, separately if possible)
+1. `feat: add continuity governance kernel`
+2. `chore: clean encoding and version baseline`
+3. `chore: extract continuity conekta control surface`
+4. `docs: document agentops and conekta boundaries`
+5. `docs: release and deployment preparation`
 
 ## What not to do
 
 - do not publish PyPI straight from a dirty mixed tree without a clean test install
-- do not claim package parity for dashboard-only features
+- do not claim package parity for Conekta-only features
 - do not push local logs, screenshots, or temp GLBs
-- do not auto-install packages from the dashboard UI without explicit operator intent
+- do not re-embed the Conekta web app into the Python package release
 
 ## Recommended next actions
 
 1. Create a clean branch for release preparation.
-2. Split dashboard changes from Python/package changes if possible.
+2. Keep Conekta changes in `D:\Experimentos\continuity-conekta`.
 3. Run a clean package build/install test.
 4. Tag only after the clean install passes.
 
