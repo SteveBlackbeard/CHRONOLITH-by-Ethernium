@@ -89,7 +89,7 @@ _Advanced RAG, cognitive mapping, and a stunning 3D Glassmorphic Dashboard for i
 | Guide | Link |
 | :--- | :--- |
 | [**Industrial Guide**](./HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](./HOW_TO_USE_IT.md) |
-| [**Dashboard Guide**](./HOW_TO_USE_DASHBOARD.md) | [HOW_TO_USE_DASHBOARD.md](./HOW_TO_USE_DASHBOARD.md) |
+| [**Continuity Conekta**](./CONTINUITY_CONEKTA/README.md) | External visual control surface extraction notes |
 | [**Release Manifest**](./RELEASE_NOTES_MANIFEST.md) | [RELEASE_NOTES_MANIFEST.md](./RELEASE_NOTES_MANIFEST.md) |
 
 ---
@@ -120,10 +120,10 @@ Continuity provides three levels of depth in governance:
 
 ---
 
-## Nexus Dashboard (Information Physics)
-The **Nexus Dashboard** is a glassmorphic command center that monitors the project's logic density. You can perform real-world protocols like **DNA Synthesis** and **Industrial Audits** directly from the UI.
+## Continuity Conekta (External Control Surface)
+**Continuity Conekta** is the standalone visual command surface extracted from the former Nexus Dashboard. Continuity Legacy remains the Python runtime and governance core; Conekta owns the web UI, 3D ecosystem graph, local chat bridge, and operator control surface.
 > [!TIP]
-> **READ MORE:** [**HOW_TO_USE_DASHBOARD.md**](./HOW_TO_USE_DASHBOARD.md)
+> **READ MORE:** [**CONTINUITY_CONEKTA/README.md**](./CONTINUITY_CONEKTA/README.md)
 
 ---
 
@@ -305,7 +305,7 @@ The **NEXUS Phase** is governed by the **THE_CHOSEN_ONES** protocol. Open source
 | --- | --- |
 | [Root Documents](#root-documents) | Core project docs: changelog, governance, usage, security, DNA, and release materials. |
 | [Root Translations](#root-translations) | Localized root README and release-note variants. |
-| [Dashboard Documents](#dashboard-documents) | Nexus Dashboard runtime, operator guidance, and asset pipeline docs. |
+| [Continuity Conekta Documents](#continuity-conekta-documents) | External visual control surface extraction notes and adapter boundary. |
 | [Lite Edition Documents](#lite-edition-documents) | Lightweight package docs and handoff references. |
 | [Pro Edition Documents](#pro-edition-documents) | Full operational package docs, roadmap, troubleshooting, and examples. |
 | [Omega Edition Documents](#omega-edition-documents) | Omega package overview and context docs. |
@@ -326,7 +326,7 @@ The **NEXUS Phase** is governed by the **THE_CHOSEN_ONES** protocol. Open source
 | `SECURITY.md` | Security posture, protected logic expectations, and handling of sensitive system areas. |
 | `GOVERNANCE.md` | Governance model, stewardship expectations, and system authority boundaries. |
 | `HOW_TO_USE_IT.md` | Practical guide for installing, running, and using Continuity Legacy. |
-| `HOW_TO_USE_DASHBOARD.md` | Operator guide for the Nexus Dashboard as control surface. |
+| `docs/CONEKTA_ADAPTER_CONTRACT.md` | Adapter contract between Continuity Legacy and the external Continuity Conekta control surface. |
 | `BENCHMARKS.md` | Performance and measurement notes for the system and its workflows. |
 | `CASE_STUDY_DRIFT.md` | Analysis of drift, continuity failure modes, and why the system exists. |
 | `ETHERNIUM_UNIVERSAL_DNA.md` | Ethernium-wide lineage and identity framing for the broader ecosystem. |
@@ -343,11 +343,12 @@ The **NEXUS Phase** is governed by the **THE_CHOSEN_ONES** protocol. Open source
 | `OTHER_LANGUAGES/RELEASE_v2.1.0_*.md` | Translated release notes for the v2.1.0 release line. |
 | `OTHER_LANGUAGES/RELEASE_v2.1.0-NEXUS_*.md` | Translated release notes for the NEXUS-specific release line. |
 
-### Dashboard Documents
+### Continuity Conekta Documents
 | Document | Purpose |
 | --- | --- |
-| `nexus-dashboard/README.md` | Dashboard setup, runtime behavior, local AI bridge, and operator workflow. |
-| `nexus-dashboard/docs/NODE_ASSET_PIPELINE.md` | Asset pipeline guide for node GLBs, centering, top-view readability, and Blender/export rules. |
+| `CONTINUITY_CONEKTA/README.md` | Continuity Conekta product boundary and extraction status. |
+| `CONTINUITY_CONEKTA/EXTRACTION_MANIFEST.json` | File inclusion/exclusion rules for the standalone Conekta repository. |
+| `CONTINUITY_CONEKTA/MIGRATION_PLAN.md` | Migration phases, adapter contract, and current verification notes. |
 
 ### Lite Edition Documents
 | Document | Purpose |

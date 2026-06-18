@@ -11,6 +11,21 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  governance:
+    name: Continuity Governance Health Guard
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: pip
+    - name: Run governance health guard
+      run: python scripts/health_guard.py --strict
+    - name: Run non-destructive autophagy report
+      run: python scripts/autophagy_report.py
+
   # --- DNA Integrity Tests ---
   test-lite:
     name: 🛡️ Lite DNA Audit

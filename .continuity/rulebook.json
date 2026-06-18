@@ -1,0 +1,88 @@
+{
+  "version": "1.0.0",
+  "scope": "continuity-legacy-governance-kernel",
+  "status": "phase-1-baseline",
+  "principles": [
+    "clean-room reverse engineering only",
+    "change explicit targets only",
+    "preserve runtime behavior unless requested",
+    "fail closed for structural corruption",
+    "warn before enforcing legacy cleanup",
+    "keep provider strategy outside the core",
+    "ignore extractable external tools"
+  ],
+  "required_documents": [
+    "README.md",
+    "PROJECT_CONTEXT.md",
+    "PROJECT_DNA.md",
+    "GOVERNANCE.md",
+    "REPO_AND_PYPI_RELEASE_CHECKLIST.md",
+    "docs/CHANGE_CONTRACT_TEMPLATE.md",
+    "docs/CONTINUITY_GOVERNANCE_KERNEL.md"
+  ],
+  "required_state_files": [
+    "STATE.json",
+    ".continuity/STATE.json",
+    ".continuity/DECISIONS_LOG.md",
+    ".continuity/LIVE_HANDOFF.md"
+  ],
+  "required_checks": [
+    "python scripts/health_guard.py",
+    "python scripts/autophagy_report.py",
+    "pytest",
+    "python -m build",
+    "twine check dist/*"
+  ],
+  "frozen_paths": [
+    "LICENSE",
+    "PROJECT_DNA.ene.md.locked",
+    "assets/",
+    "banners/"
+  ],
+  "sensitive_paths": [
+    "pyproject.toml",
+    "VERSION",
+    "STATE.json",
+    ".continuity/",
+    ".github/workflows/",
+    "continuity-lite/",
+    "continuity-pro/",
+    "continuity-omega/"
+  ],
+  "change_contract_required_for": [
+    "runtime behavior",
+    "package metadata",
+    "release workflows",
+    "cryptographic state",
+    "frozen paths",
+    "public CLI behavior"
+  ],
+  "encoding_policy": {
+    "target": "utf-8",
+    "line_endings": "lf",
+    "legacy_mojibake_markers": [
+      "\u00c3\u0192",
+      "\u00c3\u00a2",
+      "\u00c3\u00b0",
+      "\u00c3\u00af\u00c2\u00bb\u00c2\u00bf",
+      "\u00e2\u20ac",
+      "\u00f0\u0178",
+      "\u0102",
+      "\u0432\u045a",
+      "\u0440\u045f"
+    ],
+    "phase_1_severity": "warning",
+    "strict_severity": "error"
+  },
+  "agent_policy": {
+    "allow_leaked_prompt_copying": false,
+    "allow_clean_room_pattern_analysis": true,
+    "require_provider_neutral_docs": true,
+    "external_pricing_goes_to_external_tools": true
+  },
+  "rollback_policy": {
+    "required": true,
+    "destructive_cleanup_requires_human_approval": true,
+    "autophagy_reports_do_not_delete": true
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-06-17",
+  "scope": "continuity-legacy",
+  "policy": {
+    "default_status": "governed",
+    "runtime_changes_require_tests": true,
+    "sensitive_changes_require_docs": true,
+    "rollback_required": true,
+    "clean_room_reverse_engineering_only": true
+  },
+  "features": [
+    {
+      "id": "lite-edition",
+      "title": "Continuity Lite",
+      "status": "active",
+      "owner": "continuity-lite",
+      "modules": ["continuity-lite/"],
+      "tests": ["continuity-lite/tests/test_lite_logic.py"],
+      "docs": ["continuity-lite/README.md"],
+      "rollback": "Revert changes to continuity-lite and rerun Lite tests.",
+      "risk": "medium"
+    },
+    {
+      "id": "pro-edition",
+      "title": "Continuity Pro",
+      "status": "active",
+      "owner": "continuity-pro",
+      "modules": ["continuity-pro/"],
+      "tests": ["continuity-pro/tests/test_parity_logic.py", "continuity-pro/tests/test_logic.py"],
+      "docs": ["continuity-pro/README.md"],
+      "rollback": "Revert changes to continuity-pro and rerun Pro parity tests.",
+      "risk": "high"
+    },
+    {
+      "id": "omega-edition",
+      "title": "Continuity Omega",
+      "status": "active",
+      "owner": "continuity-omega",
+      "modules": ["continuity-omega/"],
+      "tests": ["continuity-omega/tests/test_omega_logic.py", "continuity-omega/tests/test_parity_logic.py"],
+      "docs": ["continuity-omega/README.md", "continuity-omega/PROJECT_CONTEXT.md"],
+      "rollback": "Revert changes to continuity-omega and rerun Omega tests.",
+      "risk": "high"
+    },
+    {
+      "id": "governance-kernel",
+      "title": "Governance Kernel",
+      "status": "phase-1-baseline",
+      "owner": ".continuity",
+      "modules": [
+        ".continuity/rulebook.json",
+        ".continuity/feature-registry.json",
+        "scripts/health_guard.py",
+        "scripts/autophagy_report.py"
+      ],
+      "tests": ["python scripts/health_guard.py", "python scripts/autophagy_report.py"],
+      "docs": ["docs/CONTINUITY_GOVERNANCE_KERNEL.md", "docs/CHANGE_CONTRACT_TEMPLATE.md"],
+      "rollback": "Remove Phase 1 governance files and CI step; no runtime package behavior is affected.",
+      "risk": "low"
+    }
+  ]
+}

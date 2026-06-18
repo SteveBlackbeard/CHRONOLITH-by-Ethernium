@@ -1,0 +1,20 @@
+{
+  "name": "ethernium-agentops",
+  "status": "incubation",
+  "extractable": true,
+  "relationship_to_continuity": "none",
+  "purpose": "Provider-neutral AI agent cost, context, and routing optimization.",
+  "clean_room_policy": {
+    "copy_leaked_prompts": false,
+    "study_public_behavior": true,
+    "extract_control_patterns": true,
+    "provider_neutral_rebuild": true
+  },
+  "initial_modules": [
+    "router",
+    "usage_log",
+    "context_packet",
+    "provider_profiles",
+    "templates"
+  ]
+}

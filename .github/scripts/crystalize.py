@@ -192,7 +192,7 @@ def autonomic_tokenator_heartbeat(root: Path, merkle_root: str, audit_files: lis
 def crystalize():
     root = Path(".").resolve()
     EXCLUDE_DIRS = {".git", "node_modules", ".continuity", "outputs", ".pytest_cache",
-                    "__pycache__", ".venv", ".github", ".idea", ".vscode", "nexus-dashboard"}
+                    "__pycache__", ".venv", ".github", ".idea", ".vscode"}
     CANONICAL_AUDIT_DIRS = [".", "OTHER_LANGUAGES"]
 
     # ── Phase 1: Collect auditable files ──

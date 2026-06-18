@@ -11,17 +11,7 @@ outputs/
 omega-dashboard/
 *.egg-info/
 .continuity/keys/*.priv
-nexus-dashboard/dev-server.log
-nexus-dashboard/dev-server.err.log
-nexus-dashboard/prod-server.log
-nexus-dashboard/prod-server.err.log
-nexus-dashboard/prod-server-*.log
-nexus-dashboard/prod-server-*.err.log
-nexus-dashboard/chrome-dom.html
-nexus-dashboard/dump-dom.html
-nexus-dashboard/edge-localhost.png
-nexus-dashboard/_tmp_*.glb
-nexus-dashboard/.env.local
-nexus-dashboard/config/node-asset-overrides.json
-nexus-dashboard/config/node-asset-family-overrides.json
-nexus-dashboard/public/assets/nodes/overrides/*.glb
+
+# Local incubation / research inputs
+_tmp_reglas_oro/
+Nuevo camino.txt
