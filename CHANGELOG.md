@@ -2,6 +2,14 @@
 
 All notable changes to the Continuity Legacy ecosystem will be documented in this file.
 
+## [3.0.3] - 2026-06-18
+### Governed Release Candidate
+- Raised all package metadata from `3.0.2` to `3.0.3` for the next immutable PyPI release line.
+- Added governance-first release material with the canonical Ethernium banner.
+- Balanced local governance work with remote KO/AR translation intent without reintroducing the separated dashboard.
+- Kept Continuity Conekta and AgentOps as explicitly separate tools so the Python framework remains focused.
+- Refreshed the golden baseline through a documented change contract.
+
 ## [2.1.0] - 2026-04-05
 ### Industrial Hardening (Major Evolution)
 - **Unified Typ-Rich CLI**: Complete refactor of Lite, Pro, and Omega editions to Typer + Rich UI.

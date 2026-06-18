@@ -4,16 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ethernium-continuity-omega"
-version = "3.0.2"
+version = "3.0.3"
 authors = [
   { name = "SteveBlackbeard" },
 ]
 description = "Continuity Legacy (Omega): Enterprise Oracle. Advanced RAG, cognitive maps, and proactive impact analysis."
 readme = "README.md"
 requires-python = ">=3.9"
+license = "MIT"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 dependencies = [

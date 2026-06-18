@@ -4,6 +4,16 @@
   "extractable": true,
   "relationship_to_continuity": "none",
   "purpose": "Provider-neutral AI agent cost, context, and routing optimization.",
+  "governance": {
+    "rulebook": "GOVERNANCE.md",
+    "maturity": "incubation",
+    "health_gate": [
+      "valid manifest JSON",
+      "explicit Continuity Legacy boundary",
+      "clean-room policy",
+      "extractable directory"
+    ]
+  },
   "clean_room_policy": {
     "copy_leaked_prompts": false,
     "study_public_behavior": true,

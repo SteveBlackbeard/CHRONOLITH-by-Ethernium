@@ -1,75 +1,30 @@
-# CONTINUITY LEGACY: Root Portal (グローバル・インフラストラクチャ)
-![Version](https://img.shields.io/badge/version-2.1.0-NEXUS-blue.svg)
+# Continuity Legacy
 
-#### エディション
-[![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](./continuity-lite/)
+![Version](https://img.shields.io/badge/version-3.0.2-blue.svg)
 
-[![PRO](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYPRO.png?raw=true)](./continuity-pro/)
+Continuity Legacy is a Python framework for AI-assisted project continuity. It preserves project context, intent, state integrity, and release governance across sessions and agents.
 
-[![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](./continuity-omega/)
+## Editions
 
-#### 言語
-[![ES](https://img.shields.io/badge/ES-white)](./OTHER_LANGUAGES/README_es.md) [![JA](https://img.shields.io/badge/JA-white)](./OTHER_LANGUAGES/README_ja.md) [![RU](https://img.shields.io/badge/RU-white)](./OTHER_LANGUAGES/README_ru.md) [![ZH](https://img.shields.io/badge/ZH-white)](./OTHER_LANGUAGES/README_zh.md) [![FR](https://img.shields.io/badge/FR-white)](./OTHER_LANGUAGES/README_fr.md) [![IT](https://img.shields.io/badge/IT-white)](./OTHER_LANGUAGES/README_it.md) [![DE](https://img.shields.io/badge/DE-white)](./OTHER_LANGUAGES/README_de.md) [![PT](https://img.shields.io/badge/PT-white)](./OTHER_LANGUAGES/README_pt.md) [![EN](https://img.shields.io/badge/EN-white)](./README.md) 
+- Lite: minimal local handoff and state checks.
+- Pro: industrial checks, hooks, parity diagnostics, and context tooling.
+- Omega: RAG-oriented graph and cognitive analysis workflows.
 
------
+## Install
 
-## 🏛️ 3 層エコシステム
-[![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](./continuity-lite/)
+```bash
+pip install ethernium-continuity-legacy
+continuity --help
+```
 
-[![PRO](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYPRO.png?raw=true)](./continuity-pro/)
+Individual packages:
 
-[![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](./continuity-omega/)
+```bash
+pip install ethernium-continuity-lite
+pip install ethernium-continuity-pro
+pip install ethernium-continuity-omega
+```
 
----
+## Product Boundary
 
-## 📊 Technical Specifications (Hardware Profiles)
-| Edition | RAM (Min) | Storage | Dependencies | Best For |
-| :--- | :--- | :--- | :--- | :--- |
-| **Lite** | < 100 MB | < 5 MB | Zero | Local Dev / CI-CD |
-| **Pro** | 4 GB | 50 MB | Standard | Industrial Handoffs |
-| **Omega** | 16 GB+ | 500 MB+ | RAG/Graph | Enterprise Strategy |
-
----
-
-## 🏛️ エンタープライズのユースケース
-Continuity Legacy は、長期的な 人間とAI のコラボレーションにおける「意味の漂流」を解決します:
-1. **エージェント間のハンドオフ**: プロジェクトの全コンテキストを異なる AI モデル間 (GPT-4 から Claude、ローカル LLM) でコンテキストロスなしに転送します。
-2. **マルチデイ RAG の安定性**: システムのリセット後でも、検索拡張生成システムが常に正規の真実のソースを指すようにします。
-3. **レガシーの復元**: 最後の人間開発者が去ってから数年後でも、プロジェクトのアーキテクチャ上の意図を即座に再構築します。
-
----
-
-## 🚀 Modos de Operación (How to use)
-1. **Modo Autónomo (Industrial CLI)**: Ejecute `continuity-lite status` para ver la salud del sistema.
-2. **Modo Centinela (Automatic Guardian)**: Use `continuity-lite init` para activar Hooks automáticos.
-3. **Modo Auditor (DNA Oracle)**: Use el motor Omega para informes de deriva semántica.
-
----
-
-## 🧠 主な機能 (知的シンフォニー)
-- **代謝の最適化**: すべてのエディションで遅延読み込みを実装。CLI の即時起動 (<100ms)。
-- **DNA 合成**: 論理的系統を保護するための `PROJECT_DNA.md` の自動生成。
-- **認知インサイト (Omega)**: インタラクティブな意思決定マップと影響アラート。
-- **グローバル・アウェアネス**: 9 言語の完全なドキュメントと CLI サポート。
-- **ダイヤモンド・サニタイズ**: エンコード エラーと文字化けの徹底的なパージ。
-
----
-
-## 🧠 Omega エディション: 認知的洞察
-**Omega エディション**は、当社のエンタープライズ グレードのティアです。アーキテクチャのドリフトを防ぐために、視覚的でインタラクティブな意思決定の系統と意味的な影響分析を提供します。
-
-![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)
-
----
-
-## 🔍 品質フロー
-1. 意図の把握：「なぜ」を文書化する。
-2. パリティチェック：エコシステムを検証する。
-3. 影響分析：意味的な矛盾を検出する。
-4. DNA合成：コアヌクレオチドの更新。
-
----
-*Continuity: ソフトウェアの論理的系統を保護します。*
-
----
-* CONTINUITY LEGACY: グローバル・インフラストラクチャ - Version 2.1.0-NEXUS - Generated 2026-04-06T04:13:26.093556Z *
+Continuity Legacy is the Python runtime and governance kernel. Continuity Conekta is an external visual control surface. AgentOps is an extractable incubated tool.

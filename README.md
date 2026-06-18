@@ -5,12 +5,12 @@
 # Continuity Legacy: Persistent Cognitive Layer
 
 [![Industrial Guardian](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/industrial_guardian.yml/badge.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/industrial_guardian.yml)
-[![Version](https://img.shields.io/badge/version-2.1.0-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/releases)
+[![Version](https://img.shields.io/badge/version-3.0.3-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/releases)
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/release/python-3100/)
 
 #### Languages
-[![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_es.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/README.md) [![JA](https://img.shields.io/badge/JA-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ja.md) [![ZH](https://img.shields.io/badge/ZH-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_zh.md) [![RU](https://img.shields.io/badge/RU-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ru.md) [![FR](https://img.shields.io/badge/FR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_fr.md) [![IT](https://img.shields.io/badge/IT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_it.md) [![DE](https://img.shields.io/badge/DE-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_de.md) [![PT](https://img.shields.io/badge/PT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_pt.md)
+[![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_es.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/README.md) [![JA](https://img.shields.io/badge/JA-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ja.md) [![ZH](https://img.shields.io/badge/ZH-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_zh.md) [![RU](https://img.shields.io/badge/RU-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ru.md) [![FR](https://img.shields.io/badge/FR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_fr.md) [![IT](https://img.shields.io/badge/IT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_it.md) [![DE](https://img.shields.io/badge/DE-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_de.md) [![PT](https://img.shields.io/badge/PT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_pt.md) [![KO](https://img.shields.io/badge/KO-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ko.md) [![AR](https://img.shields.io/badge/AR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ar.md)
 
 "**AI doesn't forget anymore.**"
 
@@ -31,7 +31,7 @@ Get the entire Ethernium Continuity Ecosystem running in seconds:
 
 ```bash
 # Install the unified metapackage
-pip install continuity-legacy
+pip install ethernium-continuity-legacy
 
 # Initialize the Guardian DNA in your current project
 continuity init
@@ -55,7 +55,7 @@ To address the need for concrete evidence, we provide a verified Case Study and 
 
 <!-- DNA_CRYSTAL -->
 > [!IMPORTANT]
-> **DNA CRYSTAL**: `v3.0.0-40ee4360d1b20b95`
+> **DNA CRYSTAL**: `v3.0.3-governed`
 > [![Merkle Root](https://img.shields.io/badge/DNA--Crystallized-541741c7-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium)
 
 ## Table of Contents
@@ -183,7 +183,7 @@ Continuity Legacy uses a **Total Decoupling** design. Editions are not a monolit
 *   **Common Substrate**: All editions share the `.continuity/STATE.json` and `PROJECT_CONTEXT.md`.
 *   **Passive Interoperability**: A change registered by one edition is immediately visible to others, ensuring the logical lineage flows without friction.
 
-### The NEXUS v2.10.0 Cryptographic Audit Cycle
+### Governed Cryptographic Audit Cycle
 ```mermaid
 sequenceDiagram
     participant D as Developer (Architect)
@@ -198,9 +198,9 @@ sequenceDiagram
     alt Identity Verified
         TC->>HG: Grant Access (Open Nucleotides)
         HG->>DNA: Update Merkle Root
-        HG->>D: Green Badge (v2.10.0)
+        HG->>D: Green Badge (v3.0.3)
     else Identity Missing
-        HG->>D: REJECT (v2.10.0-SDK_ERROR)
+        HG->>D: REJECT (SDK_ERROR)
         Note over HG: Context stays LOCKED
     end
 ```
@@ -252,7 +252,7 @@ graph LR
     subgraph "Input Layer"
         RAW[Raw Context/Code]
     end
-    subgraph "Processing Layer (NEXUS)"
+    subgraph "Processing Layer (Continuity Runtime)"
         RAW --> H[Shannon Entropy Audit]
         H -- "H < 5.0 (Pure)" --> ENE[ENE v3.0 Mapping]
         H -- "H > 5.0 (Noisy)" --> REF[Suggest Refactor]
@@ -269,7 +269,7 @@ graph LR
 graph TD
     A[Context Gravity] -- "Raw Fragments" --> B((Entropy Reduction))
     B -- "Minimizing H(X)" --> C[Logic Density Maximized]
-    C -- "NEXUS Core" --> D{Cryptographic Persistence}
+    C -- "Continuity Core" --> D{Cryptographic Persistence}
     D -- "Authorized" --> E[Instant Context Restoration]
     D -- "Unauthorized" --> F[Semantic Silence]
 ```
@@ -287,7 +287,7 @@ graph TD
 
 ## Origins: The Ethernium Heritage
 ## Community & Governance
-The **NEXUS Phase** is governed by the **THE_CHOSEN_ONES** protocol. Open source contributions are welcomed, but critical logic and symbolic DNA are protected.
+The governed runtime phase is protected by explicit contracts, health checks, and baseline verification. Open source contributions are welcomed, while critical logic and symbolic DNA remain protected by review gates.
 
 - **How to Collaborate**: See [CONTRIBUTING.md](CONTRIBUTING.md) for keys and access.
 - **Support**: Reach out via [X (@ethernium)](https://x.com/ethernium) or [Email](mailto:etherniumcorp@outlook.com)
@@ -411,8 +411,15 @@ The **NEXUS Phase** is governed by the **THE_CHOSEN_ONES** protocol. Open source
 | `continuity-pro/.continuity/templates/external_docs/README.md` | External-document template usage notes. |
 | `continuity-pro/.continuity/registry/README.md` | Registry notes for internal continuity bookkeeping. |
 
-### PyPI Links (v3.0.2)
+### Release Status
+`v3.0.3` is the next governed release target. PyPI still exposes `v3.0.2` until the immutable upload is performed.
+
+Release notes: [`docs/releases/v3.0.3.md`](./docs/releases/v3.0.3.md)
+
+### Published PyPI Links (v3.0.2)
 - `https://pypi.org/project/ethernium-continuity-legacy/3.0.2/`
 - `https://pypi.org/project/ethernium-continuity-lite/3.0.2/`
 - `https://pypi.org/project/ethernium-continuity-pro/3.0.2/`
 - `https://pypi.org/project/ethernium-continuity-omega/3.0.2/`
+
+
