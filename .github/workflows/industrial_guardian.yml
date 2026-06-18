@@ -23,6 +23,8 @@ jobs:
         cache: pip
     - name: Run governance health guard
       run: python scripts/health_guard.py --strict
+    - name: Verify golden baseline
+      run: python scripts/golden_baseline.py verify
     - name: Run non-destructive autophagy report
       run: python scripts/autophagy_report.py
 
