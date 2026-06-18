@@ -10,8 +10,8 @@
       "sha256": "4fb5e0f6b81ffa986a838152a212d8dd7254eaed73039206ca1d04ffac91f7f3"
     },
     ".github/workflows/industrial_guardian.yml": {
-      "bytes": 4092,
-      "sha256": "61b29c3aeeca2662e050a028f282e58e1617ed1fcf098e6e39f87c2a02cc5d3a"
+      "bytes": 3978,
+      "sha256": "e35e688e23742142b194f72b93d4bc059e5bc172b854aae09503151f9fd3c404"
     },
     "GOVERNANCE.md": {
       "bytes": 1644,
@@ -30,12 +30,12 @@
       "sha256": "1b10779ee96ad6b4f7aef99f1d3af7a6275ce3e04ba9bc008ba90009e4b7db27"
     },
     "PROJECT_DNA.md": {
-      "bytes": 6263,
-      "sha256": "8a629dac66e8f898c30d6f12a0fcf8fdbe7b21c86b8b16d2893dd3d6dfe04354"
+      "bytes": 6123,
+      "sha256": "bc3df99de498dbdb4891c128f96354ba4547dca4e93bd9fd138e7c777db6a7ab"
     },
     "README.md": {
-      "bytes": 23660,
-      "sha256": "ccbecae67dc05a0625df14e1846d893789d8f72d474dddfc6b43f5ea6a7a8fbb"
+      "bytes": 23658,
+      "sha256": "b128733368d59a1535f79093bbb780fb868b2a2f200c4c11742c7da1e2850082"
     },
     "STATE.json": {
       "bytes": 1909,
@@ -62,7 +62,7 @@
       "sha256": "2f526baec0fe298805b4d5e02599c5e5740a146d17a5bf6c88a96daf384c497d"
     }
   },
-  "generated_at": "2026-06-18T21:36:56+00:00",
+  "generated_at": "2026-06-18T22:14:51+00:00",
   "generated_by": "python scripts/golden_baseline.py refresh",
   "policy": {
     "destructive": false,
