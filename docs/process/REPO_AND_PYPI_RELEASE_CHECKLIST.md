@@ -8,20 +8,20 @@ The current working tree is stronger than the last GitHub snapshot in **governan
 - feature registry and machine-readable rulebook
 - non-destructive autophagy report
 - live handoff state
-- externalized Robin Hood tool
-- extracted Conekta Dev control surface
+- externalized ROBIN HOOD tool
+- extracted CONEKTA control surface
 
 The previous repo snapshot kept the dashboard colocated. The current direction is cleaner:
 
 - Continuity Legacy remains the Python package/runtime truth
-- Conekta Dev owns the web dashboard in its own repository
+- CONEKTA owns the web dashboard in its own repository
 - dashboard build/lint state no longer blocks PyPI release
 
 So the honest conclusion is:
 
 - **current tree is better governed**
-- **Conekta is now a separate product**
-- before pushing, verify the package and governance checks independently from Conekta
+- **CONEKTA is now a separate product**
+- before pushing, verify the package and governance checks independently from CONEKTA
 
 ## Before pushing to GitHub
 
@@ -33,7 +33,7 @@ So the honest conclusion is:
 
 2. Review these areas as separate commit groups.
    - Continuity governance kernel
-   - Conekta Dev extraction boundary
+   - CONEKTA extraction boundary
    - encoding/version cleanup
    - Python/runtime package changes
    - release docs / translations
@@ -47,8 +47,8 @@ So the honest conclusion is:
 
 4. Confirm the repo message.
    - Continuity Legacy is the runtime/governance kernel
-   - Conekta Dev is external
-   - Robin Hood is external
+   - CONEKTA is external
+   - ROBIN HOOD is external
    - adapter contracts are explicit
 
 ## Before publishing PyPI
@@ -66,7 +66,7 @@ So the honest conclusion is:
    - release notes / changelog
 
 3. Verify CLI parity.
-   - do not advertise Conekta actions as package commands unless the CLI actually supports them
+   - do not advertise CONEKTA actions as package commands unless the CLI actually supports them
    - keep package/runtime truth strict
 
 4. Build distributions.
@@ -84,22 +84,22 @@ So the honest conclusion is:
 
 1. `feat: add continuity governance kernel`
 2. `chore: clean encoding and version baseline`
-3. `chore: extract conekta dev control surface`
-4. `docs: document robin hood and conekta dev boundaries`
+3. `chore: extract conekta control surface`
+4. `docs: document robin hood and conekta boundaries`
 5. `docs: release and deployment preparation`
 
 ## What not to do
 
 - do not publish PyPI straight from a dirty mixed tree without a clean test install
-- do not claim package parity for Conekta-only features
+- do not claim package parity for CONEKTA-only features
 - do not push local logs, screenshots, or temp GLBs
-- do not re-embed the Conekta web app into the Python package release
+- do not re-embed the CONEKTA web app into the Python package release
 
 ## Recommended next actions
 
 1. Reconcile local `main` with `origin/main` without reintroducing `nexus-dashboard/`.
-2. Keep Conekta Dev changes in `D:\Experimentos\conekta-dev-by-ethernium`.
-3. Keep Robin Hood external and outside the Python package runtime.
+2. Keep CONEKTA changes in `D:\Experimentos\CONEKTA`.
+3. Keep ROBIN HOOD external and outside the Python package runtime.
 4. Run a clean package build/install test.
 5. Tag only after the clean install passes.
 

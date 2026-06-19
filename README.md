@@ -90,7 +90,7 @@ _Advanced RAG, cognitive mapping, and a stunning 3D Glassmorphic Dashboard for i
 | :--- | :--- |
 | [**Industrial Guide**](./HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](./HOW_TO_USE_IT.md) |
 | [**Editor & Agent Integration**](./docs/EDITOR_AGENT_INTEGRATION.md) | VS Code, Cursor, MCP and agent-host boundary |
-| [**External Tools**](./docs/external/README.md) | Conekta Dev and Robin Hood extraction notes |
+| [**External Tools**](./docs/external/README.md) | CONEKTA and ROBIN HOOD extraction notes |
 | [**Release Manifest**](./RELEASE_NOTES_MANIFEST.md) | [RELEASE_NOTES_MANIFEST.md](./RELEASE_NOTES_MANIFEST.md) |
 
 ---
@@ -122,7 +122,7 @@ Continuity provides three levels of depth in governance:
 ---
 
 ## External Tools
-**Conekta Dev by Ethernium** is the standalone visual command surface extracted from the former Nexus Dashboard. **Robin Hood by Ethernium** is the external agent-operations layer for token frugality, prompt-risk scanning, scoped capabilities, MCP, and future local/cloud/LoRA routing. Continuity Legacy remains the Python runtime and governance core.
+**CONEKTA** is the standalone visual command surface extracted from the former Nexus Dashboard. **ROBIN HOOD** is the external agent-operations layer for token frugality, prompt-risk scanning, scoped capabilities, MCP, and future local/cloud/LoRA routing. Continuity Legacy remains the Python runtime and governance core.
 > [!TIP]
 > **READ MORE:** [**docs/external/CONEKTA.md**](./docs/external/CONEKTA.md)
 
@@ -308,7 +308,7 @@ The governed runtime phase is protected by explicit contracts, health checks, an
 | [Process Documents](#process-documents) | Release checklists, staging plans, session logs, and token reports. |
 | [Archive Documents](#archive-documents) | Historical portal/demo artifacts kept out of the root view. |
 | [Root Translations](#root-translations) | Localized root README and release-note variants. |
-| [External Tool Documents](#external-tool-documents) | Conekta Dev and Robin Hood extraction notes and adapter boundary. |
+| [External Tool Documents](#external-tool-documents) | CONEKTA and ROBIN HOOD extraction notes and adapter boundary. |
 | [Lite Edition Documents](#lite-edition-documents) | Lightweight package docs and handoff references. |
 | [Pro Edition Documents](#pro-edition-documents) | Full operational package docs, roadmap, troubleshooting, and examples. |
 | [Omega Edition Documents](#omega-edition-documents) | Omega package overview and context docs. |
@@ -329,7 +329,7 @@ The governed runtime phase is protected by explicit contracts, health checks, an
 | `SECURITY.md` | Security posture, protected logic expectations, and handling of sensitive system areas. |
 | `GOVERNANCE.md` | Governance model, stewardship expectations, and system authority boundaries. |
 | `HOW_TO_USE_IT.md` | Practical guide for installing, running, and using Continuity Legacy. |
-| `docs/CONEKTA_ADAPTER_CONTRACT.md` | Adapter contract between Continuity Legacy and the external Conekta Dev control surface. |
+| `docs/CONEKTA_ADAPTER_CONTRACT.md` | Adapter contract between Continuity Legacy and the external CONEKTA control surface. |
 | `BENCHMARKS.md` | Performance and measurement notes for the system and its workflows. |
 | `CASE_STUDY_DRIFT.md` | Analysis of drift, continuity failure modes, and why the system exists. |
 | `ETHERNIUM_UNIVERSAL_DNA.md` | Ethernium-wide lineage and identity framing for the broader ecosystem. |
@@ -360,8 +360,8 @@ The governed runtime phase is protected by explicit contracts, health checks, an
 | Document | Purpose |
 | --- | --- |
 | `docs/external/README.md` | Index of external tools related to Continuity Legacy. |
-| `docs/external/CONEKTA.md` | Conekta Dev by Ethernium product boundary and external repository status. |
-| `docs/external/AGENTOPS.md` | Robin Hood by Ethernium product boundary, token-frugality role, usage, and MCP notes. |
+| `docs/external/CONEKTA.md` | CONEKTA product boundary and external repository status. |
+| `docs/external/AGENTOPS.md` | ROBIN HOOD product boundary, token-frugality role, usage, and MCP notes. |
 
 ### Lite Edition Documents
 | Document | Purpose |

@@ -1,22 +1,22 @@
-# Conekta Dev by Ethernium
+# CONEKTA
 
-Conekta Dev by Ethernium is the externalized dashboard/control-surface successor to Continuity Conekta.
+CONEKTA is the externalized dashboard/control-surface successor to Continuity Conekta.
 
 Planned repository:
 
 ```text
-https://github.com/SteveBlackbeard/conekta-dev-by-ethernium
+https://github.com/SteveBlackbeard/CONEKTA
 ```
 
 Local extracted path:
 
 ```text
-D:\Experimentos\conekta-dev-by-ethernium
+D:\Experimentos\CONEKTA
 ```
 
 ## Role
 
-Conekta Dev owns:
+CONEKTA owns:
 
 - web dashboard
 - visual control surface
@@ -44,19 +44,19 @@ docs/CONEKTA_ADAPTER_CONTRACT.md
 Recommended bridge:
 
 ```text
-Conekta Dev UI -> local adapter/API -> Continuity Legacy CLI/runtime -> STATE.json / reports
+CONEKTA UI -> local adapter/API -> Continuity Legacy CLI/runtime -> STATE.json / reports
 ```
 
 ## Bootstrap
 
-The local bootstrap script can point at the external Conekta Dev path:
+The local bootstrap script can point at the external CONEKTA path:
 
 ```powershell
-.\scripts\bootstrap-local-machine.ps1 -ConektaPath ..\conekta-dev-by-ethernium
+.\scripts\bootstrap-local-machine.ps1 -ConektaPath ..\CONEKTA
 ```
 
 ## Boundary
 
 Do not reinsert the dashboard into Continuity Legacy.
 
-Do not make the Python packages depend on the Conekta Dev web runtime.
+Do not make the Python packages depend on the CONEKTA web runtime.

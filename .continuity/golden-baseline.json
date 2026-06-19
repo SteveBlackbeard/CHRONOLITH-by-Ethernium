@@ -34,8 +34,8 @@
       "sha256": "bc3df99de498dbdb4891c128f96354ba4547dca4e93bd9fd138e7c777db6a7ab"
     },
     "README.md": {
-      "bytes": 24382,
-      "sha256": "13d82cf4bd6b85bbb08b1366c41c45e69dad7063d2c462f5c8f072bbe12412dc"
+      "bytes": 24310,
+      "sha256": "d3666f3b3b08e4b7eee25b41801d5cc788044a4f8a2fe25053ddfa3452746c7f"
     },
     "STATE.json": {
       "bytes": 1919,
@@ -62,7 +62,7 @@
       "sha256": "8953848171661478b9cbd2d65952649c587872632b58349b2905267993c95a38"
     }
   },
-  "generated_at": "2026-06-19T19:47:36+00:00",
+  "generated_at": "2026-06-19T20:01:10+00:00",
   "generated_by": "python scripts/golden_baseline.py refresh",
   "policy": {
     "destructive": false,

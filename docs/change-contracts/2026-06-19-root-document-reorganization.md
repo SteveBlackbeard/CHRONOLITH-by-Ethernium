@@ -47,7 +47,7 @@ Required:
 - `python scripts\autophagy_report.py`
 - `python scripts\golden_baseline.py verify`
 - `pytest -q`
-- `cd D:\Experimentos\robin-hood-by-ethernium; pytest tests -q`
+- `cd D:\Experimentos\ROBIN-HOOD; pytest tests -q`
 
 ## Rollback
 

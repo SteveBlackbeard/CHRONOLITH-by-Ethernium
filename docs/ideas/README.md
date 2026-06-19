@@ -7,5 +7,5 @@ Raw research dumps, temporary imports, provider-specific pricing notes, copied c
 Current rule:
 
 - Keep Continuity decisions in `.continuity/`, `docs/`, or scripts only after they are reduced to native project contracts.
-- Keep Robin Hood outside Continuity Legacy after extraction.
+- Keep ROBIN HOOD outside Continuity Legacy after extraction.
 - Keep raw temporary material ignored until it is reviewed and distilled.

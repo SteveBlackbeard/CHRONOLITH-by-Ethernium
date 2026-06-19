@@ -1,4 +1,4 @@
-# Change Contract: Externalize Robin Hood And Conekta Dev
+# Change Contract: Externalize ROBIN HOOD And CONEKTA
 
 ## Scope
 
@@ -8,22 +8,22 @@ Remove AgentOps and Continuity Conekta source/staging folders from Continuity Le
 
 Continuity Legacy should remain the Python runtime, governance kernel, release surface, and documentation source of truth for Lite / Pro / Omega.
 
-Robin Hood and Conekta Dev are separate products:
+ROBIN HOOD and CONEKTA are separate products:
 
-- Robin Hood owns token frugality, prompt-risk scanning, capability checks, MCP, and future model routing.
-- Conekta Dev owns the visual dashboard/control surface.
+- ROBIN HOOD owns token frugality, prompt-risk scanning, capability checks, MCP, and future model routing.
+- CONEKTA owns the visual dashboard/control surface.
 
 Keeping their source folders inside Legacy makes the root look less professional and risks confusing package/runtime boundaries.
 
 ## External Paths
 
-- Robin Hood: `D:\Experimentos\robin-hood-by-ethernium`
-- Conekta Dev: `D:\Experimentos\conekta-dev-by-ethernium`
+- ROBIN HOOD: `D:\Experimentos\ROBIN-HOOD`
+- CONEKTA: `D:\Experimentos\CONEKTA`
 
 ## Planned Repositories
 
-- `https://github.com/SteveBlackbeard/robin-hood-by-ethernium`
-- `https://github.com/SteveBlackbeard/conekta-dev-by-ethernium`
+- `https://github.com/SteveBlackbeard/ROBIN-HOOD`
+- `https://github.com/SteveBlackbeard/CONEKTA`
 
 ## Removed From Legacy
 
@@ -55,14 +55,14 @@ Required in Continuity Legacy:
 - `python scripts\golden_baseline.py verify`
 - `pytest -q`
 
-Required in extracted Robin Hood:
+Required in extracted ROBIN HOOD:
 
-- `cd D:\Experimentos\robin-hood-by-ethernium`
+- `cd D:\Experimentos\ROBIN-HOOD`
 - `pytest tests -q`
 
-Required in extracted Conekta Dev before its own publication:
+Required in extracted CONEKTA before its own publication:
 
-- `cd D:\Experimentos\conekta-dev-by-ethernium`
+- `cd D:\Experimentos\CONEKTA`
 - `npm run lint`
 - `npm run build`
 

@@ -1,22 +1,22 @@
-# Robin Hood by Ethernium
+# ROBIN HOOD
 
-Robin Hood by Ethernium is the externalized successor to the AgentOps incubation folder.
+ROBIN HOOD is the externalized successor to the AgentOps incubation folder.
 
 Planned repository:
 
 ```text
-https://github.com/SteveBlackbeard/robin-hood-by-ethernium
+https://github.com/SteveBlackbeard/ROBIN-HOOD
 ```
 
 Local extracted path:
 
 ```text
-D:\Experimentos\robin-hood-by-ethernium
+D:\Experimentos\ROBIN-HOOD
 ```
 
 ## Role
 
-Robin Hood owns:
+ROBIN HOOD owns:
 
 - prompt-risk scanning
 - least-privilege capability checks
@@ -37,10 +37,10 @@ Continuity Legacy owns:
 
 ## Usage Beside Continuity
 
-From the Robin Hood repository:
+From the ROBIN HOOD repository:
 
 ```powershell
-cd D:\Experimentos\robin-hood-by-ethernium
+cd D:\Experimentos\ROBIN-HOOD
 pip install -e .
 agentops health --strict
 agentops scan --path adversarial_cases --source repo --fail-on-block
@@ -49,13 +49,13 @@ agentops scan --path adversarial_cases --source repo --fail-on-block
 Optional MCP server:
 
 ```powershell
-cd D:\Experimentos\robin-hood-by-ethernium
+cd D:\Experimentos\ROBIN-HOOD
 pip install -e .[mcp]
 agentops-mcp
 ```
 
 ## Boundary
 
-Do not import Robin Hood from Continuity Legacy runtime code.
+Do not import ROBIN HOOD from Continuity Legacy runtime code.
 
-Do not package Robin Hood into Continuity Legacy PyPI artifacts.
+Do not package ROBIN HOOD into Continuity Legacy PyPI artifacts.
