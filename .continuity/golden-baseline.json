@@ -39,7 +39,7 @@
     },
     "STATE.json": {
       "bytes": 1919,
-      "sha256": "b4a37d575dcf9ede0d40f2f2a7ab8e7df937276c826511990491a0fa83598ccb"
+      "sha256": "7376edef812f77cae9d5c75071cb1f6467c2f3d3ba0645690f97ea092dd3d07c"
     },
     "VERSION": {
       "bytes": 6,
@@ -62,7 +62,7 @@
       "sha256": "2f526baec0fe298805b4d5e02599c5e5740a146d17a5bf6c88a96daf384c497d"
     }
   },
-  "generated_at": "2026-06-19T03:36:02+00:00",
+  "generated_at": "2026-06-19T13:53:19+00:00",
   "generated_by": "python scripts/golden_baseline.py refresh",
   "policy": {
     "destructive": false,
