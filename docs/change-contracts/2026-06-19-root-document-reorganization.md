@@ -47,7 +47,7 @@ Required:
 - `python scripts\autophagy_report.py`
 - `python scripts\golden_baseline.py verify`
 - `pytest -q`
-- `$env:PYTHONPATH="AGENTOPS_TOOL"; pytest AGENTOPS_TOOL\tests -q`
+- `cd D:\Experimentos\robin-hood-by-ethernium; pytest tests -q`
 
 ## Rollback
 

@@ -41,8 +41,6 @@ IGNORED_DIRS = {
     ".build-tmp",
     ".pypi-smoke",
     ".pypi-smoke-302",
-    "AGENTOPS_TOOL",
-    "CONTINUITY_CONEKTA",
 }
 
 KEEP_PATHS = {

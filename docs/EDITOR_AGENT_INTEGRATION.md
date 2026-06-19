@@ -23,9 +23,9 @@ Continuity Legacy does not own:
 - provider-specific pricing
 - editor-specific plugin logic
 - dashboard runtime
-- AgentOps runtime
+- Robin Hood runtime
 
-Those concerns belong to AgentOps, Continuity Conekta, or dedicated external adapters.
+Those concerns belong to Robin Hood by Ethernium, Conekta Dev by Ethernium, or dedicated adapters.
 
 ## VS Code
 
@@ -40,12 +40,13 @@ pytest -q
 python -m build
 ```
 
-AgentOps can be used beside Continuity:
+Robin Hood can be used beside Continuity from its extracted repository:
 
 ```powershell
-$env:PYTHONPATH="AGENTOPS_TOOL"
-python -m agentops.cli health --strict
-python -m agentops.cli scan --path AGENTOPS_TOOL\adversarial_cases --source repo --fail-on-block
+cd D:\Experimentos\robin-hood-by-ethernium
+pip install -e .
+agentops health --strict
+agentops scan --path adversarial_cases --source repo --fail-on-block
 ```
 
 Do not make VS Code tasks part of the runtime package.
@@ -60,7 +61,7 @@ Cursor should treat Continuity files as repository law:
 - `docs/CHANGE_CONTRACT_TEMPLATE.md`
 - `docs/process/REPO_AND_PYPI_RELEASE_CHECKLIST.md`
 
-Cursor rules may call AgentOps for operational safety, but Cursor should not mix AgentOps code into Continuity runtime.
+Cursor rules may call Robin Hood for operational safety, but Cursor should not mix Robin Hood code into Continuity runtime.
 
 ## MCP
 
@@ -70,11 +71,11 @@ The better shape is:
 
 ```text
 Editor / agent
-  -> AgentOps MCP tools
+  -> Robin Hood MCP tools
   -> Continuity CLI/scripts when repository governance is needed
 ```
 
-This lets MCP hosts ask AgentOps to scan, packet, and scope tasks while Continuity remains the canonical project governance layer.
+This lets MCP hosts ask Robin Hood to scan, packet, and scope tasks while Continuity remains the canonical project governance layer.
 
 ## Antigravity And Other Hosts
 
@@ -95,4 +96,4 @@ Continuity Legacy is considered editor-ready when:
 - editor tasks are thin wrappers around those checks
 - Cursor rules point to the rulebook and handoff files
 - MCP integration stays outside the runtime
-- AgentOps remains extractable
+- Robin Hood remains external

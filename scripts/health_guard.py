@@ -147,8 +147,6 @@ def check_mojibake(rulebook: dict[str, Any]) -> list[Finding]:
         ".pypi-smoke",
         ".pypi-smoke-302",
         "outputs",
-        "AGENTOPS_TOOL",
-        "CONTINUITY_CONEKTA",
     }
     for dirpath, dirnames, filenames in os.walk(ROOT):
         dirnames[:] = [

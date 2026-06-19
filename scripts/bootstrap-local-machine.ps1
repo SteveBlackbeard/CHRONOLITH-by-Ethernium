@@ -10,7 +10,7 @@ param(
     [string]$OllamaModel = "llama3.1",
     [switch]$SkipDashboard,
     [switch]$StartDashboard,
-    [string]$ConektaPath = "..\continuity-conekta"
+    [string]$ConektaPath = "..\conekta-dev-by-ethernium"
 )
 
 $ErrorActionPreference = "Stop"
@@ -96,7 +96,7 @@ Write-Step "Validating core Continuity CLI commands"
 & $venvPython -m continuity_legacy init --help | Out-Null
 
 if (-not $SkipDashboard -and (Test-Path $conektaPath)) {
-    Write-Step "Preparing Continuity Conekta environment"
+    Write-Step "Preparing Conekta Dev environment"
     Assert-Path $conektaEnvExample "Missing Conekta env template: $conektaEnvExample"
     if (-not (Test-Path $conektaEnvLocal)) {
         Copy-Item $conektaEnvExample $conektaEnvLocal
@@ -111,16 +111,16 @@ if (-not $SkipDashboard -and (Test-Path $conektaPath)) {
     Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_OLLAMA_ENABLED" -Value ($(if ($ChatProvider -eq "ollama") { "true" } else { "false" }))
     Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_MOLTBOT_ENABLED" -Value ($(if ($ChatProvider -eq "moltbot") { "true" } else { "false" }))
 
-    Write-Step "Installing Continuity Conekta dependencies"
+    Write-Step "Installing Conekta Dev dependencies"
     Push-Location $conektaPath
     try {
         npm install
 
-        Write-Step "Building Continuity Conekta"
+        Write-Step "Building Conekta Dev"
         npm run build
 
         if ($StartDashboard) {
-            Write-Step "Starting Continuity Conekta"
+            Write-Step "Starting Conekta Dev"
             npm run start
         }
     }
@@ -128,12 +128,12 @@ if (-not $SkipDashboard -and (Test-Path $conektaPath)) {
         Pop-Location
     }
 } elseif (-not $SkipDashboard) {
-    Write-Step "Continuity Conekta not found at $conektaPath; skipping external UI bootstrap"
+    Write-Step "Conekta Dev not found at $conektaPath; skipping external UI bootstrap"
 }
 
 Write-Step "Bootstrap complete"
 Write-Host "Virtual environment: $venvPath" -ForegroundColor Green
-Write-Host "Continuity Conekta path: $conektaPath" -ForegroundColor Green
+Write-Host "Conekta Dev path: $conektaPath" -ForegroundColor Green
 Write-Host "Chat provider: $ChatProvider" -ForegroundColor Green
 Write-Host ""
 Write-Host "PyPI upload was intentionally skipped." -ForegroundColor Yellow

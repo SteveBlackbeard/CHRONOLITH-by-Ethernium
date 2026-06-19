@@ -1,5 +1,5 @@
 {
-  "change_contract": "docs/change-contracts/2026-06-19-root-document-reorganization.md",
+  "change_contract": "docs/change-contracts/2026-06-19-externalize-agentops-conekta.md",
   "files": {
     ".continuity/feature-registry.json": {
       "bytes": 2395,
@@ -34,8 +34,8 @@
       "sha256": "bc3df99de498dbdb4891c128f96354ba4547dca4e93bd9fd138e7c777db6a7ab"
     },
     "README.md": {
-      "bytes": 24395,
-      "sha256": "13472184126f36a7f11e5ae2424762ca747d7f31cb92157db2bb844802f59c27"
+      "bytes": 24382,
+      "sha256": "13d82cf4bd6b85bbb08b1366c41c45e69dad7063d2c462f5c8f072bbe12412dc"
     },
     "STATE.json": {
       "bytes": 1919,
@@ -50,19 +50,19 @@
       "sha256": "e52ab956998bb6d20503526459f31f70d61a1d032993dd186e8aeb5a14ad169c"
     },
     "scripts/autophagy_report.py": {
-      "bytes": 5177,
-      "sha256": "ad47a95381e8d0c7852fdae7ff470d26165e359a81cf67ad976c640afb073254"
+      "bytes": 5130,
+      "sha256": "e0832039af3b3148d23aed4ca327f96730a976f278011c705483c7d5cd5e32e3"
     },
     "scripts/golden_baseline.py": {
       "bytes": 5986,
       "sha256": "128e27474436f03ebc90fbc08f8de24f58503a2d20e46153e914ce65970f0a36"
     },
     "scripts/health_guard.py": {
-      "bytes": 7978,
-      "sha256": "2f526baec0fe298805b4d5e02599c5e5740a146d17a5bf6c88a96daf384c497d"
+      "bytes": 7923,
+      "sha256": "8953848171661478b9cbd2d65952649c587872632b58349b2905267993c95a38"
     }
   },
-  "generated_at": "2026-06-19T19:15:19+00:00",
+  "generated_at": "2026-06-19T19:47:36+00:00",
   "generated_by": "python scripts/golden_baseline.py refresh",
   "policy": {
     "destructive": false,

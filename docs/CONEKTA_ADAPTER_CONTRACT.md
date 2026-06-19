@@ -1,6 +1,6 @@
-# Continuity Conekta Adapter Contract
+# Conekta Dev Adapter Contract
 
-Continuity Conekta is an external control surface. Continuity Legacy must expose stable, local-first integration points without depending on the Conekta web app at package runtime.
+Conekta Dev by Ethernium is an external control surface. Continuity Legacy must expose stable, local-first integration points without depending on the Conekta Dev web app at package runtime.
 
 ## Boundary
 
@@ -12,7 +12,7 @@ Continuity Legacy owns:
 - governance checks
 - release readiness
 
-Continuity Conekta owns:
+Conekta Dev owns:
 
 - browser UI
 - 3D graph
@@ -22,7 +22,7 @@ Continuity Conekta owns:
 
 ## Recommended Local API
 
-The Conekta adapter should use explicit endpoints or CLI wrappers:
+The Conekta Dev adapter should use explicit endpoints or CLI wrappers:
 
 ```text
 GET  /state
@@ -45,4 +45,4 @@ The adapter must fail closed when:
 
 ## Release Rule
 
-Continuity Legacy releases must not require the Conekta app to build or run. Conekta has its own repository, checks, lint debt, and release process.
+Continuity Legacy releases must not require the Conekta Dev app to build or run. Conekta Dev has its own repository, checks, lint debt, and release process.

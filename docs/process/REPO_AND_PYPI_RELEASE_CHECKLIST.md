@@ -8,13 +8,13 @@ The current working tree is stronger than the last GitHub snapshot in **governan
 - feature registry and machine-readable rulebook
 - non-destructive autophagy report
 - live handoff state
-- separated AgentOps incubation
-- extracted Continuity Conekta control surface
+- externalized Robin Hood tool
+- extracted Conekta Dev control surface
 
 The previous repo snapshot kept the dashboard colocated. The current direction is cleaner:
 
 - Continuity Legacy remains the Python package/runtime truth
-- Continuity Conekta owns the web dashboard in its own repository
+- Conekta Dev owns the web dashboard in its own repository
 - dashboard build/lint state no longer blocks PyPI release
 
 So the honest conclusion is:
@@ -33,7 +33,7 @@ So the honest conclusion is:
 
 2. Review these areas as separate commit groups.
    - Continuity governance kernel
-   - Continuity Conekta extraction boundary
+   - Conekta Dev extraction boundary
    - encoding/version cleanup
    - Python/runtime package changes
    - release docs / translations
@@ -47,8 +47,8 @@ So the honest conclusion is:
 
 4. Confirm the repo message.
    - Continuity Legacy is the runtime/governance kernel
-   - Continuity Conekta is external
-   - AgentOps is external/incubated
+   - Conekta Dev is external
+   - Robin Hood is external
    - adapter contracts are explicit
 
 ## Before publishing PyPI
@@ -84,8 +84,8 @@ So the honest conclusion is:
 
 1. `feat: add continuity governance kernel`
 2. `chore: clean encoding and version baseline`
-3. `chore: extract continuity conekta control surface`
-4. `docs: document agentops and conekta boundaries`
+3. `chore: extract conekta dev control surface`
+4. `docs: document robin hood and conekta dev boundaries`
 5. `docs: release and deployment preparation`
 
 ## What not to do
@@ -98,8 +98,8 @@ So the honest conclusion is:
 ## Recommended next actions
 
 1. Reconcile local `main` with `origin/main` without reintroducing `nexus-dashboard/`.
-2. Keep Conekta changes in `D:\Experimentos\continuity-conekta`.
-3. Keep AgentOps extractable and outside the Python package runtime.
+2. Keep Conekta Dev changes in `D:\Experimentos\conekta-dev-by-ethernium`.
+3. Keep Robin Hood external and outside the Python package runtime.
 4. Run a clean package build/install test.
 5. Tag only after the clean install passes.
 

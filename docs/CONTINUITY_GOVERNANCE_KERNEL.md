@@ -31,7 +31,7 @@ Continuity Legacy does not own:
 - leaked third-party prompts
 - external AI subscription strategy
 - dashboard-only visual rules
-- Continuity Conekta web application runtime
+- Conekta Dev web application runtime
 - the full Ethernium universe key map
 - prompt dumps copied from other products
 
