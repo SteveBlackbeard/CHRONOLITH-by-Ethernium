@@ -20,10 +20,14 @@ Continuity Legacy owns:
 - drift detection
 - release baseline verification
 - context compaction and archival policy
+- editor/agent readiness through CLI, files, and optional external integration wrappers
 
 Continuity Legacy does not own:
 
 - provider-specific pricing
+- model API routing
+- LoRA serving
+- editor-specific plugin runtime
 - leaked third-party prompts
 - external AI subscription strategy
 - dashboard-only visual rules

@@ -97,6 +97,8 @@ The first standalone version should be small:
 - `THREAT_MODEL.md`: defensive model for prompt injection, tool hijack, memory poisoning, and secret leakage
 - `EXTRACTION_CONTRACT.md`: guarantee that this folder can become its own repository
 - `ROADMAP.md`: phased path from incubation to product
+- `PENDING.md`: unfinished work before standalone release
+- `INTEGRATIONS.md`: VS Code, Cursor, MCP, and future editor integration boundary
 
 Executable code now starts with the local-first prototype:
 
@@ -156,3 +158,25 @@ pip install -e .
 agentops health --strict
 agentops scan --path adversarial_cases --source web --fail-on-block
 ```
+
+## Integration Scaffolds
+
+AgentOps now includes thin integration templates:
+
+```text
+integrations/vscode/tasks.json
+integrations/cursor/rules/agentops.mdc
+integrations/mcp/server_contract.json
+```
+
+These are contracts and starter templates, not editor dependencies.
+
+Optional MCP server:
+
+```powershell
+cd AGENTOPS_TOOL
+pip install -e .[mcp]
+agentops-mcp
+```
+
+The MCP server exposes local controls only: health, scan text, scan path, context packet generation, and capability checks.

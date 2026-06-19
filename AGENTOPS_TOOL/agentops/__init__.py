@@ -5,5 +5,6 @@ __all__ = [
     "context_packet",
     "frugality_ledger",
     "health_guard",
+    "mcp_server",
     "prompt_firewall",
 ]

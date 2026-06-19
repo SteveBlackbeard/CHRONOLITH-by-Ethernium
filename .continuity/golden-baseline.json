@@ -1,5 +1,5 @@
 {
-  "change_contract": "docs/change-contracts/2026-06-18-docs-origin-balance-agentops.md",
+  "change_contract": "docs/change-contracts/2026-06-19-editor-agentops-integration.md",
   "files": {
     ".continuity/feature-registry.json": {
       "bytes": 2395,
@@ -34,12 +34,12 @@
       "sha256": "bc3df99de498dbdb4891c128f96354ba4547dca4e93bd9fd138e7c777db6a7ab"
     },
     "README.md": {
-      "bytes": 23658,
-      "sha256": "b128733368d59a1535f79093bbb780fb868b2a2f200c4c11742c7da1e2850082"
+      "bytes": 23777,
+      "sha256": "acbbe544b1de69ead94b40a3e9c7fb63565d8a10d918c0925c2706b362036675"
     },
     "STATE.json": {
       "bytes": 1919,
-      "sha256": "7376edef812f77cae9d5c75071cb1f6467c2f3d3ba0645690f97ea092dd3d07c"
+      "sha256": "607b63edf8a86cb140b404ce7a4e2cf605648a30a4498a8aa23ef41044d31352"
     },
     "VERSION": {
       "bytes": 6,
@@ -62,7 +62,7 @@
       "sha256": "2f526baec0fe298805b4d5e02599c5e5740a146d17a5bf6c88a96daf384c497d"
     }
   },
-  "generated_at": "2026-06-19T13:53:19+00:00",
+  "generated_at": "2026-06-19T14:19:29+00:00",
   "generated_by": "python scripts/golden_baseline.py refresh",
   "policy": {
     "destructive": false,

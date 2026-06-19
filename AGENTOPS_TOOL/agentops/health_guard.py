@@ -19,8 +19,13 @@ REQUIRED_DOCS = [
     "THREAT_MODEL.md",
     "EXTRACTION_CONTRACT.md",
     "ROADMAP.md",
+    "PENDING.md",
+    "INTEGRATIONS.md",
     "TOOL_MANIFEST.json",
     "pyproject.toml",
+    "integrations/vscode/tasks.json",
+    "integrations/cursor/rules/agentops.mdc",
+    "integrations/mcp/server_contract.json",
 ]
 FORBIDDEN_MARKERS = [
     "begin leaked prompt",

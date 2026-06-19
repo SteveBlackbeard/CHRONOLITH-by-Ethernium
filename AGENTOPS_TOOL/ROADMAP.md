@@ -63,17 +63,48 @@ Acceptance:
 
 ## Phase 3: Provider-Neutral Scorecard
 
+Status: planned.
+
 Build:
 
 - `provider_profiles.json`
+- `provider_profiles.py`
+- `token_budget.py`
+- `context_packer.py`
 - scorecard command
 - routing recommendations
+- CLI commands:
+  - `agentops models`
+  - `agentops budget`
+  - `agentops pack`
 
 Acceptance:
 
 - compares model cost, latency, context, and reliability
+- reports measured tokens where tokenizer support exists
+- falls back to explicit estimates where tokenizer support does not exist
+- packs context under a budget
 - stores observations without proprietary prompts
 - recommends local/cloud routing
+
+## Phase 3.5: Editor And MCP Integration
+
+Status: documentation scaffold complete, implementation planned.
+
+Build:
+
+- VS Code task template
+- Cursor rule template
+- MCP server contract
+- optional MCP server implementation
+
+Acceptance:
+
+- integrations call AgentOps CLI or MCP
+- AgentOps remains standalone
+- no editor-specific integration becomes required
+- MCP exposes health, scan, packet, capability, budget, pack, and route tools
+- model invocation stays deferred until scan and budget controls are stable
 
 ## Phase 4: Standalone Repository
 

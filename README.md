@@ -89,6 +89,7 @@ _Advanced RAG, cognitive mapping, and a stunning 3D Glassmorphic Dashboard for i
 | Guide | Link |
 | :--- | :--- |
 | [**Industrial Guide**](./HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](./HOW_TO_USE_IT.md) |
+| [**Editor & Agent Integration**](./docs/EDITOR_AGENT_INTEGRATION.md) | VS Code, Cursor, MCP and agent-host boundary |
 | [**Continuity Conekta**](./CONTINUITY_CONEKTA/README.md) | External visual control surface extraction notes |
 | [**Release Manifest**](./RELEASE_NOTES_MANIFEST.md) | [RELEASE_NOTES_MANIFEST.md](./RELEASE_NOTES_MANIFEST.md) |
 
@@ -421,5 +422,4 @@ Release notes: [`docs/releases/v3.0.3.md`](./docs/releases/v3.0.3.md)
 - `https://pypi.org/project/ethernium-continuity-lite/3.0.2/`
 - `https://pypi.org/project/ethernium-continuity-pro/3.0.2/`
 - `https://pypi.org/project/ethernium-continuity-omega/3.0.2/`
-
 

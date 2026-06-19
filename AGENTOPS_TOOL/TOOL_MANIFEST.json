@@ -32,6 +32,8 @@
     "THREAT_MODEL.md",
     "EXTRACTION_CONTRACT.md",
     "ROADMAP.md",
+    "PENDING.md",
+    "INTEGRATIONS.md",
     "STANDALONE_USAGE.md",
     "CONTINUITY_USAGE.md",
     "MITIGATION_MATRIX.md",
@@ -42,7 +44,12 @@
     "adversarial_corpus",
     "usage_log",
     "provider_profiles",
-    "templates"
+    "templates",
+    "token_budget",
+    "context_packer",
+    "vscode_integration",
+    "cursor_integration",
+    "mcp_server"
   ],
   "implemented_modules": [
     "health_guard",
@@ -52,7 +59,9 @@
     "capability_broker",
     "cli",
     "recursive_scan",
-    "basic_secret_detection"
+    "basic_secret_detection",
+    "integration_contracts",
+    "mcp_server"
   ],
   "acceptance_metrics": {
     "must_reduce_one_of": ["cost", "risk", "drift"],
