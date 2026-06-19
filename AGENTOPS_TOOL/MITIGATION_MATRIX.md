@@ -8,7 +8,7 @@ This matrix turns known GenAI/agent risks into local, frugal controls.
 | --- | --- | --- | --- |
 | Prompt injection | `prompt_firewall.py`, adversarial cases | health guard after edits | prototype |
 | Indirect prompt injection | source labels, trust zones, context packet | handoff provenance | documented |
-| Sensitive information disclosure | secret markers, capability broker | release gates | prototype |
+| Sensitive information disclosure | secret markers, recursive scan, capability broker | release gates | prototype |
 | Supply chain/tool abuse | capability broker, no network by default | package checks | prototype |
 | Data/memory poisoning | provenance labels, immune memory roadmap | golden baseline, live handoff | partial |
 | Improper output handling | verification field in packet | pytest/build/twine gates | prototype |
@@ -80,7 +80,7 @@ Do not implement a full red-team suite yet.
 Implement the smallest useful loop:
 
 ```text
-packet -> classify -> grant capabilities -> execute -> verify -> log -> learn
+packet -> scan path/text/file -> grant capabilities -> execute -> verify -> log -> learn
 ```
 
 If that loop reduces retries, unsafe scope, or token volume, then build the next layer.

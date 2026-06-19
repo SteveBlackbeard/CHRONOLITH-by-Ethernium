@@ -50,7 +50,9 @@
     "prompt_firewall",
     "frugality_ledger",
     "capability_broker",
-    "cli"
+    "cli",
+    "recursive_scan",
+    "basic_secret_detection"
   ],
   "acceptance_metrics": {
     "must_reduce_one_of": ["cost", "risk", "drift"],

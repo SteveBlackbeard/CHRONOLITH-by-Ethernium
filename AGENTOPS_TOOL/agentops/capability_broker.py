@@ -44,6 +44,9 @@ def check_action(grant: CapabilityGrant, *, capability: str, path: str | None = 
     if path is None:
         return CapabilityDecision(True, "capability granted")
 
+    if _is_unsafe_path(path):
+        return CapabilityDecision(False, "path traversal or absolute paths are not allowed")
+
     normalized = _normalize(path)
     for denied in grant.denied_paths:
         if _is_inside(normalized, _normalize(denied)):
@@ -58,6 +61,14 @@ def check_action(grant: CapabilityGrant, *, capability: str, path: str | None = 
 
 def _normalize(path: str) -> str:
     return PurePosixPath(path.replace("\\", "/")).as_posix().strip("/")
+
+
+def _is_unsafe_path(path: str) -> bool:
+    normalized = path.replace("\\", "/")
+    pure = PurePosixPath(normalized)
+    if pure.is_absolute() or ":" in normalized:
+        return True
+    return ".." in pure.parts
 
 
 def _is_inside(path: str, root: str) -> bool:

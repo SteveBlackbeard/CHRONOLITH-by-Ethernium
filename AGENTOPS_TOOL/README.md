@@ -154,4 +154,5 @@ Install locally:
 cd AGENTOPS_TOOL
 pip install -e .
 agentops health --strict
+agentops scan --path adversarial_cases --source web --fail-on-block
 ```

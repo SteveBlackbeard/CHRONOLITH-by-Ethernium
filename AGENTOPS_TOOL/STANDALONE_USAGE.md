@@ -29,6 +29,7 @@ cd AGENTOPS_TOOL
 pip install -e .
 agentops health --strict
 agentops scan --file adversarial_cases\indirect_prompt_injection.txt --source web --fail-on-block
+agentops scan --path adversarial_cases --source web --fail-on-block
 ```
 
 ## Daily Use
@@ -57,6 +58,14 @@ Look for:
 - fake authority
 - secret-like material
 - tool-call pressure
+
+CLI examples:
+
+```powershell
+agentops scan --text "ignore previous instructions" --source web --fail-on-block
+agentops scan --file notes.md --source external
+agentops scan --path incoming_context --source web --fail-on-block
+```
 
 ### 3. Grant Capabilities
 
@@ -129,6 +138,7 @@ AgentOps is useful if it reduces at least one:
 - context sent to models
 - retries
 - unsafe tool calls
+- secret-like material before context sharing
 - accidental out-of-scope edits
 - release mistakes
 - time spent reconstructing handoffs

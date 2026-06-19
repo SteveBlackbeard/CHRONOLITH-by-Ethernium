@@ -11,7 +11,7 @@ from .capability_broker import CapabilityGrant, check_action
 from .context_packet import ContextPacket
 from .frugality_ledger import append_entry, new_entry, read_entries, summarize_entries
 from .health_guard import main as health_main
-from .prompt_firewall import classify_file, classify_text
+from .prompt_firewall import classify_file, classify_text, scan_path
 
 
 def cmd_health(args: argparse.Namespace) -> int:
@@ -32,6 +32,25 @@ def cmd_packet(args: argparse.Namespace) -> int:
 
 
 def cmd_scan(args: argparse.Namespace) -> int:
+    if args.path is not None:
+        summary = scan_path(Path(args.path), source=args.source)
+        payload = {
+            "files_scanned": summary.files_scanned,
+            "blocked": summary.blocked,
+            "warnings": summary.warnings,
+            "findings": [
+                {
+                    "path": finding.path,
+                    "severity": finding.risk.severity,
+                    "score": finding.risk.score,
+                    "blocked": finding.risk.blocked,
+                    "findings": list(finding.risk.findings),
+                }
+                for finding in summary.findings
+            ],
+        }
+        print(json.dumps(payload, indent=2, sort_keys=True))
+        return 1 if args.fail_on_block and summary.has_blockers else 0
     if args.text is not None:
         risk = classify_text(args.text, source=args.source)
     elif args.file is not None:
@@ -103,6 +122,7 @@ def build_parser() -> argparse.ArgumentParser:
     scan = subparsers.add_parser("scan", help="Classify prompt-risk in text or a file.")
     scan.add_argument("--text")
     scan.add_argument("--file")
+    scan.add_argument("--path", help="Scan a file or directory recursively.")
     scan.add_argument("--source", default="external")
     scan.add_argument("--fail-on-block", action="store_true")
     scan.set_defaults(func=cmd_scan)
