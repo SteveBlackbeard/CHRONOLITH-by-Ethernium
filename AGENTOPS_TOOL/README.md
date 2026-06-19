@@ -4,6 +4,11 @@ This folder is intentionally separate from Continuity Legacy.
 
 It can live temporarily inside this repository for incubation, but it is designed to be extracted into its own repository or product.
 
+AgentOps can be used in two modes:
+
+- **Standalone**: as an independent local-first tool for any AI-assisted project.
+- **With Continuity Legacy**: as an optional operations layer beside Continuity governance.
+
 ## What This Tool Is
 
 Ethernium AgentOps is a provider-neutral operating layer for reducing AI agent cost, context waste, retries, and coordination drift.
@@ -58,7 +63,7 @@ Not allowed:
 ## Current Status
 
 ```text
-status: incubation
+status: prototype
 relationship_to_continuity: none
 safe_to_extract: true
 ```
@@ -76,3 +81,77 @@ AgentOps should adopt Continuity-style discipline only where it adds leverage:
 - measurable value
 
 It should not inherit the full Continuity Legacy baseline system until it becomes a real standalone tool with executable code.
+
+## Frugal Build Path
+
+AgentOps should grow only through modules that reduce one of three things:
+
+- cost
+- risk
+- drift
+
+The first standalone version should be small:
+
+- `RULEBOOK.md`: operating rules and clean-room limits
+- `FRUGALITY.md`: token, retry, model, and context economy
+- `THREAT_MODEL.md`: defensive model for prompt injection, tool hijack, memory poisoning, and secret leakage
+- `EXTRACTION_CONTRACT.md`: guarantee that this folder can become its own repository
+- `ROADMAP.md`: phased path from incubation to product
+
+Executable code now starts with the local-first prototype:
+
+```text
+agentops/health_guard.py
+agentops/context_packet.py
+agentops/prompt_firewall.py
+agentops/frugality_ledger.py
+tests/
+```
+
+## Design Principle
+
+AgentOps is a small immune system for AI-agent work: observe, classify, constrain, measure, and improve.
+
+It should not become a lore archive or a leaked-prompt archive.
+
+## Standalone Use
+
+AgentOps does not require Continuity Legacy.
+
+Minimal standalone loop:
+
+```powershell
+$env:PYTHONPATH="."
+python agentops\health_guard.py --strict
+pytest tests -q
+```
+
+Operational loop:
+
+1. Create a context packet.
+2. Classify external content with the prompt firewall.
+3. Grant only the capabilities needed for the task.
+4. Execute locally.
+5. Log cost, retries, and outcome in the frugality ledger.
+6. Review whether the task reduced cost, risk, or drift.
+
+## CLI Prototype
+
+Current commands:
+
+```text
+agentops health
+agentops packet
+agentops scan
+agentops grant
+agentops log
+agentops report
+```
+
+Install locally:
+
+```powershell
+cd AGENTOPS_TOOL
+pip install -e .
+agentops health --strict
+```

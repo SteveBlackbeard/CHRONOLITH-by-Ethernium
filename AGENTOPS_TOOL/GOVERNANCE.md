@@ -17,7 +17,10 @@ AgentOps is considered healthy when:
 - `TOOL_MANIFEST.json` is valid JSON.
 - `README.md` states the boundary from Continuity Legacy.
 - `BLUEPRINT.md` describes the workflow without provider-specific hidden text.
+- `RULEBOOK.md`, `FRUGALITY.md`, `THREAT_MODEL.md`, `EXTRACTION_CONTRACT.md`, and `ROADMAP.md` exist before executable code is added.
+- `pyproject.toml` exposes the local `agentops` CLI when the prototype has executable code.
 - No leaked prompt text, jailbreak collections, or vendor-imitation instructions are stored in this folder.
+- Every new module states whether it reduces cost, risk, or drift.
 
 ## Extraction Contract
 
@@ -45,5 +48,18 @@ Removing it must not break:
 Current level:
 
 ```text
-incubation
+prototype
 ```
+
+## Frugality Gate
+
+Do not add a feature unless it has at least one measurable outcome:
+
+- fewer tokens
+- fewer retries
+- fewer unsafe tool calls
+- smaller context packets
+- faster local verification
+- clearer rollback
+
+If the value cannot be measured, keep it as a note in `ROADMAP.md` instead of building it.

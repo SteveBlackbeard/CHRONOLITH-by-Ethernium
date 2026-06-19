@@ -1,17 +1,20 @@
 {
   "name": "ethernium-agentops",
-  "status": "incubation",
+  "status": "prototype",
   "extractable": true,
   "relationship_to_continuity": "none",
   "purpose": "Provider-neutral AI agent cost, context, and routing optimization.",
+  "usage_modes": ["standalone", "with-continuity-legacy"],
   "governance": {
     "rulebook": "GOVERNANCE.md",
-    "maturity": "incubation",
+    "maturity": "prototype",
     "health_gate": [
       "valid manifest JSON",
       "explicit Continuity Legacy boundary",
       "clean-room policy",
-      "extractable directory"
+      "extractable directory",
+      "frugality gate",
+      "threat model"
     ]
   },
   "clean_room_policy": {
@@ -20,11 +23,39 @@
     "extract_control_patterns": true,
     "provider_neutral_rebuild": true
   },
-  "initial_modules": [
+  "documents": [
+    "README.md",
+    "BLUEPRINT.md",
+    "GOVERNANCE.md",
+    "RULEBOOK.md",
+    "FRUGALITY.md",
+    "THREAT_MODEL.md",
+    "EXTRACTION_CONTRACT.md",
+    "ROADMAP.md",
+    "STANDALONE_USAGE.md",
+    "CONTINUITY_USAGE.md",
+    "MITIGATION_MATRIX.md",
+    "PRIOR_ART.md"
+  ],
+  "planned_modules": [
     "router",
+    "adversarial_corpus",
     "usage_log",
-    "context_packet",
     "provider_profiles",
     "templates"
-  ]
+  ],
+  "implemented_modules": [
+    "health_guard",
+    "context_packet",
+    "prompt_firewall",
+    "frugality_ledger",
+    "capability_broker",
+    "cli"
+  ],
+  "acceptance_metrics": {
+    "must_reduce_one_of": ["cost", "risk", "drift"],
+    "default_storage": "jsonl",
+    "default_runtime": "local_first",
+    "no_dashboard_before": "prototype"
+  }
 }

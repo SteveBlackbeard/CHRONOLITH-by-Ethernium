@@ -3,6 +3,7 @@ __pycache__/
 .pytest_tmp/
 .venv/
 .pypi-smoke*/
+.agentops-smoke*/
 .build-tmp/
 dist/
 build/
