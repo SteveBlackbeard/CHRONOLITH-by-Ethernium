@@ -27,7 +27,7 @@ Build Phase 1 of the Continuity governance kernel while keeping AgentOps as a fu
 Baseline cleanup completed:
 
 - `VERSION` is UTF-8 and aligned to `pyproject.toml` as `3.0.2`.
-- `SESSION_LOG.md` is UTF-8 readable.
+- `docs/process/SESSION_LOG.md` is UTF-8 readable.
 - Known mojibake markers were removed from governed source files.
 - Generated `outputs/` directories and `AGENTOPS_TOOL/` are ignored by the health guard.
 

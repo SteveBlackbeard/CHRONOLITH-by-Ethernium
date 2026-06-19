@@ -58,7 +58,7 @@ Cursor should treat Continuity files as repository law:
 - `.continuity/feature-registry.json`
 - `.continuity/LIVE_HANDOFF.md`
 - `docs/CHANGE_CONTRACT_TEMPLATE.md`
-- `REPO_AND_PYPI_RELEASE_CHECKLIST.md`
+- `docs/process/REPO_AND_PYPI_RELEASE_CHECKLIST.md`
 
 Cursor rules may call AgentOps for operational safety, but Cursor should not mix AgentOps code into Continuity runtime.
 

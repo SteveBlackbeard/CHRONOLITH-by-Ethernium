@@ -1,13 +1,13 @@
 {
-  "change_contract": "docs/change-contracts/2026-06-19-editor-agentops-integration.md",
+  "change_contract": "docs/change-contracts/2026-06-19-root-document-reorganization.md",
   "files": {
     ".continuity/feature-registry.json": {
       "bytes": 2395,
       "sha256": "67ee6cd1d7a287629e54bf58b16cb5052d22eb3c30b6615b42283c0b16ef48d4"
     },
     ".continuity/rulebook.json": {
-      "bytes": 2418,
-      "sha256": "4fb5e0f6b81ffa986a838152a212d8dd7254eaed73039206ca1d04ffac91f7f3"
+      "bytes": 2431,
+      "sha256": "95a91d09eddf1e5a90ecadf3a3e93c683d2868f02f806341a527def2f8402b15"
     },
     ".github/workflows/industrial_guardian.yml": {
       "bytes": 3978,
@@ -34,12 +34,12 @@
       "sha256": "bc3df99de498dbdb4891c128f96354ba4547dca4e93bd9fd138e7c777db6a7ab"
     },
     "README.md": {
-      "bytes": 23777,
-      "sha256": "acbbe544b1de69ead94b40a3e9c7fb63565d8a10d918c0925c2706b362036675"
+      "bytes": 24395,
+      "sha256": "13472184126f36a7f11e5ae2424762ca747d7f31cb92157db2bb844802f59c27"
     },
     "STATE.json": {
       "bytes": 1919,
-      "sha256": "607b63edf8a86cb140b404ce7a4e2cf605648a30a4498a8aa23ef41044d31352"
+      "sha256": "3c1fd9fc6662f318ee1ffd403a3b8d5bb24331871368ec1de4782a065929d79e"
     },
     "VERSION": {
       "bytes": 6,
@@ -50,8 +50,8 @@
       "sha256": "e52ab956998bb6d20503526459f31f70d61a1d032993dd186e8aeb5a14ad169c"
     },
     "scripts/autophagy_report.py": {
-      "bytes": 5164,
-      "sha256": "aefb16ae6b42cb70b6143e699d0d8aa1c4053a738f21fbe05f4d0d2e30ade925"
+      "bytes": 5177,
+      "sha256": "ad47a95381e8d0c7852fdae7ff470d26165e359a81cf67ad976c640afb073254"
     },
     "scripts/golden_baseline.py": {
       "bytes": 5986,
@@ -62,7 +62,7 @@
       "sha256": "2f526baec0fe298805b4d5e02599c5e5740a146d17a5bf6c88a96daf384c497d"
     }
   },
-  "generated_at": "2026-06-19T14:19:29+00:00",
+  "generated_at": "2026-06-19T19:15:19+00:00",
   "generated_by": "python scripts/golden_baseline.py refresh",
   "policy": {
     "destructive": false,

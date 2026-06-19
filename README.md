@@ -141,15 +141,15 @@ Each edition is optimized for specific resource footprints:
 
 ## 30-Second Quickstart (The Onboarding Experience)
 
-> **`example-project/`** is a pre-configured sandbox included in this repository. It simulates a real project already managed by Continuity Legacy.
+> **`examples/example-project/`** is a pre-configured sandbox included in this repository. It simulates a real project already managed by Continuity Legacy.
 
 1.  **Navigate to the example environment**:
     ```bash
-    cd example-project
+    cd examples/example-project
     ```
 2.  **Verify the DNA Parity**:
     ```bash
-    python ../continuity-lite/run_continuity_lite.py check
+    python ../../continuity-lite/run_continuity_lite.py check
     ```
 3.  **Expected Outcome**: You will see a green `[OK] Parity Confirmed`.
 
@@ -304,7 +304,9 @@ The governed runtime phase is protected by explicit contracts, health checks, an
 
 | Section | What You Will Find |
 | --- | --- |
-| [Root Documents](#root-documents) | Core project docs: changelog, governance, usage, security, DNA, and release materials. |
+| [Root Documents](#root-documents) | Core project docs: changelog, governance, usage, security, and DNA. |
+| [Process Documents](#process-documents) | Release checklists, staging plans, session logs, and token reports. |
+| [Archive Documents](#archive-documents) | Historical portal/demo artifacts kept out of the root view. |
 | [Root Translations](#root-translations) | Localized root README and release-note variants. |
 | [Continuity Conekta Documents](#continuity-conekta-documents) | External visual control surface extraction notes and adapter boundary. |
 | [Lite Edition Documents](#lite-edition-documents) | Lightweight package docs and handoff references. |
@@ -331,11 +333,21 @@ The governed runtime phase is protected by explicit contracts, health checks, an
 | `BENCHMARKS.md` | Performance and measurement notes for the system and its workflows. |
 | `CASE_STUDY_DRIFT.md` | Analysis of drift, continuity failure modes, and why the system exists. |
 | `ETHERNIUM_UNIVERSAL_DNA.md` | Ethernium-wide lineage and identity framing for the broader ecosystem. |
-| `SESSION_LOG.md` | Working-session trace and continuity record for recent development cycles. |
-| `SESSION_TOKEN_REPORT.md` | Token telemetry and session-level reporting artifacts. |
 | `RELEASE_NOTES_MANIFEST.md` | Release-note manifest and documentation map for published versions. |
-| `REPO_AND_PYPI_RELEASE_CHECKLIST.md` | Release checklist for GitHub publication and PyPI packaging. |
-| `RELEASE_STAGING_PLAN.md` | Commit/staging strategy for safe release preparation. |
+
+### Process Documents
+| Document | Purpose |
+| --- | --- |
+| `docs/process/SESSION_LOG.md` | Working-session trace and continuity record for recent development cycles. |
+| `docs/process/SESSION_TOKEN_REPORT.md` | Token telemetry and session-level reporting artifacts. |
+| `docs/process/REPO_AND_PYPI_RELEASE_CHECKLIST.md` | Release checklist for GitHub publication and PyPI packaging. |
+| `docs/process/RELEASE_STAGING_PLAN.md` | Commit/staging strategy for safe release preparation. |
+
+### Archive Documents
+| Document | Purpose |
+| --- | --- |
+| `docs/archive/Ethernium_Portal_Outside.json` | Legacy portal metadata retained for traceability. |
+| `docs/archive/demo_portal.zip` | Legacy demo portal artifact retained outside the root view. |
 
 ### Root Translations
 | Document Set | Purpose |
@@ -391,9 +403,9 @@ The governed runtime phase is protected by explicit contracts, health checks, an
 ### Example and Demo Documents
 | Document | Purpose |
 | --- | --- |
-| `example-project/README.md` | Example project showing how Continuity Legacy is applied in practice. |
-| `example-project/DAILY_HANDOFF_SCENARIO.md` | Example of session-to-session continuity handoff. |
-| `demo_folder/README.md` | Demo folder notes for lightweight demonstration material. |
+| `examples/example-project/README.md` | Example project showing how Continuity Legacy is applied in practice. |
+| `examples/example-project/DAILY_HANDOFF_SCENARIO.md` | Example of session-to-session continuity handoff. |
+| `examples/demo-folder/README.md` | Demo folder notes for lightweight demonstration material. |
 
 ### Internal Continuity Core Documents
 | Document | Purpose |
@@ -422,4 +434,3 @@ Release notes: [`docs/releases/v3.0.3.md`](./docs/releases/v3.0.3.md)
 - `https://pypi.org/project/ethernium-continuity-lite/3.0.2/`
 - `https://pypi.org/project/ethernium-continuity-pro/3.0.2/`
 - `https://pypi.org/project/ethernium-continuity-omega/3.0.2/`
-

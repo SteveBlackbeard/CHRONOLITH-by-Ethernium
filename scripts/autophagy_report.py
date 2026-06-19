@@ -50,7 +50,7 @@ KEEP_PATHS = {
     "PROJECT_CONTEXT.md",
     "PROJECT_DNA.md",
     "GOVERNANCE.md",
-    "REPO_AND_PYPI_RELEASE_CHECKLIST.md",
+    "docs/process/REPO_AND_PYPI_RELEASE_CHECKLIST.md",
     "pyproject.toml",
     "VERSION",
     ".continuity/rulebook.json",

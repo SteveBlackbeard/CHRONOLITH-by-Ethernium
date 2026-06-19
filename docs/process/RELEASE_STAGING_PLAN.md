@@ -41,8 +41,8 @@ git add nexus-dashboard/src/lib/localAdapters.ts
 git add nexus-dashboard/src/lib/nodeAssets.ts
 git add nexus-dashboard/src/lib/nodeGlyphTextures.ts
 git add nexus-dashboard/src/lib/telemetry.ts
-git add REPO_AND_PYPI_RELEASE_CHECKLIST.md
-git add RELEASE_STAGING_PLAN.md
+git add docs/process/REPO_AND_PYPI_RELEASE_CHECKLIST.md
+git add docs/process/RELEASE_STAGING_PLAN.md
 ```
 
 Suggested commit:
@@ -74,7 +74,7 @@ Review and stage separately:
 - `README.md`
 - `RELEASE_NOTES_MANIFEST.md`
 - `OTHER_LANGUAGES/...`
-- `demo_folder/README.md`
+- `examples/demo-folder/README.md`
 
 Suggested commit:
 
