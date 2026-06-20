@@ -8,8 +8,8 @@ The Python runtime and governed release surface stay here. Visual dashboards, ag
 
 | Tool | Planned Repository | Local Path | Relationship |
 | --- | --- | --- | --- |
-| CONEKTA | `https://github.com/SteveBlackbeard/CONEKTA` | `D:\Experimentos\CONEKTA` | External visual control surface |
-| ROBIN HOOD | `https://github.com/SteveBlackbeard/ROBIN-HOOD` | `D:\Experimentos\ROBIN-HOOD` | External agent-operations, token frugality, and MCP layer |
+| CONEKTA by Ethernium | `https://github.com/SteveBlackbeard/CONEKTA-by-Ethernium` | `D:\Experimentos\CONEKTA` | External visual control surface |
+| ROBIN HOOD by Ethernium | `https://github.com/SteveBlackbeard/ROBIN-HOOD-by-Ethernium` | `D:\Experimentos\ROBIN-HOOD` | External agent-operations, token frugality, and MCP layer |
 
 ## Rule
 

@@ -5,7 +5,7 @@ CONEKTA is the externalized dashboard/control-surface successor to Continuity Co
 Planned repository:
 
 ```text
-https://github.com/SteveBlackbeard/CONEKTA
+https://github.com/SteveBlackbeard/CONEKTA-by-Ethernium
 ```
 
 Local extracted path:

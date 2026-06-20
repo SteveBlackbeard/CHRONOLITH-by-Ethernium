@@ -7,6 +7,7 @@
     "change explicit targets only",
     "preserve runtime behavior unless requested",
     "fail closed for structural corruption",
+    "maximize fidelity at the lowest responsible cost through symbolic checks, event-driven work, and measured escalation",
     "warn before enforcing legacy cleanup",
     "keep provider strategy outside the core",
     "ignore extractable external tools"
@@ -83,6 +84,15 @@
     "allow_clean_room_pattern_analysis": true,
     "require_provider_neutral_docs": true,
     "external_pricing_goes_to_external_tools": true
+  },
+  "optimization_policy": {
+    "default_mode": "frugal_high_fidelity",
+    "neural_role": "generate heuristics, patterns, creative candidates, and analysis drafts",
+    "symbolic_role": "validate syntax, contracts, baselines, checks, and release gates deterministically",
+    "biomimetic_rule": "prefer event-driven and changed-only work over continuous recomputation",
+    "security_rule": "scan untrusted inputs, isolate risky material, and fail closed on structural corruption",
+    "reverse_engineering_rule": "study public behavior and bottlenecks, then rebuild native provider-neutral controls",
+    "implementation_rule": "use declarative structure for broad workflows and low-level optimization only for measured bottlenecks"
   },
   "rollback_policy": {
     "required": true,

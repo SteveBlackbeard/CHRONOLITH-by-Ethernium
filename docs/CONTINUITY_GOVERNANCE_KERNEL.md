@@ -188,6 +188,25 @@ The target is not imitation. The target is a deeper mechanism:
 
 > understand the governing pattern, then rebuild it as a deterministic, local, auditable Continuity primitive.
 
+## Synergic Frugality Principle
+
+Continuity should maximize quality and fidelity at the lowest responsible cost.
+
+This is a golden rule for AI-assisted engineering, not a visual-design slogan:
+
+- **Neural systems + symbolic programming**: neural models generate heuristics, candidates, summaries, textures, and analysis drafts; symbolic code validates contracts, syntax, baselines, package metadata, and release gates.
+- **Biology + systems engineering**: prefer event-driven, changed-only work over continuous recomputation. Do not rerun, rerender, rescan, or resend context that has not changed.
+- **Reverse engineering + cybersecurity**: study public behavior and bottlenecks, but rebuild native controls cleanly. Scan untrusted input, isolate risky material, and fail closed when structural corruption appears.
+- **Low-code + advanced programming**: keep broad workflows declarative and easy to change; reserve low-level optimization for measured bottlenecks such as rendering loops, token packing, cache invalidation, and release-critical checks.
+
+Operational translation:
+
+```text
+heuristic generation -> deterministic validation -> changed-only execution -> explicit escalation
+```
+
+Continuity owns the deterministic validation layer. External tools such as ROBIN HOOD by Ethernium may own model routing, token frugality, prompt-risk scanning, and changed-context caching.
+
 ## Phase Plan
 
 ### Phase 1: Governance Baseline

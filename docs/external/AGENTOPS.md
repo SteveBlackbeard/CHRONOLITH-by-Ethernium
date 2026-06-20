@@ -5,7 +5,7 @@ ROBIN HOOD is the externalized successor to the AgentOps incubation folder.
 Planned repository:
 
 ```text
-https://github.com/SteveBlackbeard/ROBIN-HOOD
+https://github.com/SteveBlackbeard/ROBIN-HOOD-by-Ethernium
 ```
 
 Local extracted path:

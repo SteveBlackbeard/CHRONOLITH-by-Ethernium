@@ -1,13 +1,13 @@
 {
-  "change_contract": "docs/change-contracts/2026-06-19-externalize-agentops-conekta.md",
+  "change_contract": "docs/change-contracts/2026-06-20-synergic-frugality-principle.md",
   "files": {
     ".continuity/feature-registry.json": {
       "bytes": 2395,
       "sha256": "67ee6cd1d7a287629e54bf58b16cb5052d22eb3c30b6615b42283c0b16ef48d4"
     },
     ".continuity/rulebook.json": {
-      "bytes": 2431,
-      "sha256": "95a91d09eddf1e5a90ecadf3a3e93c683d2868f02f806341a527def2f8402b15"
+      "bytes": 3294,
+      "sha256": "910c341eabd11ddb73975272a89cccded4ea88c2ab7553663fe7f1d1f3922c2a"
     },
     ".github/workflows/industrial_guardian.yml": {
       "bytes": 3978,
@@ -62,7 +62,7 @@
       "sha256": "8953848171661478b9cbd2d65952649c587872632b58349b2905267993c95a38"
     }
   },
-  "generated_at": "2026-06-19T20:01:10+00:00",
+  "generated_at": "2026-06-20T12:38:32+00:00",
   "generated_by": "python scripts/golden_baseline.py refresh",
   "policy": {
     "destructive": false,

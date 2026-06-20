@@ -22,8 +22,8 @@ Keeping their source folders inside Legacy makes the root look less professional
 
 ## Planned Repositories
 
-- `https://github.com/SteveBlackbeard/ROBIN-HOOD`
-- `https://github.com/SteveBlackbeard/CONEKTA`
+- `https://github.com/SteveBlackbeard/ROBIN-HOOD-by-Ethernium`
+- `https://github.com/SteveBlackbeard/CONEKTA-by-Ethernium`
 
 ## Removed From Legacy
 
