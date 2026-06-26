@@ -1,0 +1,99 @@
+# =============================================================================
+# continuity-check.yml — Continuity Legacy Reusable Workflow (v3.0.3)
+# =============================================================================
+# Úsalo en tus proyectos agregando:
+#
+#   jobs:
+#     continuity:
+#       uses: SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/.github/workflows/continuity-check.yml@v3.0.3
+#
+# Escanea documentación + código fuente, calcula el Merkle Root,
+# detecta secretos, y bloquea el push si hay drift semántico.
+# =============================================================================
+
+name: 🧬 Continuity DNA Check
+
+on:
+  workflow_call:
+    inputs:
+      scan_source:
+        description: "Scan source code files alongside documentation"
+        required: false
+        default: true
+        type: boolean
+      mode:
+        description: "strict | permissive"
+        required: false
+        default: "strict"
+        type: string
+    secrets:
+      CONTINUITY_SOVEREIGN_KEY:
+        description: "Optional Ed25519 private key for Sovereign Identity signing"
+        required: false
+
+jobs:
+  continuity-dna-check:
+    name: "🧬 DNA Synthesis & Drift Detection"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Continuity Legacy
+        run: |
+          pip install ethernium-continuity-pro
+
+      - name: Initialize Continuity (if not present)
+        run: |
+          if [ ! -f .continuity/STATE.json ]; then
+            continuity-pro init --no-hook
+          fi
+
+      - name: 🧬 DNA Synthesis — Merkle Root Calculation
+        id: dna
+        run: |
+          echo "::group::📡 Scanning Nucleotides"
+          continuity-pro check --scan-source=${{ inputs.scan_source }} --strict
+          echo "::endgroup::"
+          
+          # Export Merkle Root for badge
+          if [ -f .continuity/pro_report.json ]; then
+            MERKLE=$(python -c "import json; print(json.load(open('.continuity/pro_report.json'))['merkle_root'][:8])")
+            echo "merkle=$MERKLE" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 🛡️ Secret Scan
+        run: |
+          echo "::group::🔍 Scanning for leaked secrets"
+          continuity-pro check --strict 2>&1 || true
+          echo "::endgroup::"
+
+      - name: 📊 Generate Merkle Badge
+        if: always()
+        run: |
+          mkdir -p .continuity/badges
+          MERKLE="${{ steps.dna.outputs.merkle || 'ERROR' }}"
+          COLOR="blueviolet"
+          echo "{
+            \"schemaVersion\": 1,
+            \"label\": \"DNA\",
+            \"message\": \"${MERKLE}\",
+            \"color\": \"${COLOR}\",
+            \"isError\": false
+          }" > .continuity/badges/dna-status.json
+          echo "Badge written: ${MERKLE}"
+
+      - name: ❌ Fail on Drift (strict mode)
+        if: ${{ inputs.mode == 'strict' && failure() }}
+        run: |
+          echo "::error::❌ DNA DRIFT DETECTED: Project state inconsistent with canonical Merkle Root."
+          echo "::error::   Run 'continuity-pro check' locally to diagnose."
+          exit 1

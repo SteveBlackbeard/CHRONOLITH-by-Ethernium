@@ -6,7 +6,9 @@ from pathlib import Path
 # Comprehensive secret detection patterns (v2.1.0 Industrial Hardening)
 # Expert #1 (Cybersecurity): Expanded from 4 to 15 patterns
 SECRET_PATTERNS = {
-    "OpenAI API Key": r"sk-[a-zA-Z0-9]{20,}T3BlbkFJ[a-zA-Z0-9]{20,}",
+    # v3.0.3: Updated to cover legacy (sk-...T3BlbkFJ...) and new (sk-proj-...) OpenAI key formats
+    "OpenAI API Key": r"sk-(?:proj-)?[a-zA-Z0-9]{20,}(?:T3BlbkFJ[a-zA-Z0-9]{20,})?",
+    "OpenAI Org Key": r"org-[a-zA-Z0-9]{20,}",
     "Anthropic API Key": r"sk-ant-[a-zA-Z0-9\-]{20,}",
     "AWS Access Key": r"AKIA[0-9A-Z]{16}",
     "AWS Secret Key": r"(?i)aws_secret_access_key\s*[=:]\s*['\"]?[A-Za-z0-9/+=]{40}",

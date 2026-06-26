@@ -53,7 +53,18 @@ class SovereignIdentity:
         return base64.b64encode(derived_key + data).decode("utf-8")
 
     def open_context(self, sealed_data_b64: str) -> bytes:
-        """Opens a sealed context using the SDK (Signature-Derived Key)."""
+        """Opens a sealed context using the SDK (Signature-Derived Key).
+        
+        Raises:
+            PermissionError: If the Sovereign Private Key is missing.
+            ValueError: If the context was sealed for a different Sovereign or data is corrupted.
+        """
+        if not self._private_key:
+            raise PermissionError(
+                "[!] Sovereign Private Key required to open context. "
+                "Cannot decrypt with public key alone. "
+                "Ensure .continuity/keys/sovereign.priv exists."
+            )
         import base64
         try:
             raw = base64.b64decode(sealed_data_b64)
@@ -68,6 +79,8 @@ class SovereignIdentity:
                 return payload
             else:
                 raise ValueError("[!] Identity Mismatch: This context is sealed for a different Sovereign.")
+        except ValueError:
+            raise
         except Exception as e:
             raise ValueError(f"[!] Failed to open context: {e}")
 

@@ -16,6 +16,7 @@ Features:
 
 import json
 import datetime
+from datetime import timezone
 from pathlib import Path
 
 def parse_state(repo_root: Path) -> dict:
