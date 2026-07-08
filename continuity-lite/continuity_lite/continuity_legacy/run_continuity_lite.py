@@ -108,6 +108,31 @@ def sign_state(data: dict) -> str:
     serialized = json.dumps({k: v for k, v in data.items() if k != "signature"}, sort_keys=True)
     return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
 
+# Merkle leaf format tag. Bumped when the leaf derivation changes so an upgrade
+# re-baselines once instead of raising a false drift alarm.
+LEAF_FORMAT = "path-bound-v1"
+
+def verify_signature(state: dict) -> bool:
+    """Recompute the state signature and compare it to the stored one.
+
+    Without this, `sign_state` is write-only: a signature is stamped but never
+    checked, so STATE.json can be edited by hand undetected. A missing signature
+    is treated as unverifiable (returns True) so states written before signing
+    are not falsely rejected; a present-but-mismatched signature means the record
+    was tampered with (returns False)."""
+    stored = state.get("signature")
+    if not stored:
+        return True
+    return sign_state(state) == stored
+
+def leaf_hash(rel_path: str, content_hash: str) -> str:
+    """Bind the filename into the Merkle leaf.
+
+    Content-only leaves make the root blind to structure: a rename or a content
+    swap between two files leaves the root unchanged. Hashing the path with the
+    content makes both mutations alter the root."""
+    return hashlib.sha256(f"{rel_path}\n{content_hash}".encode("utf-8")).hexdigest()
+
 def ensure_file(path: Path, template: str, description: str):
     if not path.exists():
         console.log(f"[yellow][?][/yellow] Missing Nucleotide: [bold]{description}[/bold]")
@@ -226,10 +251,10 @@ def check(
         table.add_column("SHA-256 (LF-Norm)")
         
     for rel_path, md in sorted_md_tuples:
-        h = calculate_sha256(md)
-        nucleotides.append(h)
+        content_h = calculate_sha256(md)
+        nucleotides.append(leaf_hash(rel_path, content_h))
         if verbose:
-            table.add_row(rel_path, h[:16])
+            table.add_row(rel_path, content_h[:16])
             
     if verbose:
         console.print(table)
@@ -244,7 +269,16 @@ def check(
     state_path = root / "STATE.json"
     if state_path.exists():
         state = json.loads(state_path.read_text(encoding="utf-8"))
-        if "merkle_root" in state and state["merkle_root"] != merkle_root:
+        # Fail-closed: a present-but-invalid signature means STATE.json itself was
+        # edited outside the tool. Reject before trusting its stored baseline.
+        if not verify_signature(state):
+            console.print("[bold red][!] ERROR: STATE.json signature invalid — the state record was tampered with. Aborting.[/bold red]")
+            raise typer.Exit(code=1)
+        if "merkle_root" in state and state.get("leaf_format") != LEAF_FORMAT:
+            # Integrity leaf format was upgraded: re-baseline once rather than
+            # reporting the format change as semantic drift.
+            console.print(f"[yellow][i] Merkle leaf format upgraded ({state.get('leaf_format') or 'legacy'} -> {LEAF_FORMAT}); re-crystallizing baseline.[/yellow]")
+        elif "merkle_root" in state and state["merkle_root"] != merkle_root:
             drift_detected = True
             console.print(f"[bold yellow][!] DNA DRIFT DETECTED:[/bold yellow]")
             console.print(f"    Current:  [cyan]{merkle_root[:16]}[/cyan]")
@@ -268,6 +302,7 @@ def check(
     if state_path.exists():
         state = json.loads(state_path.read_text(encoding="utf-8"))
         state["merkle_root"] = merkle_root
+        state["leaf_format"] = LEAF_FORMAT
         state["last_check"] = datetime.utcnow().isoformat()
         state["signature"] = sign_state(state)
         state_path.write_text(json.dumps(state, indent=2), encoding="utf-8")
@@ -287,14 +322,19 @@ def status(
         return
 
     state = json.loads(state_path.read_text(encoding="utf-8"))
-    
+    signature_ok = verify_signature(state)
+
     table = Table(title="Lineage Status", show_header=True, header_style="bold magenta")
     table.add_column("Property", style="dim")
     table.add_column("Value")
-    
+
     for k, v in state.items():
         table.add_row(k, str(v))
-        
+
+    table.add_row(
+        "signature_valid",
+        "[green]yes[/green]" if signature_ok else "[bold red]NO — tampered[/bold red]",
+    )
     console.print(table)
 
 @app.command()

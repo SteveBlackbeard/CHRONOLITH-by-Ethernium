@@ -8,7 +8,13 @@ import sys
 
 sys.path.append(str(Path(__file__).parent.parent / 'continuity_lite' / 'continuity_legacy'))
 
-from run_continuity_lite import build_merkle_root, calculate_sha256, sign_state
+from run_continuity_lite import (
+    build_merkle_root,
+    calculate_sha256,
+    sign_state,
+    verify_signature,
+    leaf_hash,
+)
 
 # --- SHA-256 Tests ---
 
@@ -81,5 +87,34 @@ def test_sign_state_detects_tampering():
     sig = sign_state(data)
     data["phase"] = "compromised"
     assert sign_state(data) != sig
+
+# --- Signature Verification (closes the write-only-signature gap) ---
+
+def test_verify_signature_accepts_valid():
+    data = {"phase": "stable", "last_update": "2026-01-01T00:00:00"}
+    data["signature"] = sign_state(data)
+    assert verify_signature(data) is True
+
+def test_verify_signature_rejects_tampered_state():
+    data = {"phase": "stable", "last_update": "2026-01-01T00:00:00"}
+    data["signature"] = sign_state(data)
+    data["merkle_root"] = "deadbeef" * 8  # edited after signing
+    assert verify_signature(data) is False
+
+def test_verify_signature_absent_is_unverifiable_not_rejected():
+    assert verify_signature({"phase": "stable"}) is True
+
+# --- Path-Bound Merkle Leaves (root reacts to renames / content swaps) ---
+
+def test_leaf_hash_binds_filename():
+    content_h = calculate_sha256(Path("non_existent_phantom.txt")) or "abc"
+    assert leaf_hash("A.md", content_h) != leaf_hash("B.md", content_h)
+
+def test_leaf_hash_content_swap_changes_root():
+    # Two files swapping content must change the root when leaves are path-bound.
+    ha, hb = "hash_a", "hash_b"
+    original = build_merkle_root([leaf_hash("A.md", ha), leaf_hash("B.md", hb)])
+    swapped = build_merkle_root([leaf_hash("A.md", hb), leaf_hash("B.md", ha)])
+    assert original != swapped
 
 
