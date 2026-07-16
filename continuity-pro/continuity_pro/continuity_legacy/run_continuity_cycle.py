@@ -231,7 +231,11 @@ def check(
         # v3.0.3: DNA Synthesis with source code coverage
         doc_files, source_files = _resolve_scan_paths(root, scan_source)
         all_nucleotides = doc_files + source_files
-        nucleotide_hashes = [automation_common.calculate_sha256(f) for f in sorted(all_nucleotides)]
+        # Path-bound leaves so renames and cross-file content swaps change the root.
+        nucleotide_hashes = [
+            automation_common.path_bound_leaf(f.relative_to(root).as_posix(), automation_common.calculate_sha256(f))
+            for f in sorted(all_nucleotides)
+        ]
         merkle_root = automation_common.build_merkle_tree(nucleotide_hashes)
         
         # v3.0.3: Calculate entropies separately for granular diagnostics
@@ -244,7 +248,49 @@ def check(
         total_entropy = (doc_entropy + source_entropy) / 2 if (doc_entropy and source_entropy) else max(doc_entropy, source_entropy)
 
     crystallize_readme(root, merkle_root)
-    
+
+    # v3.0.4: REAL DNA drift detection. Previously the Merkle root was computed and
+    # crystallized but never compared to a baseline, so document drift was never
+    # actually caught — the guardian only halted on secrets/doc-parity. Now the
+    # signed baseline in .continuity/STATE.json is verified and compared.
+    state_path = root / ".continuity" / "STATE.json"
+    dna_drift = False
+    signature_tampered = False
+    if state_path.exists():
+        try:
+            stored_state = json.loads(state_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            stored_state = {}
+        if not automation_common.verify_signature(stored_state):
+            signature_tampered = True
+            console.print("[bold red][!] STATE.json signature invalid — the DNA baseline was tampered with.[/bold red]")
+        stored_root = stored_state.get("merkle_root")
+        if (
+            not signature_tampered
+            and stored_root
+            and stored_state.get("leaf_format") == automation_common.LEAF_FORMAT
+            and stored_root != merkle_root
+        ):
+            dna_drift = True
+            console.print("[bold yellow][!] DNA DRIFT DETECTED:[/bold yellow]")
+            console.print(f"    Current:  [cyan]{merkle_root[:16]}...[/cyan]")
+            console.print(f"    Expected: [magenta]{stored_root[:16]}...[/magenta]")
+    else:
+        stored_state = {}
+
+    # Update the signed baseline only when the lineage is intact (no drift / no
+    # tamper), so a drifting repo keeps its original baseline for the fail-closed
+    # decision below instead of silently re-crystallizing the drift as canonical.
+    if not dna_drift and not signature_tampered:
+        stored_state.update({
+            "merkle_root": merkle_root,
+            "leaf_format": automation_common.LEAF_FORMAT,
+            "last_check": _utcnow().isoformat(),
+        })
+        stored_state["signature"] = automation_common.sign_state(stored_state)
+        state_path.parent.mkdir(parents=True, exist_ok=True)
+        state_path.write_text(json.dumps(stored_state, indent=2), encoding="utf-8")
+
     now_iso = _utcnow().isoformat()
     report = {
         "timestamp": now_iso,
@@ -258,6 +304,8 @@ def check(
         "doc_parity": doc_parity["status"],
         "security": "ok" if not secret_scan["findings"] else "danger",
         "findings": len(secret_scan["findings"]),
+        "dna_drift": dna_drift,
+        "signature_tampered": signature_tampered,
         "mode": "permissive" if PERMISSIVE_MODE else "strict"
     }
     
@@ -282,7 +330,7 @@ def check(
             console.print(f"      [red]{finding['type']}[/red] in [italic]{finding['file']}[/italic]")
     
     # v3.0.3: Permissive mode — warn but do not halt
-    has_issues = report["doc_parity"] != "ok" or report["security"] == "danger"
+    has_issues = report["doc_parity"] != "ok" or report["security"] == "danger" or dna_drift or signature_tampered
     if has_issues:
         if PERMISSIVE_MODE:
             console.print("[bold yellow][!][/bold yellow] PERMISSIVE MODE: Drift detected but pipeline continues. Set CONTINUITY_MODE=strict for fail-closed.")

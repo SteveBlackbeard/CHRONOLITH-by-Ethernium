@@ -72,18 +72,38 @@ def utc_now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+# Canonical config filename; the underscore spelling is accepted on read for
+# backward compatibility with earlier versions that wrote it.
+CONFIG_FILENAME = "continuity-legacy.json"
+_CONFIG_FILENAME_LEGACY = "continuity_legacy.json"
+
+
+def resolve_config_file(repo_root: str | Path) -> Path:
+    """Return the config file to read: an existing hyphen or legacy underscore
+    file if present, else the canonical hyphen path."""
+    root = Path(repo_root)
+    canonical = root / CONFIG_FILENAME
+    if canonical.exists():
+        return canonical
+    legacy = root / _CONFIG_FILENAME_LEGACY
+    if legacy.exists():
+        return legacy
+    return canonical
+
+
 def resolve_repo_root(repo_root: str | Path | None, current_file: str | Path) -> Path:
     if repo_root:
         return Path(repo_root).resolve()
-    
+
     # v2.1.1: Intelligent Upward Discovery to protect hierarchy sovereignty
     start_path = Path(current_file).resolve().parent
     for parent in [start_path] + list(start_path.parents):
-        if (parent / "continuity-legacy.json").exists() or (parent / ".continuity").exists():
+        if (parent / CONFIG_FILENAME).exists() or (parent / _CONFIG_FILENAME_LEGACY).exists() or (parent / ".continuity").exists():
             return parent
-            
-    # Fallback safe: current branch root
-    return start_path.parents[2]
+
+    # Fallback: walk up at most 3 levels without indexing past the filesystem root.
+    parents = start_path.parents
+    return parents[min(2, len(parents) - 1)] if len(parents) else start_path
 
 
 def load_config(repo_root: Path) -> dict:
@@ -95,11 +115,11 @@ def load_config(repo_root: Path) -> dict:
     Returns:
         A dictionary containing the merged project configuration.
     """
-    config_file = repo_root / "continuity-legacy.json"
+    config_file = resolve_config_file(repo_root)
     payload = {}
     if config_file.exists():
         payload = json.loads(config_file.read_text(encoding="utf-8"))
-    
+
     return _deep_merge(DEFAULT_CONFIG, payload)
 
 
@@ -110,12 +130,13 @@ def save_config(repo_root: Path, config: dict) -> None:
         repo_root: The filesystem path to the root of the project.
         config: The configuration dictionary to persist.
     """
-    config_file = repo_root / "continuity-legacy.json"
+    config_file = repo_root / CONFIG_FILENAME
     config_file.write_text(json.dumps(config, indent=2), encoding="utf-8")
 
 
 def config_path(repo_root: str | Path) -> Path:
-    return Path(repo_root) / "continuity_legacy.json"
+    # Return an existing config (hyphen or legacy underscore) or the canonical path.
+    return resolve_config_file(repo_root)
 
 
 def read_text(path: str | Path) -> str:
@@ -282,6 +303,42 @@ def calculate_sha256(path: str | Path) -> str:
     if not p.exists():
         return ""
     return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+# Merkle leaf format tag; bumped when leaf derivation changes so an upgrade
+# re-baselines once instead of raising a false drift alarm.
+LEAF_FORMAT = "path-bound-v1"
+
+
+def path_bound_leaf(rel_path: str, content_hash: str) -> str:
+    """Bind the file path into the Merkle leaf.
+
+    Content-only leaves make the root blind to structure: a rename or a content
+    swap between two files leaves the root unchanged (build_merkle_tree also sorts
+    leaves, discarding order). Hashing the path with the content makes both
+    mutations alter the root."""
+    import hashlib
+    return hashlib.sha256(f"{rel_path}\n{content_hash}".encode("utf-8")).hexdigest()
+
+
+def sign_state(data: dict) -> str:
+    """Deterministic SHA-256 signature over the state record (excluding the
+    signature field itself)."""
+    import hashlib
+    serialized = json.dumps({k: v for k, v in data.items() if k != "signature"}, sort_keys=True)
+    return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+
+
+def verify_signature(state: dict) -> bool:
+    """Recompute and compare the state signature.
+
+    A missing signature is unverifiable (returns True so pre-signature states are
+    not falsely rejected); a present-but-mismatched signature means the record was
+    tampered with (returns False)."""
+    stored = state.get("signature")
+    if not stored:
+        return True
+    return sign_state(state) == stored
 
 
 def build_merkle_tree(hashes: list[str]) -> str:
