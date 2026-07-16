@@ -341,6 +341,281 @@ def verify_signature(state: dict) -> bool:
     return sign_state(state) == stored
 
 
+# ── Sovereign Ed25519 signatures ─────────────────────────────────────────────
+# The SHA-256 "signature" above is honestly a checksum: it detects accidental or
+# naive edits, but an informed attacker simply recomputes it. Ed25519 closes that
+# hole — without the private key the baseline cannot be re-signed. Lazy imports
+# keep `cryptography` an optional dependency (no key material -> checksum mode).
+
+_SIGNED_FIELDS_EXCLUDED = ("signature", "sovereign_signature")
+
+
+def state_payload_bytes(state: dict) -> bytes:
+    """Canonical byte serialization of a state record for signing/verification."""
+    clean = {k: v for k, v in state.items() if k not in _SIGNED_FIELDS_EXCLUDED}
+    return json.dumps(clean, sort_keys=True).encode("utf-8")
+
+
+def load_sovereign_keys(repo_root: str | Path) -> tuple[bytes | None, bytes | None]:
+    """Load raw Ed25519 key material from <root>/.continuity/keys (repo-rooted,
+    unlike SovereignIdentity which resolves relative to the process CWD)."""
+    key_dir = Path(repo_root) / ".continuity" / "keys"
+    priv = key_dir / "sovereign.priv"
+    pub = key_dir / "sovereign.pub"
+    return (
+        priv.read_bytes() if priv.exists() else None,
+        pub.read_bytes() if pub.exists() else None,
+    )
+
+
+def generate_sovereign_keys(repo_root: str | Path) -> tuple[Path, Path]:
+    """Generate and persist a raw Ed25519 keypair for this repository."""
+    from cryptography.hazmat.primitives.asymmetric import ed25519
+    from cryptography.hazmat.primitives import serialization
+
+    key_dir = Path(repo_root) / ".continuity" / "keys"
+    key_dir.mkdir(parents=True, exist_ok=True)
+    private_key = ed25519.Ed25519PrivateKey.generate()
+    priv_path = key_dir / "sovereign.priv"
+    pub_path = key_dir / "sovereign.pub"
+    priv_path.write_bytes(
+        private_key.private_bytes(
+            encoding=serialization.Encoding.Raw,
+            format=serialization.PrivateFormat.Raw,
+            encryption_algorithm=serialization.NoEncryption(),
+        )
+    )
+    pub_path.write_bytes(
+        private_key.public_key().public_bytes(
+            encoding=serialization.Encoding.Raw,
+            format=serialization.PublicFormat.Raw,
+        )
+    )
+    return priv_path, pub_path
+
+
+def ed25519_sign(private_bytes: bytes, data: bytes) -> str:
+    from cryptography.hazmat.primitives.asymmetric import ed25519
+
+    return ed25519.Ed25519PrivateKey.from_private_bytes(private_bytes).sign(data).hex()
+
+
+def ed25519_verify(public_bytes: bytes, data: bytes, signature_hex: str) -> bool:
+    try:
+        from cryptography.hazmat.primitives.asymmetric import ed25519
+
+        ed25519.Ed25519PublicKey.from_public_bytes(public_bytes).verify(
+            bytes.fromhex(signature_hex), data
+        )
+        return True
+    except Exception:
+        return False
+
+
+def sovereign_sign_state(state: dict, private_bytes: bytes, public_bytes: bytes) -> dict:
+    """Attach a real Ed25519 signature (and the signer's public key) to a state."""
+    state["sovereign_public_key"] = public_bytes.hex()
+    state["sovereign_signature"] = ed25519_sign(private_bytes, state_payload_bytes(state))
+    return state
+
+
+def verify_sovereign_state(state: dict, trusted_public: bytes | None = None) -> bool | None:
+    """Verify the Ed25519 state signature.
+
+    Returns None when no sovereign signature is present (checksum mode). The
+    trust anchor is the LOCAL public key when available — verifying only against
+    the embedded key would let an attacker swap in their own keypair."""
+    signature = state.get("sovereign_signature")
+    if not signature:
+        return None
+    embedded = state.get("sovereign_public_key", "")
+    public = trusted_public or (bytes.fromhex(embedded) if embedded else None)
+    if public is None:
+        return False
+    if trusted_public and embedded and embedded != trusted_public.hex():
+        return False
+    return ed25519_verify(public, state_payload_bytes(state), signature)
+
+
+# ── DNA transparency chain ───────────────────────────────────────────────────
+# A single stored merkle_root only proves the LATEST state; every re-crystallize
+# overwrites history. The chain is an append-only log (Certificate-Transparency
+# style): each entry hash-links to the previous one, so the full lineage of the
+# project DNA is verifiable and history rewrites are detectable.
+
+CHAIN_FILENAME = "dna_chain.jsonl"
+
+
+def chain_path(repo_root: str | Path) -> Path:
+    return Path(repo_root) / ".continuity" / CHAIN_FILENAME
+
+
+def _chain_entry_hash(entry: dict) -> str:
+    import hashlib
+
+    clean = {k: v for k, v in entry.items() if k not in ("entry_hash", "sovereign_signature")}
+    return hashlib.sha256(json.dumps(clean, sort_keys=True).encode("utf-8")).hexdigest()
+
+
+def read_chain(repo_root: str | Path) -> list[dict]:
+    path = chain_path(repo_root)
+    if not path.exists():
+        return []
+    entries = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            entries.append(json.loads(line))
+    return entries
+
+
+def append_chain_entry(
+    repo_root: str | Path,
+    merkle_root: str,
+    *,
+    private_bytes: bytes | None = None,
+) -> dict | None:
+    """Append a crystallization event. No-op when the root is unchanged."""
+    entries = read_chain(repo_root)
+    prev = entries[-1] if entries else None
+    if prev and prev.get("merkle_root") == merkle_root:
+        return None
+    entry = {
+        "seq": (prev["seq"] + 1) if prev else 0,
+        "timestamp": utc_now_iso(),
+        "merkle_root": merkle_root,
+        "leaf_format": LEAF_FORMAT,
+        "prev_entry_hash": prev["entry_hash"] if prev else "0" * 64,
+    }
+    entry["entry_hash"] = _chain_entry_hash(entry)
+    if private_bytes:
+        entry["sovereign_signature"] = ed25519_sign(private_bytes, entry["entry_hash"].encode("utf-8"))
+    path = chain_path(repo_root)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(entry, sort_keys=True) + "\n")
+    return entry
+
+
+def verify_chain(repo_root: str | Path, trusted_public: bytes | None = None) -> tuple[bool, list[str]]:
+    """Verify linkage, per-entry hashes, sequence monotonicity, and (when a
+    trusted public key exists) the Ed25519 signature of every entry."""
+    issues: list[str] = []
+    prev_hash = "0" * 64
+    prev_seq = -1
+    for entry in read_chain(repo_root):
+        seq = entry.get("seq")
+        if seq != prev_seq + 1:
+            issues.append(f"seq {seq}: non-monotonic (expected {prev_seq + 1})")
+        if entry.get("prev_entry_hash") != prev_hash:
+            issues.append(f"seq {seq}: broken linkage to previous entry")
+        if _chain_entry_hash(entry) != entry.get("entry_hash"):
+            issues.append(f"seq {seq}: entry hash mismatch (entry edited)")
+        if trusted_public is not None:
+            signature = entry.get("sovereign_signature", "")
+            if not signature or not ed25519_verify(
+                trusted_public, str(entry.get("entry_hash", "")).encode("utf-8"), signature
+            ):
+                issues.append(f"seq {seq}: invalid or missing sovereign signature")
+        prev_hash = entry.get("entry_hash", prev_hash)
+        prev_seq = seq if isinstance(seq, int) else prev_seq + 1
+    return (not issues, issues)
+
+
+# ── Merkle inclusion proofs ──────────────────────────────────────────────────
+# A Merkle tree used only to publish its root is just an expensive flat hash.
+# Inclusion proofs are the point: verify that ONE document belongs to the DNA in
+# O(log n) hashes, without rehashing the repository.
+
+
+def merkle_levels(leaf_values: list[str]) -> list[list[str]]:
+    """All tree levels (leaves first), replicating build_merkle_tree exactly:
+    sorted leaves, H(0x00||leaf), odd levels padded by duplicating the last node,
+    internal nodes H(0x01||left+right). Each stored level includes its padding so
+    sibling lookup is index^1."""
+    import hashlib
+
+    if not leaf_values:
+        return [[]]
+    current = [hashlib.sha256(b"\x00" + v.encode("utf-8")).hexdigest() for v in sorted(leaf_values)]
+    levels = []
+    while True:
+        if len(current) > 1 and len(current) % 2 != 0:
+            current = current + [current[-1]]
+        levels.append(current)
+        if len(current) == 1:
+            return levels
+        current = [
+            hashlib.sha256(b"\x01" + (current[i] + current[i + 1]).encode("utf-8")).hexdigest()
+            for i in range(0, len(current), 2)
+        ]
+
+
+def merkle_inclusion_proof(leaf_values: list[str], target_leaf: str) -> list[dict]:
+    """Audit path for target_leaf: [{'hash': sibling, 'position': 'left'|'right'}, ...]."""
+    import hashlib
+
+    sorted_leaves = sorted(leaf_values)
+    if target_leaf not in sorted_leaves:
+        raise ValueError("leaf not present in the tree")
+    levels = merkle_levels(leaf_values)
+    index = sorted_leaves.index(target_leaf)
+    proof: list[dict] = []
+    for level in levels[:-1]:
+        sibling = index ^ 1
+        proof.append({
+            "hash": level[sibling],
+            "position": "left" if sibling < index else "right",
+        })
+        index //= 2
+    return proof
+
+
+def verify_inclusion_proof(leaf_value: str, proof: list[dict], root: str) -> bool:
+    import hashlib
+
+    node = hashlib.sha256(b"\x00" + leaf_value.encode("utf-8")).hexdigest()
+    for step in proof:
+        sibling = str(step.get("hash", ""))
+        if step.get("position") == "left":
+            combined = sibling + node
+        else:
+            combined = node + sibling
+        node = hashlib.sha256(b"\x01" + combined.encode("utf-8")).hexdigest()
+    return node == root
+
+
+# ── Incremental hashing ──────────────────────────────────────────────────────
+# Rehashing every file on every check is the guardian's real bottleneck (and the
+# #1 reason users disable pre-push hooks). mtime+size gate the rehash.
+
+HASH_CACHE_FILENAME = "hash_cache.json"
+
+
+def load_hash_cache(repo_root: str | Path) -> dict:
+    return read_json(Path(repo_root) / ".continuity" / HASH_CACHE_FILENAME, {}) or {}
+
+
+def save_hash_cache(repo_root: str | Path, cache: dict) -> None:
+    write_json(Path(repo_root) / ".continuity" / HASH_CACHE_FILENAME, cache)
+
+
+def calculate_sha256_cached(path: str | Path, cache: dict) -> str:
+    import os
+
+    p = Path(path)
+    if not p.exists():
+        return ""
+    stat = os.stat(p)
+    token = f"{stat.st_mtime_ns}:{stat.st_size}"
+    key = str(p)
+    cached = cache.get(key)
+    if cached and cached.get("token") == token:
+        return cached["sha256"]
+    digest = calculate_sha256(p)
+    cache[key] = {"token": token, "sha256": digest}
+    return digest
+
+
 def build_merkle_tree(hashes: list[str]) -> str:
     """RFC 6962 compliant Merkle Tree with leaf/node prefix hardening.
     

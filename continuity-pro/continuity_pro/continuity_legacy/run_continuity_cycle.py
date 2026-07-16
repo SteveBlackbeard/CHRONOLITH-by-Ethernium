@@ -157,6 +157,21 @@ def crystallize_readme(repo_root: Path, merkle_root: str):
         console.log(f"[bold magenta][✔][/bold magenta] README Crystallized: {merkle_root[:8]}")
 
 
+def _compute_leaves(root: Path, scan_source: bool) -> tuple[list[Path], list[Path], dict[str, str]]:
+    """Shared leaf computation for check/prove: path-bound leaves keyed by
+    relative path, hashed through the incremental mtime+size cache."""
+    doc_files, source_files = _resolve_scan_paths(root, scan_source)
+    cache = automation_common.load_hash_cache(root)
+    leaves: dict[str, str] = {}
+    for f in sorted(doc_files + source_files):
+        rel = f.relative_to(root).as_posix()
+        leaves[rel] = automation_common.path_bound_leaf(
+            rel, automation_common.calculate_sha256_cached(f, cache)
+        )
+    automation_common.save_hash_cache(root, cache)
+    return doc_files, source_files, leaves
+
+
 def _resolve_scan_paths(root: Path, scan_source: bool) -> tuple[list[Path], list[Path]]:
     """v3.0.3: Resolves documentation and source code files separately for granular reporting."""
     doc_files, source_files = [], []
@@ -229,13 +244,10 @@ def check(
         secret_scan = secret_detector.scan_for_secrets(root)
         
         # v3.0.3: DNA Synthesis with source code coverage
-        doc_files, source_files = _resolve_scan_paths(root, scan_source)
+        # Path-bound leaves (rename/content-swap change the root), incremental cache.
+        doc_files, source_files, leaves = _compute_leaves(root, scan_source)
         all_nucleotides = doc_files + source_files
-        # Path-bound leaves so renames and cross-file content swaps change the root.
-        nucleotide_hashes = [
-            automation_common.path_bound_leaf(f.relative_to(root).as_posix(), automation_common.calculate_sha256(f))
-            for f in sorted(all_nucleotides)
-        ]
+        nucleotide_hashes = list(leaves.values())
         merkle_root = automation_common.build_merkle_tree(nucleotide_hashes)
         
         # v3.0.3: Calculate entropies separately for granular diagnostics
@@ -256,6 +268,7 @@ def check(
     state_path = root / ".continuity" / "STATE.json"
     dna_drift = False
     signature_tampered = False
+    private_bytes, public_bytes = automation_common.load_sovereign_keys(root)
     if state_path.exists():
         try:
             stored_state = json.loads(state_path.read_text(encoding="utf-8"))
@@ -264,6 +277,14 @@ def check(
         if not automation_common.verify_signature(stored_state):
             signature_tampered = True
             console.print("[bold red][!] STATE.json signature invalid — the DNA baseline was tampered with.[/bold red]")
+        # Ed25519 layer: the checksum only catches accidents; a real signature
+        # cannot be recomputed by an attacker. Trust anchor = local public key.
+        sovereign_ok = automation_common.verify_sovereign_state(stored_state, trusted_public=public_bytes)
+        if sovereign_ok is False:
+            signature_tampered = True
+            console.print("[bold red][!] Sovereign Ed25519 signature INVALID — baseline not signed by this repository's key.[/bold red]")
+        elif sovereign_ok is None and public_bytes and stored_state.get("merkle_root"):
+            console.print("[yellow][i] Sovereign key present but baseline unsigned; it will be sovereign-signed on this crystallization.[/yellow]")
         stored_root = stored_state.get("merkle_root")
         if (
             not signature_tampered
@@ -281,15 +302,26 @@ def check(
     # Update the signed baseline only when the lineage is intact (no drift / no
     # tamper), so a drifting repo keeps its original baseline for the fail-closed
     # decision below instead of silently re-crystallizing the drift as canonical.
-    if not dna_drift and not signature_tampered:
+    chain_ok, chain_issues = automation_common.verify_chain(root, trusted_public=public_bytes)
+    if not chain_ok:
+        console.print("[bold red][!] DNA transparency chain BROKEN:[/bold red]")
+        for issue in chain_issues[:5]:
+            console.print(f"    [red]{issue}[/red]")
+
+    if not dna_drift and not signature_tampered and chain_ok:
         stored_state.update({
             "merkle_root": merkle_root,
             "leaf_format": automation_common.LEAF_FORMAT,
             "last_check": _utcnow().isoformat(),
         })
         stored_state["signature"] = automation_common.sign_state(stored_state)
+        if private_bytes and public_bytes:
+            automation_common.sovereign_sign_state(stored_state, private_bytes, public_bytes)
         state_path.parent.mkdir(parents=True, exist_ok=True)
         state_path.write_text(json.dumps(stored_state, indent=2), encoding="utf-8")
+        # Record the crystallization event in the append-only transparency chain
+        # (no-op when the root is unchanged), so lineage history is verifiable.
+        automation_common.append_chain_entry(root, merkle_root, private_bytes=private_bytes)
 
     now_iso = _utcnow().isoformat()
     report = {
@@ -306,6 +338,9 @@ def check(
         "findings": len(secret_scan["findings"]),
         "dna_drift": dna_drift,
         "signature_tampered": signature_tampered,
+        "chain": "ok" if chain_ok else "broken",
+        "chain_length": len(automation_common.read_chain(root)),
+        "signing": "ed25519" if (private_bytes and public_bytes) else "checksum-only",
         "mode": "permissive" if PERMISSIVE_MODE else "strict"
     }
     
@@ -330,13 +365,132 @@ def check(
             console.print(f"      [red]{finding['type']}[/red] in [italic]{finding['file']}[/italic]")
     
     # v3.0.3: Permissive mode — warn but do not halt
-    has_issues = report["doc_parity"] != "ok" or report["security"] == "danger" or dna_drift or signature_tampered
+    has_issues = report["doc_parity"] != "ok" or report["security"] == "danger" or dna_drift or signature_tampered or not chain_ok
     if has_issues:
         if PERMISSIVE_MODE:
             console.print("[bold yellow][!][/bold yellow] PERMISSIVE MODE: Drift detected but pipeline continues. Set CONTINUITY_MODE=strict for fail-closed.")
         elif strict:
             console.print("[bold red][!][/bold red] FAIL-CLOSED: Project state inconsistent. Halting.")
             raise typer.Exit(code=1)
+
+
+@app.command()
+def sovereign_init(
+    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
+):
+    """Generate an Ed25519 sovereign keypair. From then on baselines and chain
+    entries are REALLY signed (the checksum alone only detects accidents)."""
+    root = repo_root.resolve()
+    priv, _pub = automation_common.load_sovereign_keys(root)
+    if priv:
+        console.print("[yellow][i] Sovereign keypair already exists — not overwriting.[/yellow]")
+        raise typer.Exit(code=0)
+    try:
+        priv_path, pub_path = automation_common.generate_sovereign_keys(root)
+    except ImportError:
+        console.print("[bold red][!] The 'cryptography' package is required: pip install cryptography[/bold red]")
+        raise typer.Exit(code=1)
+    console.print(Panel(
+        f"[bold green]Sovereign identity forged.[/bold green]\n"
+        f"Private: [italic]{priv_path}[/italic]  (keep out of Git!)\n"
+        f"Public:  [italic]{pub_path}[/italic]",
+        title="Ed25519 Sovereign", expand=False,
+    ))
+
+
+@app.command()
+def chain(
+    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
+    verify: bool = typer.Option(True, "--verify/--no-verify", help="Verify linkage, hashes and signatures."),
+):
+    """Show and verify the DNA transparency chain (append-only lineage of roots)."""
+    root = repo_root.resolve()
+    entries = automation_common.read_chain(root)
+    if not entries:
+        console.print("[yellow]Transparency chain is empty — run `check` to crystallize the first entry.[/yellow]")
+        raise typer.Exit(code=0)
+    table = Table(title=f"DNA Transparency Chain ({len(entries)} entries)", header_style="bold magenta")
+    table.add_column("Seq", justify="right")
+    table.add_column("Timestamp", style="dim")
+    table.add_column("Merkle Root")
+    table.add_column("Signed")
+    for e in entries:
+        table.add_row(str(e.get("seq")), str(e.get("timestamp", ""))[:19],
+                      str(e.get("merkle_root", ""))[:16] + "…",
+                      "ed25519" if e.get("sovereign_signature") else "—")
+    console.print(table)
+    if verify:
+        _priv, pub = automation_common.load_sovereign_keys(root)
+        ok, issues = automation_common.verify_chain(root, trusted_public=pub)
+        if ok:
+            console.print("[bold green][✔] Chain verified: linkage, hashes and signatures intact.[/bold green]")
+        else:
+            for issue in issues:
+                console.print(f"[bold red][!][/bold red] {issue}")
+            raise typer.Exit(code=1)
+
+
+@app.command()
+def prove(
+    file: Path = typer.Option(..., "--file", help="File to prove inclusion for (relative to repo root)."),
+    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
+    scan_source: bool = typer.Option(True, "--scan-source/--no-scan-source"),
+    output: Path = typer.Option(None, "--output", help="Write the proof JSON here (default: stdout)."),
+):
+    """Emit a Merkle inclusion proof: verify ONE file belongs to the DNA root in
+    O(log n) hashes, without rehashing the repository."""
+    root = repo_root.resolve()
+    _docs, _src, leaves = _compute_leaves(root, scan_source)
+    rel = file.as_posix() if not file.is_absolute() else file.resolve().relative_to(root).as_posix()
+    if rel not in leaves:
+        console.print(f"[bold red][!] '{rel}' is not a scanned nucleotide (docs/source under the root).[/bold red]")
+        raise typer.Exit(code=1)
+    leaf = leaves[rel]
+    proof = automation_common.merkle_inclusion_proof(list(leaves.values()), leaf)
+    payload = {
+        "file": rel,
+        "leaf": leaf,
+        "leaf_format": automation_common.LEAF_FORMAT,
+        "merkle_root": automation_common.build_merkle_tree(list(leaves.values())),
+        "proof": proof,
+    }
+    text = json.dumps(payload, indent=2)
+    if output:
+        output.write_text(text, encoding="utf-8")
+        console.print(f"[bold green][✔][/bold green] Proof written: [italic]{output}[/italic] ({len(proof)} steps)")
+    else:
+        print(text)
+
+
+@app.command()
+def verify_proof(
+    proof_file: Path = typer.Option(..., "--proof", help="Proof JSON produced by `prove`."),
+    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
+    root_hash: str = typer.Option(None, "--root", help="Expected root (default: signed STATE baseline)."),
+):
+    """Verify a Merkle inclusion proof against the current file content and the
+    signed baseline root. Detects both file tampering and forged proofs."""
+    root = repo_root.resolve()
+    payload = json.loads(proof_file.read_text(encoding="utf-8"))
+    rel = payload["file"]
+    target = root / rel
+    # Recompute the leaf from the CURRENT file (not the stored leaf) so a
+    # tampered file fails even with a valid proof for the old content.
+    current_leaf = automation_common.path_bound_leaf(rel, automation_common.calculate_sha256(target))
+    expected_root = root_hash
+    if not expected_root:
+        state_file = root / ".continuity" / "STATE.json"
+        if state_file.exists():
+            expected_root = json.loads(state_file.read_text(encoding="utf-8")).get("merkle_root", "")
+    if not expected_root:
+        console.print("[bold red][!] No root to verify against (no baseline; pass --root).[/bold red]")
+        raise typer.Exit(code=1)
+    ok = automation_common.verify_inclusion_proof(current_leaf, payload["proof"], expected_root)
+    if ok:
+        console.print(f"[bold green][✔] INCLUSION VERIFIED:[/bold green] '{rel}' belongs to root {expected_root[:16]}…")
+    else:
+        console.print(f"[bold red][✘] VERIFICATION FAILED:[/bold red] '{rel}' does not match root {expected_root[:16]}… (file tampered, proof forged, or baseline moved)")
+        raise typer.Exit(code=1)
 
 
 @app.command()
