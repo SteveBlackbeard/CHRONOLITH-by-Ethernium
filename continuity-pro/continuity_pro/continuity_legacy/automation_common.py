@@ -321,11 +321,19 @@ def path_bound_leaf(rel_path: str, content_hash: str) -> str:
     return hashlib.sha256(f"{rel_path}\n{content_hash}".encode("utf-8")).hexdigest()
 
 
+# Every signature-family field: the checksum must cover only CONTENT, or adding
+# the Ed25519 block after checksumming would trip a false tamper alarm on the
+# next read.
+_CHECKSUM_EXCLUDED = ("signature", "sovereign_signature", "sovereign_public_key", "sig_alg")
+
+
 def sign_state(data: dict) -> str:
-    """Deterministic SHA-256 signature over the state record (excluding the
-    signature field itself)."""
+    """Deterministic SHA-256 checksum over the state content (excluding all
+    signature-family fields)."""
     import hashlib
-    serialized = json.dumps({k: v for k, v in data.items() if k != "signature"}, sort_keys=True)
+    serialized = json.dumps(
+        {k: v for k, v in data.items() if k not in _CHECKSUM_EXCLUDED}, sort_keys=True
+    )
     return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
 
 
@@ -358,14 +366,36 @@ def state_payload_bytes(state: dict) -> bytes:
 
 def load_sovereign_keys(repo_root: str | Path) -> tuple[bytes | None, bytes | None]:
     """Load raw Ed25519 key material from <root>/.continuity/keys (repo-rooted,
-    unlike SovereignIdentity which resolves relative to the process CWD)."""
+    unlike SovereignIdentity which resolves relative to the process CWD).
+
+    A passphrase-encrypted key (sovereign.priv.enc, created by
+    `sovereign-init --encrypt`) is decrypted via the CONTINUITY_PASSPHRASE
+    environment variable so non-interactive hooks keep working. A plaintext
+    sovereign.priv is used as-is."""
+    import os
+
     key_dir = Path(repo_root) / ".continuity" / "keys"
-    priv = key_dir / "sovereign.priv"
     pub = key_dir / "sovereign.pub"
-    return (
-        priv.read_bytes() if priv.exists() else None,
-        pub.read_bytes() if pub.exists() else None,
-    )
+    pub_bytes = pub.read_bytes() if pub.exists() else None
+
+    enc = key_dir / "sovereign.priv.enc"
+    if enc.exists():
+        passphrase = os.environ.get("CONTINUITY_PASSPHRASE", "")
+        if not passphrase:
+            return None, pub_bytes  # locked vault: verify-only mode
+        try:
+            from . import sovereign_vault  # lazy: needs cryptography
+        except ImportError:
+            import sovereign_vault  # top-level import mode (tests/scripts)
+        try:
+            return sovereign_vault.decrypt_private_key(
+                json.loads(enc.read_text(encoding="utf-8")), passphrase
+            ), pub_bytes
+        except ValueError:
+            return None, pub_bytes  # wrong passphrase: fail to verify-only, never crash the guardian
+
+    priv = key_dir / "sovereign.priv"
+    return (priv.read_bytes() if priv.exists() else None, pub_bytes)
 
 
 def generate_sovereign_keys(repo_root: str | Path) -> tuple[Path, Path]:
@@ -413,28 +443,42 @@ def ed25519_verify(public_bytes: bytes, data: bytes, signature_hex: str) -> bool
 
 
 def sovereign_sign_state(state: dict, private_bytes: bytes, public_bytes: bytes) -> dict:
-    """Attach a real Ed25519 signature (and the signer's public key) to a state."""
+    """Attach a real Ed25519 signature (and the signer's public key) to a state.
+    `sig_alg` is crypto-agility: a future post-quantum ML-DSA signer can replace
+    the algorithm without breaking the state format."""
     state["sovereign_public_key"] = public_bytes.hex()
+    state["sig_alg"] = "ed25519"
     state["sovereign_signature"] = ed25519_sign(private_bytes, state_payload_bytes(state))
     return state
 
 
-def verify_sovereign_state(state: dict, trusted_public: bytes | None = None) -> bool | None:
+def verify_sovereign_state(state: dict, trusted_public: bytes | list[bytes] | None = None) -> bool | None:
     """Verify the Ed25519 state signature.
 
     Returns None when no sovereign signature is present (checksum mode). The
-    trust anchor is the LOCAL public key when available — verifying only against
-    the embedded key would let an attacker swap in their own keypair."""
+    trust anchor is the LOCAL key set when available — verifying only against
+    the embedded key would let an attacker swap in their own keypair. Accepts a
+    list so a baseline signed by a legitimately rotated-out key still verifies
+    (pass sovereign_vault.historically_valid_pubkeys)."""
     signature = state.get("sovereign_signature")
     if not signature:
         return None
     embedded = state.get("sovereign_public_key", "")
-    public = trusted_public or (bytes.fromhex(embedded) if embedded else None)
-    if public is None:
+
+    trusted_keys: list[bytes] = []
+    if isinstance(trusted_public, bytes):
+        trusted_keys = [trusted_public]
+    elif trusted_public:
+        trusted_keys = list(trusted_public)
+
+    payload = state_payload_bytes(state)
+    if trusted_keys:
+        if embedded and embedded not in {key.hex() for key in trusted_keys}:
+            return False  # keypair swap: embedded key is not a trusted identity
+        return any(ed25519_verify(key, payload, signature) for key in trusted_keys)
+    if not embedded:
         return False
-    if trusted_public and embedded and embedded != trusted_public.hex():
-        return False
-    return ed25519_verify(public, state_payload_bytes(state), signature)
+    return ed25519_verify(bytes.fromhex(embedded), payload, signature)
 
 
 # ── DNA transparency chain ───────────────────────────────────────────────────
@@ -453,7 +497,9 @@ def chain_path(repo_root: str | Path) -> Path:
 def _chain_entry_hash(entry: dict) -> str:
     import hashlib
 
-    clean = {k: v for k, v in entry.items() if k not in ("entry_hash", "sovereign_signature")}
+    # sig_alg travels with the signature (both excluded): the hash covers the
+    # event content, the signature block covers the hash.
+    clean = {k: v for k, v in entry.items() if k not in ("entry_hash", "sovereign_signature", "sig_alg")}
     return hashlib.sha256(json.dumps(clean, sort_keys=True).encode("utf-8")).hexdigest()
 
 
@@ -488,6 +534,7 @@ def append_chain_entry(
     }
     entry["entry_hash"] = _chain_entry_hash(entry)
     if private_bytes:
+        entry["sig_alg"] = "ed25519"  # crypto-agility for a future PQ signer
         entry["sovereign_signature"] = ed25519_sign(private_bytes, entry["entry_hash"].encode("utf-8"))
     path = chain_path(repo_root)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -496,9 +543,22 @@ def append_chain_entry(
     return entry
 
 
-def verify_chain(repo_root: str | Path, trusted_public: bytes | None = None) -> tuple[bool, list[str]]:
-    """Verify linkage, per-entry hashes, sequence monotonicity, and (when a
-    trusted public key exists) the Ed25519 signature of every entry."""
+def verify_chain(
+    repo_root: str | Path,
+    trusted_public: bytes | list[bytes] | None = None,
+) -> tuple[bool, list[str]]:
+    """Verify linkage, per-entry hashes, sequence monotonicity, and (when trusted
+    public keys exist) the Ed25519 signature of every entry.
+
+    `trusted_public` accepts a single key or a list: after a key rotation, older
+    entries are legitimately signed by retired keys, so callers should pass the
+    historically-valid key set (see sovereign_vault.historically_valid_pubkeys)."""
+    trusted_keys: list[bytes] = []
+    if isinstance(trusted_public, bytes):
+        trusted_keys = [trusted_public]
+    elif trusted_public:
+        trusted_keys = list(trusted_public)
+
     issues: list[str] = []
     prev_hash = "0" * 64
     prev_seq = -1
@@ -510,10 +570,11 @@ def verify_chain(repo_root: str | Path, trusted_public: bytes | None = None) -> 
             issues.append(f"seq {seq}: broken linkage to previous entry")
         if _chain_entry_hash(entry) != entry.get("entry_hash"):
             issues.append(f"seq {seq}: entry hash mismatch (entry edited)")
-        if trusted_public is not None:
+        if trusted_keys:
             signature = entry.get("sovereign_signature", "")
-            if not signature or not ed25519_verify(
-                trusted_public, str(entry.get("entry_hash", "")).encode("utf-8"), signature
+            payload = str(entry.get("entry_hash", "")).encode("utf-8")
+            if not signature or not any(
+                ed25519_verify(key, payload, signature) for key in trusted_keys
             ):
                 issues.append(f"seq {seq}: invalid or missing sovereign signature")
         prev_hash = entry.get("entry_hash", prev_hash)

@@ -36,53 +36,51 @@ class SovereignIdentity:
             format=serialization.PublicFormat.Raw
         )
 
+    def _load_seal_keys(self) -> tuple[bytes | None, bytes | None]:
+        """X25519 encryption keypair (separate from the Ed25519 signing key)."""
+        seal_priv = KEY_DIR / "seal.priv"
+        seal_pub = KEY_DIR / "seal.pub"
+        return (
+            seal_priv.read_bytes() if seal_priv.exists() else None,
+            seal_pub.read_bytes() if seal_pub.exists() else None,
+        )
+
     def seal_context(self, data: bytes) -> str:
-        """Seals context using a derived key from the Sovereign Signature."""
-        if not self._private_key:
-            raise PermissionError("[!] Private Key required to seal context.")
-        # We don't have pynacl for easy X25519 conversion, so we use a Signature-Derived Key (SDK)
-        # This is extremely robust: Only the person who can produce the signature of 'CONTEXT_SEAL' can open it.
-        seed_token = b"ETHERNIUM_CONTEXT_SEAL_v2.9.1"
-        signature = self._private_key.sign(seed_token)
-        # Derive a 32-byte key for AES
-        derived_key = hashlib.sha256(signature).digest()
-        
-        # Simple XOR-based 'Symbolic Obfuscation' for the first layer (for performance)
-        # Plus Base64 encoding to look like an 'Artifact'
-        import base64
-        return base64.b64encode(derived_key + data).decode("utf-8")
+        """Seals context with REAL encryption: ephemeral X25519 ECDH + HKDF +
+        ChaCha20-Poly1305 (authenticated). The previous scheme was base64
+        obfuscation — anyone reading the code could open it. Only the holder of
+        seal.priv can open the new format, and tampering is detected."""
+        try:
+            from . import sovereign_vault
+        except ImportError:
+            import sovereign_vault
+        _priv, pub = self._load_seal_keys()
+        if pub is None:
+            raise PermissionError(
+                "[!] Encryption keypair missing. Run `sovereign-init` (v3.1+) to "
+                "generate .continuity/keys/seal.pub / seal.priv."
+            )
+        return sovereign_vault.seal(data, pub)
 
     def open_context(self, sealed_data_b64: str) -> bytes:
-        """Opens a sealed context using the SDK (Signature-Derived Key).
-        
+        """Opens an ECNSEAL2 sealed context.
+
         Raises:
-            PermissionError: If the Sovereign Private Key is missing.
-            ValueError: If the context was sealed for a different Sovereign or data is corrupted.
+            PermissionError: If the X25519 private key is missing.
+            ValueError: On tampering, wrong recipient, or the legacy insecure
+                format (which is refused: it was never actually encrypted).
         """
-        if not self._private_key:
-            raise PermissionError(
-                "[!] Sovereign Private Key required to open context. "
-                "Cannot decrypt with public key alone. "
-                "Ensure .continuity/keys/sovereign.priv exists."
-            )
-        import base64
         try:
-            raw = base64.b64decode(sealed_data_b64)
-            seed_token = b"ETHERNIUM_CONTEXT_SEAL_v2.9.1"
-            signature = self._private_key.sign(seed_token)
-            derived_key = hashlib.sha256(signature).digest()
-            
-            stored_key = raw[:32]
-            payload = raw[32:]
-            
-            if stored_key == derived_key:
-                return payload
-            else:
-                raise ValueError("[!] Identity Mismatch: This context is sealed for a different Sovereign.")
-        except ValueError:
-            raise
-        except Exception as e:
-            raise ValueError(f"[!] Failed to open context: {e}")
+            from . import sovereign_vault
+        except ImportError:
+            import sovereign_vault
+        priv, _pub = self._load_seal_keys()
+        if priv is None:
+            raise PermissionError(
+                "[!] X25519 private key required to open context. "
+                "Ensure .continuity/keys/seal.priv exists."
+            )
+        return sovereign_vault.open_sealed(sealed_data_b64, priv)
 
     def authorize_collaborator(self, pub_key_hex: str):
         """Adds a collaborator to THE_CHOSEN_ONES."""

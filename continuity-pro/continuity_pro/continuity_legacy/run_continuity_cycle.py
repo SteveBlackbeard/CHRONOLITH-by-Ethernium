@@ -78,12 +78,14 @@ try:
     from . import automation_common
     from . import doc_parity_check
     from . import secret_detector
+    from . import sovereign_vault
 except ImportError:
     import sys
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     import automation_common
     import doc_parity_check
     import secret_detector
+    import sovereign_vault
 
 
 def _utcnow() -> datetime:
@@ -269,6 +271,10 @@ def check(
     dna_drift = False
     signature_tampered = False
     private_bytes, public_bytes = automation_common.load_sovereign_keys(root)
+    trusted_keys = (
+        sovereign_vault.historically_valid_pubkeys(root / ".continuity" / "keys", public_bytes)
+        if public_bytes else None
+    )
     if state_path.exists():
         try:
             stored_state = json.loads(state_path.read_text(encoding="utf-8"))
@@ -279,7 +285,7 @@ def check(
             console.print("[bold red][!] STATE.json signature invalid — the DNA baseline was tampered with.[/bold red]")
         # Ed25519 layer: the checksum only catches accidents; a real signature
         # cannot be recomputed by an attacker. Trust anchor = local public key.
-        sovereign_ok = automation_common.verify_sovereign_state(stored_state, trusted_public=public_bytes)
+        sovereign_ok = automation_common.verify_sovereign_state(stored_state, trusted_public=trusted_keys)
         if sovereign_ok is False:
             signature_tampered = True
             console.print("[bold red][!] Sovereign Ed25519 signature INVALID — baseline not signed by this repository's key.[/bold red]")
@@ -302,7 +308,7 @@ def check(
     # Update the signed baseline only when the lineage is intact (no drift / no
     # tamper), so a drifting repo keeps its original baseline for the fail-closed
     # decision below instead of silently re-crystallizing the drift as canonical.
-    chain_ok, chain_issues = automation_common.verify_chain(root, trusted_public=public_bytes)
+    chain_ok, chain_issues = automation_common.verify_chain(root, trusted_public=trusted_keys)
     if not chain_ok:
         console.print("[bold red][!] DNA transparency chain BROKEN:[/bold red]")
         for issue in chain_issues[:5]:
@@ -321,7 +327,13 @@ def check(
         state_path.write_text(json.dumps(stored_state, indent=2), encoding="utf-8")
         # Record the crystallization event in the append-only transparency chain
         # (no-op when the root is unchanged), so lineage history is verifiable.
-        automation_common.append_chain_entry(root, merkle_root, private_bytes=private_bytes)
+        # Once a sovereign identity exists, ONLY signed entries may enter the
+        # chain — appending unsigned while the vault is locked would poison
+        # verification forever. Postpone instead.
+        if private_bytes or not public_bytes:
+            automation_common.append_chain_entry(root, merkle_root, private_bytes=private_bytes)
+        else:
+            console.print("[yellow][i] Vault locked (CONTINUITY_PASSPHRASE unset): chain entry postponed until the key is available.[/yellow]")
 
     now_iso = _utcnow().isoformat()
     report = {
@@ -377,25 +389,141 @@ def check(
 @app.command()
 def sovereign_init(
     repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
+    encrypt: bool = typer.Option(False, "--encrypt", help="Protect the private keys at rest with a passphrase (CONTINUITY_PASSPHRASE env var; scrypt + ChaCha20-Poly1305)."),
 ):
-    """Generate an Ed25519 sovereign keypair. From then on baselines and chain
-    entries are REALLY signed (the checksum alone only detects accidents)."""
+    """Generate the sovereign identity: Ed25519 signing keys + X25519 encryption
+    keys. From then on baselines/chain entries are REALLY signed and context can
+    be REALLY encrypted (the checksum alone only detects accidents)."""
     root = repo_root.resolve()
+    key_dir = root / ".continuity" / "keys"
     priv, _pub = automation_common.load_sovereign_keys(root)
-    if priv:
-        console.print("[yellow][i] Sovereign keypair already exists — not overwriting.[/yellow]")
+    if priv or (key_dir / "sovereign.priv.enc").exists():
+        console.print("[yellow][i] Sovereign keypair already exists — not overwriting. Use `sovereign-rotate` to renew.[/yellow]")
         raise typer.Exit(code=0)
     try:
         priv_path, pub_path = automation_common.generate_sovereign_keys(root)
+        seal_priv, seal_pub = sovereign_vault.generate_x25519_keys(key_dir)
     except ImportError:
         console.print("[bold red][!] The 'cryptography' package is required: pip install cryptography[/bold red]")
         raise typer.Exit(code=1)
+
+    vault_note = "plaintext on disk (pass --encrypt for an at-rest vault)"
+    if encrypt:
+        passphrase = os.environ.get("CONTINUITY_PASSPHRASE", "")
+        if not passphrase:
+            console.print("[bold red][!] --encrypt requires the CONTINUITY_PASSPHRASE environment variable.[/bold red]")
+            raise typer.Exit(code=1)
+        for plain in (priv_path, seal_priv):
+            payload = sovereign_vault.encrypt_private_key(plain.read_bytes(), passphrase)
+            plain.with_suffix(plain.suffix + ".enc").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+            plain.unlink()
+        vault_note = "ENCRYPTED at rest (scrypt + ChaCha20-Poly1305; unlock via CONTINUITY_PASSPHRASE)"
+
     console.print(Panel(
         f"[bold green]Sovereign identity forged.[/bold green]\n"
-        f"Private: [italic]{priv_path}[/italic]  (keep out of Git!)\n"
-        f"Public:  [italic]{pub_path}[/italic]",
-        title="Ed25519 Sovereign", expand=False,
+        f"Signing (Ed25519):    [italic]{pub_path.name}[/italic]\n"
+        f"Encryption (X25519):  [italic]{seal_pub.name}[/italic]\n"
+        f"Private keys: {vault_note}\n"
+        f"[dim]Keep .priv/.enc files out of Git (gitignored as *.priv).[/dim]",
+        title="Sovereign Vault", expand=False,
     ))
+
+
+@app.command()
+def sovereign_rotate(
+    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
+):
+    """Rotate the Ed25519 signing key: the OLD key signs a hand-off statement to
+    the NEW key, so history signed by retired keys remains verifiable (mini-PKI).
+    Compromised-key recovery: rotate, then re-run `check` to re-sign the baseline."""
+    root = repo_root.resolve()
+    key_dir = root / ".continuity" / "keys"
+    old_priv, old_pub = automation_common.load_sovereign_keys(root)
+    if not (old_priv and old_pub):
+        console.print("[bold red][!] No unlockable sovereign keypair to rotate (missing keys or locked vault without CONTINUITY_PASSPHRASE).[/bold red]")
+        raise typer.Exit(code=1)
+    from cryptography.hazmat.primitives.asymmetric import ed25519 as _ed
+    from cryptography.hazmat.primitives import serialization as _ser
+    new_key = _ed.Ed25519PrivateKey.generate()
+    new_priv = new_key.private_bytes(_ser.Encoding.Raw, _ser.PrivateFormat.Raw, _ser.NoEncryption())
+    new_pub = new_key.public_key().public_bytes(_ser.Encoding.Raw, _ser.PublicFormat.Raw)
+    sovereign_vault.record_rotation(key_dir, old_priv, old_pub, new_pub, _utcnow().isoformat())
+    (key_dir / "sovereign.priv").write_bytes(new_priv)
+    (key_dir / "sovereign.pub").write_bytes(new_pub)
+    enc = key_dir / "sovereign.priv.enc"
+    if enc.exists():
+        passphrase = os.environ.get("CONTINUITY_PASSPHRASE", "")
+        payload = sovereign_vault.encrypt_private_key(new_priv, passphrase)
+        enc.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        (key_dir / "sovereign.priv").unlink()
+    console.print(Panel(
+        f"[bold green]Key rotated.[/bold green]\n"
+        f"Old: [dim]{old_pub.hex()[:16]}…[/dim] -> New: [bold]{new_pub.hex()[:16]}…[/bold]\n"
+        f"Hand-off signed by the old key in [italic]{sovereign_vault.ROTATIONS_FILENAME}[/italic].\n"
+        f"Run `check` to re-sign the baseline with the new key.",
+        title="Sovereign Rotation", expand=False,
+    ))
+
+
+@app.command()
+def attest(
+    file: Path = typer.Option(..., "--file", help="File to attest (relative to repo root)."),
+    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
+    output: Path = typer.Option(None, "--output", help="Write the attestation JSON here (default: stdout)."),
+):
+    """Sign a provenance attestation for one file: WHO (which key) states that
+    THIS content existed at THIS time. The building block for multi-agent
+    provenance over THE_CHOSEN_ONES."""
+    root = repo_root.resolve()
+    priv, pub = automation_common.load_sovereign_keys(root)
+    if not (priv and pub):
+        console.print("[bold red][!] Sovereign private key required (run `sovereign-init`, or unlock the vault).[/bold red]")
+        raise typer.Exit(code=1)
+    target = (root / file) if not file.is_absolute() else file
+    if not target.exists():
+        console.print(f"[bold red][!] File not found: {target}[/bold red]")
+        raise typer.Exit(code=1)
+    rel = target.resolve().relative_to(root).as_posix()
+    att = sovereign_vault.build_attestation(
+        rel, automation_common.calculate_sha256(target), pub, _utcnow().isoformat()
+    )
+    sovereign_vault.sign_attestation(att, priv)
+    text = json.dumps(att, indent=2, sort_keys=True)
+    if output:
+        output.write_text(text, encoding="utf-8")
+        console.print(f"[bold green][✔][/bold green] Attestation written: [italic]{output}[/italic]")
+    else:
+        print(text)
+
+
+@app.command()
+def verify_attest(
+    attestation: Path = typer.Option(..., "--attestation", help="Attestation JSON produced by `attest`."),
+    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
+):
+    """Verify an attestation: signature valid, signer authorized (current
+    sovereign, a legitimately rotated-out key, or one of THE_CHOSEN_ONES), and
+    file content unchanged since it was attested."""
+    root = repo_root.resolve()
+    key_dir = root / ".continuity" / "keys"
+    att = json.loads(attestation.read_text(encoding="utf-8"))
+    _priv, pub = automation_common.load_sovereign_keys(root)
+
+    authorized = sovereign_vault.historically_valid_pubkeys(key_dir, pub)
+    chosen_file = key_dir / "chosen_ones.json"
+    if chosen_file.exists():
+        authorized += [bytes.fromhex(item) for item in json.loads(chosen_file.read_text(encoding="utf-8"))]
+
+    ok, reason = sovereign_vault.verify_attestation(att, authorized)
+    if not ok:
+        console.print(f"[bold red][✘] ATTESTATION REJECTED:[/bold red] {reason}")
+        raise typer.Exit(code=1)
+    target = root / att["file"]
+    current = automation_common.calculate_sha256(target)
+    if current != att.get("sha256"):
+        console.print(f"[bold red][✘] CONTENT CHANGED since attestation:[/bold red] '{att['file']}' no longer matches the attested hash.")
+        raise typer.Exit(code=1)
+    console.print(f"[bold green][✔] ATTESTATION VALID:[/bold green] '{att['file']}' attested by {att['signer_pub'][:16]}… at {att['ts'][:19]} — content unchanged.")
 
 
 @app.command()
@@ -421,7 +549,8 @@ def chain(
     console.print(table)
     if verify:
         _priv, pub = automation_common.load_sovereign_keys(root)
-        ok, issues = automation_common.verify_chain(root, trusted_public=pub)
+        keys = sovereign_vault.historically_valid_pubkeys(root / ".continuity" / "keys", pub) if pub else None
+        ok, issues = automation_common.verify_chain(root, trusted_public=keys)
         if ok:
             console.print("[bold green][✔] Chain verified: linkage, hashes and signatures intact.[/bold green]")
         else:
