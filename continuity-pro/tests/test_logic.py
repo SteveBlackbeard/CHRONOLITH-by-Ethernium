@@ -23,7 +23,9 @@ from pathlib import Path
 import sys
 # Add tools/continuity_legacy to python path for testing
 current_dir = Path(__file__).parent
-tools_dir = current_dir.parent / "tools" / "continuity_legacy"
+# Correct module path (the old "tools/continuity_legacy" path no longer exists,
+# which silently skipped every decision_engine test).
+tools_dir = current_dir.parent / "continuity_pro" / "continuity_legacy"
 sys.path.append(str(tools_dir))
 
 # Attempt to import decision_engine. If it fails, tests will error appropriately.
