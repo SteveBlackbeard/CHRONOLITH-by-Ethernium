@@ -52,7 +52,20 @@ continuity-pro verify-attest --attestation handoff.att.json
 #    Needs the OpenTimestamps client: pip install opentimestamps-client
 continuity-pro anchor
 continuity-pro verify-anchor --proof .continuity/anchors/ANCHOR_<hash>.json.ots
+
+# 7. Third-party verification — one command a skeptic runs. Prints the key
+#    fingerprint; pin the one you published out of band to defeat key-swap.
+continuity-pro verify --expect-fingerprint "SHA256:...your published fingerprint..."
 ```
+
+### Trust bootstrapping (publishing your key fingerprint)
+
+The repo ships `sovereign.pub`, but a verifier needs to know it's really yours
+and not one an attacker swapped in on a fork. Run `verify` (or `status`) to read
+your **key fingerprint** (`SHA256:...`), publish it somewhere a forger can't
+control — your README, profile, a talk — and anyone can then pin it with
+`verify --expect-fingerprint`. This is the SSH-host-key / Signal-safety-number
+model: no certificate authority, just an out-of-band human check.
 
 The private keys live in `.continuity/keys/` and are git-ignored (`*.priv`).
 Publish `sovereign.pub` so others can verify your signatures.
@@ -95,8 +108,11 @@ at-rest key, and reading sealed context without the recipient key.
    ML-DSA (Dilithium) signer drops in without a format break; meanwhile the
    SHA-256 Merkle chain and optional Bitcoin anchoring are hash-based and already
    PQ-resistant, giving a second, independent line of integrity evidence.
-3. **Trust bootstrapping.** Verifiers must obtain the authentic `sovereign.pub`
-   out of band (the usual public-key distribution problem).
+3. **Trust bootstrapping.** Verifiers must obtain the authentic key fingerprint
+   out of band (the usual public-key distribution problem). Mitigated, not
+   eliminated, by `verify --expect-fingerprint`: you publish the `SHA256:...`
+   fingerprint where a forger can't reach, and a skeptic pins it. There is no
+   certificate authority — that is a deliberate scope choice, not an oversight.
 
 ---
 

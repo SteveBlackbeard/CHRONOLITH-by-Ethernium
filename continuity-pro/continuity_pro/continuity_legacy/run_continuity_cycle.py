@@ -625,6 +625,72 @@ def verify_proof(
 
 
 @app.command()
+def verify(
+    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
+    scan_source: bool = typer.Option(True, "--scan-source/--no-scan-source"),
+    expect_fingerprint: str = typer.Option(None, "--expect-fingerprint", help="Pin the sovereign public-key fingerprint you obtained OUT OF BAND. Fails if the repo's key does not match."),
+):
+    """Third-party verification — one read-only command a skeptic runs to answer
+    'is this repo's DNA authentic?'. Recomputes the Merkle root and checks it
+    against the signed baseline, verifies the Ed25519 signature and the whole
+    transparency chain, pins the key fingerprint, and reports the Bitcoin anchor.
+    Writes nothing."""
+    root = repo_root.resolve()
+    ok = True
+
+    _priv, pub = automation_common.load_sovereign_keys(root)
+    fingerprint = sovereign_vault.key_fingerprint(pub) if pub else None
+    if fingerprint:
+        console.print(f"Sovereign key fingerprint: [bold]{fingerprint}[/bold]")
+    if expect_fingerprint:
+        matched = fingerprint == expect_fingerprint.strip()
+        console.print(f"  fingerprint pin: {'[green]MATCH[/green]' if matched else '[bold red]MISMATCH[/bold red]'}")
+        ok = ok and matched
+
+    # 1. Content vs signed baseline.
+    _docs, _src, leaves = _compute_leaves(root, scan_source)
+    computed_root = automation_common.build_merkle_tree(list(leaves.values()))
+    state_path = root / ".continuity" / "STATE.json"
+    if not state_path.exists():
+        console.print("[bold red][✘] no baseline (STATE.json) — nothing to verify.[/bold red]")
+        raise typer.Exit(code=1)
+    state = json.loads(state_path.read_text(encoding="utf-8"))
+    root_match = state.get("merkle_root") == computed_root
+    console.print(f"  merkle root vs baseline: {'[green]MATCH[/green]' if root_match else '[bold red]DRIFT[/bold red]'}")
+    ok = ok and root_match
+
+    # 2. Baseline signatures.
+    checksum_ok = automation_common.verify_signature(state)
+    trusted = sovereign_vault.historically_valid_pubkeys(root / ".continuity" / "keys", pub) if pub else None
+    sov = automation_common.verify_sovereign_state(state, trusted_public=trusted)
+    console.print(f"  baseline checksum: {'[green]ok[/green]' if checksum_ok else '[bold red]TAMPERED[/bold red]'}"
+                  f" | ed25519: {'[green]ok[/green]' if sov else ('[dim]unsigned[/dim]' if sov is None else '[bold red]INVALID[/bold red]')}")
+    ok = ok and checksum_ok and (sov is not False)
+
+    # 3. Transparency chain.
+    chain_ok, chain_issues = automation_common.verify_chain(root, trusted_public=trusted)
+    console.print(f"  transparency chain: {'[green]intact[/green]' if chain_ok else '[bold red]BROKEN[/bold red]'}")
+    for issue in chain_issues[:3]:
+        console.print(f"      [red]{issue}[/red]")
+    ok = ok and chain_ok
+
+    # 4. External witness (informational — absence is not a failure).
+    anchors = sorted((root / ".continuity" / anchor_mod.ANCHOR_DIRNAME).glob("*.json.ots")) if (root / ".continuity" / anchor_mod.ANCHOR_DIRNAME).exists() else []
+    if anchors:
+        confirmed, msg = anchor_mod.try_ots_verify(anchors[-1])
+        console.print(f"  bitcoin anchor: {'[green]confirmed[/green]' if confirmed else '[yellow]' + msg + '[/yellow]'}")
+    else:
+        console.print("  bitcoin anchor: [dim]none (run `anchor` for an external witness)[/dim]")
+
+    console.print(Panel(
+        "[bold green]DNA AUTHENTIC[/bold green]" if ok else "[bold red]VERIFICATION FAILED[/bold red]",
+        title="Third-Party Verify", expand=False,
+    ))
+    if not ok:
+        raise typer.Exit(code=1)
+
+
+@app.command()
 def anchor(
     repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
 ):

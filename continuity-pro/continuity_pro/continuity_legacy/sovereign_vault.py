@@ -220,6 +220,22 @@ def historically_valid_pubkeys(key_dir: str | Path, current_pub: bytes | None) -
 
 # ── Attestations (multi-agent provenance over THE_CHOSEN_ONES) ───────────────
 
+def key_fingerprint(public_bytes: bytes) -> str:
+    """Human-verifiable fingerprint of a public key (SSH-style SHA256:<base64>).
+
+    This is the missing piece of trust bootstrapping: the repository already ships
+    `sovereign.pub`, but a verifier has no way to know that key is really yours
+    and not one an attacker swapped in on a fork. You publish this fingerprint
+    OUT OF BAND (README, profile, a talk), and a skeptic pins it with
+    `verify --expect-fingerprint` — exactly how SSH host keys and Signal safety
+    numbers work."""
+    import base64
+    import hashlib
+
+    digest = hashlib.sha256(public_bytes).digest()
+    return "SHA256:" + base64.b64encode(digest).decode("ascii").rstrip("=")
+
+
 def build_attestation(rel_path: str, content_sha256: str, signer_pub: bytes, timestamp: str) -> dict:
     return {
         "type": "attestation",

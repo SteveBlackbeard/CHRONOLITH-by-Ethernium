@@ -18,6 +18,7 @@
 - **Real sealed context**: `seal_context` replaced its base64 obfuscation with authenticated X25519 + ChaCha20-Poly1305 encryption.
 - **Crypto-agility**: `sig_alg` tags on all signed records for a future post-quantum signer.
 - **Incremental hashing** (mtime+size cache) so `check` stops rehashing every file each run.
+- **Third-party `verify`** — one read-only command a skeptic runs: recomputes the root vs the signed baseline, verifies the Ed25519 signature and the whole chain, reports the Bitcoin anchor, and prints the key fingerprint. `--expect-fingerprint` pins the out-of-band key fingerprint (SSH/Signal model), mitigating trust bootstrapping without a certificate authority.
 
 ### Docs
 - Added `SOVEREIGN_SECURITY.md`; corrected the main README's integrity claims to match the implementation.
