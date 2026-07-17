@@ -85,6 +85,23 @@ class TestVerifyCommand(unittest.TestCase):
         result = self._run("verify", "--no-scan-source", "--strict", "--expect-fingerprint", self._fingerprint())
         self.assertEqual(result.returncode, 1, result.stdout)
 
+    def test_verify_json_is_machine_readable(self):
+        result = self._run("verify", "--no-scan-source", "--json")
+        self.assertEqual(result.returncode, 0, result.stdout)
+        report = json.loads(result.stdout)
+        self.assertTrue(report["ok"])
+        self.assertEqual(report["verdict"], "integrity-only")
+        self.assertTrue(report["checks"]["root_matches_baseline"])
+        self.assertIn("authenticity_not_verified", " ".join(report["warnings"]))
+
+    def test_verify_json_reports_drift(self):
+        (self.root / "DOC.md").write_text("# tampered\n", encoding="utf-8")
+        result = self._run("verify", "--no-scan-source", "--json")
+        self.assertEqual(result.returncode, 1)
+        report = json.loads(result.stdout)
+        self.assertFalse(report["ok"])
+        self.assertFalse(report["checks"]["root_matches_baseline"])
+
     def test_verify_detects_content_drift(self):
         (self.root / "DOC.md").write_text("# Tampered\n", encoding="utf-8")
         result = self._run("verify", "--no-scan-source")

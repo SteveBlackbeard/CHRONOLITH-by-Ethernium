@@ -645,6 +645,7 @@ def verify(
     scan_source: bool = typer.Option(True, "--scan-source/--no-scan-source"),
     expect_fingerprint: str = typer.Option(None, "--expect-fingerprint", help="Pin the sovereign public-key fingerprint you obtained OUT OF BAND. Fails if the repo's key does not match."),
     strict: bool = typer.Option(False, "--strict", help="Skeptic mode: require BOTH a matched fingerprint and a confirmed Bitcoin anchor, else fail."),
+    as_json: bool = typer.Option(False, "--json", help="Emit a machine-readable JSON report (for CI/automation) instead of the panel."),
 ):
     """Third-party verification — one read-only command a skeptic runs to answer
     'is this repo's DNA authentic?'. Recomputes the Merkle root and checks it
@@ -653,14 +654,20 @@ def verify(
     Writes nothing."""
     root = repo_root.resolve()
     ok = True
+    report: dict = {"checks": {}, "warnings": []}
+    def say(msg):
+        if not as_json:
+            console.print(msg)
 
     _priv, pub = automation_common.load_sovereign_keys(root)
     fingerprint = sovereign_vault.key_fingerprint(pub) if pub else None
+    report["fingerprint"] = fingerprint
     if fingerprint:
-        console.print(f"Sovereign key fingerprint: [bold]{fingerprint}[/bold]")
+        say(f"Sovereign key fingerprint: [bold]{fingerprint}[/bold]")
     if expect_fingerprint:
         matched = fingerprint == expect_fingerprint.strip()
-        console.print(f"  fingerprint pin: {'[green]MATCH[/green]' if matched else '[bold red]MISMATCH[/bold red]'}")
+        report["checks"]["fingerprint_pin"] = matched
+        say(f"  fingerprint pin: {'[green]MATCH[/green]' if matched else '[bold red]MISMATCH[/bold red]'}")
         ok = ok and matched
 
     # 1. Content vs signed baseline.
@@ -668,33 +675,44 @@ def verify(
     computed_root = automation_common.build_merkle_tree(list(leaves.values()))
     state_path = root / ".continuity" / "STATE.json"
     if not state_path.exists():
-        console.print("[bold red][✘] no baseline (STATE.json) — nothing to verify.[/bold red]")
+        if as_json:
+            print(json.dumps({"ok": False, "error": "no baseline (STATE.json)"}, indent=2))
+        else:
+            console.print("[bold red][✘] no baseline (STATE.json) — nothing to verify.[/bold red]")
         raise typer.Exit(code=1)
     state = json.loads(state_path.read_text(encoding="utf-8"))
     root_match = state.get("merkle_root") == computed_root
-    console.print(f"  merkle root vs baseline: {'[green]MATCH[/green]' if root_match else '[bold red]DRIFT[/bold red]'}")
+    report["checks"]["root_matches_baseline"] = root_match
+    report["merkle_root"] = computed_root
+    say(f"  merkle root vs baseline: {'[green]MATCH[/green]' if root_match else '[bold red]DRIFT[/bold red]'}")
     ok = ok and root_match
 
     # 2. Baseline signatures.
     checksum_ok = automation_common.verify_signature(state)
     trusted = sovereign_vault.historically_valid_pubkeys(root / ".continuity" / "keys", pub) if pub else None
     sov = automation_common.verify_sovereign_state(state, trusted_public=trusted)
-    console.print(f"  baseline checksum: {'[green]ok[/green]' if checksum_ok else '[bold red]TAMPERED[/bold red]'}"
-                  f" | ed25519: {'[green]ok[/green]' if sov else ('[dim]unsigned[/dim]' if sov is None else '[bold red]INVALID[/bold red]')}")
+    report["checks"]["baseline_checksum"] = checksum_ok
+    report["checks"]["baseline_ed25519"] = ("ok" if sov else ("unsigned" if sov is None else "invalid"))
+    say(f"  baseline checksum: {'[green]ok[/green]' if checksum_ok else '[bold red]TAMPERED[/bold red]'}"
+        f" | ed25519: {'[green]ok[/green]' if sov else ('[dim]unsigned[/dim]' if sov is None else '[bold red]INVALID[/bold red]')}")
     ok = ok and checksum_ok and (sov is not False)
 
     # 3. Transparency chain — internal integrity AND binding to the baseline.
     chain_ok, chain_issues = automation_common.verify_chain(root, trusted_public=trusted)
-    console.print(f"  transparency chain: {'[green]intact[/green]' if chain_ok else '[bold red]BROKEN[/bold red]'}")
+    report["checks"]["chain_intact"] = chain_ok
+    report["chain_issues"] = chain_issues
+    say(f"  transparency chain: {'[green]intact[/green]' if chain_ok else '[bold red]BROKEN[/bold red]'}")
     for issue in chain_issues[:3]:
-        console.print(f"      [red]{issue}[/red]")
+        say(f"      [red]{issue}[/red]")
     ok = ok and chain_ok
     # Red-team A4: a chain can be internally valid yet truncated. Bind the chain
     # HEAD to the current baseline — the newest entry must record this root.
     entries = automation_common.read_chain(root)
+    report["chain_length"] = len(entries)
     if entries:
         head_bound = entries[-1].get("merkle_root") == state.get("merkle_root")
-        console.print(f"  chain head vs baseline: {'[green]bound[/green]' if head_bound else '[bold red]MISMATCH (chain truncated or state rolled forward)[/bold red]'}")
+        report["checks"]["chain_head_bound"] = head_bound
+        say(f"  chain head vs baseline: {'[green]bound[/green]' if head_bound else '[bold red]MISMATCH (chain truncated or state rolled forward)[/bold red]'}")
         ok = ok and head_bound
 
     # 4. External witness (informational unless --strict).
@@ -702,31 +720,38 @@ def verify(
     anchors = sorted((root / ".continuity" / anchor_mod.ANCHOR_DIRNAME).glob("*.json.ots")) if (root / ".continuity" / anchor_mod.ANCHOR_DIRNAME).exists() else []
     if anchors:
         anchor_confirmed, msg = anchor_mod.try_ots_verify(anchors[-1])
-        console.print(f"  bitcoin anchor: {'[green]confirmed[/green]' if anchor_confirmed else '[yellow]' + msg + '[/yellow]'}")
+        say(f"  bitcoin anchor: {'[green]confirmed[/green]' if anchor_confirmed else '[yellow]' + msg + '[/yellow]'}")
     else:
-        console.print("  bitcoin anchor: [dim]none (run `anchor` for an external witness)[/dim]")
+        say("  bitcoin anchor: [dim]none (run `anchor` for an external witness)[/dim]")
+    report["anchor_confirmed"] = anchor_confirmed
 
     # Honesty about scope. Red-team A3a/A5: internal consistency is NOT
     # authenticity. Without a pinned fingerprint a key-swapped fork verifies;
     # without a confirmed anchor a rollback to an older signed state verifies.
     authenticity_checked = bool(expect_fingerprint)
     if not authenticity_checked:
-        console.print("[yellow]  ! authenticity NOT verified: no --expect-fingerprint. This proves internal[/yellow]")
-        console.print("[yellow]    integrity only; a fork that swapped the whole key set would still pass.[/yellow]")
+        report["warnings"].append("authenticity_not_verified: no fingerprint pin; a key-swapped fork would pass")
+        say("[yellow]  ! authenticity NOT verified: no --expect-fingerprint. This proves internal[/yellow]")
+        say("[yellow]    integrity only; a fork that swapped the whole key set would still pass.[/yellow]")
     if not anchor_confirmed:
-        console.print("[yellow]  ! rollback NOT externally detectable: no confirmed Bitcoin anchor.[/yellow]")
+        report["warnings"].append("rollback_not_externally_detectable: no confirmed anchor")
+        say("[yellow]  ! rollback NOT externally detectable: no confirmed Bitcoin anchor.[/yellow]")
 
     if strict and ok and not (authenticity_checked and anchor_confirmed):
-        console.print("[bold red]  --strict requires a matched fingerprint AND a confirmed anchor.[/bold red]")
+        say("[bold red]  --strict requires a matched fingerprint AND a confirmed anchor.[/bold red]")
         ok = False
 
-    if not ok:
-        verdict = "[bold red]VERIFICATION FAILED[/bold red]"
-    elif authenticity_checked:
-        verdict = "[bold green]DNA AUTHENTIC[/bold green]  (key fingerprint pinned)"
+    report["ok"] = ok
+    report["verdict"] = ("failed" if not ok else ("authentic" if authenticity_checked else "integrity-only"))
+    if as_json:
+        print(json.dumps(report, indent=2, sort_keys=True))
     else:
-        verdict = "[bold yellow]INTEGRITY OK[/bold yellow]  (authenticity unverified — pass --expect-fingerprint)"
-    console.print(Panel(verdict, title="Third-Party Verify", expand=False))
+        verdict = {
+            "failed": "[bold red]VERIFICATION FAILED[/bold red]",
+            "authentic": "[bold green]DNA AUTHENTIC[/bold green]  (key fingerprint pinned)",
+            "integrity-only": "[bold yellow]INTEGRITY OK[/bold yellow]  (authenticity unverified — pass --expect-fingerprint)",
+        }[report["verdict"]]
+        console.print(Panel(verdict, title="Third-Party Verify", expand=False))
     if not ok:
         raise typer.Exit(code=1)
 
