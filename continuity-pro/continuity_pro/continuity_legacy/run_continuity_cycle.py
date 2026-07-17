@@ -79,6 +79,7 @@ try:
     from . import doc_parity_check
     from . import secret_detector
     from . import sovereign_vault
+    from . import anchor as anchor_mod
 except ImportError:
     import sys
     sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -86,6 +87,7 @@ except ImportError:
     import doc_parity_check
     import secret_detector
     import sovereign_vault
+    import anchor as anchor_mod
 
 
 def _utcnow() -> datetime:
@@ -619,6 +621,59 @@ def verify_proof(
         console.print(f"[bold green][✔] INCLUSION VERIFIED:[/bold green] '{rel}' belongs to root {expected_root[:16]}…")
     else:
         console.print(f"[bold red][✘] VERIFICATION FAILED:[/bold red] '{rel}' does not match root {expected_root[:16]}… (file tampered, proof forged, or baseline moved)")
+        raise typer.Exit(code=1)
+
+
+@app.command()
+def anchor(
+    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
+):
+    """Anchor the DNA transparency chain head in Bitcoin via OpenTimestamps —
+    an EXTERNAL witness. The signed chain proves lineage to anyone who trusts the
+    key; the anchor proves it to a skeptic who trusts no one, and survives key
+    compromise (a past timestamp cannot be forged). If the `ots` client is not
+    installed, a local sovereign record is still written."""
+    root = repo_root.resolve()
+    entries = automation_common.read_chain(root)
+    state_path = root / ".continuity" / "STATE.json"
+    merkle_root = ""
+    if state_path.exists():
+        merkle_root = json.loads(state_path.read_text(encoding="utf-8")).get("merkle_root", "")
+    if not entries and not merkle_root:
+        console.print("[yellow]Nothing to anchor yet — run `check` to crystallize a baseline first.[/yellow]")
+        raise typer.Exit(code=0)
+
+    _priv, pub = automation_common.load_sovereign_keys(root)
+    record = anchor_mod.build_anchor_record(entries[-1] if entries else None, merkle_root, pub.hex() if pub else None)
+    anchor_path = anchor_mod.write_anchor(root, record)
+    console.print(f"[bold green][✔][/bold green] Sovereign anchor record: [italic]{anchor_path}[/italic]")
+
+    stamped, message = anchor_mod.try_ots_stamp(anchor_path)
+    if stamped:
+        console.print(Panel(
+            f"[bold green]Anchored to Bitcoin (OpenTimestamps).[/bold green]\n"
+            f"Proof: [italic]{message}[/italic]\n"
+            f"Confirmation takes hours. Verify later: [cyan]continuity-pro verify-anchor --proof {message}[/cyan]\n"
+            f"[dim]Commit the .ots proof so anyone can verify the timestamp independently.[/dim]",
+            title="External Witness", expand=False,
+        ))
+    else:
+        console.print(f"[yellow][i] Blockchain stamp pending: {message}[/yellow]")
+        console.print("[dim]Install the client to stamp:  pip install opentimestamps-client")
+        console.print(f"[dim]Then:  ots stamp \"{anchor_path}\"[/dim]")
+        console.print("[dim]The local record is already sovereign-signed via the chain; the .ots adds the external witness.[/dim]")
+
+
+@app.command()
+def verify_anchor(
+    proof: Path = typer.Option(..., "--proof", help="The .ots proof file produced by `anchor`."),
+):
+    """Verify a Bitcoin anchor proof against the blockchain (via the ots client)."""
+    ok, message = anchor_mod.try_ots_verify(proof)
+    if ok:
+        console.print(f"[bold green][✔] ANCHOR CONFIRMED on Bitcoin:[/bold green]\n{message}")
+    else:
+        console.print(f"[yellow][i] Not confirmed:[/yellow] {message}")
         raise typer.Exit(code=1)
 
 

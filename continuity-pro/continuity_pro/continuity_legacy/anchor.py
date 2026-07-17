@@ -1,0 +1,114 @@
+"""Bitcoin anchoring for the DNA transparency chain (external witness).
+
+The signed chain proves lineage *to anyone who trusts the sovereign key*. That is
+the honest limit: a party who controls both the repo and the key can rebuild a
+consistent chain. OpenTimestamps closes that gap — it stamps the chain head into
+the Bitcoin blockchain, so a **skeptical third party** can verify that this exact
+DNA state existed at a given time without trusting the operator at all. And
+because a past Bitcoin timestamp cannot be forged even with a stolen key, the
+anchor also gives forward-security against history rewrites after a key
+compromise.
+
+Design (matching the Ethernium Frugal anchor): anchoring is optional
+infrastructure, never a blocker. If the `ots` client is installed it produces a
+real `.ots` proof; if not, a local sovereign record is still written and install
+instructions are printed. No hard dependency, no network call from this module
+itself — the `ots` client owns the calendar/network interaction.
+"""
+
+from __future__ import annotations
+
+import json
+import subprocess
+from datetime import datetime, timezone
+from pathlib import Path
+
+ANCHOR_DIRNAME = "anchors"
+_OTS_CANDIDATES = ("ots", "ots.exe")
+
+
+def anchor_dir(repo_root: str | Path) -> Path:
+    return Path(repo_root) / ".continuity" / ANCHOR_DIRNAME
+
+
+def build_anchor_record(
+    chain_head: dict | None,
+    merkle_root: str,
+    sovereign_pub_hex: str | None,
+) -> dict:
+    """The record that gets timestamped. Anchoring `chain_head['entry_hash']`
+    (which hash-links the entire history) timestamps the whole lineage, not just
+    the current root."""
+    return {
+        "project": "Continuity Legacy (Pro)",
+        "anchored_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+        "method": "opentimestamps",
+        "merkle_root": merkle_root,
+        "chain_seq": chain_head.get("seq") if chain_head else None,
+        "chain_head_hash": chain_head.get("entry_hash") if chain_head else None,
+        "sovereign_public_key": sovereign_pub_hex,
+        "note": (
+            "The chain head hash links the full DNA lineage; a Bitcoin timestamp "
+            "over this file proves that exact state existed at the confirmed time, "
+            "verifiable by anyone with the .ots proof — no trust in the operator."
+        ),
+    }
+
+
+def write_anchor(repo_root: str | Path, record: dict) -> Path:
+    directory = anchor_dir(repo_root)
+    directory.mkdir(parents=True, exist_ok=True)
+    tag = (record.get("chain_head_hash") or record.get("merkle_root") or "state")[:12]
+    path = directory / f"ANCHOR_{tag}.json"
+    path.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return path
+
+
+def _find_ots() -> str | None:
+    for binary in _OTS_CANDIDATES:
+        try:
+            probe = subprocess.run([binary, "--version"], capture_output=True, text=True)
+        except (OSError, FileNotFoundError):
+            continue
+        if probe.returncode == 0 or probe.stdout or probe.stderr:
+            return binary
+    return None
+
+
+def try_ots_stamp(anchor_path: str | Path) -> tuple[bool, str]:
+    """Create a `.ots` proof via the OpenTimestamps client, if installed.
+    Returns (stamped, message). Never raises — anchoring must not block a run."""
+    binary = _find_ots()
+    if not binary:
+        return False, "ots client not installed"
+    try:
+        result = subprocess.run([binary, "stamp", str(anchor_path)], capture_output=True, text=True)
+    except OSError as exc:
+        return False, f"ots stamp failed: {exc}"
+    if result.returncode == 0:
+        return True, f"{anchor_path}.ots"
+    return False, (result.stderr or result.stdout or "ots stamp returned non-zero").strip()
+
+
+def try_ots_verify(ots_path: str | Path) -> tuple[bool, str]:
+    """Verify a `.ots` proof against the Bitcoin blockchain via the client.
+    Returns (verified, message)."""
+    binary = _find_ots()
+    if not binary:
+        return False, "ots client not installed (cannot verify the blockchain proof)"
+    path = Path(ots_path)
+    if not path.exists():
+        return False, f"proof not found: {path}"
+    try:
+        result = subprocess.run([binary, "verify", str(path)], capture_output=True, text=True)
+    except OSError as exc:
+        return False, f"ots verify failed: {exc}"
+    output = (result.stdout + result.stderr).strip()
+    # `ots verify` prints "Success! Bitcoin block ..." on a confirmed proof and a
+    # "Pending" notice while the calendar attestation awaits confirmation. Check
+    # pending FIRST — the pending message also mentions "Bitcoin".
+    if "pending" in output.lower():
+        return False, "pending: calendar attestation not yet confirmed on Bitcoin (retry in a few hours)"
+    if result.returncode == 0 and ("Success" in output or "Bitcoin block" in output):
+        return True, output
+    return False, output or "verification failed"
