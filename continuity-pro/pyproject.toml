@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ethernium-continuity-pro"
-version = "3.0.3"
+version = "3.2.0"
 authors = [
   { name = "SteveBlackbeard" },
 ]

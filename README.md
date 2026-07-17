@@ -105,9 +105,11 @@ Continuity Legacy solves the "Semantic Drift" in long-term AI-Human collaboratio
 
 ## Software Supply Chain Security (SLSA)
 Continuity Legacy implements high-integrity governance for the project lineage:
-- **RFC 6962 Merkle Integrity**: Every markdown file is part of a Merkle Tree. A single byte change in your documentation alters the root hash.
+- **Path-bound Merkle Integrity**: Every markdown file is a leaf keyed by its path, so a one-byte edit — or a rename, or a content swap between two files — changes the root hash.
+- **Real drift detection**: `check` compares the computed root against a signed baseline and halts (fail-closed) when they diverge — not only on secrets or doc-parity.
+- **Sovereign cryptography (Pro)**: Ed25519-signed baselines, an append-only DNA transparency chain, O(log n) Merkle inclusion proofs, real X25519 sealed context, and a passphrase-protected key vault. See [continuity-pro/SOVEREIGN_SECURITY.md](./continuity-pro/SOVEREIGN_SECURITY.md).
 - **Deterministic Synthesis**: Cross-platform verification (Windows/Linux) ensures that the "Project Soul" is identical across all environments.
-- **Fail-Closed Hooks**: Native Git-Hooks that block pushes if the DNA drift is detected.
+- **Fail-Closed Hooks**: Native Git-Hooks that block pushes when DNA drift, a broken transparency chain, or an invalid signature is detected.
 
 ---
 
