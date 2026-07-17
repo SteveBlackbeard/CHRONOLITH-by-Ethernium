@@ -12,17 +12,31 @@
 #### Languages
 [![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_es.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/README.md) [![JA](https://img.shields.io/badge/JA-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ja.md) [![ZH](https://img.shields.io/badge/ZH-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_zh.md) [![RU](https://img.shields.io/badge/RU-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ru.md) [![FR](https://img.shields.io/badge/FR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_fr.md) [![IT](https://img.shields.io/badge/IT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_it.md) [![DE](https://img.shields.io/badge/DE-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_de.md) [![PT](https://img.shields.io/badge/PT-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_pt.md) [![KO](https://img.shields.io/badge/KO-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ko.md) [![AR](https://img.shields.io/badge/AR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ar.md)
 
-"**AI doesn't forget anymore.**"
+**A cryptographic integrity layer for the documents that carry a project's
+intent across AI-assisted sessions.**
 
-*This prevents LLMs from losing context and destroying your codebase, mathematically forcing them to align with a cryptographic hash.*
+Continuity Legacy hashes your canonical project documents into a Merkle tree,
+records a signed baseline, and fails closed when the current state no longer
+matches it — so unintended changes to a project's context are caught before they
+propagate, instead of being discovered later. It does not read minds or guarantee
+an AI "remembers"; it gives you a verifiable record of what the agreed context
+*was*, and a hard stop when it drifts.
+
+> The names in this project (DNA, sovereign, nucleotides) are deliberate
+> narrative. What they map to technically — and why — is documented plainly in
+> [LORE.md](./LORE.md). The engineering docs below make only claims a test or a
+> command can back up.
 
 ---
 
-## Enterprise Use Cases
-Continuity Legacy solves the "Semantic Drift" in long-term AI-Human collaboration:
-1. **Cross-Agent Handoffs**: Transfer full project context between different AI models (GPT-4 to Claude to local LLMs) with zero context loss.
-2. **Multi-Day RAG Stability**: Ensures that Retrieval-Augmented Generation systems always point to the canonical source of truth, even after system resets.
-3. **Legacy Restoration**: Instantly reconstruct the architectural intent of a project years after the last human developer has left.
+## What it is for
+Continuity Legacy addresses semantic drift in long-term AI–human collaboration:
+1. **Cross-agent handoffs** — carry a signed, verifiable snapshot of project
+   context between models and sessions, and detect if it was altered in transit.
+2. **RAG source-of-truth integrity** — keep retrieval pointed at documents whose
+   state is cryptographically pinned, and notice when they change.
+3. **Architectural provenance** — an auditable, signed history (and optional
+   Bitcoin timestamp) of how the project's canonical documents evolved.
 
 ---
 
@@ -106,21 +120,14 @@ _Advanced RAG, cognitive mapping, and a stunning 3D Glassmorphic Dashboard for i
 
 ---
 
-## Enterprise Use Cases
-Continuity Legacy solves the "Semantic Drift" in long-term AI-Human collaboration:
-1. **Cross-Agent Handoffs**: Transfer full project context between different AI models (GPT-4 to Claude to local LLMs) with zero context loss.
-2. **Multi-Day RAG Stability**: Ensures that Retrieval-Augmented Generation systems always point to the canonical source of truth, even after system resets.
-3. **Legacy Restoration**: Instantly reconstruct the architectural intent of a project years after the last human developer has left.
-
----
-
 ## Software Supply Chain Security (SLSA)
 Continuity Legacy implements high-integrity governance for the project lineage:
 - **Path-bound Merkle Integrity**: Every markdown file is a leaf keyed by its path, so a one-byte edit — or a rename, or a content swap between two files — changes the root hash.
 - **Real drift detection**: `check` compares the computed root against a signed baseline and halts (fail-closed) when they diverge — not only on secrets or doc-parity.
 - **Sovereign cryptography (Pro)**: Ed25519-signed baselines, an append-only DNA transparency chain, O(log n) Merkle inclusion proofs, real X25519 sealed context, and a passphrase-protected key vault. See [continuity-pro/SOVEREIGN_SECURITY.md](./continuity-pro/SOVEREIGN_SECURITY.md).
-- **Deterministic Synthesis**: Cross-platform verification (Windows/Linux) ensures that the "Project Soul" is identical across all environments.
-- **Fail-Closed Hooks**: Native Git-Hooks that block pushes when DNA drift, a broken transparency chain, or an invalid signature is detected.
+- **Deterministic synthesis**: LF-normalized hashing gives the same root on Windows and Linux, so verification is cross-platform.
+- **External witness (Pro)**: `anchor` timestamps the transparency-chain head into Bitcoin via OpenTimestamps, so a third party can verify the DNA state existed at a given time without trusting the operator. See [SOVEREIGN_SECURITY.md](./continuity-pro/SOVEREIGN_SECURITY.md).
+- **Fail-closed hooks**: Git hooks that block a push when DNA drift, a broken transparency chain, or an invalid signature is detected.
 
 ---
 

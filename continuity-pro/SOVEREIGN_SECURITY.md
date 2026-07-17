@@ -22,6 +22,7 @@ against, and the honest limits of the design.
 | Provenance | `attest` / `verify-attest` | Anonymous or forged authorship: an attestation names the signing key and fails if content changed. |
 | Key protection | `sovereign-init --encrypt` | Reading the private key off disk: it is wrapped with scrypt + ChaCha20-Poly1305. |
 | Continuity | `sovereign-rotate` | Losing verifiability after a key change: the old key signs the hand-off to the new one. |
+| **External witness** | `anchor` / `verify-anchor` | Trusting the operator: a Bitcoin timestamp over the chain head proves the state existed at a confirmed time to a party who trusts *no one* — and cannot be forged even with a stolen key. |
 | Secrecy | `seal_context` (API) | Reading sealed context: real X25519 + ChaCha20-Poly1305 encryption, not obfuscation. |
 
 ---
@@ -46,6 +47,11 @@ continuity-pro verify-proof --proof readme.proof.json
 # 5. Attest authorship of a document, and verify it later.
 continuity-pro attest --file HANDOFF.md --output handoff.att.json
 continuity-pro verify-attest --attestation handoff.att.json
+
+# 6. Anchor the chain head in Bitcoin (external witness).
+#    Needs the OpenTimestamps client: pip install opentimestamps-client
+continuity-pro anchor
+continuity-pro verify-anchor --proof .continuity/anchors/ANCHOR_<hash>.json.ots
 ```
 
 The private keys live in `.continuity/keys/` and are git-ignored (`*.priv`).
@@ -80,7 +86,10 @@ at-rest key, and reading sealed context without the recipient key.
 
 1. **A live-compromised machine.** If an attacker controls the process *while the
    passphrase is in memory*, they can sign as you. Mitigation: keep the vault
-   encrypted, scope `CONTINUITY_PASSPHRASE` to trusted CI, rotate on suspicion.
+   encrypted, scope `CONTINUITY_PASSPHRASE` to trusted CI, rotate on suspicion —
+   and note that `anchor` gives forward-security here: an attacker with a stolen
+   key still cannot forge a *past* Bitcoin timestamp, so anchored history cannot
+   be rewritten after the fact.
 2. **Post-quantum adversaries.** Ed25519 is not post-quantum. Mitigation:
    crypto-agility — every signed record carries a `sig_alg` tag, so a future
    ML-DSA (Dilithium) signer drops in without a format break; meanwhile the
