@@ -93,6 +93,24 @@ jobs:
     - name: Run Omega Tests (Cognitive Map + Decisions)
       run: pytest continuity-omega/tests/test_omega_logic.py -v
 
+  core-parity:
+    name: 🧬 Cross-Edition Core Parity
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: pip
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest typer rich cryptography
+    - name: Verify the vendored DNA core has not drifted between editions
+      run: pytest tests/test_edition_parity.py -v
+
   # --- Code Quality ---
   lint:
     name: 🔍 Code Quality

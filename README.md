@@ -50,6 +50,17 @@ To address the need for concrete evidence, we provide a verified Case Study and 
 *   [**CASE_STUDY_DRIFT.md**](./CASE_STUDY_DRIFT.md): A real-world demonstration of how Continuity detects and blocks unauthorized semantic changes that Git ignores.
 *   [**BENCHMARKS.md**](./BENCHMARKS.md): Measured performance results (Latencies, Memory footprint, and Merkle scan speeds).
 
+The three editions install standalone (each vendors its own core), so run the
+full audit per edition in isolated processes — one command:
+
+```bash
+python scripts/audit_all.py            # per-edition tests + cross-edition core parity
+python scripts/audit_all.py --install  # also build + install each guardian in a clean venv
+```
+
+Cross-edition parity guards the deliberate vendoring: if a shared core primitive
+drifts between Lite/Pro/Omega, the audit fails.
+
 ---
 
 

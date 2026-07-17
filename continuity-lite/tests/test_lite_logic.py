@@ -28,6 +28,12 @@ def test_calculate_sha256(tmp_path):
 def test_calculate_sha256_missing():
     assert calculate_sha256(Path("non_existent_phantom.txt")) == ""
 
+def test_calculate_sha256_accepts_str_path(tmp_path):
+    # API parity with Pro/Omega: accept a plain string, not only a Path.
+    f = tmp_path / "x.txt"
+    f.write_bytes(b"content")
+    assert calculate_sha256(str(f)) == calculate_sha256(f)
+
 # --- Merkle Tree Tests (RFC 6962 compliant) ---
 
 def test_build_merkle_root_empty():

@@ -79,9 +79,10 @@ ASCII_ART = """
 [/bold cyan]
 """
 
-def calculate_sha256(path: Path) -> str:
+def calculate_sha256(path: Path | str) -> str:
+    path = Path(path)  # accept str or Path, matching Pro/Omega's signature
     if not (path.exists() and path.is_file()): return ""
-    
+
     # Cross-Platform DNA Protection: Normalize to LF (\n), rstrip lines, and exclude self-referencing badges
     try:
         content = path.read_text(encoding="utf-8")
