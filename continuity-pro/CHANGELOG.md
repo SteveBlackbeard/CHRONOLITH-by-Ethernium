@@ -18,7 +18,11 @@
 - **Real sealed context**: `seal_context` replaced its base64 obfuscation with authenticated X25519 + ChaCha20-Poly1305 encryption.
 - **Crypto-agility**: `sig_alg` tags on all signed records for a future post-quantum signer.
 - **Incremental hashing** (mtime+size cache) so `check` stops rehashing every file each run.
-- **Third-party `verify`** — one read-only command a skeptic runs: recomputes the root vs the signed baseline, verifies the Ed25519 signature and the whole chain, reports the Bitcoin anchor, and prints the key fingerprint. `--expect-fingerprint` pins the out-of-band key fingerprint (SSH/Signal model), mitigating trust bootstrapping without a certificate authority.
+- **Third-party `verify`** — one read-only command a skeptic runs: recomputes the root vs the signed baseline, verifies the Ed25519 signature and the whole chain, reports the Bitcoin anchor, and prints the key fingerprint. `--expect-fingerprint` pins the out-of-band key fingerprint (SSH/Signal model), mitigating trust bootstrapping without a certificate authority. `--strict` requires both a matched fingerprint and a confirmed anchor. Without a pin, `verify` now honestly reports INTEGRITY only (not AUTHENTIC).
+- **`check --accept`** — advance the baseline and grow the transparency chain after an intentional edit (like `git commit`). Fixes a workflow gap found by red-teaming: previously every root change was drift and the chain could not grow.
+
+### Red-team hardening
+- Adversarial campaign (`scripts/redteam.py`) drove three fixes: (1) a Rich-markup bug made `verify` crash without a fingerprint; (2) chain **truncation** was undetected — the chain head is now bound to the baseline in both `check` and `verify`; (3) `verify` no longer overclaims authenticity. Two guarantees are documented **inherent limits** (a key-swapped fork and a rollback both pass plain `verify`) and are covered by `--expect-fingerprint` and `--strict`.
 
 ### Docs
 - Added `SOVEREIGN_SECURITY.md`; corrected the main README's integrity claims to match the implementation.

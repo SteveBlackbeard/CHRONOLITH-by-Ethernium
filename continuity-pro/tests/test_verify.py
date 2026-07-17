@@ -67,16 +67,59 @@ class TestVerifyCommand(unittest.TestCase):
         _p, pub = ac.load_sovereign_keys(self.root)
         return sv.key_fingerprint(pub)
 
-    def test_verify_passes_on_intact_repo(self):
+    def test_verify_without_fingerprint_is_integrity_only_not_authentic(self):
+        # Honesty (red-team A3a): without a pinned key, verify proves integrity
+        # but must NOT claim authenticity — a key-swapped fork would also pass.
         result = self._run("verify", "--no-scan-source")
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("INTEGRITY OK", result.stdout)
+        self.assertNotIn("DNA AUTHENTIC", result.stdout)
+
+    def test_verify_with_fingerprint_claims_authentic(self):
+        result = self._run("verify", "--no-scan-source", "--expect-fingerprint", self._fingerprint())
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("DNA AUTHENTIC", result.stdout)
+
+    def test_verify_strict_requires_fingerprint_and_anchor(self):
+        # No anchor present -> --strict must fail even on an intact repo.
+        result = self._run("verify", "--no-scan-source", "--strict", "--expect-fingerprint", self._fingerprint())
+        self.assertEqual(result.returncode, 1, result.stdout)
 
     def test_verify_detects_content_drift(self):
         (self.root / "DOC.md").write_text("# Tampered\n", encoding="utf-8")
         result = self._run("verify", "--no-scan-source")
         self.assertEqual(result.returncode, 1)
         self.assertIn("DRIFT", result.stdout)
+
+    def test_accept_advances_baseline_and_grows_chain(self):
+        # Red-team A4: without --accept an intentional edit is drift and the chain
+        # is stuck; with --accept the baseline advances and the chain grows (the
+        # legitimate way the transparency log gains entries).
+        chain = self.root / ".continuity" / "dna_chain.jsonl"
+        n0 = len(chain.read_text(encoding="utf-8").splitlines()) if chain.exists() else 0
+        (self.root / "DOC.md").write_text("# intentional rev\n", encoding="utf-8")
+        drift = self._run("check", "--no-scan-source")  # no --accept: reported as drift
+        self.assertIn("DRIFT", drift.stdout)
+        accepted = self._run("check", "--no-scan-source", "--accept")
+        self.assertEqual(accepted.returncode, 0, accepted.stdout)
+        n1 = len(chain.read_text(encoding="utf-8").splitlines())
+        self.assertGreater(n1, n0, "the transparency chain must grow when changes are accepted")
+        # And the advanced state still verifies.
+        self.assertEqual(self._run("verify", "--no-scan-source").returncode, 0)
+
+    def test_verify_detects_chain_truncation(self):
+        # Red-team A4b: a chain can be internally valid yet truncated. Grow it,
+        # drop the newest entry, and verify must reject via chain-head binding.
+        for i in range(2):
+            (self.root / "DOC.md").write_text(f"# rev {i}\n", encoding="utf-8")
+            self._run("check", "--no-scan-source", "--accept")
+        chain = self.root / ".continuity" / "dna_chain.jsonl"
+        lines = chain.read_text(encoding="utf-8").splitlines()
+        self.assertGreaterEqual(len(lines), 2)
+        chain.write_text("\n".join(lines[:-1]) + "\n", encoding="utf-8")  # drop newest
+        result = self._run("verify", "--no-scan-source")
+        self.assertEqual(result.returncode, 1, result.stdout)
+        self.assertIn("MISMATCH", result.stdout)
 
     def test_verify_fingerprint_pin_match_and_mismatch(self):
         good = self._run("verify", "--no-scan-source", "--expect-fingerprint", self._fingerprint())

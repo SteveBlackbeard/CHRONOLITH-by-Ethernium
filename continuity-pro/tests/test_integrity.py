@@ -77,11 +77,13 @@ class TestDriftDetection(unittest.TestCase):
             logger.removeHandler(handler)
         self.tmp.cleanup()
 
-    def _run_check(self):
-        """Run the guardian in non-strict mode (never raises) and return its report."""
+    def _run_check(self, accept=False):
+        """Run the guardian in non-strict mode (never raises) and return its
+        report. accept must be passed explicitly: a typer command called directly
+        receives OptionInfo (truthy) for omitted options, not the default."""
         import typer
         try:
-            rcc.check(repo_root=self.root, strict=False, scan_source=False)
+            rcc.check(repo_root=self.root, strict=False, scan_source=False, accept=accept)
         except typer.Exit:
             pass
         return json.loads((self.root / ".continuity" / "pro_report.json").read_text(encoding="utf-8"))

@@ -230,7 +230,8 @@ def init(
 def check(
     repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
     strict: bool = typer.Option(False, "--strict", help="Fail with exit code 1 if drift detected."),
-    scan_source: bool = typer.Option(True, "--scan-source/--no-scan-source", help="Scan source code files alongside documentation.")
+    scan_source: bool = typer.Option(True, "--scan-source/--no-scan-source", help="Scan source code files alongside documentation."),
+    accept: bool = typer.Option(False, "--accept", help="Accept the current content as the new canonical baseline (like `git commit`): advances the signed baseline and appends a transparency-chain entry even though the root changed. Without this, an intentional edit is reported as drift and the baseline is NOT advanced."),
 ):
     """Validate full project parity, doc-immunity, and security audits."""
     console.print(ASCII_ART)
@@ -300,10 +301,18 @@ def check(
             and stored_state.get("leaf_format") == automation_common.LEAF_FORMAT
             and stored_root != merkle_root
         ):
-            dna_drift = True
-            console.print("[bold yellow][!] DNA DRIFT DETECTED:[/bold yellow]")
-            console.print(f"    Current:  [cyan]{merkle_root[:16]}...[/cyan]")
-            console.print(f"    Expected: [magenta]{stored_root[:16]}...[/magenta]")
+            if accept:
+                # Operator asserts the change is intentional: advance the
+                # baseline and grow the chain (this is the legitimate way the
+                # transparency log gains entries). Signature tamper is NOT
+                # acceptable this way — that path already set signature_tampered.
+                console.print("[green][✔] Root changed — accepted as the new canonical baseline (--accept).[/green]")
+            else:
+                dna_drift = True
+                console.print("[bold yellow][!] DNA DRIFT DETECTED:[/bold yellow]")
+                console.print(f"    Current:  [cyan]{merkle_root[:16]}...[/cyan]")
+                console.print(f"    Expected: [magenta]{stored_root[:16]}...[/magenta]")
+                console.print("[dim]    If this change is intentional, re-run with --accept to advance the baseline.[/dim]")
     else:
         stored_state = {}
 
@@ -315,6 +324,12 @@ def check(
         console.print("[bold red][!] DNA transparency chain BROKEN:[/bold red]")
         for issue in chain_issues[:5]:
             console.print(f"    [red]{issue}[/red]")
+    # Red-team A4: a valid chain can still be truncated. The existing chain head
+    # must record the existing baseline; a mismatch means entries were dropped.
+    _chain = automation_common.read_chain(root)
+    if chain_ok and _chain and stored_state.get("merkle_root") and _chain[-1].get("merkle_root") != stored_state.get("merkle_root"):
+        chain_ok = False
+        console.print("[bold red][!] Transparency chain HEAD does not match the baseline — chain truncated or tampered.[/bold red]")
 
     if not dna_drift and not signature_tampered and chain_ok:
         stored_state.update({
@@ -629,6 +644,7 @@ def verify(
     repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
     scan_source: bool = typer.Option(True, "--scan-source/--no-scan-source"),
     expect_fingerprint: str = typer.Option(None, "--expect-fingerprint", help="Pin the sovereign public-key fingerprint you obtained OUT OF BAND. Fails if the repo's key does not match."),
+    strict: bool = typer.Option(False, "--strict", help="Skeptic mode: require BOTH a matched fingerprint and a confirmed Bitcoin anchor, else fail."),
 ):
     """Third-party verification — one read-only command a skeptic runs to answer
     'is this repo's DNA authentic?'. Recomputes the Merkle root and checks it
@@ -667,25 +683,50 @@ def verify(
                   f" | ed25519: {'[green]ok[/green]' if sov else ('[dim]unsigned[/dim]' if sov is None else '[bold red]INVALID[/bold red]')}")
     ok = ok and checksum_ok and (sov is not False)
 
-    # 3. Transparency chain.
+    # 3. Transparency chain — internal integrity AND binding to the baseline.
     chain_ok, chain_issues = automation_common.verify_chain(root, trusted_public=trusted)
     console.print(f"  transparency chain: {'[green]intact[/green]' if chain_ok else '[bold red]BROKEN[/bold red]'}")
     for issue in chain_issues[:3]:
         console.print(f"      [red]{issue}[/red]")
     ok = ok and chain_ok
+    # Red-team A4: a chain can be internally valid yet truncated. Bind the chain
+    # HEAD to the current baseline — the newest entry must record this root.
+    entries = automation_common.read_chain(root)
+    if entries:
+        head_bound = entries[-1].get("merkle_root") == state.get("merkle_root")
+        console.print(f"  chain head vs baseline: {'[green]bound[/green]' if head_bound else '[bold red]MISMATCH (chain truncated or state rolled forward)[/bold red]'}")
+        ok = ok and head_bound
 
-    # 4. External witness (informational — absence is not a failure).
+    # 4. External witness (informational unless --strict).
+    anchor_confirmed = False
     anchors = sorted((root / ".continuity" / anchor_mod.ANCHOR_DIRNAME).glob("*.json.ots")) if (root / ".continuity" / anchor_mod.ANCHOR_DIRNAME).exists() else []
     if anchors:
-        confirmed, msg = anchor_mod.try_ots_verify(anchors[-1])
-        console.print(f"  bitcoin anchor: {'[green]confirmed[/green]' if confirmed else '[yellow]' + msg + '[/yellow]'}")
+        anchor_confirmed, msg = anchor_mod.try_ots_verify(anchors[-1])
+        console.print(f"  bitcoin anchor: {'[green]confirmed[/green]' if anchor_confirmed else '[yellow]' + msg + '[/yellow]'}")
     else:
         console.print("  bitcoin anchor: [dim]none (run `anchor` for an external witness)[/dim]")
 
-    console.print(Panel(
-        "[bold green]DNA AUTHENTIC[/bold green]" if ok else "[bold red]VERIFICATION FAILED[/bold red]",
-        title="Third-Party Verify", expand=False,
-    ))
+    # Honesty about scope. Red-team A3a/A5: internal consistency is NOT
+    # authenticity. Without a pinned fingerprint a key-swapped fork verifies;
+    # without a confirmed anchor a rollback to an older signed state verifies.
+    authenticity_checked = bool(expect_fingerprint)
+    if not authenticity_checked:
+        console.print("[yellow]  ! authenticity NOT verified: no --expect-fingerprint. This proves internal[/yellow]")
+        console.print("[yellow]    integrity only; a fork that swapped the whole key set would still pass.[/yellow]")
+    if not anchor_confirmed:
+        console.print("[yellow]  ! rollback NOT externally detectable: no confirmed Bitcoin anchor.[/yellow]")
+
+    if strict and ok and not (authenticity_checked and anchor_confirmed):
+        console.print("[bold red]  --strict requires a matched fingerprint AND a confirmed anchor.[/bold red]")
+        ok = False
+
+    if not ok:
+        verdict = "[bold red]VERIFICATION FAILED[/bold red]"
+    elif authenticity_checked:
+        verdict = "[bold green]DNA AUTHENTIC[/bold green]  (key fingerprint pinned)"
+    else:
+        verdict = "[bold yellow]INTEGRITY OK[/bold yellow]  (authenticity unverified — pass --expect-fingerprint)"
+    console.print(Panel(verdict, title="Third-Party Verify", expand=False))
     if not ok:
         raise typer.Exit(code=1)
 
