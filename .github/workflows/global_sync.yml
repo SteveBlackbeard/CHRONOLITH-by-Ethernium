@@ -3,6 +3,12 @@ name: Global Parity Governance
 on:
   workflow_dispatch: # Al pulsar el badge y Manual Run -> Realiza el SYNC total
   push:
+    # main only. Without this the workflow also fires on the archived branches
+    # (backup/pre-squash-v2.1.0, legacy/v4-prototype), which carry pre-rename
+    # code that current validation can never pass. They are history snapshots,
+    # not branches anyone maintains, so a push there produced a guaranteed red
+    # run — and a permanently red list is a list everyone learns to ignore.
+    branches: [ main ]
     paths:
       - 'README.md'
       - 'RELEASE_NOTES_MANIFEST.md'
