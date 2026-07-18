@@ -26,7 +26,8 @@ dependencies = [
 
 [project.optional-dependencies]
 vector = ["chromadb>=0.4.0", "sentence-transformers"]
-all = ["chromadb>=0.4.0", "sentence-transformers", "networkx", "rdflib"]
+anchor = ["opentimestamps>=0.4.0"]
+all = ["chromadb>=0.4.0", "sentence-transformers", "networkx", "rdflib", "opentimestamps>=0.4.0"]
 
 [project.urls]
 "Homepage" = "https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium"

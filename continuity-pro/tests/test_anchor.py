@@ -92,5 +92,65 @@ class TestOtsParsing(unittest.TestCase):
             self.assertIn("pending", msg.lower())
 
 
+try:
+    import opentimestamps  # noqa: F401
+    HAS_OTS = True
+except ImportError:
+    HAS_OTS = False
+
+
+@unittest.skipUnless(HAS_OTS, "opentimestamps library not installed")
+class TestLibraryAnchor(unittest.TestCase):
+    """The friction-free (library) path. The calendar submission needs network
+    and is the operator's one verification step; everything else is tested here:
+    availability, the .ots serialize/inspect round-trip, and pending detection."""
+
+    def test_library_available(self):
+        self.assertTrue(anchor_mod.library_available())
+
+    def _write_pending_ots(self, tmp: Path) -> Path:
+        # Build a real .ots with only a calendar (pending) attestation — exactly
+        # what stamp_with_library writes before Bitcoin confirmation — without any
+        # network, so the serialize/inspect path is verified locally.
+        import hashlib
+        from opentimestamps.core.op import OpSHA256
+        from opentimestamps.core.timestamp import DetachedTimestampFile, Timestamp
+        from opentimestamps.core.notary import PendingAttestation
+        from opentimestamps.core.serialize import BytesSerializationContext
+
+        digest = hashlib.sha256(b"anchor record").digest()
+        ts = Timestamp(digest)
+        ts.attestations.add(PendingAttestation("https://example.calendar/submit"))
+        ctx = BytesSerializationContext()
+        DetachedTimestampFile(OpSHA256(), ts).serialize(ctx)
+        p = tmp / "ANCHOR.json.ots"
+        p.write_bytes(ctx.getbytes())
+        return p
+
+    def test_inspect_reports_pending_for_calendar_only_proof(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            proof = self._write_pending_ots(Path(tmp))
+            confirmed, msg = anchor_mod.inspect_ots_proof(proof)
+            self.assertFalse(confirmed)
+            self.assertIn("pending", msg.lower())
+
+    def test_inspect_rejects_malformed_proof(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            bad = Path(tmp) / "x.ots"
+            bad.write_bytes(b"not a real ots proof")
+            ok, msg = anchor_mod.inspect_ots_proof(bad)
+            self.assertFalse(ok)
+            self.assertIn("malformed", msg.lower())
+
+    def test_stamp_with_library_no_calendar_is_graceful(self):
+        # Point at an unreachable calendar: must fail cleanly, never raise.
+        with tempfile.TemporaryDirectory() as tmp:
+            f = Path(tmp) / "ANCHOR.json"
+            f.write_text('{"merkle_root":"x"}', encoding="utf-8")
+            ok, msg = anchor_mod.stamp_with_library(f, timeout=1, calendars=("https://127.0.0.1:1",))
+            self.assertFalse(ok)
+            self.assertIn("no OpenTimestamps calendar", msg)
+
+
 if __name__ == "__main__":
     unittest.main()

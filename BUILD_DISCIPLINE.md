@@ -52,12 +52,16 @@ Recorded so these are not re-litigated every session:
 | Shared base package across the three editions | Would break standalone PyPI publishing; parity test governs the vendoring instead. |
 | Library-based OTS stamper (this session) | Could not be verified (no calendar network in the build env); the CLI path exists. See TODO. |
 
-## Open TODO (verifiable elsewhere, not built blind)
+## Done, with an explicit verification handoff
 
-- **Frictionless Bitcoin anchor.** The `ots` CLI hits a python-bitcoinlib /
-  OpenSSL DLL issue on Windows, so anchoring has real friction there. The fix is
-  to drive the `opentimestamps` Python library directly (optional `[anchor]`
-  extra) with a graceful fallback. Deferred only because it must be tested
-  against live OpenTimestamps calendars, which the current build environment
-  cannot reach — build it where the calendars are reachable, then verify a real
-  stamp + `verify-anchor` round-trip before shipping.
+- **Frictionless Bitcoin anchor** — built. The `ots` CLI hits a
+  python-bitcoinlib / OpenSSL DLL issue on Windows; `anchor` now prefers the
+  `opentimestamps` Python library (optional `[anchor]` extra), which was
+  confirmed to work locally without that crash, and falls back to the CLI then a
+  local record. Everything except the live calendar submission is unit-tested.
+  **One operator verification step remains** (it needs network the build env
+  lacks): on a networked machine run `continuity-pro anchor`, then, after a few
+  hours, `continuity-pro verify-anchor --proof .continuity/anchors/ANCHOR_*.json.ots`
+  and confirm a real Bitcoin block is reported. This is the discipline in
+  practice: the unverifiable-here step is isolated and handed off explicitly,
+  not shipped as a silent claim.

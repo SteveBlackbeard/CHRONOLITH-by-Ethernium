@@ -25,6 +25,7 @@
 - Adversarial campaign (`scripts/redteam.py`) drove three fixes: (1) a Rich-markup bug made `verify` crash without a fingerprint; (2) chain **truncation** was undetected — the chain head is now bound to the baseline in both `check` and `verify`; (3) `verify` no longer overclaims authenticity. Two guarantees are documented **inherent limits** (a key-swapped fork and a rollback both pass plain `verify`) and are covered by `--expect-fingerprint` and `--strict`.
 
 ### Production hardening
+- **Frictionless anchoring** via the `opentimestamps` Python library (optional `[anchor]` extra): `anchor` prefers the library (works where the `ots` CLI hits its Windows python-bitcoinlib/OpenSSL DLL crash), falls back to the CLI, then a local record. `verify-anchor` gains a local structural check (confirmed vs pending) when the CLI is absent. The one step needing live calendars is the operator's to confirm.
 - `verify --json`: machine-readable report (per-check booleans, warnings, verdict) for CI/automation.
 - Honest `SECURITY.md`: real threat model, the inherent limits (fork/rollback/live-compromise/PQ/trust-bootstrap) and their mitigations, private disclosure, and an explicit "no independent security review yet" note.
 

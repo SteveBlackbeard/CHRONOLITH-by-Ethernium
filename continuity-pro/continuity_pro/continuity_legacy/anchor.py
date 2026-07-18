@@ -25,6 +25,56 @@ from pathlib import Path
 
 ANCHOR_DIRNAME = "anchors"
 _OTS_CANDIDATES = ("ots", "ots.exe")
+# Public OpenTimestamps aggregator calendars (same set the ots client uses).
+_CALENDARS = (
+    "https://alice.btc.calendar.opentimestamps.org",
+    "https://bob.btc.calendar.opentimestamps.org",
+    "https://finney.calendar.eternitywall.com",
+)
+
+
+def library_available() -> bool:
+    try:
+        import opentimestamps  # noqa: F401
+        return True
+    except ImportError:
+        return False
+
+
+def stamp_with_library(anchor_path: str | Path, *, timeout: int = 10, calendars=_CALENDARS) -> tuple[bool, str]:
+    """Stamp a file via the opentimestamps Python library — the friction-free
+    path when the `ots` CLI is broken (its python-bitcoinlib/OpenSSL DLL issue on
+    Windows). This is a thin wrapper: the library owns the calendar protocol and
+    .ots serialization; we only submit the file's SHA-256 to the aggregator
+    calendars and write the returned proof. Requires network to the calendars.
+    Never raises."""
+    import hashlib
+
+    try:
+        from opentimestamps.calendar import RemoteCalendar
+        from opentimestamps.core.op import OpSHA256
+        from opentimestamps.core.timestamp import DetachedTimestampFile, Timestamp
+        from opentimestamps.core.serialize import BytesSerializationContext
+    except ImportError:
+        return False, "opentimestamps library not installed (pip install continuity-pro[anchor])"
+
+    path = Path(anchor_path)
+    digest = hashlib.sha256(path.read_bytes()).digest()
+    timestamp = Timestamp(digest)
+    reached = []
+    for url in calendars:
+        try:
+            timestamp.merge(RemoteCalendar(url).submit(digest, timeout=timeout))
+            reached.append(url)
+        except Exception:
+            continue  # try the next calendar; one is enough
+    if not reached:
+        return False, "no OpenTimestamps calendar was reachable"
+    ctx = BytesSerializationContext()
+    DetachedTimestampFile(OpSHA256(), timestamp).serialize(ctx)
+    ots_path = path.with_suffix(path.suffix + ".ots")
+    ots_path.write_bytes(ctx.getbytes())
+    return True, f"{ots_path} (via {len(reached)} calendar(s))"
 
 
 def anchor_dir(repo_root: str | Path) -> Path:
@@ -88,6 +138,30 @@ def try_ots_stamp(anchor_path: str | Path) -> tuple[bool, str]:
     if result.returncode == 0:
         return True, f"{anchor_path}.ots"
     return False, (result.stderr or result.stdout or "ots stamp returned non-zero").strip()
+
+
+def inspect_ots_proof(ots_path: str | Path) -> tuple[bool, str]:
+    """Local structural check of a .ots proof (no network): confirmed if it
+    already carries a Bitcoin attestation, otherwise pending on the calendars.
+    Full blockchain confirmation still needs `ots verify` or a Bitcoin node."""
+    try:
+        from opentimestamps.core.serialize import BytesDeserializationContext
+        from opentimestamps.core.timestamp import DetachedTimestampFile
+        from opentimestamps.core.notary import BitcoinBlockHeaderAttestation
+    except ImportError:
+        return False, "opentimestamps library not installed"
+    path = Path(ots_path)
+    if not path.exists():
+        return False, f"proof not found: {path}"
+    try:
+        ctx = BytesDeserializationContext(path.read_bytes())
+        dtf = DetachedTimestampFile.deserialize(ctx)
+    except Exception as exc:
+        return False, f"malformed .ots proof: {exc}"
+    for _msg, attestation in dtf.timestamp.all_attestations():
+        if isinstance(attestation, BitcoinBlockHeaderAttestation):
+            return True, f"confirmed in Bitcoin block {attestation.height}"
+    return False, "pending: calendar attestation present, not yet confirmed on Bitcoin (upgrade later)"
 
 
 def try_ots_verify(ots_path: str | Path) -> tuple[bool, str]:

@@ -780,19 +780,28 @@ def anchor(
     anchor_path = anchor_mod.write_anchor(root, record)
     console.print(f"[bold green][✔][/bold green] Sovereign anchor record: [italic]{anchor_path}[/italic]")
 
-    stamped, message = anchor_mod.try_ots_stamp(anchor_path)
+    # Prefer the Python library (works where the ots CLI hits its Windows DLL
+    # issue); fall back to the CLI; then to the local-record-only path.
+    stamped, message = False, ""
+    if anchor_mod.library_available():
+        stamped, message = anchor_mod.stamp_with_library(anchor_path)
+    if not stamped:
+        cli_ok, cli_msg = anchor_mod.try_ots_stamp(anchor_path)
+        if cli_ok:
+            stamped, message = True, cli_msg
+        elif not message:
+            message = cli_msg
     if stamped:
         console.print(Panel(
             f"[bold green]Anchored to Bitcoin (OpenTimestamps).[/bold green]\n"
             f"Proof: [italic]{message}[/italic]\n"
-            f"Confirmation takes hours. Verify later: [cyan]continuity-pro verify-anchor --proof {message}[/cyan]\n"
+            f"Confirmation takes hours. Verify later: [cyan]continuity-pro verify-anchor --proof {str(anchor_path) + '.ots'}[/cyan]\n"
             f"[dim]Commit the .ots proof so anyone can verify the timestamp independently.[/dim]",
             title="External Witness", expand=False,
         ))
     else:
         console.print(f"[yellow][i] Blockchain stamp pending: {message}[/yellow]")
-        console.print("[dim]Install the client to stamp:  pip install opentimestamps-client")
-        console.print(f"[dim]Then:  ots stamp \"{anchor_path}\"[/dim]")
+        console.print("[dim]Frictionless stamp:  pip install continuity-pro[anchor]  (pure-Python, no ots CLI)")
         console.print("[dim]The local record is already sovereign-signed via the chain; the .ots adds the external witness.[/dim]")
 
 
@@ -800,8 +809,11 @@ def anchor(
 def verify_anchor(
     proof: Path = typer.Option(..., "--proof", help="The .ots proof file produced by `anchor`."),
 ):
-    """Verify a Bitcoin anchor proof against the blockchain (via the ots client)."""
+    """Verify a Bitcoin anchor proof. Uses the `ots` client for full blockchain
+    confirmation; falls back to a local structural check via the library."""
     ok, message = anchor_mod.try_ots_verify(proof)
+    if not ok and "not installed" in message and anchor_mod.library_available():
+        ok, message = anchor_mod.inspect_ots_proof(proof)
     if ok:
         console.print(f"[bold green][✔] ANCHOR CONFIRMED on Bitcoin:[/bold green]\n{message}")
     else:
