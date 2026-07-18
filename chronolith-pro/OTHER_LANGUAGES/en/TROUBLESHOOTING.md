@@ -104,7 +104,7 @@ Something doesn't match? Don't panic. Here are the solutions to common chronolit
 
 *   **Problem**: Some section of the health system shows no data.
 
-*   **Cause**: You haven't completed a full chronolith cycle or the "External Docs" feature is disabled.
+*   **Cause**: You haven't completed a full Chronolith cycle or the "External Docs" feature is disabled.
 
 *   **Solution**:
 

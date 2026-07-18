@@ -6,7 +6,7 @@ Chronolith should evolve first as a governance kernel for AI-assisted repositori
 
 The core transformation is:
 
-> From Merkle-based chronolith framework to governed chronolith kernel with contracts, checks, handoffs, and controlled memory decay.
+> From Merkle-based continuity framework to governed chronolith kernel with contracts, checks, handoffs, and controlled memory decay.
 
 ## Product Boundary
 

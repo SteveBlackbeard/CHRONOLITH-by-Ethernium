@@ -10,7 +10,7 @@ This directory demonstrates how CHRONOLITH maintains project state across develo
 
 1. Copy this sample_project folder to a new location.
 
-2. Run the chronolith cycle:
+2. Run the Chronolith cycle:
 
    python ../../tools/chronolith/run_chronolith_cycle.py --repo-root .
 

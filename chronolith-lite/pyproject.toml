@@ -8,7 +8,7 @@ version = "3.2.0"
 authors = [
   { name = "SteveBlackbeard" },
 ]
-description = "Chronolith (Lite): A professional AI chronolith framework for zero-friction context handoffs."
+description = "Chronolith (Lite): A professional AI continuity framework for zero-friction context handoffs."
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"

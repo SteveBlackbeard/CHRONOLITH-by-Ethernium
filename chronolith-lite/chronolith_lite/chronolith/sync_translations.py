@@ -36,7 +36,7 @@ def generate_localized_readme(lang, edition_name, source_content):
     }
     
     # Generic fallback
-    base = templates.get(lang, f"# CHRONOLITH: {edition_name}\n\nLocalized version of the technical chronolith framework.")
+    base = templates.get(lang, f"# CHRONOLITH: {edition_name}\n\nLocalized version of the technical continuity framework.")
     
     # Add strategic metadata footer
     footer = f"\n\n---\n*CHRONOLITH: Global Infrastructure - Generated {datetime.utcnow().isoformat()}Z*"

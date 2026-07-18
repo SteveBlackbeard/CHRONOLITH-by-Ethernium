@@ -34,7 +34,7 @@ LITE_ICON = "LITE"
 # [!] Industrial Grade Refactor: Typer CLI, Rich UI, SHA-256 Signatures, Structured Logs.
 
 app = typer.Typer(
-    help=f"{LITE_ICON} Chronolith Lite: The professional AI chronolith framework.",
+    help=f"{LITE_ICON} Chronolith Lite: The professional AI continuity framework.",
     add_completion=False,
     no_args_is_help=True,
 )

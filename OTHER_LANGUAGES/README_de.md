@@ -2,7 +2,7 @@
 
 ![Version](https://img.shields.io/badge/version-3.0.2-blue.svg)
 
-Chronolith is a Python framework for AI-assisted project chronolith. It preserves project context, intent, state integrity, and release governance across sessions and agents.
+Chronolith is a Python framework for AI-assisted project continuity. It preserves project context, intent, state integrity, and release governance across sessions and agents.
 
 ## Editions
 

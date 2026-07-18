@@ -8,7 +8,7 @@ version = "3.2.0"
 authors = [
   { name = "SteveBlackbeard" },
 ]
-description = "Chronolith (Pro): Industrial-grade AI chronolith framework with security audits and global synchronization."
+description = "Chronolith (Pro): Industrial-grade AI continuity framework with security audits and global synchronization."
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"

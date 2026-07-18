@@ -28,7 +28,7 @@
   "next_actions": [
     "Define the first real milestone for the project and tighten the roadmap around it.",
     "Update the live handoff and decisions log as soon as the first real architectural choice is made.",
-    "Run the strict chronolith cycle after the first relevant change."
+    "Run the strict Chronolith cycle after the first relevant change."
   ],
   "chronolith_automation": {
     "status": "available",

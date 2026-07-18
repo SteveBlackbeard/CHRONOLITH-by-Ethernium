@@ -349,7 +349,7 @@ The governed runtime phase is protected by explicit contracts, health checks, an
 | `README.md` | Main overview of Chronolith, its philosophy, architecture, and core capabilities. |
 | `CHANGELOG.md` | Historical record of major releases, hardening milestones, and ecosystem evolution. |
 | `PROJECT_CONTEXT.md` | Strategic and conceptual framing of the project, including its operating intent. |
-| `PROJECT_DNA.md` | Canonical description of project identity and chronolith lineage. |
+| `PROJECT_DNA.md` | Canonical description of project identity and continuity lineage. |
 | `CONTRIBUTING.md` | Collaboration rules, contribution entry points, and protected-logic contribution policy. |
 | `CONTRIBUTORS.md` | Contributor-facing collaboration principles and engineering expectations. |
 | `SECURITY.md` | Security posture, protected logic expectations, and handling of sensitive system areas. |
@@ -364,7 +364,7 @@ The governed runtime phase is protected by explicit contracts, health checks, an
 ### Process Documents
 | Document | Purpose |
 | --- | --- |
-| `docs/process/SESSION_LOG.md` | Working-session trace and chronolith record for recent development cycles. |
+| `docs/process/SESSION_LOG.md` | Working-session trace and continuity record for recent development cycles. |
 | `docs/process/SESSION_TOKEN_REPORT.md` | Token telemetry and session-level reporting artifacts. |
 | `docs/process/REPO_AND_PYPI_RELEASE_CHECKLIST.md` | Release checklist for GitHub publication and PyPI packaging. |
 | `docs/process/RELEASE_STAGING_PLAN.md` | Commit/staging strategy for safe release preparation. |
@@ -394,7 +394,7 @@ The governed runtime phase is protected by explicit contracts, health checks, an
 | --- | --- |
 | `chronolith-lite/README.md` | User-facing guide for the Lite edition. |
 | `chronolith-lite/PROJECT_CONTEXT.md` | Lite edition context, scope, and intended usage model. |
-| `chronolith-lite/LIVE_HANDOFF.md` | Handoff guidance for chronolith across active sessions. |
+| `chronolith-lite/LIVE_HANDOFF.md` | Handoff guidance for continuity across active sessions. |
 | `chronolith-lite/OTHER_LANGUAGES/README_*.md` | Translated Lite README set. |
 
 ### Pro Edition Documents
@@ -437,16 +437,16 @@ The governed runtime phase is protected by explicit contracts, health checks, an
 | Document | Purpose |
 | --- | --- |
 | `.chronolith/DECISIONS_LOG.md` | Local architectural decision ledger for this repo. |
-| `.chronolith/PROJECT_DNA.md` | Local DNA record for chronolith identity. |
+| `.chronolith/PROJECT_DNA.md` | Local DNA record for project identity. |
 | `chronolith-pro/.chronolith/README.md` | Overview of the Pro chronolith core internals. |
 | `chronolith-pro/.chronolith/AGENT_ACTIVATION_PROTOCOL.md` | Pro agent activation contract. |
-| `chronolith-pro/.chronolith/BOOT_SEQUENCE.md` | Boot process for chronolith initialization. |
+| `chronolith-pro/.chronolith/BOOT_SEQUENCE.md` | Boot process for Chronolith initialization. |
 | `chronolith-pro/.chronolith/BYPASS_LOG.md` | Record of bypasses, exceptions, or chronolith-critical deviations. |
 | `chronolith-pro/.chronolith/CONTEXT_CHRONOLITH.md` | Chronolith-memory protocol for Pro. |
 | `chronolith-pro/.chronolith/DECISIONS_LOG.md` | Pro-specific decision ledger. |
 | `chronolith-pro/.chronolith/LIVE_HANDOFF.md` | Pro live handoff instructions. |
 | `chronolith-pro/.chronolith/TIMELINE.md` | Pro chronolith timeline. |
-| `chronolith-pro/.chronolith/templates/README.md` | Template overview for chronolith scaffolds. |
+| `chronolith-pro/.chronolith/templates/README.md` | Template overview for Chronolith scaffolds. |
 | `chronolith-pro/.chronolith/templates/external_docs/README.md` | External-document template usage notes. |
 | `chronolith-pro/.chronolith/registry/README.md` | Registry notes for internal chronolith bookkeeping. |
 

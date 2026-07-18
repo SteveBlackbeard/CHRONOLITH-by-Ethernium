@@ -16,7 +16,7 @@ Status: phase_00_template_ready
 
 - enable external chronolith docs only if the project benefits from them
 
-- pass the first strict chronolith cycle cleanly
+- pass the first strict Chronolith cycle cleanly
 
 ---
 *Chronolith: Protecting the logical lineage of your software.*

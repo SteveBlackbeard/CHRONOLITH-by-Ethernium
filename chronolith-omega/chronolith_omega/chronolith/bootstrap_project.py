@@ -117,7 +117,7 @@ def bootstrap_project(
     state["next_actions"] = [
         "Review the discover-generated PROJECT_CONTEXT.md and refine it." if discover else "Define the first real milestone for the project and tighten the roadmap around it.",
         "Update the live handoff and decisions log as soon as the first real architectural choice is made.",
-        "Run the strict chronolith cycle after the first relevant change.",
+        "Run the strict Chronolith cycle after the first relevant change.",
     ]
     state_path.write_text(json.dumps(state, indent=2, ensure_ascii=True), encoding="utf-8")
 

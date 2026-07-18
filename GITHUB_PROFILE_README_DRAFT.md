@@ -14,7 +14,7 @@ My work moves between code, lore, systems design, visual experiments, release en
 | Project | Status | Focus |
 | --- | --- | --- |
 | [Chronolith](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium) | Public | AI-human chronolith, governance, integrity gates, release discipline |
-| CONEKTA | Private / in development | Dashboard and interface layer for chronolith-aware workflows |
+| CONEKTA | Private / in development | Dashboard and interface layer for continuity-aware workflows |
 | ROBIN HOOD | Private / prototype | Token frugality, context packing, prompt-risk scanning, agent operations |
 | [ethernium.io](https://ethernium.io) | In development | Ethernium ecosystem gateway |
 | New Eden Dreams | In development | AI, lore, community and creative-world experiments |

@@ -55,7 +55,7 @@ SCAN_EXTENSIONS = {".md", ".py", ".ts", ".js", ".rs", ".go", ".java", ".cpp", ".
 PERMISSIVE_MODE = os.environ.get("CHRONOLITH_MODE", "strict").lower() == "permissive"
 
 app = typer.Typer(
-    help=f"{PRO_ICON} Chronolith Pro: The enterprise AI chronolith framework for industrial handoffs.",
+    help=f"{PRO_ICON} Chronolith Pro: The enterprise AI continuity framework for industrial handoffs.",
     add_completion=False,
     no_args_is_help=True,
 )

@@ -29,7 +29,7 @@ Existing code, lore, and logic should not be overwritten during a system upgrade
 - **Adapt:** Preserve legacy intent while translating it into maintainable, testable implementation.
 - **Inherit:** When duplication exists, prefer canonical modules, proxies, adapters, or migration notes over silent replacement.
 
-This mandate protects chronolith lineage while keeping the repository practical, auditable, and releasable.
+This mandate protects continuity lineage while keeping the repository practical, auditable, and releasable.
 
 ---
 *Chronolith: Protecting the logical lineage of your software.*

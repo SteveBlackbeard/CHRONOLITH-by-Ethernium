@@ -84,7 +84,7 @@ To ensure the project remains coherent without manual effort, it includes a doub
 
 1. **Local Guard (`pre-commit`)**: Installed by default. Uses **Soft Mode** to warn you about drift or missing markers while you work, without blocking your creative flow.
 
-2. **Border Guard (`pre-push`)**: Installed by default. Uses **Strict Mode** to **block the push** to GitHub if the chronolith cycle is not 100% valid.
+2. **Border Guard (`pre-push`)**: Installed by default. Uses **Strict Mode** to **block the push** to GitHub if the Chronolith cycle is not 100% valid.
 
 
 

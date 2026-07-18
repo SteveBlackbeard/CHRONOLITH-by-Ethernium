@@ -9,7 +9,7 @@ PRE_COMMIT_CONTENT = """#!/bin/sh
 
 echo "[*] CHRONOLITH: Validating project state..."
 
-# Execute the chronolith cycle in soft mode for local commit. 
+# Execute the Chronolith cycle in soft mode for local commit. 
 python tools/chronolith/run_chronolith_cycle.py --repo-root .
 
 # $? captures the exit code
@@ -30,7 +30,7 @@ PRE_PUSH_CONTENT = """#!/bin/sh
 
 echo "[*] CHRONOLITH: Mandatory border control validate before push..."
 
-# Execute the chronolith cycle in STRICT mode for remote push.
+# Execute the Chronolith cycle in STRICT mode for remote push.
 python tools/chronolith/run_chronolith_cycle.py --repo-root . --strict
 
 # $? captures the exit code
