@@ -119,6 +119,7 @@ _Advanced RAG and cognitive mapping over the governed corpus._
 
 | Guide | Link |
 | :--- | :--- |
+| [**Start here**](./GETTING_STARTED.md) | Five minutes: pick an edition, crystallize a project, watch drift get caught |
 | [**Industrial Guide**](./HOW_TO_USE_IT.md) | [HOW_TO_USE_IT.md](./HOW_TO_USE_IT.md) |
 | [**Editor & Agent Integration**](./docs/EDITOR_AGENT_INTEGRATION.md) | VS Code, Cursor, MCP and agent-host boundary |
 | [**External Tools**](./docs/external/README.md) | Seneschal extraction notes |

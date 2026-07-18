@@ -1,0 +1,19 @@
+{
+  "timestamp": "2026-07-18T12:35:24.269168+00:00",
+  "merkle_root": "4417feb742edab09c468309ec0726e66374aaa32930a96172104f1419f7804f5",
+  "entropy": 5.4185,
+  "doc_entropy": 5.8876,
+  "source_entropy": 4.9493,
+  "nucleotides_scanned": 88,
+  "doc_files": 51,
+  "source_files": 37,
+  "doc_parity": "attention_required",
+  "security": "ok",
+  "findings": 0,
+  "dna_drift": false,
+  "signature_tampered": false,
+  "chain": "ok",
+  "chain_length": 1,
+  "signing": "checksum-only",
+  "mode": "strict"
+}
