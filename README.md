@@ -148,6 +148,38 @@ Chronolith provides three levels of depth in governance:
 
 ---
 
+## Omega: Asking Your Project Why
+
+Lite and Pro answer *"has this changed?"*. Omega answers *"why did we decide
+this?"* — semantic search over the governed corpus, entirely local.
+
+```bash
+pip install chronolith-omega
+
+chronolith-omega init      # memory core + auto-index hook
+chronolith-omega index     # build the local vector store
+chronolith-omega query "why did we choose Ed25519 for signatures?"
+```
+
+`query` ranks the corpus by meaning rather than keywords, so it finds the
+decision log for that question even though the log never contains the word
+"why" — and it answers across languages, because the embeddings are
+multilingual, not translated.
+
+```bash
+chronolith-omega map       # -> outputs/chronolith/cognitive_map.html
+```
+
+`map` renders the decision lineage as an interactive hierarchical graph: each
+logged decision becomes a node, chained in the order it was taken.
+
+> [!NOTE]
+> The generated map loads `vis-network` from a CDN, so that one HTML file needs
+> network access to render. Indexing and querying are fully local — nothing
+> about your corpus leaves the machine.
+
+---
+
 ## External Tools
 **[Seneschal](https://github.com/SteveBlackbeard/SENESCHAL-by-Ethernium)** is the external agent-operations layer for token frugality, prompt-risk scanning, scoped capabilities, MCP, and local/cloud routing. Chronolith remains the Python runtime and governance core.
 > [!TIP]
