@@ -31,6 +31,7 @@ import typer
 from rich.console import Console
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
+from rich.table import Table
 
 def _configure_stdio_for_unicode() -> bool:
     for stream_name in ("stdout", "stderr"):

@@ -67,6 +67,19 @@ class TestVerifyCommand(unittest.TestCase):
         _p, pub = ac.load_sovereign_keys(self.root)
         return sv.key_fingerprint(pub)
 
+    def test_chain_command_runs(self):
+        """`chain` renders the transparency chain without crashing.
+
+        Regression: rich's Table was used at the point of rendering but never
+        imported, so the command died with NameError every single time. No test
+        invoked it, so only flake8's F821 in CI eventually surfaced it — a
+        documented, shipped command that could never once have worked.
+        """
+        result = self._run("chain")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertNotIn("NameError", result.stdout + result.stderr)
+        self.assertIn("DNA Transparency Chain", result.stdout)
+
     def test_verify_without_fingerprint_is_integrity_only_not_authentic(self):
         # Honesty (red-team A3a): without a pinned key, verify proves integrity
         # but must NOT claim authenticity — a key-swapped fork would also pass.

@@ -46,6 +46,18 @@ jobs:
             echo "✔ No drift detected. State is pure."
           else
             git commit -m "sentinel: [AUTO] DNA Parity Crystallization 🛡️"
-            git push origin main
-            echo "✔ State crystallized and pushed."
+            # Every push starts a sentinel run. When commits land in quick
+            # succession, a later one advances main while this run is still
+            # crystallizing, and the push is rejected as non-fast-forward.
+            # That is a scheduling race, not DNA drift — rebase onto whatever
+            # arrived and retry instead of reporting a red build for it.
+            for attempt in 1 2 3; do
+              if git push origin main; then
+                echo "✔ State crystallized and pushed."
+                exit 0
+              fi
+              echo "· push rejected (attempt $attempt); rebasing onto current main"
+              git pull --rebase origin main || exit 1
+            done
+            echo "::warning::sentinel could not push after 3 attempts; the next push recrystallizes"
           fi
