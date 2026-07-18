@@ -12,7 +12,17 @@ outputs/
 .vscode/
 omega-dashboard/
 *.egg-info/
-.chronolith/keys/*.priv
+# Private keys, in EVERY edition's memory core. The bare `.chronolith/` form
+# only matched the repo root, so a key generated inside an edition slipped past.
+# Note this rule cannot save an already-tracked file: gitignore is ignored for
+# anything git is already following. That is how sovereign.priv stayed in.
+**/.chronolith/keys/*.priv
+**/.chronolith/keys/*.enc
+
+# Per-run state: rebuilt by every `check`, never meaningful in a diff.
+**/.chronolith/hash_cache.json
+**/.chronolith/pro_report.json
+**/.chronolith/logs/
 
 # v3.0.3: Purge compiled bytecode artifacts from version control
 *.pyc
