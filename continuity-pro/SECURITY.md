@@ -43,7 +43,9 @@ overclaiming, and `verify --strict` refuses to pass without their mitigations.
 2. **Rollback to an older signed state.** Without an external witness, reverting
    to an earlier internally-consistent baseline+chain passes `verify`.
    *Mitigation:* `anchor` timestamps the chain head into Bitcoin; `verify
-   --strict` requires a confirmed anchor.
+   --strict` requires a confirmed anchor. **Verified in practice:** a real anchor
+   was confirmed as `confirmed in Bitcoin block 958484`, so this mitigation is a
+   checked fact, not a design claim.
 3. **A live-compromised machine.** An attacker controlling the process while the
    passphrase is in memory can sign as the sovereign. *Mitigation:* keep the
    vault encrypted, scope `CONTINUITY_PASSPHRASE`, rotate on suspicion. Anchored

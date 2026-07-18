@@ -50,18 +50,23 @@ Recorded so these are not re-litigated every session:
 | HSM / hardware-key support | Disproportionate to the scale. |
 | Verification / analytics dashboard | Roadmap defers dashboards; a CLI `verify --json` covers CI. |
 | Shared base package across the three editions | Would break standalone PyPI publishing; parity test governs the vendoring instead. |
-| Library-based OTS stamper (this session) | Could not be verified (no calendar network in the build env); the CLI path exists. See TODO. |
 
-## Done, with an explicit verification handoff
+## Done — with the verification handoff completed
 
-- **Frictionless Bitcoin anchor** — built. The `ots` CLI hits a
-  python-bitcoinlib / OpenSSL DLL issue on Windows; `anchor` now prefers the
-  `opentimestamps` Python library (optional `[anchor]` extra), which was
-  confirmed to work locally without that crash, and falls back to the CLI then a
-  local record. Everything except the live calendar submission is unit-tested.
-  **One operator verification step remains** (it needs network the build env
-  lacks): on a networked machine run `continuity-pro anchor`, then, after a few
-  hours, `continuity-pro verify-anchor --proof .continuity/anchors/ANCHOR_*.json.ots`
-  and confirm a real Bitcoin block is reported. This is the discipline in
-  practice: the unverifiable-here step is isolated and handed off explicitly,
-  not shipped as a silent claim.
+- **Frictionless Bitcoin anchor — built and VERIFIED end to end.** The `ots` CLI
+  hits a python-bitcoinlib / OpenSSL DLL issue on Windows, so `anchor` prefers
+  the `opentimestamps` Python library (optional `[anchor]` extra) and falls back
+  to the CLI, then to a local record. Everything except the live calendar
+  submission is unit-tested; that one step was isolated and handed to the
+  operator rather than shipped as a silent claim.
+
+  **The handoff was executed and passed** on a networked Windows machine:
+  `anchor` stamped via the library (one calendar reached), and hours later
+  `verify-anchor` reported **`confirmed in Bitcoin block 958484`**. The external
+  witness is therefore not a design claim — it is a checked fact, and the
+  rollback limitation it mitigates is closed in practice, not only on paper.
+
+  Two real defects surfaced only because a human ran it for real: `verify-anchor`
+  crashed into the broken CLI (the fallback only triggered on "not installed",
+  not on a runtime crash), and the ASCII banner had dropped letters. Both fixed.
+  This is the strongest argument for the "one external user" rule above.

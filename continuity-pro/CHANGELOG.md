@@ -13,7 +13,7 @@
 - **DNA transparency chain** (`chain`): append-only, hash-linked, signed log of every crystallization; history rewrites are detectable.
 - **Merkle inclusion proofs** (`prove` / `verify-proof`): O(log n) per-file verification without rehashing the repo.
 - **Attestations** (`attest` / `verify-attest`): signed provenance over THE_CHOSEN_ONES.
-- **Bitcoin anchoring** (`anchor` / `verify-anchor`): an external witness. Timestamps the transparency-chain head into Bitcoin via OpenTimestamps, so a third party can verify the DNA state existed at a confirmed time without trusting the operator (and a past timestamp survives key compromise). Optional `ots` client; local sovereign record written either way.
+- **Bitcoin anchoring** (`anchor` / `verify-anchor`) — **verified end to end**: a real anchor was confirmed as `confirmed in Bitcoin block 958484`. Prefers the `opentimestamps` Python library (optional `[anchor]` extra) so it works on Windows where the `ots` CLI crashes on python-bitcoinlib/OpenSSL; falls back to the CLI, then a local record. An external witness. Timestamps the transparency-chain head into Bitcoin via OpenTimestamps, so a third party can verify the DNA state existed at a confirmed time without trusting the operator (and a past timestamp survives key compromise). Optional `ots` client; local sovereign record written either way.
 - **Key rotation** (`sovereign-rotate`): the old key signs the hand-off; retired keys still verify old records; forged hand-offs stop the trust walk.
 - **Real sealed context**: `seal_context` replaced its base64 obfuscation with authenticated X25519 + ChaCha20-Poly1305 encryption.
 - **Crypto-agility**: `sig_alg` tags on all signed records for a future post-quantum signer.
