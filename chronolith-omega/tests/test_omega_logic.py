@@ -38,6 +38,43 @@ def test_extract_decisions_from_table(tmp_path):
     assert decisions[1]["reason"] == "Professional UI"
 
 
+def test_separator_row_is_not_a_decision(tmp_path):
+    """A real markdown table has a `| :--- |` separator. The parser must skip it.
+
+    Regression: the date group was `[\\d\\-\\:]+`, which matches ":---", so the
+    separator row became a decision node labelled ":---". On a freshly
+    initialised project — where the log holds nothing but a header and that
+    separator — the generated map consisted of that one junk node.
+
+    It survived because the fixture above writes a table with no separator
+    row, which is not a table anyone actually writes.
+    """
+    log = tmp_path / "decisions.md"
+    log.write_text(
+        "# Decision Log\n\n"
+        "| Date | Decision | Rationale | Actor |\n"
+        "| :--- | :--- | :--- | :--- |\n"
+        "| 2026-04-05 | Adopt Ed25519 | Small fast signatures | steve |\n",
+        encoding="utf-8"
+    )
+    decisions = extract_decisions(str(log))
+    assert len(decisions) == 1
+    assert decisions[0]["name"] == "Adopt Ed25519"
+    assert all(":---" not in d["date"] for d in decisions)
+
+
+def test_empty_log_with_separator_yields_no_decisions(tmp_path):
+    """What `init` actually writes: header plus separator, and nothing else."""
+    log = tmp_path / "decisions.md"
+    log.write_text(
+        "# Decision Log\n\n"
+        "| Date | Decision | Rationale | Actor |\n"
+        "| :--- | :--- | :--- | :--- |\n",
+        encoding="utf-8"
+    )
+    assert extract_decisions(str(log)) == []
+
+
 def test_extract_decisions_missing_file():
     """Missing file returns empty list, not an exception."""
     result = extract_decisions("/nonexistent/phantom_log.md")

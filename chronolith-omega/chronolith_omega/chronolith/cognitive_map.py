@@ -20,9 +20,17 @@ def extract_decisions(log_path):
     with open(log_path, 'r', encoding='utf-8') as f:
         lines = f.readlines()
     
-    # Simple regex for Markdown table extraction
-    pattern = re.compile(r'\| ([\d\-\:]+) \| (.+?) \| (.+?) \|')
+    # Markdown table extraction.
+    #
+    # The date group must START with a digit. The previous pattern allowed
+    # colons and dashes anywhere, so it matched the table's own separator row
+    # (`| :--- | :--- | :--- |`) and emitted a decision node labelled ":---".
+    # On an empty log that was the entire map.
+    pattern = re.compile(r'\| (\d[\d\-\:]*) \| (.+?) \| (.+?) \|')
+    separator = re.compile(r'^\s*\|[\s:\-|]+\|\s*$')
     for line in lines:
+        if separator.match(line):
+            continue
         match = pattern.search(line)
         if match:
             decisions.append({

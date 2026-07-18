@@ -157,7 +157,7 @@ def query(
 def map(
     repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory.")
 ):
-    """Generate an interactive 3D cognitive map of decisions."""
+    """Generate an interactive decision-lineage graph (hierarchical 2D HTML)."""
     root = repo_root.resolve()
     output_dir = root / "outputs" / "chronolith"
     output_dir.mkdir(parents=True, exist_ok=True)
