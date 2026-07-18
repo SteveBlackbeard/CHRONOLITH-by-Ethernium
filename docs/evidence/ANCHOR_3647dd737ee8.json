@@ -1,0 +1,10 @@
+{
+  "anchored_at": "2026-07-18T01:57:28+00:00",
+  "chain_head_hash": "3647dd737ee8f0f774ab7dfa3bccf33a0ef6113a14ac213d37e967eee59fa8d7",
+  "chain_seq": 0,
+  "merkle_root": "73ee6ffce02abfceff748862810be92497ff5c2c2a69fbe2ea39ddce9446786a",
+  "method": "opentimestamps",
+  "note": "The chain head hash links the full DNA lineage; a Bitcoin timestamp over this file proves that exact state existed at the confirmed time, verifiable by anyone with the .ots proof \u2014 no trust in the operator.",
+  "project": "Continuity Legacy (Pro)",
+  "sovereign_public_key": "14f28291105ee84a1155c75bbea26b4f1199e52a5378c366d71e2018e387b6da"
+}

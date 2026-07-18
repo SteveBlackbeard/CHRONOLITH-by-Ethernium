@@ -60,6 +60,12 @@ continuity-tokens scan
 ---
 
 ## Industrial Proof & Quality
+
+**A DNA state from this project is anchored in Bitcoin block 958484.** You can
+verify it without trusting this repository or its author — the proof and the
+one-line command are in [docs/evidence/](./docs/evidence/), alongside measured
+guardian benchmarks and the adversarial (red-team) results.
+
 To address the need for concrete evidence, we provide a verified Case Study and Benchmarks:
 *   [**CASE_STUDY_DRIFT.md**](./CASE_STUDY_DRIFT.md): A real-world demonstration of how Continuity detects and blocks unauthorized semantic changes that Git ignores.
 *   [**BENCHMARKS.md**](./BENCHMARKS.md): Measured performance results (Latencies, Memory footprint, and Merkle scan speeds).
