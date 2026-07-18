@@ -809,11 +809,13 @@ def anchor(
 def verify_anchor(
     proof: Path = typer.Option(..., "--proof", help="The .ots proof file produced by `anchor`."),
 ):
-    """Verify a Bitcoin anchor proof. Uses the `ots` client for full blockchain
-    confirmation; falls back to a local structural check via the library."""
-    ok, message = anchor_mod.try_ots_verify(proof)
-    if not ok and "not installed" in message and anchor_mod.library_available():
-        ok, message = anchor_mod.inspect_ots_proof(proof)
+    """Verify a Bitcoin anchor proof. Prefers the opentimestamps library
+    (upgrades from the calendars and reports confirmation — works where the `ots`
+    CLI crashes on Windows); uses the CLI only if the library is unavailable."""
+    if anchor_mod.library_available():
+        ok, message = anchor_mod.verify_via_library(proof)
+    else:
+        ok, message = anchor_mod.try_ots_verify(proof)
     if ok:
         console.print(f"[bold green][✔] ANCHOR CONFIRMED on Bitcoin:[/bold green]\n{message}")
     else:

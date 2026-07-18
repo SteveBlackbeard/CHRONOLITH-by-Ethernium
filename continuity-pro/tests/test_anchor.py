@@ -142,6 +142,19 @@ class TestLibraryAnchor(unittest.TestCase):
             self.assertFalse(ok)
             self.assertIn("malformed", msg.lower())
 
+    def test_upgrade_pending_proof_is_graceful_without_confirmation(self):
+        # A freshly-stamped (pending) proof: upgrade finds nothing to fetch and
+        # must not raise or crash into python-bitcoinlib's DLL path.
+        with tempfile.TemporaryDirectory() as tmp:
+            proof = self._write_pending_ots(Path(tmp))
+            upgraded, msg = anchor_mod.upgrade_proof(proof, timeout=1)
+            self.assertFalse(upgraded)
+            self.assertIn("pending", msg.lower())
+            # verify_via_library must then report pending, not crash.
+            confirmed, vmsg = anchor_mod.verify_via_library(proof)
+            self.assertFalse(confirmed)
+            self.assertIn("pending", vmsg.lower())
+
     def test_stamp_with_library_no_calendar_is_graceful(self):
         # Point at an unreachable calendar: must fail cleanly, never raise.
         with tempfile.TemporaryDirectory() as tmp:

@@ -164,6 +164,59 @@ def inspect_ots_proof(ots_path: str | Path) -> tuple[bool, str]:
     return False, "pending: calendar attestation present, not yet confirmed on Bitcoin (upgrade later)"
 
 
+def _walk_timestamps(ts):
+    """Yield a timestamp and all of its sub-timestamps (the proof tree)."""
+    yield ts
+    for _op, sub in ts.ops.items():
+        yield from _walk_timestamps(sub)
+
+
+def upgrade_proof(ots_path: str | Path, *, timeout: int = 10) -> tuple[bool, str]:
+    """Fetch Bitcoin attestations from the calendars for a pending proof and
+    rewrite the .ots. Returns (upgraded, message). Best-effort and DLL-safe: the
+    calendar fetch and attestation reads do NOT import python-bitcoinlib's
+    OpenSSL-dependent key module, so this works where the `ots` CLI crashes on
+    Windows. Right after stamping the calendar has nothing yet (pending); it
+    succeeds a few hours later once Bitcoin confirms."""
+    try:
+        from opentimestamps.calendar import RemoteCalendar
+        from opentimestamps.core.timestamp import DetachedTimestampFile
+        from opentimestamps.core.notary import PendingAttestation
+        from opentimestamps.core.serialize import (
+            BytesDeserializationContext, BytesSerializationContext,
+        )
+    except ImportError:
+        return False, "opentimestamps library not installed"
+    path = Path(ots_path)
+    try:
+        dtf = DetachedTimestampFile.deserialize(BytesDeserializationContext(path.read_bytes()))
+    except Exception as exc:
+        return False, f"malformed .ots proof: {exc}"
+    upgraded = False
+    for sub in _walk_timestamps(dtf.timestamp):
+        for att in list(sub.attestations):
+            if isinstance(att, PendingAttestation):
+                uri = att.uri.decode() if isinstance(att.uri, bytes) else att.uri
+                try:
+                    sub.merge(RemoteCalendar(uri).get_timestamp(sub.msg, timeout=timeout))
+                    upgraded = True
+                except Exception:
+                    continue  # not confirmed yet, or calendar unreachable
+    if upgraded:
+        ctx = BytesSerializationContext()
+        dtf.serialize(ctx)
+        path.write_bytes(ctx.getbytes())
+    return upgraded, "upgraded from calendar" if upgraded else "no upgrade available yet (still pending)"
+
+
+def verify_via_library(ots_path: str | Path) -> tuple[bool, str]:
+    """Full-as-possible verification via the library (no broken CLI): upgrade the
+    proof from the calendars, then report whether it now carries a Bitcoin
+    attestation. Confirmed = the timestamp is anchored in a Bitcoin block."""
+    upgrade_proof(ots_path)
+    return inspect_ots_proof(ots_path)
+
+
 def try_ots_verify(ots_path: str | Path) -> tuple[bool, str]:
     """Verify a `.ots` proof against the Bitcoin blockchain via the client.
     Returns (verified, message)."""
