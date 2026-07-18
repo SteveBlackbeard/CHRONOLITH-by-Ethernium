@@ -764,6 +764,38 @@ def verify(
 
 
 @app.command()
+def upgrade_anchors(
+    repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
+):
+    """Complete any pending anchors: fetch Bitcoin attestations from the calendars
+    for every .ots that is still awaiting confirmation. Safe to run on a schedule
+    (nightly cron / CI) — it is a no-op once a proof is confirmed, so you never
+    have to remember to come back hours after stamping."""
+    root = repo_root.resolve()
+    directory = root / ".continuity" / anchor_mod.ANCHOR_DIRNAME
+    proofs = sorted(directory.glob("*.ots")) if directory.exists() else []
+    if not proofs:
+        console.print("[yellow]No anchor proofs found — run `anchor` first.[/yellow]")
+        raise typer.Exit(code=0)
+
+    confirmed = pending = 0
+    for proof in proofs:
+        was_confirmed, message = anchor_mod.verify_via_library(proof)
+        if was_confirmed:
+            confirmed += 1
+            console.print(f"  [green][✔][/green] {proof.name}: {message}")
+        else:
+            pending += 1
+            console.print(f"  [yellow][·][/yellow] {proof.name}: {message}")
+    console.print(Panel(
+        f"[bold]{confirmed} confirmed[/bold] · {pending} still pending "
+        f"(of {len(proofs)} proof(s))\n"
+        f"[dim]Commit any upgraded .ots files — the upgrade is what makes them independently verifiable.[/dim]",
+        title="Anchor Upgrade", expand=False,
+    ))
+
+
+@app.command()
 def anchor(
     repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
 ):
