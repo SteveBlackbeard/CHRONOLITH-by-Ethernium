@@ -1,23 +1,25 @@
 # Chronolith
 
-![Version](https://img.shields.io/badge/version-3.0.2-blue.svg)
+![Version](https://img.shields.io/badge/version-3.2.0-blue.svg)
 
-Chronolith is a Python framework for AI-assisted project continuity. It preserves project context, intent, state integrity, and release governance across sessions and agents.
+Chronolith — это слой криптографической целостности для документов, которые несут замысел проекта через сессии работы с ИИ. Он преобразует ваши канонические документы в дерево Меркла, фиксирует подписанный эталон и аварийно останавливается, когда текущее состояние перестаёт ему соответствовать.
 
-## Editions
+Он не гарантирует, что ИИ «помнит». Он даёт проверяемую запись того, каким согласованный контекст *был*, и жёсткую остановку при его отклонении.
 
-- Lite: minimal local handoff and state checks.
-- Pro: industrial checks, hooks, parity diagnostics, and context tooling.
-- Omega: RAG-oriented graph and cognitive analysis workflows.
+## Редакции
 
-## Install
+- **Lite**: минимальная локальная передача и подписанные проверки состояния.
+- **Pro**: полноценный страж — эталоны, подписанные Ed25519, журнал прозрачности только на добавление, доказательства включения Меркла, шифрование, ротация ключей и привязка к Bitcoin.
+- **Omega**: когнитивное картирование для RAG и анализ влияния.
+
+## Установка
 
 ```bash
 pip install chronolith
 chronolith --help
 ```
 
-Individual packages:
+Отдельные пакеты:
 
 ```bash
 pip install chronolith-lite
@@ -25,6 +27,17 @@ pip install chronolith-pro
 pip install chronolith-omega
 ```
 
-## Product Boundary
+## Проверяемое доказательство
 
-Chronolith is the Python runtime and governance kernel. Chronolith Conekta is an external visual control surface. AgentOps is an extractable incubated tool.
+Одно из состояний этого проекта зафиксировано в **блоке Bitcoin 958484**. Вам не нужно доверять этому репозиторию или его автору — проверьте сами:
+
+```bash
+pip install "chronolith-pro[anchor]"
+chronolith-pro verify-anchor --proof docs/evidence/ANCHOR_3647dd737ee8.json.ots
+```
+
+Что это доказывает: эти данные существовали до того, как был добыт этот блок. Чего не доказывает: кто их написал и верны ли они. Эти ограничения задокументированы, а не скрыты.
+
+## Границы продукта
+
+Chronolith — это среда выполнения на Python и ядро управления. Seneschal — отдельный, извлекаемый инструмент для экономии токенов и подписанных разрешений.
