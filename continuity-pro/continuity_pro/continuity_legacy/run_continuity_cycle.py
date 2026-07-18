@@ -61,17 +61,24 @@ app = typer.Typer(
 )
 console = Console(emoji=False)
 
+# Corrected figlet (the old one dropped letters — it read with a single T);
+# {version} is filled from _get_version() at print time so the banner never
+# goes stale again.
 ASCII_ART = """
 [bold magenta]
-   ______ ____   _   __ ______ ____ _   __ _   __ ____ ______  __  __
-  / ____// __ \\ / | / //_  __//  _// | / // /  / //_  __//_  __/ \\ \\/ /
- / /    / / / //  |/ /  / /   / / /  |/ // /  / /  / /    / /     \\  / 
-/ /___ / /_/ // /|  /  / /  _/ / / /|  // /__/ /  / /    / /      / /  
-\\____/ \\____//_/ |_/  /_/  /___//_/ |_/ \\____/  /_/    /_/      /_/   
-                                                                        
-      LEGACY [bold white]v3.0.3[/bold white] | [italic magenta]Solemne Industrial Evolution Guardian[/italic magenta]
+   __________  _   _____________   ____  ______________  __
+  / ____/ __ \\/ | / /_  __/  _/ | / / / / /  _/_  __/\\ \\/ /
+ / /   / / / /  |/ / / /  / //  |/ / / / // /  / /    \\  /
+/ /___/ /_/ / /|  / / / _/ // /|  / /_/ // /  / /     / /
+\\____/\\____/_/ |_/ /_/ /___/_/ |_/\\____/___/ /_/     /_/
+
+      LEGACY [bold white]v{version}[/bold white] | [italic magenta]Solemne Industrial Evolution Guardian[/italic magenta]
 [/bold magenta]
 """
+
+
+def _banner() -> str:
+    return ASCII_ART.format(version=_get_version())
 
 # Import internal modules - pip-compatible relative imports with direct-exec fallback
 try:
@@ -196,7 +203,7 @@ def init(
     no_hook: bool = typer.Option(False, "--no-hook", help="Disable automatic Git-Hook installation.")
 ):
     """Initialize the Pro memory core and install enterprise hooks."""
-    console.print(ASCII_ART)
+    console.print(_banner())
     root = repo_root.resolve()
     logger = setup_logger(root)
     logger.info("Initializing Pro Core")
@@ -234,7 +241,7 @@ def check(
     accept: bool = typer.Option(False, "--accept", help="Accept the current content as the new canonical baseline (like `git commit`): advances the signed baseline and appends a transparency-chain entry even though the root changed. Without this, an intentional edit is reported as drift and the baseline is NOT advanced."),
 ):
     """Validate full project parity, doc-immunity, and security audits."""
-    console.print(ASCII_ART)
+    console.print(_banner())
     root = repo_root.resolve()
     logger = setup_logger(root)
     
