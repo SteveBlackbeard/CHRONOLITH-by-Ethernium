@@ -2,7 +2,7 @@
 **Date:** April 5, 2026
 **Version:** v2.1.0 Nexus
 
-This document presents the technical performance and results of the **Continuity Legacy Framework** under industrial workloads.
+This document presents the technical performance and results of the **Chronolith Framework** under industrial workloads.
 
 ## 🏁 Scan & Crystallization Latency
 Tests performed on a repository with **512 files** (~10MB total metadata size).

@@ -1,6 +1,6 @@
 # Change Contracts
 
-This folder stores reviewed contracts for sensitive Continuity Legacy changes.
+This folder stores reviewed contracts for sensitive Chronolith changes.
 
 Use a contract when changing:
 

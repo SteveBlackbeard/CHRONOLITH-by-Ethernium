@@ -1,0 +1,69 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-06-17",
+  "scope": "chronolith-legacy",
+  "policy": {
+    "default_status": "governed",
+    "runtime_changes_require_tests": true,
+    "sensitive_changes_require_docs": true,
+    "rollback_required": true,
+    "clean_room_reverse_engineering_only": true
+  },
+  "features": [
+    {
+      "id": "lite-edition",
+      "title": "Chronolith Lite",
+      "status": "active",
+      "owner": "chronolith-lite",
+      "modules": ["chronolith-lite/"],
+      "tests": ["chronolith-lite/tests/test_lite_logic.py"],
+      "docs": ["chronolith-lite/README.md"],
+      "rollback": "Revert changes to chronolith-lite and rerun Lite tests.",
+      "risk": "medium"
+    },
+    {
+      "id": "pro-edition",
+      "title": "Chronolith Pro",
+      "status": "active",
+      "owner": "chronolith-pro",
+      "modules": ["chronolith-pro/"],
+      "tests": ["chronolith-pro/tests/test_parity_logic.py", "chronolith-pro/tests/test_logic.py"],
+      "docs": ["chronolith-pro/README.md"],
+      "rollback": "Revert changes to chronolith-pro and rerun Pro parity tests.",
+      "risk": "high"
+    },
+    {
+      "id": "omega-edition",
+      "title": "Chronolith Omega",
+      "status": "active",
+      "owner": "chronolith-omega",
+      "modules": ["chronolith-omega/"],
+      "tests": ["chronolith-omega/tests/test_omega_logic.py", "chronolith-omega/tests/test_parity_logic.py"],
+      "docs": ["chronolith-omega/README.md", "chronolith-omega/PROJECT_CONTEXT.md"],
+      "rollback": "Revert changes to chronolith-omega and rerun Omega tests.",
+      "risk": "high"
+    },
+    {
+      "id": "governance-kernel",
+      "title": "Governance Kernel",
+      "status": "phase-1-baseline",
+      "owner": ".chronolith",
+      "modules": [
+        ".chronolith/rulebook.json",
+        ".chronolith/feature-registry.json",
+        ".chronolith/golden-baseline.json",
+        "scripts/health_guard.py",
+        "scripts/autophagy_report.py",
+        "scripts/golden_baseline.py"
+      ],
+      "tests": [
+        "python scripts/health_guard.py",
+        "python scripts/autophagy_report.py",
+        "python scripts/golden_baseline.py verify"
+      ],
+      "docs": ["docs/CHRONOLITH_GOVERNANCE_KERNEL.md", "docs/CHANGE_CONTRACT_TEMPLATE.md"],
+      "rollback": "Remove Phase 1 governance files and CI step; no runtime package behavior is affected.",
+      "risk": "low"
+    }
+  ]
+}

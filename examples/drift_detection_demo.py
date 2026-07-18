@@ -3,7 +3,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
-# Ethernium Continuity Legacy: DRIFT DETECTION DEMO (v2.1.0)
+# Ethernium Chronolith: DRIFT DETECTION DEMO (v2.1.0)
 # Purpose: Prove technical maturity by demonstrating real-time drift detection.
 
 def setup_demo_env():
@@ -16,9 +16,9 @@ def setup_demo_env():
     (demo_dir / "src" / "core.py").write_text("def main(): print('Hello World')", encoding="utf-8")
     (demo_dir / "README.md").write_text("# Demo Project\nThis is a test.", encoding="utf-8")
     
-    # Initialize Continuity Lite (Simulated)
-    # In a real scenario, the user runs 'continuity-lite init'
-    print("[*] Initializing Continuity DNA...")
+    # Initialize Chronolith Lite (Simulated)
+    # In a real scenario, the user runs 'chronolith-lite init'
+    print("[*] Initializing Chronolith DNA...")
     return demo_dir
 
 def simulate_drift():

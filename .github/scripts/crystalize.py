@@ -8,7 +8,7 @@ from pathlib import Path
 from datetime import datetime
 
 # ============================================================================
-# CONTINUITY LEGACY CRYSTALLIZER (v3.0.0 - DETERMINISTIC INFORMATION PHYSICS)
+# CHRONOLITH CRYSTALLIZER (v3.0.0 - DETERMINISTIC INFORMATION PHYSICS)
 # ============================================================================
 # Purpose: DNA Synthesis with mathematically rigorous entropy measurement.
 #
@@ -151,10 +151,10 @@ def compute_kl_divergence(current_sizes: dict[str, int], reference_sizes: dict[s
 def autonomic_tokenator_heartbeat(root: Path, merkle_root: str, audit_files: list):
     """Executes the Sovereign Tokenator automation cycle with REAL token counting."""
     try:
-        sys.path.append(str(root / "continuity-pro"))
-        from continuity_pro.continuity_legacy.tokenator import count_tokens, log_session, update_md_report
-        from continuity_pro.continuity_legacy.ene_optimizer import ENEOptimizer
-        from continuity_pro.continuity_legacy.sovereign_identity import get_identity
+        sys.path.append(str(root / "chronolith-pro"))
+        from chronolith_pro.chronolith.tokenator import count_tokens, log_session, update_md_report
+        from chronolith_pro.chronolith.ene_optimizer import ENEOptimizer
+        from chronolith_pro.chronolith.sovereign_identity import get_identity
 
         # ENE v3.0 Optimization (Ghost Mode Active)
         optimizer = ENEOptimizer()
@@ -191,7 +191,7 @@ def autonomic_tokenator_heartbeat(root: Path, merkle_root: str, audit_files: lis
 
 def crystalize():
     root = Path(".").resolve()
-    EXCLUDE_DIRS = {".git", "node_modules", ".continuity", "outputs", ".pytest_cache",
+    EXCLUDE_DIRS = {".git", "node_modules", ".chronolith", "outputs", ".pytest_cache",
                     "__pycache__", ".venv", ".github", ".idea", ".vscode"}
     CANONICAL_AUDIT_DIRS = [".", "OTHER_LANGUAGES"]
 
@@ -214,7 +214,7 @@ def crystalize():
     nucleotides = [calculate_sha256(md) for md in sorted(all_md_files)]
     merkle_root = build_merkle_root(nucleotides)
 
-    print(f"[*] CONTINUITY LEGACY CRYSTALLIZER (v3.0.0)")
+    print(f"[*] CHRONOLITH CRYSTALLIZER (v3.0.0)")
     print(f"[*] CANONICAL MERKLE ROOT: {merkle_root}")
 
     # ── Phase 3: Structural Entropy (Information Physics) ──

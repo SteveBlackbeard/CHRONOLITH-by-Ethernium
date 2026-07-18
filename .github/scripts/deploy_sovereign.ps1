@@ -1,4 +1,4 @@
-# Ethernium Continuity Legacy - Sovereign Deployment Pipeline
+# Ethernium Chronolith - Sovereign Deployment Pipeline
 # ============================================================
 # This script validates, builds, and optionally publishes all three editions.
 # Usage:
@@ -13,7 +13,7 @@ $ErrorActionPreference = "Stop"
 
 Write-Host ""
 Write-Host "=========================================================" -ForegroundColor Cyan
-Write-Host " CONTINUITY LEGACY: SOVEREIGN DEPLOYMENT PIPELINE v2.1.0 " -ForegroundColor Cyan
+Write-Host " CHRONOLITH: SOVEREIGN DEPLOYMENT PIPELINE v2.1.0 " -ForegroundColor Cyan
 Write-Host "=========================================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -21,7 +21,7 @@ Write-Host ""
 Write-Host "[1/4] DNA Integrity Validation..." -ForegroundColor Yellow
 
 Write-Host "  [*] Running Lite tests..." -ForegroundColor White
-pytest continuity-lite/tests/test_lite_logic.py --tb=short -q
+pytest chronolith-lite/tests/test_lite_logic.py --tb=short -q
 if ($LASTEXITCODE -ne 0) {
     Write-Host "  [!] LITE TESTS FAILED. Aborting deployment." -ForegroundColor Red
     exit 1
@@ -29,7 +29,7 @@ if ($LASTEXITCODE -ne 0) {
 Write-Host "  [OK] Lite: 6/6 green" -ForegroundColor Green
 
 Write-Host "  [*] Running Pro tests..." -ForegroundColor White
-pytest continuity-pro/tests/test_parity_logic.py --tb=short -q
+pytest chronolith-pro/tests/test_parity_logic.py --tb=short -q
 if ($LASTEXITCODE -ne 0) {
     Write-Host "  [!] PRO TESTS FAILED. Aborting deployment." -ForegroundColor Red
     exit 1
@@ -39,7 +39,7 @@ Write-Host "  [OK] Pro: green" -ForegroundColor Green
 # --- Phase 2: Merkle Root Verification ---
 Write-Host ""
 Write-Host "[2/4] Merkle Root Crystallization..." -ForegroundColor Yellow
-python continuity-lite/continuity_lite/continuity_legacy/run_continuity_lite.py check --repo-root .
+python chronolith-lite/chronolith_lite/chronolith/run_chronolith_lite.py check --repo-root .
 if ($LASTEXITCODE -ne 0) {
     Write-Host "  [!] DNA DRIFT DETECTED. Aborting deployment." -ForegroundColor Red
     exit 1
@@ -51,7 +51,7 @@ Write-Host ""
 Write-Host "[3/4] Building Sovereign Packages..." -ForegroundColor Yellow
 python -m pip install --upgrade build twine -q
 
-$editions = @("continuity-lite", "continuity-pro", "continuity-omega")
+$editions = @("chronolith-lite", "chronolith-pro", "chronolith-omega")
 foreach ($edition in $editions) {
     Write-Host "  [*] Building $edition..." -ForegroundColor White
     Push-Location $edition
@@ -94,7 +94,7 @@ Write-Host "=========================================================" -Foregrou
 Write-Host " SOVEREIGN DEPLOYMENT COMPLETE" -ForegroundColor Green
 Write-Host "=========================================================" -ForegroundColor Green
 Write-Host ""
-Write-Host "  ethernium-continuity-lite   -> pip install ethernium-continuity-lite" -ForegroundColor Cyan
-Write-Host "  ethernium-continuity-pro    -> pip install ethernium-continuity-pro" -ForegroundColor Magenta
-Write-Host "  ethernium-continuity-omega  -> pip install ethernium-continuity-omega" -ForegroundColor Blue
+Write-Host "  chronolith-lite   -> pip install chronolith-lite" -ForegroundColor Cyan
+Write-Host "  chronolith-pro    -> pip install chronolith-pro" -ForegroundColor Magenta
+Write-Host "  chronolith-omega  -> pip install chronolith-omega" -ForegroundColor Blue
 Write-Host ""

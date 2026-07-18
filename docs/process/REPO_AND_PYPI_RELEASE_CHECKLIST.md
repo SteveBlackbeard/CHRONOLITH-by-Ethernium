@@ -13,7 +13,7 @@ The current working tree is stronger than the last GitHub snapshot in **governan
 
 The previous repo snapshot kept the dashboard colocated. The current direction is cleaner:
 
-- Continuity Legacy remains the Python package/runtime truth
+- Chronolith remains the Python package/runtime truth
 - CONEKTA owns the web dashboard in its own repository
 - dashboard build/lint state no longer blocks PyPI release
 
@@ -32,7 +32,7 @@ So the honest conclusion is:
    - local env files
 
 2. Review these areas as separate commit groups.
-   - Continuity governance kernel
+   - Chronolith governance kernel
    - CONEKTA extraction boundary
    - encoding/version cleanup
    - Python/runtime package changes
@@ -46,7 +46,7 @@ So the honest conclusion is:
    - `twine check dist/*`
 
 4. Confirm the repo message.
-   - Continuity Legacy is the runtime/governance kernel
+   - Chronolith is the runtime/governance kernel
    - CONEKTA is external
    - ROBIN HOOD is external
    - adapter contracts are explicit
@@ -54,10 +54,10 @@ So the honest conclusion is:
 ## Before publishing PyPI
 
 1. Decide whether this release is:
-   - `ethernium-continuity-legacy`
-   - `ethernium-continuity-lite`
-   - `ethernium-continuity-pro`
-   - `ethernium-continuity-omega`
+   - `chronolith`
+   - `chronolith-lite`
+   - `chronolith-pro`
+   - `chronolith-omega`
    - or all of them together
 
 2. Bump versions consistently.
@@ -82,7 +82,7 @@ So the honest conclusion is:
 
 ## Recommended commit sequence
 
-1. `feat: add continuity governance kernel`
+1. `feat: add chronolith governance kernel`
 2. `chore: clean encoding and version baseline`
 3. `chore: extract conekta control surface`
 4. `docs: document robin hood and conekta boundaries`
@@ -106,14 +106,14 @@ So the honest conclusion is:
 ## Latest release status (v3.0.2)
 
 - GitHub release: `pypi-v3.0.2` (title: `v3.0.2 - HOTFIX`)
-- PyPI package: `ethernium-continuity-legacy==3.0.2`
-  https://pypi.org/project/ethernium-continuity-legacy/3.0.2/
-- PyPI package: `ethernium-continuity-lite==3.0.2`
-  https://pypi.org/project/ethernium-continuity-lite/3.0.2/
-- PyPI package: `ethernium-continuity-pro==3.0.2`
-  https://pypi.org/project/ethernium-continuity-pro/3.0.2/
-- PyPI package: `ethernium-continuity-omega==3.0.2`
-  https://pypi.org/project/ethernium-continuity-omega/3.0.2/
+- PyPI package: `chronolith==3.0.2`
+  https://pypi.org/project/chronolith/3.0.2/
+- PyPI package: `chronolith-lite==3.0.2`
+  https://pypi.org/project/chronolith-lite/3.0.2/
+- PyPI package: `chronolith-pro==3.0.2`
+  https://pypi.org/project/chronolith-pro/3.0.2/
+- PyPI package: `chronolith-omega==3.0.2`
+  https://pypi.org/project/chronolith-omega/3.0.2/
 
 ## Next release target
 

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Balance the local governed Continuity Legacy tree with useful documentation changes that existed on `origin/main`, without reintroducing the extracted `nexus-dashboard` runtime into the Python repository.
+Balance the local governed Chronolith tree with useful documentation changes that existed on `origin/main`, without reintroducing the extracted `nexus-dashboard` runtime into the Python repository.
 
 ## Scope
 
@@ -10,7 +10,7 @@ Balance the local governed Continuity Legacy tree with useful documentation chan
 - Prepare the governed `3.0.3` release candidate because `3.0.2` is already immutable on PyPI.
 - Add release notes that use the canonical Ethernium banner at `banners/ethernium_header.png`.
 - Update active README version badges and install command references.
-- Keep Continuity Conekta external.
+- Keep Chronolith Conekta external.
 - Add a governance seed for the extractable AgentOps incubation folder.
 - Harden `health_guard.py` and `autophagy_report.py` so release smoke-test virtual environments are ignored consistently.
 - Refresh the golden baseline after validation.

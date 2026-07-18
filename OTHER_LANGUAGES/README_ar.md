@@ -1,8 +1,8 @@
-# CONTINUITY LEGACY: Ø§Ù„Ø¨ÙˆØ§Ø¨Ø© Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©
+# CHRONOLITH: Ø§Ù„Ø¨ÙˆØ§Ø¨Ø© Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©
 
 ![Version](https://img.shields.io/badge/version-3.0.2-blue.svg)
 
-Continuity Legacy Ù‡Ùˆ Ø¥Ø·Ø§Ø± Ø¹Ù…Ù„ Python ÙŠØ­Ù…ÙŠ Ø§Ø³ØªÙ…Ø±Ø§Ø±ÙŠØ© Ø§Ù„Ø³ÙŠØ§Ù‚ØŒ Ø§Ù„Ù†ÙŠØ©ØŒ ÙˆØ­Ø§Ù„Ø© Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ ÙÙŠ Ø§Ù„Ù…Ø´Ø§Ø±ÙŠØ¹ Ø§Ù„ØªÙŠ ØªØ¹Ù…Ù„ Ù…Ø¹ ÙˆÙƒÙ„Ø§Ø¡ Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ.
+Chronolith Ù‡Ùˆ Ø¥Ø·Ø§Ø± Ø¹Ù…Ù„ Python ÙŠØ­Ù…ÙŠ Ø§Ø³ØªÙ…Ø±Ø§Ø±ÙŠØ© Ø§Ù„Ø³ÙŠØ§Ù‚ØŒ Ø§Ù„Ù†ÙŠØ©ØŒ ÙˆØ­Ø§Ù„Ø© Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ ÙÙŠ Ø§Ù„Ù…Ø´Ø§Ø±ÙŠØ¹ Ø§Ù„ØªÙŠ ØªØ¹Ù…Ù„ Ù…Ø¹ ÙˆÙƒÙ„Ø§Ø¡ Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ.
 
 ## Ø§Ù„Ø¥ØµØ¯Ø§Ø±Ø§Øª
 
@@ -13,23 +13,23 @@ Continuity Legacy Ù‡Ùˆ Ø¥Ø·Ø§Ø± Ø¹Ù…Ù„ Python ÙŠØ­Ù…
 ## Ø·Ø±ÙŠÙ‚Ø© Ø§Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù…
 
 ```bash
-pip install ethernium-continuity-legacy
-continuity init
-continuity status
+pip install chronolith
+chronolith init
+chronolith status
 ```
 
 Ø§Ù„Ø¥ØµØ¯Ø§Ø±Ø§Øª Ø§Ù„ÙØ±Ø¯ÙŠØ©:
 
 ```bash
-pip install ethernium-continuity-lite
-pip install ethernium-continuity-pro
-pip install ethernium-continuity-omega
+pip install chronolith-lite
+pip install chronolith-pro
+pip install chronolith-omega
 ```
 
 ## Ø§Ù„Ø­ÙˆÙƒÙ…Ø©
 
 ÙŠØ­Ù…ÙŠ Ù‡Ø°Ø§ Ø§Ù„Ù…Ø³ØªÙˆØ¯Ø¹ Ø®Ø· Ø§Ù„Ø£Ø³Ø§Ø³ Ø¹Ø¨Ø± rulebook Ùˆfeature registry Ùˆhealth guard Ùˆgolden baseline Ùˆchange contracts.
 
-Continuity Conekta ÙˆAgentOps Ø£Ø¯ÙˆØ§Øª Ù…Ù†ÙØµÙ„Ø©ØŒ ÙˆÙ„Ø§ ÙŠØªÙ… ØªØ¶Ù…ÙŠÙ†Ù‡Ø§ Ø¯Ø§Ø®Ù„ Runtime Python Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Legacy.
+Chronolith Conekta ÙˆAgentOps Ø£Ø¯ÙˆØ§Øª Ù…Ù†ÙØµÙ„Ø©ØŒ ÙˆÙ„Ø§ ÙŠØªÙ… ØªØ¶Ù…ÙŠÙ†Ù‡Ø§ Ø¯Ø§Ø®Ù„ Runtime Python Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Legacy.
 
 

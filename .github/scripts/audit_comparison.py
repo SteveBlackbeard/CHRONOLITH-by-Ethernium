@@ -10,7 +10,7 @@ from pathlib import Path
 EXCLUDE_DIRS = {
     ".git",
     "node_modules",
-    ".continuity",
+    ".chronolith",
     "outputs",
     ".pytest_cache",
     ".pytest_tmp",

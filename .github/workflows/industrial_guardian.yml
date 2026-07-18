@@ -1,4 +1,4 @@
-name: 🏛️ Continuity Industrial Guardian
+name: 🏛️ Chronolith Industrial Guardian
 
 on:
   push:
@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   governance:
-    name: Continuity Governance Health Guard
+    name: Chronolith Governance Health Guard
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -48,7 +48,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install typer rich pytest
     - name: Run Lite Tests (10 tests - RFC 6962 Merkle + Signatures)
-      run: pytest continuity-lite/tests/test_lite_logic.py -v
+      run: pytest chronolith-lite/tests/test_lite_logic.py -v
 
   test-pro:
     name: 🏛️ Pro Parity Audit
@@ -68,9 +68,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pytest typer rich
-        cd continuity-pro && pip install -e .
+        cd chronolith-pro && pip install -e .
     - name: Run Pro Tests (Parity + Membership + Integrity + Decisions)
-      run: pytest continuity-pro/tests -v
+      run: pytest chronolith-pro/tests -v
 
   test-omega:
     name: 🧠 Omega Cognitive Audit
@@ -91,7 +91,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest networkx
     - name: Run Omega Tests (Cognitive Map + Decisions)
-      run: pytest continuity-omega/tests/test_omega_logic.py -v
+      run: pytest chronolith-omega/tests/test_omega_logic.py -v
 
   core-parity:
     name: 🧬 Cross-Edition Core Parity
@@ -145,8 +145,8 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install cryptography tiktoken rich typer
-        cd continuity-pro && pip install -e .
+        cd chronolith-pro && pip install -e .
     - name: Verify DNA Parity & Tokenator Loop
       env:
-        PYTHONPATH: ${{ github.workspace }}/continuity-pro
+        PYTHONPATH: ${{ github.workspace }}/chronolith-pro
       run: python .github/scripts/crystalize.py

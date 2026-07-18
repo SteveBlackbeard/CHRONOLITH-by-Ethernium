@@ -1,14 +1,14 @@
-# Continuity: Project Governance & Resilience
+# Chronolith: Project Governance & Resilience
 
-This document defines the technical management and long-term sustainability of the **Continuity** framework.
+This document defines the technical management and long-term sustainability of the **Chronolith** framework.
 
 ## 1. Decision Protocol
 
 All architectural changes are evaluated through the project governance contract, feature registry, and verification checks before they become part of the release baseline.
 
-## 2. Succession & Continuity
+## 2. Succession & Chronolith
 
-To reduce maintainer abandonment risk, the project's continuity files (`.continuity/DECISIONS_LOG.md`, `.continuity/LIVE_HANDOFF.md`, `STATE.json`) serve as canonical context for future maintainers and agents.
+To reduce maintainer abandonment risk, the project's chronolith files (`.chronolith/DECISIONS_LOG.md`, `.chronolith/LIVE_HANDOFF.md`, `STATE.json`) serve as canonical context for future maintainers and agents.
 
 ## 3. Contributions
 
@@ -29,7 +29,7 @@ Existing code, lore, and logic should not be overwritten during a system upgrade
 - **Adapt:** Preserve legacy intent while translating it into maintainable, testable implementation.
 - **Inherit:** When duplication exists, prefer canonical modules, proxies, adapters, or migration notes over silent replacement.
 
-This mandate protects continuity lineage while keeping the repository practical, auditable, and releasable.
+This mandate protects chronolith lineage while keeping the repository practical, auditable, and releasable.
 
 ---
-*Continuity Legacy: Protecting the logical lineage of your software.*
+*Chronolith: Protecting the logical lineage of your software.*

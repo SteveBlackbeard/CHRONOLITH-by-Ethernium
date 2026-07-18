@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Canonical full audit for Continuity Legacy.
+"""Canonical full audit for Chronolith.
 
 Root-level `pytest` cross-contaminates: the three editions vendor modules with
 the same names, so pytest's shared sys.modules serves one edition's core to
@@ -26,12 +26,12 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 FAILURES: list[str] = []
 
-EDITIONS = ["continuity-lite", "continuity-pro", "continuity-omega"]
+EDITIONS = ["chronolith-lite", "chronolith-pro", "chronolith-omega"]
 # Guardians with light deps that are cheap to install-audit. Omega pulls chromadb
 # (heavy); it is covered by the isolated test run, not the install smoke.
 INSTALLABLE = {
-    "continuity-lite": ("continuity-lite", ["typer", "rich"]),
-    "continuity-pro": ("continuity-pro", ["typer", "rich", "cryptography"]),
+    "chronolith-lite": ("chronolith-lite", ["typer", "rich"]),
+    "chronolith-pro": ("chronolith-pro", ["typer", "rich", "cryptography"]),
 }
 
 

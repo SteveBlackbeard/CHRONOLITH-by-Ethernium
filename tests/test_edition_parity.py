@@ -21,13 +21,13 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 
 EDITIONS = {
-    "lite": REPO / "continuity-lite" / "continuity_lite" / "continuity_legacy",
-    "pro": REPO / "continuity-pro" / "continuity_pro" / "continuity_legacy",
-    "omega": REPO / "continuity-omega" / "continuity_omega" / "continuity_legacy",
+    "lite": REPO / "chronolith-lite" / "chronolith_lite" / "chronolith",
+    "pro": REPO / "chronolith-pro" / "chronolith_pro" / "chronolith",
+    "omega": REPO / "chronolith-omega" / "chronolith_omega" / "chronolith",
 }
 
 # Runs inside each edition's own interpreter path. Resolves the Merkle builder
-# (Lite exposes it in run_continuity_lite, Pro/Omega in automation_common) and
+# (Lite exposes it in run_chronolith_lite, Pro/Omega in automation_common) and
 # emits its outputs for a fixed input vector.
 #
 # NOTE: `calculate_sha256` is deliberately NOT compared. It diverges by design —
@@ -42,7 +42,7 @@ try:
     import automation_common as m
     fn = getattr(m, "build_merkle_tree", None) or getattr(m, "build_merkle_root", None)
 except Exception:
-    import run_continuity_lite as m
+    import run_chronolith_lite as m
     fn = m.build_merkle_root
 out = {
     "merkle_empty": fn([]),

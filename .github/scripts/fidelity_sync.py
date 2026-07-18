@@ -76,8 +76,8 @@ for rf in Path("OTHER_LANGUAGES").glob("RELEASE_*.md"):
     sync_file(root_release, rf)
 
 # Sync sub-editions
-sync_file(root_readme, Path("continuity-lite/README.md"))
-sync_file(root_readme, Path("continuity-pro/README.md"))
-sync_file(root_readme, Path("continuity-omega/README.md"))
+sync_file(root_readme, Path("chronolith-lite/README.md"))
+sync_file(root_readme, Path("chronolith-pro/README.md"))
+sync_file(root_readme, Path("chronolith-omega/README.md"))
 
 print("Sync completed.")

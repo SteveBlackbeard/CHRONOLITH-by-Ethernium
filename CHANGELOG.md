@@ -1,13 +1,13 @@
-# Changelog: Continuity Legacy (Industrial Evolution)
+# Changelog: Chronolith (Industrial Evolution)
 
-All notable changes to the Continuity Legacy ecosystem will be documented in this file.
+All notable changes to the Chronolith ecosystem will be documented in this file.
 
 ## [3.0.3] - 2026-06-18
 ### Governed Release Candidate
 - Raised all package metadata from `3.0.2` to `3.0.3` for the next immutable PyPI release line.
 - Added governance-first release material with the canonical Ethernium banner.
 - Balanced local governance work with remote KO/AR translation intent without reintroducing the separated dashboard.
-- Kept Continuity Conekta and AgentOps as explicitly separate tools so the Python framework remains focused.
+- Kept Chronolith Conekta and AgentOps as explicitly separate tools so the Python framework remains focused.
 - Refreshed the golden baseline through a documented change contract.
 
 ## [2.1.0] - 2026-04-05
@@ -33,4 +33,4 @@ All notable changes to the Continuity Legacy ecosystem will be documented in thi
 - Experimental command-line interface.
 
 ---
-*Continuity Legacy: Protecting the logical lineage of your software.*
+*Chronolith: Protecting the logical lineage of your software.*

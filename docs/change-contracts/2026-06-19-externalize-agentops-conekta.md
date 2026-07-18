@@ -2,11 +2,11 @@
 
 ## Scope
 
-Remove AgentOps and Continuity Conekta source/staging folders from Continuity Legacy after confirming their successor tools exist outside the repository.
+Remove AgentOps and Chronolith Conekta source/staging folders from Chronolith after confirming their successor tools exist outside the repository.
 
 ## Reason
 
-Continuity Legacy should remain the Python runtime, governance kernel, release surface, and documentation source of truth for Lite / Pro / Omega.
+Chronolith should remain the Python runtime, governance kernel, release surface, and documentation source of truth for Lite / Pro / Omega.
 
 ROBIN HOOD and CONEKTA are separate products:
 
@@ -28,7 +28,7 @@ Keeping their source folders inside Legacy makes the root look less professional
 ## Removed From Legacy
 
 - `AGENTOPS_TOOL/`
-- `CONTINUITY_CONEKTA/`
+- `CHRONOLITH_CONEKTA/`
 
 ## Kept In Legacy
 
@@ -48,7 +48,7 @@ No PyPI release change.
 
 ## Verification
 
-Required in Continuity Legacy:
+Required in Chronolith:
 
 - `python scripts\health_guard.py --strict`
 - `python scripts\autophagy_report.py`
@@ -68,4 +68,4 @@ Required in extracted CONEKTA before its own publication:
 
 ## Rollback
 
-Restore `AGENTOPS_TOOL/` and `CONTINUITY_CONEKTA/` from Git history if a blocking dependency is found, then refresh the golden baseline with a rollback contract.
+Restore `AGENTOPS_TOOL/` and `CHRONOLITH_CONEKTA/` from Git history if a blocking dependency is found, then refresh the golden baseline with a rollback contract.

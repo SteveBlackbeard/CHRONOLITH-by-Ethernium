@@ -1,4 +1,4 @@
-# Contributing to Ethernium Continuity Legacy 
+# Contributing to Ethernium Chronolith 
 
 Welcome to the **NEXUS Phase**. This project is a **Sovereign Cognitive Infrastructure**, and collaboration follows strict industrial and cryptographic protocols.
 
@@ -14,7 +14,7 @@ Anyone is welcome to:
 Access to **Critical Logic**, **Secrets**, and **Symbolic DNA** is restricted to authorized entities. To become one of "The Chosen Ones":
 
 1.  **Generate your Identity**:
-    - Use `python -m continuity_pro.continuity_legacy.tokenator generate-keys` (if available) or any ED25519 tool.
+    - Use `python -m chronolith_pro.chronolith.tokenator generate-keys` (if available) or any ED25519 tool.
 2.  **Request Authorization**:
     - Send your **Public Key (Hex)** to the Architect.
 3.  **Contact Points**:

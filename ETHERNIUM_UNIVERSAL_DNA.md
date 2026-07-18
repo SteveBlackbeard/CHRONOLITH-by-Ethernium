@@ -31,7 +31,7 @@ Cada cambio en este repositorio debe ser **Crystallized**.
 ##  3. ARQUITECTURA DE LA SINGULARIDAD (NEXUS)
 
 - **The Mirror (Frontend)**: `nexus-dashboard` (Next.js). Una interfaz interactiva que visualiza las leyes de la física mencionadas arriba.
-- **The Core (Python)**: `continuity-pro`. El motor de auditoría industrial, seguridad y síntesis simbólica.
+- **The Core (Python)**: `chronolith-pro`. El motor de auditoría industrial, seguridad y síntesis simbólica.
 - **The Chosen Ones**: Los diagramas y manifiestos que definen el camino civilizatorio.
 
 ---

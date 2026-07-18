@@ -38,7 +38,7 @@
 - **AGENT_ACTIVATION_PROTOCOL.md**: `6a8889845480374f...`
 - **BOOT_SEQUENCE.md**: `52e78482f2560f8e...`
 - **BYPASS_LOG.md**: `563952d226222cf1...`
-- **CONTEXT_CONTINUITY.md**: `a143b68826b7936d...`
+- **CONTEXT_CHRONOLITH.md**: `a143b68826b7936d...`
 - **DECISIONS_LOG.md**: `cb24a123fda6fd85...`
 - **LIVE_HANDOFF.md**: `ec99f6e87f320333...`
 - **README.md**: `5b96a9a5aac70ef0...`
@@ -98,7 +98,7 @@
 - **TROUBLESHOOTING.md**: `69eee2e8bb2acad4...`
 - **USE_CASES.md**: `efa0cc63bad9c116...`
 - **CONTRIBUTORS.md**: `c831df8d6194c82c...`
-- **CONTEXT_CONTINUITY.md**: `1aeb8859801318ea...`
+- **CONTEXT_CHRONOLITH.md**: `1aeb8859801318ea...`
 - **DECISIONS_LOG.md**: `b884d30fe277b0b1...`
 - **README.md**: `2ca597942973c61c...`
 - **GOVERNANCE.md**: `b07629d6b6758f0d...`

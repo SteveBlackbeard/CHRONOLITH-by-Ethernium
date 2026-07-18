@@ -6,9 +6,9 @@ The capacity broker is a planned ROBIN HOOD by Ethernium layer for routing AI wo
 
 Its purpose is not to exploit free tokens. Its purpose is to spend the minimum responsible compute while preserving quality, privacy, and reliability.
 
-## Why It Belongs Outside Continuity Legacy
+## Why It Belongs Outside Chronolith
 
-Continuity Legacy is the governed Python continuity runtime:
+Chronolith is the governed Python chronolith runtime:
 
 - baseline verification
 - rulebook and feature registry
@@ -26,17 +26,17 @@ The capacity broker is operational infrastructure:
 - quality telemetry
 - API invocation
 
-Those concerns change quickly and may involve secrets. They should not be embedded into the Continuity Legacy PyPI runtime.
+Those concerns change quickly and may involve secrets. They should not be embedded into the Chronolith PyPI runtime.
 
 ## Relationship
 
 ```text
-Continuity Legacy -> governance contracts, state, release integrity
+Chronolith -> governance contracts, state, release integrity
 ROBIN HOOD       -> token economy, context selection, provider routing
 CONEKTA          -> visual command surface
 ```
 
-Continuity may define the contract. ROBIN HOOD executes the routing.
+Chronolith may define the contract. ROBIN HOOD executes the routing.
 
 ## Routing Inputs
 
@@ -112,7 +112,7 @@ Failover must be logged with the reason.
 
 ## Minimum First Version
 
-Build in ROBIN HOOD, not Continuity:
+Build in ROBIN HOOD, not Chronolith:
 
 - `providers.json`
 - provider profile loader
@@ -139,4 +139,4 @@ The first useful version should:
 - explain why one route was selected
 - explain why other routes were rejected
 - integrate with `snapshot`, `select`, `budget`, `route`, and `savings`
-- keep Continuity Legacy free of provider runtime code
+- keep Chronolith free of provider runtime code

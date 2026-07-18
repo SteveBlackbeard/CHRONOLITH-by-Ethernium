@@ -1,18 +1,18 @@
-# Continuity Governance Kernel
+# Chronolith Governance Kernel
 
 ## Purpose
 
-Continuity Legacy should evolve first as a governance kernel for AI-assisted repositories, not as a larger lore archive or provider-specific agent wrapper.
+Chronolith should evolve first as a governance kernel for AI-assisted repositories, not as a larger lore archive or provider-specific agent wrapper.
 
 The core transformation is:
 
-> From Merkle-based continuity framework to governed continuity kernel with contracts, checks, handoffs, and controlled memory decay.
+> From Merkle-based chronolith framework to governed chronolith kernel with contracts, checks, handoffs, and controlled memory decay.
 
 ## Product Boundary
 
-Continuity Legacy owns:
+Chronolith owns:
 
-- repository continuity
+- repository chronolith
 - cryptographic/project state integrity
 - AI handoff discipline
 - feature and module contracts
@@ -22,7 +22,7 @@ Continuity Legacy owns:
 - context compaction and archival policy
 - editor/agent readiness through CLI, files, and optional external integration wrappers
 
-Continuity Legacy does not own:
+Chronolith does not own:
 
 - provider-specific pricing
 - model API routing
@@ -46,7 +46,7 @@ A machine-readable rulebook defines what is allowed to change, what is frozen, w
 Recommended file:
 
 ```text
-.continuity/rulebook.json
+.chronolith/rulebook.json
 ```
 
 Minimum fields:
@@ -67,7 +67,7 @@ A feature registry maps product capabilities to owners, modules, tests, rollback
 Recommended file:
 
 ```text
-.continuity/feature-registry.json
+.chronolith/feature-registry.json
 ```
 
 Minimum fields per feature:
@@ -110,7 +110,7 @@ The handoff seal records the state of a session without depending on chat histor
 Recommended file:
 
 ```text
-.continuity/LIVE_HANDOFF.md
+.chronolith/LIVE_HANDOFF.md
 ```
 
 The handoff should include:
@@ -125,7 +125,7 @@ The handoff should include:
 
 ## Autophagy Layer
 
-Autophagy is the part of Continuity that prevents the repo from becoming cognitively overweight.
+Autophagy is the part of Chronolith that prevents the repo from becoming cognitively overweight.
 
 It should classify context into:
 
@@ -158,7 +158,7 @@ Public discussion around large system prompt leaks shows a useful engineering pa
 - clear escalation rules
 - concise final reporting
 
-Continuity can adopt these as design principles without copying leaked prompt text or depending on unverified proprietary material.
+Chronolith can adopt these as design principles without copying leaked prompt text or depending on unverified proprietary material.
 
 The safe translation is:
 
@@ -166,31 +166,31 @@ The safe translation is:
 
 ## Clean-Room Reverse Engineering Principle
 
-Continuity may study external agent systems at the level of architecture, behavior, and failure modes, but it must not copy proprietary prompts, hidden instructions, or vendor-specific policy text.
+Chronolith may study external agent systems at the level of architecture, behavior, and failure modes, but it must not copy proprietary prompts, hidden instructions, or vendor-specific policy text.
 
 The allowed method is clean-room, synergic reverse engineering:
 
 - observe public behavior and public analysis
 - identify the abstract control pattern
 - name the engineering problem it solves
-- design a native Continuity equivalent
+- design a native Chronolith equivalent
 - implement it as code, schema, or verification
 - document the reasoning and tradeoffs
 
 Examples:
 
-- A leaked prompt uses tool permissions -> Continuity creates explicit local permission contracts.
-- A frontier agent uses work packets -> Continuity creates compact handoff/task packet schemas.
-- A provider uses safety boundaries -> Continuity creates repository-scoped fail-closed checks.
-- A long prompt encodes many policies -> Continuity converts policies into small rulebook entries and tests.
+- A leaked prompt uses tool permissions -> Chronolith creates explicit local permission contracts.
+- A frontier agent uses work packets -> Chronolith creates compact handoff/task packet schemas.
+- A provider uses safety boundaries -> Chronolith creates repository-scoped fail-closed checks.
+- A long prompt encodes many policies -> Chronolith converts policies into small rulebook entries and tests.
 
 The target is not imitation. The target is a deeper mechanism:
 
-> understand the governing pattern, then rebuild it as a deterministic, local, auditable Continuity primitive.
+> understand the governing pattern, then rebuild it as a deterministic, local, auditable Chronolith primitive.
 
 ## Synergic Frugality Principle
 
-Continuity should maximize quality and fidelity at the lowest responsible cost.
+Chronolith should maximize quality and fidelity at the lowest responsible cost.
 
 This is a golden rule for AI-assisted engineering, not a visual-design slogan:
 
@@ -205,7 +205,7 @@ Operational translation:
 heuristic generation -> deterministic validation -> changed-only execution -> explicit escalation
 ```
 
-Continuity owns the deterministic validation layer. External tools such as ROBIN HOOD by Ethernium may own model routing, token frugality, prompt-risk scanning, and changed-context caching.
+Chronolith owns the deterministic validation layer. External tools such as ROBIN HOOD by Ethernium may own model routing, token frugality, prompt-risk scanning, and changed-context caching.
 
 ## Phase Plan
 
@@ -213,8 +213,8 @@ Continuity owns the deterministic validation layer. External tools such as ROBIN
 
 Add:
 
-- `.continuity/rulebook.json`
-- `.continuity/feature-registry.json`
+- `.chronolith/rulebook.json`
+- `.chronolith/feature-registry.json`
 - `scripts/health_guard.py`
 - CI step for the health guard
 
@@ -224,7 +224,7 @@ No runtime behavior changes.
 
 Add:
 
-- `.continuity/LIVE_HANDOFF.md`
+- `.chronolith/LIVE_HANDOFF.md`
 - handoff seal command
 - golden baseline manifest
 - frozen-path check
@@ -232,7 +232,7 @@ Add:
 The lightweight golden baseline lives at:
 
 ```text
-.continuity/golden-baseline.json
+.chronolith/golden-baseline.json
 ```
 
 Verification:
@@ -259,7 +259,7 @@ Add:
 
 ### Phase 4: Ecosystem Bridge
 
-Add only if Continuity becomes infrastructure for the wider Ethernium ecosystem:
+Add only if Chronolith becomes infrastructure for the wider Ethernium ecosystem:
 
 - canonical key mapping
 - external timestamp proof
@@ -268,4 +268,4 @@ Add only if Continuity becomes infrastructure for the wider Ethernium ecosystem:
 
 ## Decision
 
-Start with Phase 1. It gives the highest benefit with the lowest risk and keeps Continuity focused on its real identity: continuity, integrity, and safe AI-assisted change.
+Start with Phase 1. It gives the highest benefit with the lowest risk and keeps Chronolith focused on its real identity: chronolith, integrity, and safe AI-assisted change.

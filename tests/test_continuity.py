@@ -6,7 +6,7 @@ import sys
 
 # INDUSTRIAL TEST SUITE (v2.3.0)
 # -----------------------------
-# Validates the deterministic integrity of the Continuity Legacy Synthesis Engine.
+# Validates the deterministic integrity of the Chronolith Synthesis Engine.
 
 def calculate_sha256_mock(text: str) -> str:
     # Simulates the LF-normalized, strip-based hashing of v2.2.0
@@ -52,4 +52,4 @@ if __name__ == "__main__":
     test_hashing_determinism()
     test_merkle_sensitivity()
     test_path_normalization()
-    print("\n[✔] CONTINUITY LEGACY: PARITY VERIFIED.")
+    print("\n[✔] CHRONOLITH: PARITY VERIFIED.")

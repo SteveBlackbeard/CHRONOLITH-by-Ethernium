@@ -9,7 +9,7 @@ Require an explicit change contract when refreshing an existing golden baseline.
 Files expected to change:
 
 - `scripts/golden_baseline.py`
-- `.continuity/golden-baseline.json`
+- `.chronolith/golden-baseline.json`
 - `docs/change-contracts/`
 
 Out of scope:
@@ -44,7 +44,7 @@ pytest -q
 
 ## Rollback
 
-Revert `scripts/golden_baseline.py` and `.continuity/golden-baseline.json` to the previous commit.
+Revert `scripts/golden_baseline.py` and `.chronolith/golden-baseline.json` to the previous commit.
 
 ## Handoff
 

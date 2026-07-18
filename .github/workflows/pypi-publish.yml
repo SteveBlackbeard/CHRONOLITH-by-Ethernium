@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package-path: [".", "continuity-lite", "continuity-pro", "continuity-omega"]
+        package-path: [".", "chronolith-lite", "chronolith-pro", "chronolith-omega"]
     
     steps:
     - uses: actions/checkout@v4

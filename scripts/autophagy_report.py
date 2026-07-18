@@ -1,4 +1,4 @@
-"""Non-destructive cognitive weight report for Continuity Legacy.
+"""Non-destructive cognitive weight report for Chronolith.
 
 Autophagy does not delete files. It classifies repository context so humans and
 agents can decide what should stay canonical, be frozen, be summarized, or move
@@ -51,9 +51,9 @@ KEEP_PATHS = {
     "docs/process/REPO_AND_PYPI_RELEASE_CHECKLIST.md",
     "pyproject.toml",
     "VERSION",
-    ".continuity/rulebook.json",
-    ".continuity/feature-registry.json",
-    "docs/CONTINUITY_GOVERNANCE_KERNEL.md",
+    ".chronolith/rulebook.json",
+    ".chronolith/feature-registry.json",
+    "docs/CHRONOLITH_GOVERNANCE_KERNEL.md",
     "docs/CHANGE_CONTRACT_TEMPLATE.md",
 }
 
@@ -149,7 +149,7 @@ def build_report() -> dict[str, object]:
 
     return {
         "version": "1.0.0",
-        "scope": "continuity-legacy-autophagy",
+        "scope": "chronolith-legacy-autophagy",
         "destructive": False,
         "totals": totals,
         "bytes_by_class": bytes_by_class,
@@ -171,7 +171,7 @@ def print_text(report: dict[str, object]) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Generate a non-destructive Continuity autophagy report.")
+    parser = argparse.ArgumentParser(description="Generate a non-destructive Chronolith autophagy report.")
     parser.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
     args = parser.parse_args()
 

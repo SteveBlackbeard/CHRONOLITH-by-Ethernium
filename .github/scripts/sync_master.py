@@ -5,12 +5,12 @@ from pathlib import Path
 
 
 BANNER_HTML = """<p align="center">
-  <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
+  <img src="https://raw.githubusercontent.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Chronolith Official Header">
 </p>"""
 
 ARCH_TREE = """```text
 /PROJECT
- |-- .continuity/
+ |-- .chronolith/
  |   |-- TIMELINE.md
  |   |-- DECISIONS_LOG.md
  |   |-- LIVE_HANDOFF.md
@@ -29,22 +29,22 @@ DEFS = {
         "vision": "Los flujos de trabajo de IA modernos se rompen en un area critica: **Reestablecimiento de contexto entre sesiones**.",
         "impact": "## La IA ya no olvida.\n\nEstamos orgullosos de anunciar el **Lanzamiento Estable Oficial v1.3.1**. Esta version representa la transicion hacia una **infraestructura de grado profesional** disenada para la colaboracion global IA-Humano.",
         "flow_title": "## Flujo del Sistema (El Bucle de Control)",
-        "flow_desc": "Continuity Legacy asegura que no haya perdida de contexto a traves de un bucle de control perpetuo:\n\n```text\nContexto -> Estado -> Decisiones -> Cronologia -> Traspaso\n```",
+        "flow_desc": "Chronolith asegura que no haya perdida de contexto a traves de un bucle de control perpetuo:\n\n```text\nContexto -> Estado -> Decisiones -> Cronologia -> Traspaso\n```",
         "arch_title": "## Resumen de la Arquitectura del Proyecto",
     },
     "en": {
-        "title": "Global Continuity Framework",
+        "title": "Global Chronolith Framework",
         "problem": "## The Problem vs. The Solution",
         "vision": "Modern AI workflows break in one critical area: **Context resets between sessions**.",
         "impact": "## AI does not forget anymore.",
         "flow_title": "## System Flow (The Control Loop)",
-        "flow_desc": "Continuity Legacy ensures no context loss through a perpetual control loop:\n\n```text\nContext -> State -> Decisions -> Timeline -> Handoff\n```",
+        "flow_desc": "Chronolith ensures no context loss through a perpetual control loop:\n\n```text\nContext -> State -> Decisions -> Timeline -> Handoff\n```",
         "arch_title": "## Project Architecture Overview",
     },
     "default": {
         "impact": "## AI does not forget anymore.",
         "flow_title": "## System Flow (The Control Loop)",
-        "flow_desc": "Continuity Legacy ensures no context loss through a perpetual control loop.",
+        "flow_desc": "Chronolith ensures no context loss through a perpetual control loop.",
         "arch_title": "## Project Architecture Overview",
     },
 }
@@ -68,7 +68,7 @@ def update_header(content):
 
 
 def update_badge(content, status="Synchronized", color="green"):
-    link = "https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/global_sync.yml"
+    link = "https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/actions/workflows/global_sync.yml"
     badge_url = f"https://img.shields.io/badge/Global%20Parity-{status}-{color}"
     badge_md = f"[![Global Parity]({badge_url})]({link})"
 

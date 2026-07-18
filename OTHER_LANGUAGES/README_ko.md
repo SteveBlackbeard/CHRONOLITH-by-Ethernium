@@ -1,8 +1,8 @@
-# CONTINUITY LEGACY: ë£¨íŠ¸ í¬í„¸
+# CHRONOLITH: ë£¨íŠ¸ í¬í„¸
 
 ![Version](https://img.shields.io/badge/version-3.0.2-blue.svg)
 
-Continuity LegacyëŠ” AI ì§€ì› í”„ë¡œì íŠ¸ì˜ ìž¥ê¸° ì»¨í…ìŠ¤íŠ¸, ì˜ë„, ìƒíƒœ ë¬´ê²°ì„±ì„ ë³´í˜¸í•˜ëŠ” Python ê¸°ë°˜ ì—°ì†ì„± í”„ë ˆìž„ì›Œí¬ìž…ë‹ˆë‹¤.
+ChronolithëŠ” AI ì§€ì› í”„ë¡œì íŠ¸ì˜ ìž¥ê¸° ì»¨í…ìŠ¤íŠ¸, ì˜ë„, ìƒíƒœ ë¬´ê²°ì„±ì„ ë³´í˜¸í•˜ëŠ” Python ê¸°ë°˜ ì—°ì†ì„± í”„ë ˆìž„ì›Œí¬ìž…ë‹ˆë‹¤.
 
 ## ì—ë””ì…˜
 
@@ -13,23 +13,23 @@ Continuity LegacyëŠ” AI ì§€ì› í”„ë¡œì íŠ¸ì˜ ìž
 ## ì‚¬ìš© ë°©ë²•
 
 ```bash
-pip install ethernium-continuity-legacy
-continuity init
-continuity status
+pip install chronolith
+chronolith init
+chronolith status
 ```
 
 ê°œë³„ ì—ë””ì…˜:
 
 ```bash
-pip install ethernium-continuity-lite
-pip install ethernium-continuity-pro
-pip install ethernium-continuity-omega
+pip install chronolith-lite
+pip install chronolith-pro
+pip install chronolith-omega
 ```
 
 ## ê±°ë²„ë„ŒìŠ¤
 
 ì´ ì €ìž¥ì†Œì˜ ê¸°ì¤€ì„ ì€ rulebook, feature registry, health guard, golden baseline ë° change contractë¡œ ë³´í˜¸ë©ë‹ˆë‹¤.
 
-Continuity Conektaì™€ AgentOpsëŠ” ë³„ë„ ë„êµ¬ìž…ë‹ˆë‹¤. Legacy Python ëŸ°íƒ€ìž„ì— ë‹¤ì‹œ í¬í•¨ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
+Chronolith Conektaì™€ AgentOpsëŠ” ë³„ë„ ë„êµ¬ìž…ë‹ˆë‹¤. Legacy Python ëŸ°íƒ€ìž„ì— ë‹¤ì‹œ í¬í•¨ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
 
 

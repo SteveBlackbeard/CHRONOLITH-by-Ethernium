@@ -9,7 +9,7 @@ Modernize `pyproject.toml` license metadata to use an SPDX expression and remove
 Files expected to change:
 
 - `pyproject.toml`
-- `.continuity/golden-baseline.json`
+- `.chronolith/golden-baseline.json`
 
 Out of scope:
 
@@ -45,7 +45,7 @@ python -m twine check dist/*
 
 ## Rollback
 
-Revert `pyproject.toml` and refresh `.continuity/golden-baseline.json` using this contract or a follow-up rollback contract.
+Revert `pyproject.toml` and refresh `.chronolith/golden-baseline.json` using this contract or a follow-up rollback contract.
 
 ## Handoff
 

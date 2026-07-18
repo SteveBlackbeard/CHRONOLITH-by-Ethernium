@@ -1,0 +1,21 @@
+{
+  "template_name": "CHRONOLITH",
+  "project_name": "CHRONOLITH",
+  "project_slug": "chronolith",
+  "context_file": "PROJECT_CONTEXT.md",
+  "state_file": "STATE.json",
+  "roadmap_file": "ROADMAP.md",
+  "chronolith_dir": ".chronolith",
+  "outputs_dir": "outputs/chronolith",
+  "external_docs": {
+    "enabled": false,
+    "folder_name": "CHRONOLITH_LEGACYDEV",
+    "root_override": ""
+  },
+  "metadata": {
+    "generated_by": "Chronolith by Ethernium",
+    "tool_version": "5.0.0",
+    "creator": "@Steveblackbeard",
+    "include_in_reports": true
+  }
+}

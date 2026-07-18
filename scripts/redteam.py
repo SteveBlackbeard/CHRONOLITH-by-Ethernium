@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Adversarial red-team + benchmark for Continuity Pro.
+"""Adversarial red-team + benchmark for Chronolith Pro.
 
 Each scenario ATTEMPTS to defeat a guarantee; a guarantee HOLDS only if the
 system rejects the malicious state (or, for the honest limits, refuses to
@@ -30,7 +30,7 @@ import time
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
-SCRIPT = REPO / "continuity-pro" / "continuity_pro" / "continuity_legacy" / "run_continuity_cycle.py"
+SCRIPT = REPO / "chronolith-pro" / "chronolith_pro" / "chronolith" / "run_chronolith_cycle.py"
 sys.path.insert(0, str(SCRIPT.parent))
 import automation_common as ac  # noqa: E402
 import sovereign_vault as sv  # noqa: E402
@@ -54,25 +54,25 @@ def run(*args, env=None, root=None):
 
 def make_repo(n_docs=3, passphrase=None):
     d = Path(tempfile.mkdtemp())
-    (d / ".continuity").mkdir()
-    (d / ".continuity" / "STATE.json").write_text('{"phase":"pro"}', encoding="utf-8")
+    (d / ".chronolith").mkdir()
+    (d / ".chronolith" / "STATE.json").write_text('{"phase":"pro"}', encoding="utf-8")
     for i in range(n_docs):
         (d / f"DOC{i}.md").write_text(f"# Canonical document {i}\ncontent line\n", encoding="utf-8")
-    env = {"CONTINUITY_PASSPHRASE": passphrase} if passphrase else {}
+    env = {"CHRONOLITH_PASSPHRASE": passphrase} if passphrase else {}
     run(*(["sovereign-init"] + (["--encrypt"] if passphrase else [])), env=env, root=d)
     run("check", "--no-scan-source", env=env, root=d)
     return d, env
 
 
 def attacks() -> None:
-    print("=== ADVERSARIAL CAMPAIGN: Continuity Pro ===\n")
+    print("=== ADVERSARIAL CAMPAIGN: Chronolith Pro ===\n")
 
     # A1: forge baseline by recomputing the SHA-256 checksum (pre-Ed25519 attack).
     d, env = make_repo()
-    st = json.loads((d / ".continuity" / "STATE.json").read_text())
+    st = json.loads((d / ".chronolith" / "STATE.json").read_text())
     st["merkle_root"] = "0" * 64
     st["signature"] = ac.sign_state(st)
-    (d / ".continuity" / "STATE.json").write_text(json.dumps(st))
+    (d / ".chronolith" / "STATE.json").write_text(json.dumps(st))
     record("A1 forge baseline via checksum recompute", run("verify", "--no-scan-source", env=env, root=d).returncode != 0)
     shutil.rmtree(d, ignore_errors=True)
 
@@ -91,12 +91,12 @@ def attacks() -> None:
     mds = sorted(Path(p) for p in glob.glob(str(d / "*.md")))
     leaves = [ac.path_bound_leaf(m.name, ac.calculate_sha256(m)) for m in mds]
     root = ac.build_merkle_tree(leaves)
-    st = json.loads((d / ".continuity" / "STATE.json").read_text())
+    st = json.loads((d / ".chronolith" / "STATE.json").read_text())
     st.update({"merkle_root": root, "leaf_format": ac.LEAF_FORMAT})
     st["signature"] = ac.sign_state(st)
     ac.sovereign_sign_state(st, apriv, apub)
-    (d / ".continuity" / "STATE.json").write_text(json.dumps(st))
-    (d / ".continuity" / "dna_chain.jsonl").unlink(missing_ok=True)
+    (d / ".chronolith" / "STATE.json").write_text(json.dumps(st))
+    (d / ".chronolith" / "dna_chain.jsonl").unlink(missing_ok=True)
     ac.append_chain_entry(d, root, private_bytes=apriv)
     out = run("verify", "--no-scan-source", env=env, root=d).stdout
     record("A3a key-swap fork: plain verify refuses to claim AUTHENTIC",
@@ -111,7 +111,7 @@ def attacks() -> None:
     for i in range(3):
         (d / "DOC0.md").write_text(f"# rev {i}\n", encoding="utf-8")
         run("check", "--no-scan-source", "--accept", env=env, root=d)
-    chain = d / ".continuity" / "dna_chain.jsonl"
+    chain = d / ".chronolith" / "dna_chain.jsonl"
     lines = chain.read_text().splitlines()
     record("A4a chain grows through accepted changes", len(lines) >= 3, f"length={len(lines)}")
     chain.write_text("\n".join(lines[:-1]) + "\n")
@@ -123,11 +123,11 @@ def attacks() -> None:
     d, env = make_repo()
     d0 = (d / "DOC0.md").read_text()
     snap = Path(tempfile.mkdtemp())
-    shutil.copytree(d / ".continuity", snap / "c")
+    shutil.copytree(d / ".chronolith", snap / "c")
     (d / "DOC0.md").write_text("# legit later work\n", encoding="utf-8")
     run("check", "--no-scan-source", "--accept", env=env, root=d)
-    shutil.rmtree(d / ".continuity")
-    shutil.copytree(snap / "c", d / ".continuity")
+    shutil.rmtree(d / ".chronolith")
+    shutil.copytree(snap / "c", d / ".chronolith")
     (d / "DOC0.md").write_text(d0, encoding="utf-8")
     plain = run("verify", "--no-scan-source", env=env, root=d).returncode
     strict = run("verify", "--no-scan-source", "--strict", "--expect-fingerprint",

@@ -1,11 +1,11 @@
-# 🪐 CONTINUITY LEGACY: PROTOCOLO ETHERNIUM CORE
+# 🪐 CHRONOLITH: PROTOCOLO ETHERNIUM CORE
 **Clasificación**: `CONSTITUCIÓN ESTRUCTURAL INMUTABLE`
 **Uso**: Obligatorio para cualquier Inteligencia Artificial, Agente LLM o Desarrollador Humano que opere sobre este repositorio.
 
 ---
 
 ## I. PREÁMBULO: PROPÓSITO E IDENTIDAD
-**Continuity Legacy** nació de la necesidad crítica dentro del ecosistema *Ethernium* de proteger la inteligencia artificial y el contexto de software frente al **Olvido Algorítmico (Semantic Drift)**.
+**Chronolith** nació de la necesidad crítica dentro del ecosistema *Ethernium* de proteger la inteligencia artificial y el contexto de software frente al **Olvido Algorítmico (Semantic Drift)**.
 Este sistema fue, es y siempre estará diseñado para ser un **Cortafuegos Socrático (Socratic Firewall)**. El problema que resuelve es la *Entropía Semántica*: la degradación del conocimiento estructural y arquitectónico tras reinicios de sesión prolongados entre humanos y máquinas.
 Actúa como un **ADN Criptográfico (Git for Cognition)**. Su único propósito definitivo es proteger el linaje lógico del desarrollo. La IA que procesa este proyecto **ya no olvida**, porque es matemáticamente obligada a alinearse al Merkle Root.
 
@@ -21,7 +21,7 @@ La Entropía Semántica es fatal y está prohibida. Todo cambio arquitectónico 
 Prohibición absoluta para la IA de depender de su historial temporal de chat (Context Window). Toda inferencia, descubrimiento analítico o decisión estructural que la IA logre **DEBE** consolidarla estructuralmente sobre el repositorio de inmediato mediante:
 - `Type-hints` rigurosos y obligatorios en Python (v3.10+).
 - `Docstrings` masivos, descriptivos y semánticos.
-- Volcado automático de registros estratégicos en `.continuity/DECISIONS_LOG.md`.
+- Volcado automático de registros estratégicos en `.chronolith/DECISIONS_LOG.md`.
 El código debe ser auto-legible por el siguiente agente sin necesidad de adivinanzas.
 
 ### 3. Seguridad Soberana "Fail-Closed" Severa
@@ -43,4 +43,4 @@ El motor opera bajo un vector de desconfianza zero-trust. Si un analizador, prom
 Está terminantemente prohibido el desperdicio de tokens (Grasa Cognitiva). Todo Nucleótido (archivo) debe ser semánticamente denso y arquitectónicamente ligero. La IA debe priorizar estructuras de datos ricas (Type-hints, Pydantic) sobre comentarios redundantes o lenguaje natural ineficiente. El objetivo es maximizar la Ventana de Atención del Agente. La deriva en el "Peso Cognitivo" detectada por el `Token Sentinel` es motivo de refactorización inmediata.
 
 ---
-*Continuity Legacy: Protecting the logical lineage of your software.*
+*Chronolith: Protecting the logical lineage of your software.*

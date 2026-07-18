@@ -1,22 +1,22 @@
 **Protegiendo el linaje lógico de su software.** 🧬
 <p align="center">
-  <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
+  <img src="https://raw.githubusercontent.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Chronolith Official Header">
 </p>
 
-Continuity Legacy es un marco de sincronización de grado profesional diseñado para proteger el linaje lógico de su software. Nacido del **Ecosistema Ethernium**, asegura que la intención de desarrollo y las decisiones arquitectónicas se preserven en todas las entregas.
+Chronolith es un marco de sincronización de grado profesional diseñado para proteger el linaje lógico de su software. Nacido del **Ecosistema Ethernium**, asegura que la intención de desarrollo y las decisiones arquitectónicas se preserven en todas las entregas.
 
 ## 🏛️ Ediciones
-[![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-lite/)
+[![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/blob/main/chronolith-lite/)
 
-[![PRO](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYPRO.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-pro/)
+[![PRO](https://raw.githubusercontent.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/main/assets/banners/LEGACYPRO.png?raw=true)](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/blob/main/chronolith-pro/)
 
-[![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-omega/)
+[![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/blob/main/chronolith-omega/)
 
 ##  Navigation Explorer
 *   [**Industrial Guide** (HOW_TO_USE_IT.md)](../HOW_TO_USE_IT.md)
 *   [**Main Documentation** (README.md)](./README_es.md)
 *   [**Legal Heritage** (LICENSE)](../LICENSE)
-*   [**Decision Log** (.continuity/DECISIONS_LOG.md)](../.continuity/DECISIONS_LOG.md)
+*   [**Decision Log** (.chronolith/DECISIONS_LOG.md)](../.chronolith/DECISIONS_LOG.md)
 
 ---
 
@@ -35,4 +35,4 @@ La **edición Omega** es nuestro Oráculo de grado empresarial. Proporciona RAG 
 ![Ethernium Omega](https://media.canary.gl/m/4346747d6be20a7b)
 
 ---
-*Continuity Legacy: Protegiendo el linaje lógico de su software.*
+*Chronolith: Protegiendo el linaje lógico de su software.*

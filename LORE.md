@@ -4,7 +4,7 @@
 > metaphors behind the names you'll see in the code — "DNA", "nucleotides",
 > "sovereign", "the chosen ones", "Project Soul". None of it is a technical
 > claim. For what the software actually does and guarantees, read the
-> [README](./README.md) and [continuity-pro/SOVEREIGN_SECURITY.md](./continuity-pro/SOVEREIGN_SECURITY.md).
+> [README](./README.md) and [chronolith-pro/SOVEREIGN_SECURITY.md](./chronolith-pro/SOVEREIGN_SECURITY.md).
 > The lore is kept here, deliberately apart, so the engineering docs can stay
 > plain and honest.
 

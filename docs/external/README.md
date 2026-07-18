@@ -1,6 +1,6 @@
 # External Tools
 
-Continuity Legacy keeps external tools outside the repository root.
+Chronolith keeps external tools outside the repository root.
 
 The Python runtime and governed release surface stay here. Visual dashboards, agent operations tools, token-frugality layers, and model-routing layers live in their own repositories or sibling workspaces.
 
@@ -13,7 +13,7 @@ The Python runtime and governed release surface stay here. Visual dashboards, ag
 
 ## Rule
 
-Continuity Legacy may document contracts with these tools, but it must not import their runtime code or package their files into the Python distributions.
+Chronolith may document contracts with these tools, but it must not import their runtime code or package their files into the Python distributions.
 
 See also:
 

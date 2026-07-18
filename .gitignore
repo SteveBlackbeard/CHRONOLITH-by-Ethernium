@@ -12,7 +12,7 @@ outputs/
 .vscode/
 omega-dashboard/
 *.egg-info/
-.continuity/keys/*.priv
+.chronolith/keys/*.priv
 
 # v3.0.3: Purge compiled bytecode artifacts from version control
 *.pyc

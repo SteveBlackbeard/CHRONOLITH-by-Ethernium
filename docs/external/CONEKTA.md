@@ -1,6 +1,6 @@
 # CONEKTA
 
-CONEKTA is the externalized dashboard/control-surface successor to Continuity Conekta.
+CONEKTA is the externalized dashboard/control-surface successor to Chronolith Conekta.
 
 Planned repository:
 
@@ -25,7 +25,7 @@ CONEKTA owns:
 - local chat bridge UI
 - browser/runtime adapters
 
-Continuity Legacy owns:
+Chronolith owns:
 
 - Python package runtime
 - Lite / Pro / Omega editions
@@ -44,7 +44,7 @@ docs/CONEKTA_ADAPTER_CONTRACT.md
 Recommended bridge:
 
 ```text
-CONEKTA UI -> local adapter/API -> Continuity Legacy CLI/runtime -> STATE.json / reports
+CONEKTA UI -> local adapter/API -> Chronolith CLI/runtime -> STATE.json / reports
 ```
 
 ## Bootstrap
@@ -57,6 +57,6 @@ The local bootstrap script can point at the external CONEKTA path:
 
 ## Boundary
 
-Do not reinsert the dashboard into Continuity Legacy.
+Do not reinsert the dashboard into Chronolith.
 
 Do not make the Python packages depend on the CONEKTA web runtime.

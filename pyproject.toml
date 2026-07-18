@@ -3,16 +3,16 @@ requires = ["setuptools>=77.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ethernium-continuity-legacy"
-version = "3.0.3"
+name = "chronolith"
+version = "3.2.0"
 authors = [
   { name = "SteveBlackbeard" },
 ]
-description = "Continuity Legacy: Persistent Cognitive Layer for AI context handoffs. Deterministic Merkle-based integrity with Shannon Entropy physics. Includes Lite, Pro, and Omega editions."
+description = "Chronolith: Persistent Cognitive Layer for AI context handoffs. Deterministic Merkle-based integrity with Shannon Entropy physics. Includes Lite, Pro, and Omega editions."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
-keywords = ["ai", "context", "continuity", "llm", "handover", "merkle-tree", "cybersecurity", "rag", "automation", "entropy", "governance"]
+keywords = ["ai", "context", "chronolith", "llm", "handover", "merkle-tree", "cybersecurity", "rag", "automation", "entropy", "governance"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -35,17 +35,17 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium"
-"Repository" = "https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium"
-"Bug Tracker" = "https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/issues"
+"Homepage" = "https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium"
+"Repository" = "https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium"
+"Bug Tracker" = "https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/issues"
 
 [project.scripts]
-continuity = "continuity_pro.continuity_legacy.run_continuity_cycle:main"
-continuity-lite = "continuity_lite.continuity_legacy.run_continuity_lite:main"
-continuity-pro = "continuity_pro.continuity_legacy.run_continuity_cycle:main"
-continuity-omega = "continuity_omega.continuity_legacy.run_continuity_omega:main"
-continuity-tokens = "continuity_pro.continuity_legacy.tokenator:main"
+chronolith = "chronolith_pro.chronolith.run_chronolith_cycle:main"
+chronolith-lite = "chronolith_lite.chronolith.run_chronolith_lite:main"
+chronolith-pro = "chronolith_pro.chronolith.run_chronolith_cycle:main"
+chronolith-omega = "chronolith_omega.chronolith.run_chronolith_omega:main"
+chronolith-tokens = "chronolith_pro.chronolith.tokenator:main"
 
 [tool.setuptools.packages.find]
-where = ["continuity-lite", "continuity-pro", "continuity-omega"]
-include = ["continuity_lite*", "continuity_pro*", "continuity_omega*"]
+where = ["chronolith-lite", "chronolith-pro", "chronolith-omega"]
+include = ["chronolith_lite*", "chronolith_pro*", "chronolith_omega*"]

@@ -2,13 +2,13 @@
 
 ## Scope
 
-Document editor and agent-host integration boundaries for Continuity Legacy and AgentOps.
+Document editor and agent-host integration boundaries for Chronolith and AgentOps.
 
 ## Reason
 
-Continuity Legacy is already provider-neutral and editor-friendly through CLI, repository files, handoffs, and governance checks. The repository needed explicit documentation separating:
+Chronolith is already provider-neutral and editor-friendly through CLI, repository files, handoffs, and governance checks. The repository needed explicit documentation separating:
 
-- Continuity Legacy as the governed Python core
+- Chronolith as the governed Python core
 - AgentOps as the optional operations and MCP layer
 - VS Code/Cursor integration as thin wrappers
 - future model routing and LoRA/local LLM support as AgentOps responsibilities
@@ -16,7 +16,7 @@ Continuity Legacy is already provider-neutral and editor-friendly through CLI, r
 ## Files
 
 - `README.md`
-- `docs/CONTINUITY_GOVERNANCE_KERNEL.md`
+- `docs/CHRONOLITH_GOVERNANCE_KERNEL.md`
 - `docs/EDITOR_AGENT_INTEGRATION.md`
 - `AGENTOPS_TOOL/README.md`
 - `AGENTOPS_TOOL/ROADMAP.md`
@@ -27,11 +27,11 @@ Continuity Legacy is already provider-neutral and editor-friendly through CLI, r
 - `AGENTOPS_TOOL/agentops/mcp_server.py`
 - `AGENTOPS_TOOL/tests/test_agentops.py`
 - `AGENTOPS_TOOL/integrations/`
-- `.cursor/rules/continuity-agentops.mdc`
+- `.cursor/rules/chronolith-agentops.mdc`
 
 ## Runtime Impact
 
-No Continuity Legacy runtime API changes.
+No Chronolith runtime API changes.
 
 AgentOps gains an optional MCP server entrypoint behind the `mcp` extra. The base AgentOps package remains dependency-free.
 

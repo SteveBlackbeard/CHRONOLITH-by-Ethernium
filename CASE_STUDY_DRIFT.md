@@ -2,7 +2,7 @@
 **Date:** April 5, 2026  
 **Status:** Industrial Proof (v2.1.0)
 
-This document provides a concrete, technical demonstration of how **Continuity Legacy** prevents "Semantic Drift"—the silent decay of project context in AI-Human collaboration.
+This document provides a concrete, technical demonstration of how **Chronolith** prevents "Semantic Drift"—the silent decay of project context in AI-Human collaboration.
 
 ---
 
@@ -13,13 +13,13 @@ A developer (human or AI) is working on a sensitive security module: `src/securi
 - **Action**: The developer adds a hidden back-door or simply makes an unauthorized functional change.
 - **DNA Record**: The corresponding documentation in `PROJECT_DNA.md` remains unchanged, stating the module only performs "standard OAuth2 validation."
 
-### 2. Without Continuity (The Status Quo)
+### 2. Without Chronolith (The Status Quo)
 - `git add .` -> Success.
 - `git commit -m "update security logic"` -> Success.
 - `git push origin main` -> **SUCCESS.**
 - **Consequence**: The repository is now out of sync. The documentation lies to the next AI agent, who will assume the system is safe, leading to cascading architectural failures.
 
-### 3. With Continuity Legacy (The Ethernium Guard)
+### 3. With Chronolith (The Ethernium Guard)
 - **Pre-Push Hook Trigger**: Before the bits leave the local machine, the **Sentinel Pro** engine calculates the project's Merkle Root.
 - **Detection**:
   - `Computed Hash`: `a1f2c3d4...` (Derived from the actual code).
@@ -31,7 +31,7 @@ A developer (human or AI) is working on a sensitive security module: `src/securi
 
 ## 📊 Performance Benchmarks (Industrial Grade)
 
-We tested Continuity Lite/Pro on a repository with **500+ Markdown and Python files**.
+We tested Chronolith Lite/Pro on a repository with **500+ Markdown and Python files**.
 
 | Action | Latency (Lite) | Latency (Pro) | Logic Engine |
 | :--- | :--- | :--- | :--- |
@@ -43,4 +43,4 @@ We tested Continuity Lite/Pro on a repository with **500+ Markdown and Python fi
 ---
 
 ## 🧠 Conclusion
-Continuity Legacy is not "conceptual." It is a **deterministic gatekeeper** that mathematically forces a project's reality (code) to match its stated identity (context). By using cryptographic hashes to anchor semantic meaning, we ensure that **the AI doesn't forget anymore.**
+Chronolith is not "conceptual." It is a **deterministic gatekeeper** that mathematically forces a project's reality (code) to match its stated identity (context). By using cryptographic hashes to anchor semantic meaning, we ensure that **the AI doesn't forget anymore.**

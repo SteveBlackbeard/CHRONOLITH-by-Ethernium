@@ -1,8 +1,8 @@
-# Continuity Legacy
+# Chronolith
 
 ![Version](https://img.shields.io/badge/version-3.0.2-blue.svg)
 
-Continuity Legacy is a Python framework for AI-assisted project continuity. It preserves project context, intent, state integrity, and release governance across sessions and agents.
+Chronolith is a Python framework for AI-assisted project chronolith. It preserves project context, intent, state integrity, and release governance across sessions and agents.
 
 ## Editions
 
@@ -13,18 +13,18 @@ Continuity Legacy is a Python framework for AI-assisted project continuity. It p
 ## Install
 
 ```bash
-pip install ethernium-continuity-legacy
-continuity --help
+pip install chronolith
+chronolith --help
 ```
 
 Individual packages:
 
 ```bash
-pip install ethernium-continuity-lite
-pip install ethernium-continuity-pro
-pip install ethernium-continuity-omega
+pip install chronolith-lite
+pip install chronolith-pro
+pip install chronolith-omega
 ```
 
 ## Product Boundary
 
-Continuity Legacy is the Python runtime and governance kernel. Continuity Conekta is an external visual control surface. AgentOps is an extractable incubated tool.
+Chronolith is the Python runtime and governance kernel. Chronolith Conekta is an external visual control surface. AgentOps is an extractable incubated tool.

@@ -32,15 +32,15 @@ ROBIN HOOD owns:
 - future provider adapters for OpenAI-compatible APIs, local LLM servers, and LoRA-served variants
 - future capacity broker / provider failover layer
 
-Continuity Legacy owns:
+Chronolith owns:
 
-- repository continuity
+- repository chronolith
 - golden baseline verification
 - governance kernel
 - Lite / Pro / Omega Python packages
 - release health checks
 
-## Usage Beside Continuity
+## Usage Beside Chronolith
 
 From the ROBIN HOOD repository:
 
@@ -96,8 +96,8 @@ Routing constraints:
 
 ## Boundary
 
-Do not import ROBIN HOOD from Continuity Legacy runtime code.
+Do not import ROBIN HOOD from Chronolith runtime code.
 
-Do not package ROBIN HOOD into Continuity Legacy PyPI artifacts.
+Do not package ROBIN HOOD into Chronolith PyPI artifacts.
 
-Continuity Legacy may publish governance schemas, contracts, and adapters that external tools consume, but provider routing and API invocation should remain outside the Continuity Legacy runtime package.
+Chronolith may publish governance schemas, contracts, and adapters that external tools consume, but provider routing and API invocation should remain outside the Chronolith runtime package.

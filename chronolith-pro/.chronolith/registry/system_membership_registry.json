@@ -1,0 +1,123 @@
+{
+  "version": "1.0",
+  "generated_at": "",
+  "protocol": ".chronolith/CONTEXT_CHRONOLITH.md",
+  "allowed_statuses": [
+    "canonical",
+    "bridge",
+    "archive_source",
+    "external_optional"
+  ],
+  "entries": [
+    {
+      "path": "AGENT_START.md",
+      "status": "canonical",
+      "category": "entrypoint"
+    },
+    {
+      "path": "README.md",
+      "status": "canonical",
+      "category": "entrypoint"
+    },
+    {
+      "path": "chronolith.json",
+      "status": "canonical",
+      "category": "configuration"
+    },
+    {
+      "path": "PROJECT_CONTEXT.md",
+      "status": "canonical",
+      "category": "context"
+    },
+    {
+      "path": "STATE.json",
+      "status": "canonical",
+      "category": "state"
+    },
+    {
+      "path": "ROADMAP.md",
+      "status": "canonical",
+      "category": "roadmap"
+    },
+    {
+      "path": ".chronolith/CONTEXT_CHRONOLITH.md",
+      "status": "canonical",
+      "category": "chronolith"
+    },
+    {
+      "path": ".chronolith/BOOT_SEQUENCE.md",
+      "status": "canonical",
+      "category": "chronolith"
+    },
+    {
+      "path": ".chronolith/LIVE_HANDOFF.md",
+      "status": "canonical",
+      "category": "chronolith"
+    },
+    {
+      "path": ".chronolith/DECISIONS_LOG.md",
+      "status": "canonical",
+      "category": "chronolith"
+    },
+    {
+      "path": ".chronolith/TIMELINE.md",
+      "status": "canonical",
+      "category": "chronolith"
+    },
+    {
+      "path": ".chronolith/AGENT_ACTIVATION_PROTOCOL.md",
+      "status": "canonical",
+      "category": "chronolith"
+    },
+    {
+      "path": ".chronolith/registry/document_dependency_map.json",
+      "status": "canonical",
+      "category": "registry"
+    },
+    {
+      "path": ".chronolith/registry/system_membership_registry.json",
+      "status": "canonical",
+      "category": "registry"
+    },
+    {
+      "path": "tools/chronolith/bootstrap_project.py",
+      "status": "canonical",
+      "category": "automation"
+    },
+    {
+      "path": "tools/chronolith/bootstrap_context.py",
+      "status": "canonical",
+      "category": "automation"
+    },
+    {
+      "path": "tools/chronolith/doc_parity_check.py",
+      "status": "canonical",
+      "category": "automation"
+    },
+    {
+      "path": "tools/chronolith/system_membership_check.py",
+      "status": "canonical",
+      "category": "automation"
+    },
+    {
+      "path": "tools/chronolith/sync_external_dev_context.py",
+      "status": "canonical",
+      "category": "automation"
+    },
+    {
+      "path": "tools/chronolith/run_chronolith_cycle.py",
+      "status": "canonical",
+      "category": "automation"
+    },
+    {
+      "path": "tools/chronolith/core/automation_common.py",
+      "status": "canonical",
+      "category": "automation_core"
+    },
+    {
+      "path": "tools/chronolith/core/context_loader.py",
+      "status": "canonical",
+      "category": "automation_core"
+    }
+  ]
+}

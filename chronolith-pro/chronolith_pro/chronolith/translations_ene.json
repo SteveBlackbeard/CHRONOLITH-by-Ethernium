@@ -1,0 +1,172 @@
+{
+    "en": {
+      "tagline": "Protecting the logical lineage of your software.",
+      "tiers_title": "🏛️ The Triple-Tier Ecosystem",
+      "features_title": "🧠 Key Features (Intellectual Symphony)",
+      "omega_section_title": "🧠 Omega Edition: Cognitive Insight",
+      "quality_title": "🔍 Quality Flow",
+      "use_cases_title": "🏛️ Enterprise Use Cases",
+      "use_cases_intro": "Chronolith solves the 'Semantic Drift' in long-term AI-Human collaboration:",
+      "use_cases": [
+        "**Cross-Agent Handoffs**: Transfer full project context between different AI models (GPT-4 to Claude to local LLMs) with zero context loss.",
+        "**Multi-Day RAG Stability**: Ensures that Retrieval-Augmented Generation systems always point to the canonical source of truth, even after system resets.",
+        "**Legacy Restoration**: Instantly reconstruct the architectural intent of a project years after the last human developer has left."
+      ],
+      "editions_title": "Editions",
+      "languages_title": "Languages",
+      "sync_note": "*(Localized technical sync for Chronolith)*",
+      "overview": "Chronolith is a professional-grade synchronization framework designed to protect the logical lineage of your software. Born from the **Ethernium Ecosystem**, it ensures that development intent and architectural decisions are preserved across all handoffs.",
+      "lite_desc": "**Lite**: Zero-Friction Guardian. Optimized for speed and daily developer usage.",
+      "pro_desc": "**Pro**: Tactical Engine. Industrial-grade border guard with security and synchronization audits.",
+      "omega_desc": "**Omega**: Enterprise Oracle. Advanced RAG, cognitive maps, and proactive impact analysis.",
+      "feat_metabolism": "**Metabolism Optimization**: Typ-Rich Engine with <100ms startup and lazy-loading nuclei.",
+      "feat_dna": "**DNA Synthesis**: Merkle Tree cryptographic protection with SHA-256 signatures.",
+      "feat_cognitive": "**enterprise Governance**: Sentinel Guardian with automatic Git-Hooks and session logging.",
+      "feat_global": "**Global Symmetry**: Documentation and industrial CLI support in 9 languages.",
+      "feat_diamond": "**Industrial Sanitization**: Complete purge of UTF-16 rogue artifacts and tactical residue.",
+      "omega_text": "The **Omega edition** is our Enterprise-grade Oracle. It provides advanced RAG, cognitive graph mapping, and proactive semantic impact analysis for enterprise decision guarding.",
+      "quality_steps": [
+        "Intent Capture: Recording the 'Why' in structured logs.",
+        "DNA Validation: Verifying Merkle Root and State signatures.",
+        "Crystallization: Updating the README DNA Crystal marker.",
+        "enterprise Sync: Globally propagating the logical lineage."
+      ],
+      "footer_brand": "CHRONOLITH: Industrial Infrastructure"
+    },
+    "es": {
+      "tagline": "Protegiendo el linaje lógico de su software.",
+      "tiers_title": "🏛️ El Ecosistema de Triple Nivel",
+      "features_title": "🧠 Características Clave (Sinfonía Intelectual)",
+      "omega_section_title": "🧠 Edición Omega: Perspectiva Cognitiva",
+      "quality_title": "🔍 Flujo de Calidad",
+      "use_cases_title": "🏛️ Casos de Uso Empresariales",
+      "use_cases_intro": "Chronolith resuelve la 'Deriva Semántica' en la colaboración humano-IA a largo plazo:",
+      "use_cases": [
+        "**Entregas entre Agentes**: Transfiera el contexto completo del proyecto entre diferentes modelos de IA (GPT-4 a Claude a LLMs locales) con cero pérdida de contexto.",
+        "**Estabilidad RAG Multi-Día**: Asegura que los sistemas de Generación Aumentada por Recuperación siempre apunten a la fuente canónica de la verdad, incluso tras reinicios del sistema.",
+        "**Restauración de Legado**: Reconstruya instantáneamente la intención arquitectónica de un proyecto años después de que el último desarrollador humano se haya ido."
+      ],
+      "editions_title": "Ediciones",
+      "languages_title": "Idiomas",
+      "sync_note": "*(Sincronización técnicaizada para Chronolith)*",
+      "overview": "Chronolith es un marco de sincronización de grado profesional diseñado para proteger el linaje lógico de su software. Nacido del **Ecosistema Ethernium**, asegura que la intención de desarrollo y las decisiones arquitectónicas se preserven en todas las entregas.",
+      "lite_desc": "**Lite**: Guardián de Cero Fricción. Optimizado para velocidad y uso diario del desarrollador.",
+      "pro_desc": "**Pro**: Motor Táctico. Guardia fronterizo de grado industrial con auditorías de seguridad y Merkle DNA.",
+      "omega_desc": "**Omega**: Oráculo Empresarial. RAG avanzado, mapas cognitivos y análisis de entropía proactivo.",
+      "feat_metabolism": "**Optimización del Metabolismo**: Motor Typ-Rich con inicio <100ms y carga perezosa de núcleos.",
+      "feat_dna": "**Síntesis de ADN**: Protección criptográfica Merkle con firmas SHA-256 de estado.",
+      "feat_cognitive": "**Gobernanza Soberana**: Guardián Centinela con Git-Hooks automáticos y logging de sesión.",
+      "feat_global": "**Simetría Global**: Documentación y soporte CLI industrial en 9 idiomas.",
+      "feat_diamond": "**Sanitización Industrial**: Purga completa de archivos UTF-16 y residuos tácticos.",
+      "omega_text": "La **edición Omega** es nuestro Oráculo de grado empresarial. Proporciona RAG avanzado, mapas cognitivos y análisis de impacto semántico para la protección de decisiones soberanas.",
+      "quality_steps": [
+        "Captura de Intención: Registro del 'Por qué' en logs estructurados.",
+        "Validación de ADN: Verificación de Merkle Root y firmas de estado.",
+        "Cristalización: Actualización del marcador DNA Crystal en el README.",
+        "Sincronización Soberana: Propagación global del linaje lógico."
+      ],
+      "footer_brand": "CHRONOLITH: Infraestructura Industrial"
+    },
+    "ja": {
+      "tagline": "ソフトウェアの論理的系統を保護します。",
+      "tiers_title": "🏛️ 3 層エコシステム",
+      "features_title": "🧠 主な機能 (知的シンフォニー)",
+      "omega_section_title": "🧠 Omega エディション: 認知的洞察",
+      "quality_title": "🔍 品質フロー",
+      "use_cases_title": "🏛️ エンタープライズのユースケース",
+      "use_cases_intro": "Chronolith は、長期的な 人間とAI のコラボレーションにおける「意味の漂流」を解決します:",
+      "use_cases": [
+        "**エージェント間のハンドオフ**: プロジェクトの全コンテキストを異なる AI モデル間 (GPT-4 から Claude、ローカル LLM) でコンテキストロスなしに転送します。",
+        "**マルチデイ RAG の安定性**: システムのリセット後でも、検索拡張生成システムが常に正規の真実のソースを指すようにします。",
+        "**レガシーの復元**: 最後の人間開発者が去ってから数年後でも、プロジェクトのアーキテクチャ上の意図を即座に再構築します。"
+      ],
+      "editions_title": "エディション",
+      "languages_title": "言語",
+      "sync_note": "*(Chronolith の技術同期)*",
+      "overview": "Chronolith は、ソフトウェアの論理的な系統を保護するために設計されたプロフェッショナル グレードの同期フレームワークです。**Ethernium エコシステム**から誕生し、開発意図とアーキテクチャ上の決定がすべてのハンドオフで確実に保持されるようにします。",
+      "lite_desc": "**Lite**: ゼロフリクション・ガーディアン。速度と日常的な開発者の使用に最適化されています。",
+      "pro_desc": "**Pro**: タクティカル・エンジン。セキュリティと同期監査を備えた産業グレードの境界ガード。",
+      "omega_desc": "**Omega**: エンタープライズ・オラクル。高度な RAG、認知マップ、および事前の影響分析。",
+      "feat_metabolism": "**代謝の最適化**: すべてのエディションで遅延読み込みを実装。CLI の即時起動 (<100ms)。",
+      "feat_dna": "**DNA 合成**: 論理的系統を保護するための `PROJECT_DNA.md` の自動生成。",
+      "feat_cognitive": "**認知インサイト (Omega)**: インタラクティブな意思決定マップと影響アラート。",
+      "feat_global": "**グローバル・アウェアネス**: 9 言語の完全なドキュメントと CLI サポート。",
+      "feat_diamond": "**ダイヤモンド・サニタイズ**: エンコード エラーと文字化けの徹底的なパージ。",
+      "omega_text": "**Omega エディション**は、当社のエンタープライズ グレードのティアです。アーキテクチャのドリフトを防ぐために、視覚的でインタラクティブな意思決定の系統と意味的な影響分析を提供します。",
+      "quality_steps": [
+        "意図の把握：「なぜ」を文書化する。",
+        "パリティチェック：エコシステムを検証する。",
+        "影響分析：意味的な矛盾を検出する。",
+        "DNA合成：コアヌクレオチドの更新。"
+      ],
+      "footer_brand": "CHRONOLITH: グローバル・インフラストラクチャ"
+    },
+    "ru": {
+      "tagline": "Защита логической преемственности вашего программного обеспечения.",
+      "tiers_title": "🏛️ Трехуровневая экосистема",
+      "features_title": "🧠 Основные характеристики (Интеллектуальная симфония)",
+      "omega_section_title": "🧠 Редакция Omega: Когнитивное прозрение",
+      "quality_title": "🔍 Поток качества",
+      "use_cases_title": "🏛️ Корпоративные сценарии использования",
+      "use_cases_intro": "Chronolith решает проблему «семантического дрейфа» при долгосрочном сотрудничестве человека и ИИ:",
+      "use_cases": [
+        "**Передача между агентами**: Перенос полного контекста проекта между различными моделями ИИ (от GPT-4 к Claude или локальным LLM) без потери контекста.",
+        "**Стабильность RAG**: Гарантирует, что системы генерации с дополнением извлечения (RAG) всегда указывают на канонический источник истины даже после перезапуска системы.",
+        "**Восстановление наследия**: Мгновенная реконструкция архитектурного замысла проекта спустя годы после ухода последнего разработчика-человека."
+      ],
+      "editions_title": "Редакции",
+      "languages_title": "Языки",
+      "sync_note": "*(Техническая синхронизация для Chronolith)*",
+      "overview": "Chronolith — это среда синхронизации профессионального уровня, предназначенная для защиты логической последовательности вашего программного обеспечения. Созданная в рамках **экосистемы Ethernium**, она гарантирует сохранение целей разработки и архитектурных решений на всех этапах передачи.",
+      "lite_desc": "**Lite**: Страж с нулевым трением. Оптимизировано для скорости и ежедневного использования разработчиками.",
+      "pro_desc": "**Pro**: Тактический движок. Промышленная пограничная защита с аудитом безопасности.",
+      "omega_desc": "**Omega**: Корпоративный оракул. Продвинутый RAG, когнитивные карты и упреждающий анализ влияния.",
+      "feat_metabolism": "**Оптимизация метаболизма**: Ленивая загрузка во всех версиях. Мгновенный запуск CLI (<100 мс).",
+      "feat_dna": "**Синтез ДНК**: Автоматическая генерация `PROJECT_DNA.md` для защиты логической линии.",
+      "feat_cognitive": "**Когнитивные инсайты (Omega)**: Интерактивные карты решений и оповещения о влиянии.",
+      "feat_global": "**Глобальная осведомленность**: Полная документация и поддержка CLI на 9 языках.",
+      "feat_diamond": "**Алмазная очистка**: Глубокое удаление ошибок кодировки и文字化け (mojibake).",
+      "omega_text": "**Редакция Omega** — это наш уровень корпоративного класса. Она обеспечивает визуальную интерактивную преемственность решений и семантический анализ влияния.",
+      "quality_steps": [
+        "Захват намерения: Документирование «Почему».",
+        "Проверка паритета: Проверка экосистемы.",
+        "Анализ влияния: Обнаружение семантических противоречий.",
+        "Синтез ДНК: Обновление основных нуклеотидов."
+      ],
+      "footer_brand": "CHRONOLITH: Глобальная инфраструктура"
+    },
+    "zh": {
+      "tagline": "保护软件的逻辑血统。",
+      "tiers_title": "🏛️ 三层生态系统",
+      "features_title": "🧠 核心特性 (智力交响曲)",
+      "omega_section_title": "🧠 Omega 版本: 认知洞察",
+      "quality_title": "🔍 质量流程",
+      "use_cases_title": "🏛️ 企业级用例",
+      "use_cases_intro": "Chronolith 解决了长期 人机协作 中的“语义漂移”问题：",
+      "use_cases": [
+        "**跨智能体交接**: 在不同的 AI 模型（从 GPT-4 到 Claude 再到本地 LLM）之间传输完整的项目上下文，实现零上下文损失。",
+          "**多日 RAG 稳定性**: 确保检索增强生成（RAG）系统即使在系统重置后，也始终指向规范的真相源。",
+          "**遗产恢复**: 在最后一名人类开发人员离开多年后，立即重建项目的架构意图。"
+      ],
+      "editions_title": "版本",
+      "languages_title": "语言",
+      "sync_note": "*(Chronolith 的本地化技术同步)*",
+      "overview": "Chronolith 是一个专业级同步框架，旨在保护软件的逻辑起源。它源自 **Ethernium 生态系统**，确保开发意图和架构决策在所有交付环节中得以保留。",
+      "lite_desc": "**Lite**: 零摩擦守护者。针对速度和日常开发人员使用进行了优化。",
+      "pro_desc": "**Pro**: 战术引擎。带有安全和同步审计的工业级边界防护。",
+      "omega_desc": "**Omega**: 企业级先知。高级 RAG、认知图谱和主动影响分析。",
+      "feat_metabolism": "**代谢优化**: 所有版本均实现延迟加载。CLI 瞬时启动 (<100ms)。",
+      "feat_dna": "**DNA 合成**: 自动生成 `PROJECT_DNA.md` 以保护逻辑血统。",
+      "feat_cognitive": "**认知洞察 (Omega)**: 交互式决策图和影响警报。",
+      "feat_global": "**全球视野**: 支持 9 种语言的完整文档和 CLI。",
+      "feat_diamond": "**钻石净化**: 深度清除编码错误和文字化け (mojibake)。",
+      "omega_text": "**Omega 版本**是我们的企业级层级。它提供可视化的交互式决策血统和语义影响分析，以防止架构漂移。",
+      "quality_steps": [
+        "意向捕获：记录“原因”。",
+        "一致性检查：验证生态系统。",
+        "影响分析：检测语义矛盾。",
+        "DNA 合成：更新核心核苷酸。"
+      ],
+      "footer_brand": "CHRONOLITH: 全球基础设施"
+    }
+  }

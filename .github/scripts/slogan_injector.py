@@ -8,10 +8,10 @@ from pathlib import Path
 SLOGAN = """
 
 ---
-*Continuity: Protecting the logical lineage of your software.*
+*Chronolith: Protecting the logical lineage of your software.*
 """
 
-EXCLUDE_DIRS = [".git", "node_modules", ".continuity", "outputs", ".pytest_cache", ".venv", "__pycache__", ".idea"]
+EXCLUDE_DIRS = [".git", "node_modules", ".chronolith", "outputs", ".pytest_cache", ".venv", "__pycache__", ".idea"]
 
 def inject():
     root = Path(".")
@@ -24,7 +24,7 @@ def inject():
                 content = f_path.read_text(encoding="utf-8")
                 
                 # Check if slogan already exists (to avoid duplicates)
-                if "*Continuity: Protecting the logical lineage of your software.*" not in content:
+                if "*Chronolith: Protecting the logical lineage of your software.*" not in content:
                     new_content = content.rstrip() + SLOGAN
                     f_path.write_text(new_content, encoding="utf-8")
                     count += 1

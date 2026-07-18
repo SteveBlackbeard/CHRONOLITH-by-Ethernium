@@ -1,10 +1,10 @@
 # CONEKTA Adapter Contract
 
-CONEKTA is an external control surface. Continuity Legacy must expose stable, local-first integration points without depending on the CONEKTA web app at package runtime.
+CONEKTA is an external control surface. Chronolith must expose stable, local-first integration points without depending on the CONEKTA web app at package runtime.
 
 ## Boundary
 
-Continuity Legacy owns:
+Chronolith owns:
 
 - package commands
 - state integrity
@@ -37,7 +37,7 @@ POST /actions/crystallize
 
 The adapter must fail closed when:
 
-- Continuity Legacy is not installed
+- Chronolith is not installed
 - `STATE.json` is invalid
 - governance health check fails
 - requested action is not available in the installed package version
@@ -45,4 +45,4 @@ The adapter must fail closed when:
 
 ## Release Rule
 
-Continuity Legacy releases must not require the CONEKTA app to build or run. CONEKTA has its own repository, checks, lint debt, and release process.
+Chronolith releases must not require the CONEKTA app to build or run. CONEKTA has its own repository, checks, lint debt, and release process.

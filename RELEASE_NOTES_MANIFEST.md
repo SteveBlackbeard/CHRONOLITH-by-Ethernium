@@ -1,26 +1,26 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Continuity Legacy Official Header">
+  <img src="https://raw.githubusercontent.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/main/banners/ethernium_header.png?raw=true" alt="Ethernium Chronolith Official Header">
 </p>
 
-[![Version](https://img.shields.io/badge/version-3.0.3-blueviolet)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/releases) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/LICENSE) [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/release/python-3100/) [![Governed Release](https://img.shields.io/badge/Governed_Release-v3.0.3-brightgreen)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium) [![Industrial Guardian](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/industrial_guardian.yml/badge.svg)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/actions/workflows/industrial_guardian.yml)
+[![Version](https://img.shields.io/badge/version-3.0.3-blueviolet)](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/releases) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/blob/main/LICENSE) [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/release/python-3100/) [![Governed Release](https://img.shields.io/badge/Governed_Release-v3.0.3-brightgreen)](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium) [![Industrial Guardian](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/actions/workflows/industrial_guardian.yml/badge.svg)](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/actions/workflows/industrial_guardian.yml)
 
 #### Languages
-[![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_es.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/RELEASE_NOTES_MANIFEST.md) [![KO](https://img.shields.io/badge/KO-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ko.md) [![AR](https://img.shields.io/badge/AR-white)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ar.md)
+[![ES](https://img.shields.io/badge/ES-white)](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/blob/main/OTHER_LANGUAGES/README_es.md) [![EN](https://img.shields.io/badge/EN-white)](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/blob/main/RELEASE_NOTES_MANIFEST.md) [![KO](https://img.shields.io/badge/KO-white)](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ko.md) [![AR](https://img.shields.io/badge/AR-white)](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/blob/main/OTHER_LANGUAGES/README_ar.md)
 
 **"The AI doesn't just remember; it reflects."** 
 
 ## v3.0.3: GOVERNED RELEASE CANDIDATE
-This release candidate turns Continuity Legacy from a package family with integrity tools into a governed Python framework with explicit contracts, golden baseline verification, and cleaner separation from dashboard tooling.
+This release candidate turns Chronolith from a package family with integrity tools into a governed Python framework with explicit contracts, golden baseline verification, and cleaner separation from dashboard tooling.
 
 ### Release Asset
 The canonical banner for this release is `banners/ethernium_header.png`.
 
 ### What Changed
 - All four package lines are prepared for `3.0.3`: `legacy`, `lite`, `pro`, and `omega`.
-- Governance now has machine-readable guardrails in `.continuity/rulebook.json` and `.continuity/feature-registry.json`.
+- Governance now has machine-readable guardrails in `.chronolith/rulebook.json` and `.chronolith/feature-registry.json`.
 - Golden baseline refreshes require a documented change contract.
 - KO and AR language entry points are present at the root documentation level.
-- Continuity Conekta remains a separate dashboard product and is not reintroduced into the Python package.
+- Chronolith Conekta remains a separate dashboard product and is not reintroduced into the Python package.
 - AgentOps is documented as a separate incubated tool, not a release dependency.
 
 ### Quality Gates
@@ -41,23 +41,23 @@ This hotfix locks CLI stability on Windows and repairs the Tokenator entrypoint 
 
 ### Fixes (v3.0.2):
 - **CLI Unicode Stability**: Standardized console output for Windows `cp1252` environments to prevent `--help` crashes.
-- **Tokenator Entrypoint**: Restored `continuity-tokens` to the real module (`tokenator`) so it executes correctly.
+- **Tokenator Entrypoint**: Restored `chronolith-tokens` to the real module (`tokenator`) so it executes correctly.
 - **Typer Dependency Cleanup**: Removed invalid `typer[all]` extra across packages.
 - **Package Refresh**: Rebuilt and validated all four wheels (`legacy`, `lite`, `pro`, `omega`).
 
 ### PyPI Links (v3.0.2)
-- `https://pypi.org/project/ethernium-continuity-legacy/3.0.2/`
-- `https://pypi.org/project/ethernium-continuity-lite/3.0.2/`
-- `https://pypi.org/project/ethernium-continuity-pro/3.0.2/`
-- `https://pypi.org/project/ethernium-continuity-omega/3.0.2/`
+- `https://pypi.org/project/chronolith/3.0.2/`
+- `https://pypi.org/project/chronolith-lite/3.0.2/`
+- `https://pypi.org/project/chronolith-pro/3.0.2/`
+- `https://pypi.org/project/chronolith-omega/3.0.2/`
 
 ---
 
 ## 🌌 v3.0.1: THE GREAT CONJUNCTION (MODULAR)
-This landmark release marks the transition of **Continuity Legacy** into its final, modular industrial form. All core protocols have been decentralized and projected onto PyPI for global synchronization.
+This landmark release marks the transition of **Chronolith** into its final, modular industrial form. All core protocols have been decentralized and projected onto PyPI for global synchronization.
 
 ### 🧩 Key Innovations (v3.0.1):
-- **Modular Isolation**: The monolithic core has been split into 4 independent distribution nodes: `ethernium-continuity-legacy`, `-lite`, `-pro`, and `-omega`.
+- **Modular Isolation**: The monolithic core has been split into 4 independent distribution nodes: `chronolith`, `-lite`, `-pro`, and `-omega`.
 - **Functional Nexus Dashboard**: The glassmorphic HUD is now active. You can command **DNA Synthesis** and **Industrial Audits** directly from the visual interface.
 - **PyPI Synchronization**: Official branding is now enforced across the global package registry under the `ethernium-` prefix.
 - **Hardened Handshake**: CI/CD pipelines now use a direct API-Token handshake to bypass security-identity drift during publication.
@@ -78,15 +78,15 @@ Welcome to the **NEXUS Phase**. This version (v2.11.0) was the foundation of the
 
 ##  Choose Your Edition
 
-[![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-lite/)
+[![LITE](https://raw.githubusercontent.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/main/assets/banners/LEGACYlite.png?raw=true)](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/blob/main/chronolith-lite/)
 
 _Minimalist local sync with DNA Synthesis for zero-loss handoffs._
 
-[![PRO](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYPRO.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-pro/)
+[![PRO](https://raw.githubusercontent.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/main/assets/banners/LEGACYPRO.png?raw=true)](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/blob/main/chronolith-pro/)
 
 _Industrial-grade border guard with security audits and global synchronization._
 
-[![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium/blob/main/continuity-omega/)
+[![OMEGA](https://raw.githubusercontent.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/main/assets/banners/LEGACYOMEGA.png?raw=true)](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium/blob/main/chronolith-omega/)
 
 _The NEXUS Core: Advanced RAG, 3D mapping, and hardened encryption._
 
@@ -100,4 +100,4 @@ NEXUS is no longer just for software. It is a universal framework for:
 - **Worldbuilding**: Synchronizing the "Truth" of fictional universes.
 
 ---
-*Continuity Legacy: Protecting the logical lineage of your software.*
+*Chronolith: Protecting the logical lineage of your software.*

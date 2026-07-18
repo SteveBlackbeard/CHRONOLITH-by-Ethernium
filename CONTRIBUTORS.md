@@ -1,12 +1,12 @@
-# Contributing to Continuity
+# Contributing to Chronolith
 
 We value technical rigor, contextual fidelity, and clean code.
 
 ## Guidelines
 
-- **Parity First**: Always run the continuity cycle (`--strict`) before pushing.
-- **Maintain Context**: Update `.continuity/DECISIONS_LOG.md` for any architectural changes.
+- **Parity First**: Always run the chronolith cycle (`--strict`) before pushing.
+- **Maintain Context**: Update `.chronolith/DECISIONS_LOG.md` for any architectural changes.
 - **Micro-Commitments**: Use professional commit messages (Conventional Commits).
 
 ---
-*Continuity Legacy: Protecting the logical lineage of your software.*
+*Chronolith: Protecting the logical lineage of your software.*

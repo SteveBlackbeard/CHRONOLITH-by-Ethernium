@@ -9,8 +9,8 @@ from pathlib import Path
 # 3. Ensures badges are correctly linked in all translations.
 # 4. Removes redundant legacy files.
 
-NEW_TITLE_EN = "Continuity Legacy: Persistent Cognitive Layer 🧬"
-SLOGAN = "\n\n---\n*Continuity Legacy: Protecting the logical lineage of your software.*"
+NEW_TITLE_EN = "Chronolith: Persistent Cognitive Layer 🧬"
+SLOGAN = "\n\n---\n*Chronolith: Protecting the logical lineage of your software.*"
 
 TRANSLATIONS = {
     "es": "Capa Cognitiva Persistente",
@@ -66,10 +66,10 @@ def refine_system():
             if f_path.parent.name == "OTHER_LANGUAGES":
                 lang_code = f_path.name.split("_")[1].split(".")[0]
                 title_trans = TRANSLATIONS.get(lang_code, NEW_TITLE_EN)
-                content = re.sub(r'# Continuity Legacy: .*', f"# Continuity Legacy: {title_trans} 🧬", content)
+                content = re.sub(r'# Chronolith: .*', f"# Chronolith: {title_trans} 🧬", content)
             else:
                 # Root README title already done, but ensuring here
-                content = re.sub(r'# Continuity Legacy: .*', f"# Continuity Legacy: Persistent Cognitive Layer 🧬", content)
+                content = re.sub(r'# Chronolith: .*', f"# Chronolith: Persistent Cognitive Layer 🧬", content)
             changed = True
 
         # Ensure slogan

@@ -2,7 +2,7 @@ from pathlib import Path
 
 hook = (
     "#!/bin/sh\n"
-    "# Continuity Sentinel Guardian (v2.4.2 - Fail-Closed)\n"
+    "# Chronolith Sentinel Guardian (v2.4.2 - Fail-Closed)\n"
     "echo '[*] Ethernium: Guarding DNA Lineage...'\n"
     "python .github/scripts/crystalize.py\n"
     "RESULT=$?\n"

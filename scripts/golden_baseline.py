@@ -1,4 +1,4 @@
-"""Golden baseline verifier for Continuity Legacy.
+"""Golden baseline verifier for Chronolith.
 
 The baseline records hashes for a small set of canonical files. It is not a
 full-repository lockfile; it protects release-critical governance and identity
@@ -17,7 +17,7 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-BASELINE_PATH = ROOT / ".continuity" / "golden-baseline.json"
+BASELINE_PATH = ROOT / ".chronolith" / "golden-baseline.json"
 
 DEFAULT_PATHS = [
     "LICENSE",
@@ -29,8 +29,8 @@ DEFAULT_PATHS = [
     "GOVERNANCE.md",
     "STATE.json",
     "PROJECT_DNA.ene.md.locked",
-    ".continuity/rulebook.json",
-    ".continuity/feature-registry.json",
+    ".chronolith/rulebook.json",
+    ".chronolith/feature-registry.json",
     ".github/workflows/industrial_guardian.yml",
     "scripts/health_guard.py",
     "scripts/autophagy_report.py",
@@ -69,7 +69,7 @@ def build_baseline(paths: list[str], contract: str | None = None) -> dict[str, A
 
     return {
         "version": "1.0.0",
-        "scope": "continuity-legacy-golden-baseline",
+        "scope": "chronolith-legacy-golden-baseline",
         "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "generated_by": "python scripts/golden_baseline.py refresh",
         "change_contract": contract,
@@ -153,7 +153,7 @@ def list_files() -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Verify or refresh the Continuity golden baseline.")
+    parser = argparse.ArgumentParser(description="Verify or refresh the Chronolith golden baseline.")
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("verify", help="Verify tracked files against the golden baseline.")
     refresh_parser = subparsers.add_parser("refresh", help="Refresh the golden baseline after human-approved changes.")

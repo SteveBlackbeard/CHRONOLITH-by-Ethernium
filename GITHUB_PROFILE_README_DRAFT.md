@@ -13,8 +13,8 @@ My work moves between code, lore, systems design, visual experiments, release en
 
 | Project | Status | Focus |
 | --- | --- | --- |
-| [Continuity Legacy](https://github.com/SteveBlackbeard/CONTINUITY-LEGACY-by-Ethernium) | Public | AI-human continuity, governance, integrity gates, release discipline |
-| CONEKTA | Private / in development | Dashboard and interface layer for continuity-aware workflows |
+| [Chronolith](https://github.com/SteveBlackbeard/CHRONOLITH-by-Ethernium) | Public | AI-human chronolith, governance, integrity gates, release discipline |
+| CONEKTA | Private / in development | Dashboard and interface layer for chronolith-aware workflows |
 | ROBIN HOOD | Private / prototype | Token frugality, context packing, prompt-risk scanning, agent operations |
 | [ethernium.io](https://ethernium.io) | In development | Ethernium ecosystem gateway |
 | New Eden Dreams | In development | AI, lore, community and creative-world experiments |
@@ -41,7 +41,7 @@ AI systems          -> LLM workflows, prompt-risk control, agent operations
 Creative AI         -> image generation, AI video, music, editing, visual direction
 Automation          -> local scripts, release gates, CI, repeatable workflows
 Governance          -> rulebooks, baselines, Merkle integrity, handoff protocols
-Symbolic design     -> lore systems, identity layers, maps, keys, continuity
+Symbolic design     -> lore systems, identity layers, maps, keys, chronolith
 Product building    -> Python packages, dashboards, docs, private tools
 ```
 

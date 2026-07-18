@@ -1,0 +1,75 @@
+{
+  "change_contract": "docs/change-contracts/2026-06-20-synergic-frugality-principle.md",
+  "files": {
+    ".chronolith/feature-registry.json": {
+      "bytes": 2395,
+      "sha256": "67ee6cd1d7a287629e54bf58b16cb5052d22eb3c30b6615b42283c0b16ef48d4"
+    },
+    ".chronolith/rulebook.json": {
+      "bytes": 3294,
+      "sha256": "910c341eabd11ddb73975272a89cccded4ea88c2ab7553663fe7f1d1f3922c2a"
+    },
+    ".github/workflows/industrial_guardian.yml": {
+      "bytes": 3978,
+      "sha256": "e35e688e23742142b194f72b93d4bc059e5bc172b854aae09503151f9fd3c404"
+    },
+    "GOVERNANCE.md": {
+      "bytes": 1644,
+      "sha256": "91b368e5bc9d002ef5884351f25c86fd383e54c3f0a80fabe5276d5266bd283e"
+    },
+    "LICENSE": {
+      "bytes": 1088,
+      "sha256": "d3a0020af058f178cc2a75469f41c867afea80dd10422826457ee5b9c05ee0b0"
+    },
+    "PROJECT_CONTEXT.md": {
+      "bytes": 5270,
+      "sha256": "e2e92d1a94e23751ad6fd94694742add9fd3cb3888e701b89f95c487b144a1bf"
+    },
+    "PROJECT_DNA.ene.md.locked": {
+      "bytes": 8204,
+      "sha256": "1b10779ee96ad6b4f7aef99f1d3af7a6275ce3e04ba9bc008ba90009e4b7db27"
+    },
+    "PROJECT_DNA.md": {
+      "bytes": 6123,
+      "sha256": "bc3df99de498dbdb4891c128f96354ba4547dca4e93bd9fd138e7c777db6a7ab"
+    },
+    "README.md": {
+      "bytes": 24310,
+      "sha256": "d3666f3b3b08e4b7eee25b41801d5cc788044a4f8a2fe25053ddfa3452746c7f"
+    },
+    "STATE.json": {
+      "bytes": 1919,
+      "sha256": "3c1fd9fc6662f318ee1ffd403a3b8d5bb24331871368ec1de4782a065929d79e"
+    },
+    "VERSION": {
+      "bytes": 6,
+      "sha256": "db65b7b653f7c33a2c1f9fd381f5fbe089a389f063567831785baf4b2e1497e9"
+    },
+    "pyproject.toml": {
+      "bytes": 2069,
+      "sha256": "e52ab956998bb6d20503526459f31f70d61a1d032993dd186e8aeb5a14ad169c"
+    },
+    "scripts/autophagy_report.py": {
+      "bytes": 5130,
+      "sha256": "e0832039af3b3148d23aed4ca327f96730a976f278011c705483c7d5cd5e32e3"
+    },
+    "scripts/golden_baseline.py": {
+      "bytes": 5986,
+      "sha256": "128e27474436f03ebc90fbc08f8de24f58503a2d20e46153e914ce65970f0a36"
+    },
+    "scripts/health_guard.py": {
+      "bytes": 7923,
+      "sha256": "8953848171661478b9cbd2d65952649c587872632b58349b2905267993c95a38"
+    }
+  },
+  "generated_at": "2026-06-20T12:38:32+00:00",
+  "generated_by": "python scripts/golden_baseline.py refresh",
+  "policy": {
+    "destructive": false,
+    "refresh_requires_contract_when_existing": true,
+    "refresh_requires_human_intent": true,
+    "tracks_release_critical_files_only": true
+  },
+  "scope": "chronolith-legacy-golden-baseline",
+  "version": "1.0.0"
+}

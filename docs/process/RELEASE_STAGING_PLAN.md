@@ -56,15 +56,15 @@ git commit -m "feat: sovereign dashboard asset runtime and local ai bridge"
 Review these separately before staging:
 
 - `.github/scripts/audit_comparison.py`
-- `continuity-pro/...`
-- `continuity-omega/...`
-- `continuity-pro/tests/test_logic.py`
+- `chronolith-pro/...`
+- `chronolith-omega/...`
+- `chronolith-pro/tests/test_logic.py`
 - `pytest.ini`
 
 Suggested commit after review:
 
 ```bash
-git commit -m "feat: continuity runtime and package hardening"
+git commit -m "feat: chronolith runtime and package hardening"
 ```
 
 ## 4. Docs / release notes set

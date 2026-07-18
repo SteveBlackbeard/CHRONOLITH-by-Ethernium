@@ -1,0 +1,9 @@
+﻿# CHRONOLITH: Local Ignore
+__pycache__/
+*.py[cod]
+*.class
+dist/
+build/
+*.egg-info/
+.chronolith/omega_index/
+outputs/chronolith/

@@ -59,16 +59,16 @@ $conektaPath = if ([System.IO.Path]::IsPathRooted($ConektaPath)) { $ConektaPath 
 $conektaEnvExample = Join-Path $conektaPath ".env.example"
 $conektaEnvLocal = Join-Path $conektaPath ".env.local"
 
-$rootWheel = Get-ChildItem (Join-Path $repoRoot "dist") -Filter "ethernium_continuity_legacy-*.whl" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-$liteWheel = Get-ChildItem (Join-Path $repoRoot "continuity-lite\dist") -Filter "ethernium_continuity_lite-*.whl" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-$proWheel = Get-ChildItem (Join-Path $repoRoot "continuity-pro\dist") -Filter "ethernium_continuity_pro-*.whl" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-$omegaWheel = Get-ChildItem (Join-Path $repoRoot "continuity-omega\dist") -Filter "ethernium_continuity_omega-*.whl" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+$rootWheel = Get-ChildItem (Join-Path $repoRoot "dist") -Filter "chronolith-*.whl" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+$liteWheel = Get-ChildItem (Join-Path $repoRoot "chronolith-lite\dist") -Filter "ethernium_chronolith_lite-*.whl" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+$proWheel = Get-ChildItem (Join-Path $repoRoot "chronolith-pro\dist") -Filter "chronolith_pro-*.whl" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+$omegaWheel = Get-ChildItem (Join-Path $repoRoot "chronolith-omega\dist") -Filter "ethernium_chronolith_omega-*.whl" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 
 Assert-Path $repoRoot "Repository root not found: $repoRoot"
 if (-not $rootWheel) { throw "Missing root wheel in dist/. Build artifacts are required before bootstrap." }
-if (-not $liteWheel) { throw "Missing Lite wheel in continuity-lite/dist/." }
-if (-not $proWheel) { throw "Missing Pro wheel in continuity-pro/dist/." }
-if (-not $omegaWheel) { throw "Missing Omega wheel in continuity-omega/dist/." }
+if (-not $liteWheel) { throw "Missing Lite wheel in chronolith-lite/dist/." }
+if (-not $proWheel) { throw "Missing Pro wheel in chronolith-pro/dist/." }
+if (-not $omegaWheel) { throw "Missing Omega wheel in chronolith-omega/dist/." }
 
 Write-Step "Creating or reusing virtual environment at $venvPath"
 if (-not (Test-Path $venvPath)) {
@@ -90,10 +90,10 @@ Write-Step "Installing local wheel artifacts"
 & $venvPip install $proWheel.FullName
 & $venvPip install $omegaWheel.FullName
 
-Write-Step "Validating core Continuity CLI commands"
-& $venvPython -m continuity_legacy --help | Out-Null
-& $venvPython -m continuity_legacy status | Out-Null
-& $venvPython -m continuity_legacy init --help | Out-Null
+Write-Step "Validating core Chronolith CLI commands"
+& $venvPython -m chronolith --help | Out-Null
+& $venvPython -m chronolith status | Out-Null
+& $venvPython -m chronolith init --help | Out-Null
 
 if (-not $SkipDashboard -and (Test-Path $conektaPath)) {
     Write-Step "Preparing CONEKTA environment"
@@ -102,14 +102,14 @@ if (-not $SkipDashboard -and (Test-Path $conektaPath)) {
         Copy-Item $conektaEnvExample $conektaEnvLocal
     }
 
-    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_CHAT_PROVIDER" -Value $ChatProvider
-    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_OPENCLAW_BASE_URL" -Value $OpenClawBaseUrl
-    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_OLLAMA_BASE_URL" -Value $OllamaBaseUrl
-    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_MOLTBOT_BASE_URL" -Value $MoltbotBaseUrl
-    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_OLLAMA_MODEL" -Value $OllamaModel
-    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_OPENCLAW_ENABLED" -Value ($(if ($ChatProvider -eq "openclaw") { "true" } else { "false" }))
-    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_OLLAMA_ENABLED" -Value ($(if ($ChatProvider -eq "ollama") { "true" } else { "false" }))
-    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CONTINUITY_MOLTBOT_ENABLED" -Value ($(if ($ChatProvider -eq "moltbot") { "true" } else { "false" }))
+    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CHRONOLITH_CHAT_PROVIDER" -Value $ChatProvider
+    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CHRONOLITH_OPENCLAW_BASE_URL" -Value $OpenClawBaseUrl
+    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CHRONOLITH_OLLAMA_BASE_URL" -Value $OllamaBaseUrl
+    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CHRONOLITH_MOLTBOT_BASE_URL" -Value $MoltbotBaseUrl
+    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CHRONOLITH_OLLAMA_MODEL" -Value $OllamaModel
+    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CHRONOLITH_OPENCLAW_ENABLED" -Value ($(if ($ChatProvider -eq "openclaw") { "true" } else { "false" }))
+    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CHRONOLITH_OLLAMA_ENABLED" -Value ($(if ($ChatProvider -eq "ollama") { "true" } else { "false" }))
+    Set-Or-AppendEnvLine -FilePath $conektaEnvLocal -Key "CHRONOLITH_MOLTBOT_ENABLED" -Value ($(if ($ChatProvider -eq "moltbot") { "true" } else { "false" }))
 
     Write-Step "Installing CONEKTA dependencies"
     Push-Location $conektaPath
@@ -138,7 +138,7 @@ Write-Host "Chat provider: $ChatProvider" -ForegroundColor Green
 Write-Host ""
 Write-Host "PyPI upload was intentionally skipped." -ForegroundColor Yellow
 Write-Host "When ready, upload from a machine with Twine credentials using:" -ForegroundColor Yellow
-Write-Host "  python -m twine upload dist/ethernium_continuity_legacy-*.whl dist/ethernium_continuity_legacy-*.tar.gz"
-Write-Host "  python -m twine upload continuity-lite/dist/ethernium_continuity_lite-*.whl continuity-lite/dist/ethernium_continuity_lite-*.tar.gz"
-Write-Host "  python -m twine upload continuity-pro/dist/ethernium_continuity_pro-*.whl continuity-pro/dist/ethernium_continuity_pro-*.tar.gz"
-Write-Host "  python -m twine upload continuity-omega/dist/ethernium_continuity_omega-*.whl continuity-omega/dist/ethernium_continuity_omega-*.tar.gz"
+Write-Host "  python -m twine upload dist/chronolith-*.whl dist/chronolith-*.tar.gz"
+Write-Host "  python -m twine upload chronolith-lite/dist/ethernium_chronolith_lite-*.whl chronolith-lite/dist/ethernium_chronolith_lite-*.tar.gz"
+Write-Host "  python -m twine upload chronolith-pro/dist/chronolith_pro-*.whl chronolith-pro/dist/chronolith_pro-*.tar.gz"
+Write-Host "  python -m twine upload chronolith-omega/dist/ethernium_chronolith_omega-*.whl chronolith-omega/dist/ethernium_chronolith_omega-*.tar.gz"

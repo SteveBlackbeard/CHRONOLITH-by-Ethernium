@@ -63,7 +63,7 @@ Describe how to disable, revert, or isolate the change.
 
 ## Handoff
 
-Update `.continuity/LIVE_HANDOFF.md` or the relevant session log with:
+Update `.chronolith/LIVE_HANDOFF.md` or the relevant session log with:
 
 - final state
 - warnings

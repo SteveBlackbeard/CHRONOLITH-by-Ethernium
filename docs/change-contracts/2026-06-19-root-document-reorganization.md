@@ -2,11 +2,11 @@
 
 ## Scope
 
-Reduce root-level documentation and demo noise without changing Continuity Legacy runtime behavior.
+Reduce root-level documentation and demo noise without changing Chronolith runtime behavior.
 
 ## Reason
 
-Continuity Legacy is now released and governed. The repository root should present the product surface first: README, package metadata, governance, security, core editions, tests, scripts, and canonical docs.
+Chronolith is now released and governed. The repository root should present the product surface first: README, package metadata, governance, security, core editions, tests, scripts, and canonical docs.
 
 Process logs, release staging notes, session token reports, archived portal artifacts, and demo folders remain useful, but they should not dominate the first repository view.
 
@@ -24,8 +24,8 @@ Process logs, release staging notes, session token reports, archived portal arti
 ## Files Updated
 
 - `README.md`
-- `.continuity/rulebook.json`
-- `.continuity/LIVE_HANDOFF.md`
+- `.chronolith/rulebook.json`
+- `.chronolith/LIVE_HANDOFF.md`
 - `scripts/autophagy_report.py`
 - `docs/EDITOR_AGENT_INTEGRATION.md`
 - `docs/process/README.md`

@@ -1,4 +1,4 @@
-"""Phase 1 governance checks for Continuity Legacy.
+"""Phase 1 governance checks for Chronolith.
 
 The guard is intentionally conservative in its first phase: it fails on
 structural corruption and reports legacy cleanup issues as warnings unless
@@ -18,8 +18,8 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RULEBOOK_PATH = ROOT / ".continuity" / "rulebook.json"
-REGISTRY_PATH = ROOT / ".continuity" / "feature-registry.json"
+RULEBOOK_PATH = ROOT / ".chronolith" / "rulebook.json"
+REGISTRY_PATH = ROOT / ".chronolith" / "feature-registry.json"
 
 
 @dataclass(frozen=True)
@@ -88,7 +88,7 @@ def check_registry(registry: dict[str, Any]) -> list[Finding]:
 
 def check_json_state_files() -> list[Finding]:
     findings: list[Finding] = []
-    for item in ("STATE.json", ".continuity/STATE.json"):
+    for item in ("STATE.json", ".chronolith/STATE.json"):
         path = ROOT / item
         if path.exists():
             _, errors = load_json(path)
@@ -193,7 +193,7 @@ def print_findings(findings: list[Finding]) -> None:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Continuity Legacy governance health guard.")
+    parser = argparse.ArgumentParser(description="Chronolith governance health guard.")
     parser.add_argument("--strict", action="store_true", help="Treat warnings as errors.")
     args = parser.parse_args(argv)
 
