@@ -142,3 +142,8 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: ${{ matrix.package-path }}/dist/
+          # Four packages share one run. When one fails and the others have
+          # already published, the retry must not fail on the versions that
+          # succeeded — PyPI rejects a re-upload of an existing version, and
+          # that rejection says nothing about the package being retried.
+          skip-existing: true
