@@ -1,5 +1,5 @@
 {
-  "change_contract": "docs/change-contracts/2026-07-18-golden-baseline-post-rename.md",
+  "change_contract": "docs/change-contracts/2026-07-18-release-3-2-1.md",
   "files": {
     ".chronolith/feature-registry.json": {
       "bytes": 2395,
@@ -35,11 +35,11 @@
     },
     "VERSION": {
       "bytes": 6,
-      "sha256": "33bdaf9e2d6bcbde2e4e613e865e403f8fe21fc621078d34c30b0bdc7f68d903"
+      "sha256": "3822728783049fc2f22a56d1ee74d62352c49fbf81c6b54b50830d6f61c3af22"
     },
     "pyproject.toml": {
       "bytes": 1989,
-      "sha256": "54ad81528d478d78790596eb8bdebbb1340321a78c93cac9309732f90ee98241"
+      "sha256": "f6b9574bce0ec80a092165036cc99c7c81b20eb60911ad2e66ff1baf39ea1fea"
     },
     "scripts/autophagy_report.py": {
       "bytes": 5123,
@@ -54,7 +54,7 @@
       "sha256": "1ea4933b3e1a847ba226e530586f362c75ff92e1df08dd3069d3c6ba23381a71"
     }
   },
-  "generated_at": "2026-07-19T02:32:18+00:00",
+  "generated_at": "2026-07-19T07:01:45+00:00",
   "generated_by": "python scripts/golden_baseline.py refresh",
   "policy": {
     "destructive": false,

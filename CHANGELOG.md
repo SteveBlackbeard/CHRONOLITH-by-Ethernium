@@ -2,6 +2,37 @@
 
 All notable changes to the Chronolith ecosystem will be documented in this file.
 
+## [3.2.1] - 2026-07-18
+### Commands that never ran, and checks that never passed
+- **`chain` worked for the first time.** It rendered the transparency chain
+  using rich's `Table` without importing it, so it raised `NameError` on every
+  invocation since the rename — a documented, shipped command that had never
+  once succeeded. Nothing executed it, so nothing noticed.
+- Added a CLI surface test that discovers commands from the Typer app and runs
+  the read-only ones against a real project. A command may refuse; it may not
+  crash. Verified by reintroducing the bug and confirming the suite fails.
+- **The Sentinel had never succeeded either.** `git add` aborts across all its
+  arguments when one path is missing, and `SESSION_TOKEN_REPORT.md` is not in
+  this repository, so nothing was ever staged. The drift check then read the
+  working tree rather than the index and committed with an empty stage.
+- **The Guardian and the Sentinel were fighting each other.** The Sentinel
+  rewrites `README.md` and `STATE.json` on every push and commits them, and the
+  golden baseline governed both, so the Sentinel's own commit was reported as
+  drift. Machine-regenerated files are now out of the governed set.
+- Refreshed the golden baseline, stale since the rename, through a change
+  contract — verified against `git cat-file` rather than the local working tree.
+- `health_guard` required `docs/CHRONOLITH_GOVERNANCE_KERNEL.md` while the file
+  still carried its pre-rename name.
+- The secret scanner could not see private keys: the extension filter skipped
+  `.priv` before reading it, and every pattern was a text regex. It now reports
+  key material ahead of that filter and separates tracked from untracked.
+- Root-level `pytest` no longer reports 34 false failures caused by the three
+  editions shadowing each other's `chronolith` package.
+- Releases publish through Trusted Publishing. No API token exists in the
+  workflow, and each edition's tests now run against the built wheel instead of
+  the working tree.
+- README no longer advertises a 3D dashboard this repository does not ship.
+
 ## [3.0.3] - 2026-06-18
 ### Governed Release Candidate
 - Raised all package metadata from `3.0.2` to `3.0.3` for the next immutable PyPI release line.
