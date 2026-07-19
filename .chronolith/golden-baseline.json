@@ -1,29 +1,29 @@
 {
-  "change_contract": "docs/change-contracts/2026-06-20-synergic-frugality-principle.md",
+  "change_contract": "docs/change-contracts/2026-07-18-golden-baseline-post-rename.md",
   "files": {
     ".chronolith/feature-registry.json": {
       "bytes": 2395,
-      "sha256": "67ee6cd1d7a287629e54bf58b16cb5052d22eb3c30b6615b42283c0b16ef48d4"
+      "sha256": "a61ea1cd365a22dca9ae61df4e2cd1681a269a2b0749dc51ce30b2bcdfdee0b4"
     },
     ".chronolith/rulebook.json": {
       "bytes": 3294,
-      "sha256": "910c341eabd11ddb73975272a89cccded4ea88c2ab7553663fe7f1d1f3922c2a"
+      "sha256": "c828f3592c577d25af259697f2d96e5bf57cb15d85a3e595c5dd8cb2383c2912"
     },
     ".github/workflows/industrial_guardian.yml": {
-      "bytes": 3978,
-      "sha256": "e35e688e23742142b194f72b93d4bc059e5bc172b854aae09503151f9fd3c404"
+      "bytes": 4519,
+      "sha256": "86d5ccd6a4697a12ba267029db07f6d2a2b4895ac68b62f9597cb25d532ecdb3"
     },
     "GOVERNANCE.md": {
-      "bytes": 1644,
-      "sha256": "91b368e5bc9d002ef5884351f25c86fd383e54c3f0a80fabe5276d5266bd283e"
+      "bytes": 1637,
+      "sha256": "ccab3232acb25857b9937071b7ba04877ddcf1524c626b11df380c94b49645f5"
     },
     "LICENSE": {
       "bytes": 1088,
       "sha256": "d3a0020af058f178cc2a75469f41c867afea80dd10422826457ee5b9c05ee0b0"
     },
     "PROJECT_CONTEXT.md": {
-      "bytes": 5270,
-      "sha256": "e2e92d1a94e23751ad6fd94694742add9fd3cb3888e701b89f95c487b144a1bf"
+      "bytes": 5249,
+      "sha256": "a694bcd51e1fcf38b9eb83fc57f7cf1b9894b4c75977970e2f6be3e4a8a3ee97"
     },
     "PROJECT_DNA.ene.md.locked": {
       "bytes": 8204,
@@ -31,11 +31,11 @@
     },
     "PROJECT_DNA.md": {
       "bytes": 6123,
-      "sha256": "bc3df99de498dbdb4891c128f96354ba4547dca4e93bd9fd138e7c777db6a7ab"
+      "sha256": "eb3b66c21700a7392ec97ee2d762d37404fe3817d2d9d1088f3603e07d1371af"
     },
     "README.md": {
-      "bytes": 24310,
-      "sha256": "d3666f3b3b08e4b7eee25b41801d5cc788044a4f8a2fe25053ddfa3452746c7f"
+      "bytes": 26496,
+      "sha256": "dd5c329278b21c99f405fd5b3241273aee90ce587e82da108d924f733b04ca52"
     },
     "STATE.json": {
       "bytes": 1919,
@@ -43,26 +43,26 @@
     },
     "VERSION": {
       "bytes": 6,
-      "sha256": "db65b7b653f7c33a2c1f9fd381f5fbe089a389f063567831785baf4b2e1497e9"
+      "sha256": "33bdaf9e2d6bcbde2e4e613e865e403f8fe21fc621078d34c30b0bdc7f68d903"
     },
     "pyproject.toml": {
-      "bytes": 2069,
-      "sha256": "e52ab956998bb6d20503526459f31f70d61a1d032993dd186e8aeb5a14ad169c"
+      "bytes": 1989,
+      "sha256": "54ad81528d478d78790596eb8bdebbb1340321a78c93cac9309732f90ee98241"
     },
     "scripts/autophagy_report.py": {
-      "bytes": 5130,
-      "sha256": "e0832039af3b3148d23aed4ca327f96730a976f278011c705483c7d5cd5e32e3"
+      "bytes": 5123,
+      "sha256": "053bcabce55a7dfda0bd7a7753462ab782264571b660cd4eb6406870eacd0fec"
     },
     "scripts/golden_baseline.py": {
-      "bytes": 5986,
-      "sha256": "128e27474436f03ebc90fbc08f8de24f58503a2d20e46153e914ce65970f0a36"
+      "bytes": 5979,
+      "sha256": "e161443203e31e445baba782795ab720a5f124e941a507c5b193df63a30ac32f"
     },
     "scripts/health_guard.py": {
-      "bytes": 7923,
-      "sha256": "8953848171661478b9cbd2d65952649c587872632b58349b2905267993c95a38"
+      "bytes": 7909,
+      "sha256": "1ea4933b3e1a847ba226e530586f362c75ff92e1df08dd3069d3c6ba23381a71"
     }
   },
-  "generated_at": "2026-06-20T12:38:32+00:00",
+  "generated_at": "2026-07-19T02:29:55+00:00",
   "generated_by": "python scripts/golden_baseline.py refresh",
   "policy": {
     "destructive": false,
