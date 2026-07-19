@@ -6,7 +6,7 @@
 
 #### Editions
 
-[![LITE](https://img.shields.io/badge/Edition-LITE-black)](../chronolith-lite/) [![PRO](https://img.shields.io/badge/Edition-PRO-black)](../chronolith/) [![OMEGA](https://img.shields.io/badge/Edition-OMEGA-black)](../chronolith-omega/)
+[![LITE](https://img.shields.io/badge/Edition-LITE-black)](../../chronolith-lite/) [![PRO](https://img.shields.io/badge/Edition-PRO-black)](../../chronolith-pro/) [![OMEGA](https://img.shields.io/badge/Edition-OMEGA-black)](../../chronolith-omega/)
 
 
 
