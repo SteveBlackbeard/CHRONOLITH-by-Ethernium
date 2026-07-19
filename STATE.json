@@ -1,18 +1,18 @@
 {
   "phase": "stable",
   "last_update": "2026-04-05T10:55:45.281220",
-  "signature": "b5afa32b28628371527aab2ab234baf7eeb2abeaf8b1f233e334024f5724dbe3",
-  "merkle_root": "1e52590d8d0544a69dda23a3d9716e91fb766063a1572ccd7d5e6a81dd12f34d",
-  "last_check": "2026-07-19T08:56:28.856033",
+  "signature": "b6502867546d72fda31e0fb9b932740c8d57bb82d3fcc3a568d216828e7baf6e",
+  "merkle_root": "e373d38b7fa7c765e34ba11cf88be8fa6f758dac3b4a247f9b190afa3fe23e49",
+  "last_check": "2026-07-19T09:11:27.670004",
   "physics": {
-    "H": 4.941141,
+    "H": 4.926613,
     "H_max": 5.459432,
-    "eta": 0.905065,
+    "eta": 0.902404,
     "N": 44,
-    "W": 129469,
-    "gini": -0.344138
+    "W": 130174,
+    "gini": -0.347567
   },
-  "drift_kl": 0.0,
+  "drift_kl": 8.1e-05,
   "file_sizes": {
     "BENCHMARKS.md": 1480,
     "BUILD_DISCIPLINE.md": 3607,
@@ -55,7 +55,7 @@
     "RELEASE_v2.1.0_ru.md": 2742,
     "RELEASE_v2.1.0_zh.md": 2018,
     "PROJECT_CONTEXT.md": 5249,
-    "README.md": 26778,
+    "README.md": 27483,
     "RELEASE_NOTES_MANIFEST.md": 6775,
     "SECURITY.md": 1628
   },
