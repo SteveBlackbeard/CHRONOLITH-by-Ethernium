@@ -8,7 +8,7 @@ version = "3.2.1"
 authors = [
   { name = "SteveBlackbeard" },
 ]
-description = "Chronolith: Persistent Cognitive Layer for AI context handoffs. Deterministic Merkle-based integrity with Shannon Entropy physics. Includes Lite, Pro, and Omega editions."
+description = "One hash for a project's documentation, keyed by path: a rename or a byte changes it. Signed baselines, Merkle proofs, Bitcoin anchoring. Lite, Pro and Omega editions."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"

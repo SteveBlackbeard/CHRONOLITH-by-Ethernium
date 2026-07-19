@@ -8,7 +8,7 @@ version = "3.2.1"
 authors = [
   { name = "SteveBlackbeard" },
 ]
-description = "Chronolith (Pro): Industrial-grade AI continuity framework with security audits and global synchronization."
+description = "Everything in Lite, plus proof a stranger can check: Ed25519-signed baselines, an append-only transparency chain, O(log n) Merkle inclusion proofs and Bitcoin anchoring. Its verify command reports what it did not prove."
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"

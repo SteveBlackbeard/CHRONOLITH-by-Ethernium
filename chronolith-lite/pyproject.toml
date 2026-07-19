@@ -8,7 +8,7 @@ version = "3.2.1"
 authors = [
   { name = "SteveBlackbeard" },
 ]
-description = "Chronolith (Lite): A professional AI continuity framework for zero-friction context handoffs."
+description = "Detects when a project's documentation stops matching its signed baseline, and fails closed on push. Four commands, no configuration."
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
