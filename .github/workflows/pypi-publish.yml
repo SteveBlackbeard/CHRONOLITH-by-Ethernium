@@ -1,48 +1,77 @@
 name: PyPI Publish
 
+# Trusted Publishing (OIDC). PyPI verifies this workflow's identity directly,
+# so there is no API token in repository secrets, on a laptop, or in a .pypirc.
+# The previous version stored PYPI_API_TOKEN, a long-lived credential able to
+# publish all four packages under this account. Nothing to steal is stronger
+# than something guarded.
+#
+# One-time setup, once per project, at https://pypi.org/manage/account/publishing/
+# For each of chronolith, chronolith-lite, chronolith-pro, chronolith-omega:
+#     Owner:            SteveBlackbeard
+#     Repository name:  CHRONOLITH-by-Ethernium
+#     Workflow name:    pypi-publish.yml
+#     Environment name: pypi
+#
+# Then create the `pypi` environment under Settings -> Environments. A required
+# reviewer there means no release publishes without a human approving it.
+#
+# Once every project is configured, delete the PYPI_API_TOKEN secret. Leaving a
+# credential that nothing uses is strictly worse than not having one.
+
 on:
   release:
     types: [published]
   workflow_dispatch:
 
 jobs:
-  build-and-publish:
-    name: Build and Publish to PyPI
+  publish:
+    name: Publish ${{ matrix.package-path }}
     runs-on: ubuntu-latest
+    environment: pypi
     permissions:
-      contents: read
+      # The entire authentication mechanism. No secret is read in this file.
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
         package-path: [".", "chronolith-lite", "chronolith-pro", "chronolith-omega"]
-    
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.12"
-        
-    - name: Install build dependencies
-      run: python -m pip install --upgrade pip build twine
-      
-    - name: Build binary wheel and source tarball
-      run: |
-        cd ${{ matrix.package-path }}
-        rm -rf dist/
-        python -m build
-        
-    - name: Validate built artifacts
-      run: |
-        cd ${{ matrix.package-path }}
-        python -m twine check dist/*
 
-    - name: Publish to PyPI
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        TWINE_NON_INTERACTIVE: true
-      run: |
-        cd ${{ matrix.package-path }}
-        python -m twine upload --skip-existing dist/*
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build tooling
+        run: python -m pip install --upgrade pip build twine
+
+      - name: Build wheel and sdist
+        run: |
+          cd ${{ matrix.package-path }}
+          rm -rf dist/
+          python -m build
+
+      - name: Validate metadata
+        run: |
+          cd ${{ matrix.package-path }}
+          python -m twine check dist/*
+
+      # Test what will ship, not the working tree. The two are not the same
+      # file set, and only one of them reaches anyone.
+      - name: Run the edition's tests against the built wheel
+        run: |
+          cd ${{ matrix.package-path }}
+          if [ -d tests ]; then
+            pip install dist/*.whl
+            pip install pytest
+            python -m pytest tests -q
+          else
+            echo "no tests in ${{ matrix.package-path }}; skipping"
+          fi
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: ${{ matrix.package-path }}/dist/
