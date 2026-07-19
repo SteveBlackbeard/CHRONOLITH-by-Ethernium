@@ -1,9 +1,9 @@
 {
   "phase": "stable",
   "last_update": "2026-04-05T10:55:45.281220",
-  "signature": "323bca6f033e374ab83ea8852339bdd741a6760f989524881a5a2ba5ffdd73a5",
+  "signature": "65cb65750884ba280958a5064e955d7b1ed42a122b342341981f1a9dd29cb87f",
   "merkle_root": "1e52590d8d0544a69dda23a3d9716e91fb766063a1572ccd7d5e6a81dd12f34d",
-  "last_check": "2026-07-19T08:19:41.332197",
+  "last_check": "2026-07-19T08:33:19.143254",
   "physics": {
     "H": 4.941141,
     "H_max": 5.459432,
@@ -12,7 +12,7 @@
     "W": 129469,
     "gini": -0.344138
   },
-  "drift_kl": 1.3e-05,
+  "drift_kl": 0.0,
   "file_sizes": {
     "BENCHMARKS.md": 1480,
     "BUILD_DISCIPLINE.md": 3607,
