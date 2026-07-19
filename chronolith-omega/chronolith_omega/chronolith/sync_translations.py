@@ -12,7 +12,11 @@ from datetime import datetime
 # This script manages multilingual documentation across the 4 levels: 
 # Root, Pro, Lite, and Omega. It detects drift and can auto-generate READMEs.
 
-LANG_CODES = ["es", "ja", "ru", "zh", "fr", "it", "de", "pt", "en"]
+LANG_CODES = ["es", "ja", "ru", "zh", "fr", "it", "de", "pt", "ko", "ar", "en"]
+
+# Written into every generated file, and the only way to tell a placeholder
+# from a real translation that must not be clobbered.
+MARKER = "CHRONOLITH: Global Infrastructure - Generated"
 
 def calculate_md5(path: Path) -> str:
     if not path.exists(): return ""
@@ -60,6 +64,18 @@ def sync_all(repo_root: Path, auto_gen: bool):
         target_path = lang_dir / f"README_{lang}.md"
         
         if auto_gen:
+            # Fail-closed. The generator emits a two-line stub, not a
+            # translation. Overwriting unconditionally meant one run of
+            # --auto-generate destroyed every hand-written README in every
+            # language and replaced it with a placeholder.
+            #
+            # A file is only regenerated when it does not exist yet, or when
+            # this tool is the one that wrote it — which its own footer marks.
+            if target_path.exists():
+                existing = target_path.read_text(encoding="utf-8", errors="replace")
+                if MARKER not in existing:
+                    print(f"    -> SKIP {lang}: hand-written, refusing to overwrite")
+                    continue
             print(f"    -> Updating {lang} README...")
             content = generate_localized_readme(lang, edition, source_path.read_text(encoding="utf-8"))
             target_path.write_text(content, encoding="utf-8")

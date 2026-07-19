@@ -11,7 +11,11 @@ from datetime import datetime
 # ---------------------------------------------------------
 # ENE Optimized: Semantic sidecar loading (x20 script weight reduction).
 
-LANG_CODES = ["es", "ja", "ru", "zh", "fr", "it", "de", "pt", "en"]
+LANG_CODES = ["es", "ja", "ru", "zh", "fr", "it", "de", "pt", "ko", "ar", "en"]
+
+# Written into every generated file, and the only way to tell a placeholder
+# from a real translation that must not be clobbered.
+MARKER = "CHRONOLITH: Global Infrastructure - Generated"
 
 def load_translations():
     """ENE: Dynamic Nucleotide Loading (Saves 6,000 tokens of active logic)."""
