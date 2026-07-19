@@ -41,8 +41,19 @@ jobs:
         run: |
           git config user.name "Chronolith Sentinel"
           git config user.email "sentinel@chronolith-legacy.dev"
-          git add STATE.json README.md SESSION_TOKEN_REPORT.md || true
-          if git diff-index --quiet HEAD; then
+          # Add only what exists. `git add a b missing` aborts on the missing
+          # pathspec and stages NOTHING, and `|| true` hid that. SESSION_TOKEN_
+          # REPORT.md is not in the repository, so every run staged nothing.
+          git add -- STATE.json README.md
+          if [ -f SESSION_TOKEN_REPORT.md ]; then
+            git add -- SESSION_TOKEN_REPORT.md
+          fi
+          # Ask about the INDEX, not the working tree. diff-index compared
+          # against HEAD and saw the crystallizer's edits, so it took the
+          # commit branch with an empty index — and `git commit` exits 1 with
+          # "no changes added to commit". That is the whole reason this job has
+          # been red on every single run.
+          if git diff --cached --quiet; then
             echo "✔ No drift detected. State is pure."
           else
             git commit -m "sentinel: [AUTO] DNA Parity Crystallization 🛡️"
