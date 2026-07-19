@@ -58,13 +58,15 @@ jobs:
           cd ${{ matrix.package-path }}
           python -m twine check dist/*
 
-      # Two different questions, so two steps.
-      #
-      # The suites append the source directory to sys.path and import the
-      # module bare, because they were written to exercise the source. Running
-      # them with a wheel already installed made the import ambiguous and the
-      # job failed on a package that was perfectly fine. That was a defect in
-      # this workflow, not in the edition.
+      # Installing the wheel first is what brings the edition's dependencies,
+      # so the tests need it. It is only safe because the suites now use
+      # sys.path.insert(0, ...): with append, each edition's root launcher
+      # shadowed the real module and a healthy package failed to import.
+      - name: Install the built wheel
+        run: |
+          cd ${{ matrix.package-path }}
+          pip install dist/*.whl
+
       - name: Run the edition's tests
         run: |
           cd ${{ matrix.package-path }}
@@ -75,13 +77,12 @@ jobs:
             echo "no tests in ${{ matrix.package-path }}; skipping"
           fi
 
-      # And this asks the question the suites cannot: does the artifact that
-      # will actually be published import, and expose its entry point? A wheel
-      # can omit a module the source tree has, and no source test would notice.
+      # And this asks what the suites cannot: does the artifact that will
+      # actually be published import, and expose its entry point? A wheel can
+      # omit a module the source tree has, and no source test would notice.
       - name: Smoke-test the built wheel
         run: |
           cd ${{ matrix.package-path }}
-          pip install dist/*.whl
           # Every edition ships a console script. Running --help proves the
           # entry point resolves and the wheel's imports all load, which is
           # precisely what a source-tree test cannot tell you.
