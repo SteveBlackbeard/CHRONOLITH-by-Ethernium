@@ -33,14 +33,6 @@
       "bytes": 6123,
       "sha256": "eb3b66c21700a7392ec97ee2d762d37404fe3817d2d9d1088f3603e07d1371af"
     },
-    "README.md": {
-      "bytes": 26496,
-      "sha256": "dd5c329278b21c99f405fd5b3241273aee90ce587e82da108d924f733b04ca52"
-    },
-    "STATE.json": {
-      "bytes": 1919,
-      "sha256": "3c1fd9fc6662f318ee1ffd403a3b8d5bb24331871368ec1de4782a065929d79e"
-    },
     "VERSION": {
       "bytes": 6,
       "sha256": "33bdaf9e2d6bcbde2e4e613e865e403f8fe21fc621078d34c30b0bdc7f68d903"
@@ -54,15 +46,15 @@
       "sha256": "053bcabce55a7dfda0bd7a7753462ab782264571b660cd4eb6406870eacd0fec"
     },
     "scripts/golden_baseline.py": {
-      "bytes": 5979,
-      "sha256": "e161443203e31e445baba782795ab720a5f124e941a507c5b193df63a30ac32f"
+      "bytes": 6581,
+      "sha256": "f27361c46517bc6ccdab649f51a7875380ddd05c003c5829e2438c5f529f57c0"
     },
     "scripts/health_guard.py": {
       "bytes": 7909,
       "sha256": "1ea4933b3e1a847ba226e530586f362c75ff92e1df08dd3069d3c6ba23381a71"
     }
   },
-  "generated_at": "2026-07-19T02:29:55+00:00",
+  "generated_at": "2026-07-19T02:32:18+00:00",
   "generated_by": "python scripts/golden_baseline.py refresh",
   "policy": {
     "destructive": false,

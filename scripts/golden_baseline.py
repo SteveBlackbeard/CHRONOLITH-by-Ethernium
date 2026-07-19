@@ -19,15 +19,25 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 BASELINE_PATH = ROOT / ".chronolith" / "golden-baseline.json"
 
+# Human-authored files only.
+#
+# README.md and STATE.json are deliberately absent. The Sentinel rewrites both
+# on every push to main and commits the result, so governing them created a
+# loop: the Sentinel commits, its own commit triggers the Guardian, the
+# Guardian reports the Sentinel's write as drift, and the build is red forever
+# through nobody's fault.
+#
+# That loop ran for months. A baseline states what humans agreed must not
+# change silently. Machine-regenerated telemetry is not that, and including it
+# only teaches people to ignore a check that is always failing — which is
+# exactly when a real drift slips through.
 DEFAULT_PATHS = [
     "LICENSE",
     "VERSION",
     "pyproject.toml",
-    "README.md",
     "PROJECT_CONTEXT.md",
     "PROJECT_DNA.md",
     "GOVERNANCE.md",
-    "STATE.json",
     "PROJECT_DNA.ene.md.locked",
     ".chronolith/rulebook.json",
     ".chronolith/feature-registry.json",
