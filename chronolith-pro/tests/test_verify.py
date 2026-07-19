@@ -9,7 +9,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).parent.parent / "chronolith_pro" / "chronolith"))
+sys.path.insert(0, str(Path(__file__).parent.parent / "chronolith_pro" / "chronolith"))
 
 try:
     import cryptography  # noqa: F401

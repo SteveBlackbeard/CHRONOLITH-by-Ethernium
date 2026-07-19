@@ -19,7 +19,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).parent.parent / "chronolith_pro" / "chronolith"))
+sys.path.insert(0, str(Path(__file__).parent.parent / "chronolith_pro" / "chronolith"))
 
 import secret_detector as sd  # noqa: E402
 

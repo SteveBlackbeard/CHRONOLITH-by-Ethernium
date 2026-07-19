@@ -9,7 +9,7 @@ import hashlib
 # Expert #4 (QA): First test suite for Omega edition. Tests cognitive map
 # generation and decision extraction without requiring chromadb.
 
-sys.path.append(str(Path(__file__).parent.parent / 'chronolith_omega' / 'chronolith'))
+sys.path.insert(0, str(Path(__file__).parent.parent / 'chronolith_omega' / 'chronolith'))
 
 from cognitive_map import extract_decisions, generate_cognitive_map
 

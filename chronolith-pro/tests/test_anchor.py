@@ -11,7 +11,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).parent.parent / "chronolith_pro" / "chronolith"))
+sys.path.insert(0, str(Path(__file__).parent.parent / "chronolith_pro" / "chronolith"))
 
 import anchor as anchor_mod  # noqa: E402
 

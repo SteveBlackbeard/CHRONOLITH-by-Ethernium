@@ -6,7 +6,7 @@ import sys
 # CHRONOLITH: Logic Audit Tests (v2.1.1 - RFC 6962 Hardened)
 # ------------------------------------------------------------------
 
-sys.path.append(str(Path(__file__).parent.parent / 'chronolith_lite' / 'chronolith'))
+sys.path.insert(0, str(Path(__file__).parent.parent / 'chronolith_lite' / 'chronolith'))
 
 from run_chronolith_lite import (
     build_merkle_root,

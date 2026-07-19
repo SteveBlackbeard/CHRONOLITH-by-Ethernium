@@ -58,18 +58,85 @@ jobs:
           cd ${{ matrix.package-path }}
           python -m twine check dist/*
 
-      # Test what will ship, not the working tree. The two are not the same
-      # file set, and only one of them reaches anyone.
-      - name: Run the edition's tests against the built wheel
+      # Two different questions, so two steps.
+      #
+      # The suites append the source directory to sys.path and import the
+      # module bare, because they were written to exercise the source. Running
+      # them with a wheel already installed made the import ambiguous and the
+      # job failed on a package that was perfectly fine. That was a defect in
+      # this workflow, not in the edition.
+      - name: Run the edition's tests
         run: |
           cd ${{ matrix.package-path }}
           if [ -d tests ]; then
-            pip install dist/*.whl
             pip install pytest
             python -m pytest tests -q
           else
             echo "no tests in ${{ matrix.package-path }}; skipping"
           fi
+
+      # And this asks the question the suites cannot: does the artifact that
+      # will actually be published import, and expose its entry point? A wheel
+      # can omit a module the source tree has, and no source test would notice.
+      - name: Smoke-test the built wheel
+        run: |
+          cd ${{ matrix.package-path }}
+          pip install dist/*.whl
+          # Every edition ships a console script. Running --help proves the
+          # entry point resolves and the wheel's imports all load, which is
+          # precisely what a source-tree test cannot tell you.
+          python - <<'PY'
+          import importlib.metadata as md
+          import shutil
+          import subprocess
+          import sys
+          import sysconfig
+          from pathlib import Path
+
+          entries = {
+              ep.name: ep.value
+              for dist in md.distributions()
+              if (dist.metadata["Name"] or "").startswith("chronolith")
+              for ep in dist.entry_points
+              if ep.group == "console_scripts"
+          }
+          if not entries:
+              sys.exit("no console script found in the installed wheel")
+
+          def locate(name):
+              # PATH is not reliable across platforms and virtualenvs, and a
+              # check that only passes on the CI runner is not a check.
+              found = shutil.which(name)
+              if found:
+                  return found
+              bindir = Path(sysconfig.get_path("scripts"))
+              for candidate in (bindir / name, bindir / f"{name}.exe"):
+                  if candidate.exists():
+                      return str(candidate)
+              return None
+
+          for name, target in sorted(entries.items()):
+              # Import the module the entry point names. This is the check a
+              # source-tree test cannot make: the wheel may simply not contain it.
+              module = target.split(":")[0]
+              __import__(module)
+
+              script = locate(name)
+              if script is None:
+                  sys.exit(f"console script {name} was not installed")
+              # utf-8/replace: the CLIs print unicode that a cp1252 console
+              # cannot decode when captured, which raises in a reader thread
+              # and has nothing to do with whether the command works.
+              result = subprocess.run(
+                  [script, "--help"], capture_output=True, text=True,
+                  encoding="utf-8", errors="replace",
+              )
+              if result.returncode != 0:
+                  sys.exit(f"{name} --help failed:\n{result.stdout}\n{result.stderr}")
+              print(f"  {name} -> imports {module}, --help exits 0")
+
+          print(f"wheel smoke test passed: {sorted(entries)}")
+          PY
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1

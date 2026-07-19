@@ -5,7 +5,7 @@ import os
 import sys
 
 # Add tools to path
-sys.path.append(str(Path(__file__).parent.parent / 'chronolith_pro' / 'chronolith'))
+sys.path.insert(0, str(Path(__file__).parent.parent / 'chronolith_pro' / 'chronolith'))
 
 from doc_parity_check import check_doc_parity
 

@@ -26,7 +26,7 @@ current_dir = Path(__file__).parent
 # Correct module path (the old "tools/chronolith" path no longer exists,
 # which silently skipped every decision_engine test).
 tools_dir = current_dir.parent / "chronolith_pro" / "chronolith"
-sys.path.append(str(tools_dir))
+sys.path.insert(0, str(tools_dir))
 
 # Attempt to import decision_engine. If it fails, tests will error appropriately.
 try:

@@ -9,7 +9,7 @@ import sys
 # Verifies that Omega can correctly audit the project DNA and parity state.
 
 # Add Omega package to path
-sys.path.append(str(Path(__file__).parent.parent / 'chronolith_omega' / 'chronolith'))
+sys.path.insert(0, str(Path(__file__).parent.parent / 'chronolith_omega' / 'chronolith'))
 
 from doc_parity_check import check_doc_parity
 
