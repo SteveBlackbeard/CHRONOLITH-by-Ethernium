@@ -1,23 +1,23 @@
 {
   "phase": "stable",
   "last_update": "2026-04-05T10:55:45.281220",
-  "signature": "39ae487bc01c877b32d5654c5765892af5e2cfba8f24535589ce8de75a0c2c51",
-  "merkle_root": "e373d38b7fa7c765e34ba11cf88be8fa6f758dac3b4a247f9b190afa3fe23e49",
-  "last_check": "2026-07-19T12:58:24.951241",
+  "signature": "0cb64a7bd00f3e43a3a7007b5ddac5f7b68af5e41e2ce56031cd0c0417ed445c",
+  "merkle_root": "1830cf471ec0333fe92dc843b1dced78c8426d5a79494892d41a60483ce8f1fa",
+  "last_check": "2026-07-21T13:46:42.499367",
   "physics": {
-    "H": 4.926613,
+    "H": 4.925009,
     "H_max": 5.459432,
-    "eta": 0.902404,
+    "eta": 0.90211,
     "N": 44,
-    "W": 130174,
-    "gini": -0.347567
+    "W": 131760,
+    "gini": -0.353552
   },
-  "drift_kl": 0.0,
+  "drift_kl": 0.002987,
   "file_sizes": {
     "BENCHMARKS.md": 1480,
     "BUILD_DISCIPLINE.md": 3607,
     "CASE_STUDY_DRIFT.md": 2380,
-    "CHANGELOG.md": 3952,
+    "CHANGELOG.md": 5538,
     "CONTRIBUTING.md": 1678,
     "CONTRIBUTORS.md": 433,
     "ETHERNIUM_UNIVERSAL_DNA.md": 2101,
