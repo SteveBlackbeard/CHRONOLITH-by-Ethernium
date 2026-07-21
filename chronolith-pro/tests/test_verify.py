@@ -67,6 +67,41 @@ class TestVerifyCommand(unittest.TestCase):
         _p, pub = ac.load_sovereign_keys(self.root)
         return sv.key_fingerprint(pub)
 
+    def test_check_fails_closed_on_drift_by_default(self):
+        """Plain `check` must exit 1 when a governed file changed.
+
+        The previous logic only halted under --strict or refused to halt under
+        permissive; with stock defaults it printed the drift and exited 0. A CI
+        job running plain `check` passed on a drifting repository — the exact
+        failure this tool exists to catch, and the opposite of its own Law 3.
+
+        Found by an agent running the tool for real, not by reading it.
+        """
+        (self.root / "DOC.md").write_text("# Canonical\nan unaccepted edit\n", encoding="utf-8")
+        result = self._run("check", "--no-scan-source")
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertIn("FAIL-CLOSED", result.stdout)
+
+    def test_check_accept_advances_baseline_and_exits_zero(self):
+        """--accept is the sanctioned way to record an intentional edit."""
+        (self.root / "DOC.md").write_text("# Canonical\nan intentional edit\n", encoding="utf-8")
+        accepted = self._run("check", "--no-scan-source", "--accept")
+        self.assertEqual(accepted.returncode, 0, accepted.stdout + accepted.stderr)
+        # And the baseline actually moved: a plain check is clean afterward.
+        after = self._run("check", "--no-scan-source")
+        self.assertEqual(after.returncode, 0, after.stdout + after.stderr)
+
+    def test_permissive_mode_is_the_only_escape_hatch(self):
+        """CHRONOLITH_MODE=permissive continues past drift; nothing else does."""
+        import os
+        (self.root / "DOC.md").write_text("# Canonical\ndrift\n", encoding="utf-8")
+        env = dict(os.environ, CHRONOLITH_MODE="permissive")
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "check", "--no-scan-source", "--repo-root", str(self.root)],
+            capture_output=True, text=True, encoding="utf-8", errors="replace", env=env,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_chain_command_runs(self):
         """`chain` renders the transparency chain without crashing.
 

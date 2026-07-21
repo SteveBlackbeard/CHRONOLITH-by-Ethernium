@@ -228,7 +228,20 @@ def init(
     if not no_hook:
         hook_path = root / ".git" / "hooks" / "pre-push"
         hook_path.parent.mkdir(parents=True, exist_ok=True)
-        hook_content = f"#!/bin/sh\n# Chronolith Pro Evolution Hook\necho '[*] Guarding Pro DNA...'\npython \"{Path(__file__).resolve()}\" check --strict || exit 1\n"
+        # Invoke through this interpreter, as a module. The old hook wrote a
+        # bare `python` and a hardcoded absolute site-packages path: under
+        # git-bash on Windows `python` is often not on PATH, so the hook died
+        # with "command not found" and blocked every push regardless of DNA
+        # state — fail-closed by accident, and unusable. sys.executable is the
+        # interpreter that installed the package; -m avoids the frozen path.
+        # `--strict` is dropped: check fails closed by default now.
+        py = Path(sys.executable).as_posix()
+        hook_content = (
+            "#!/bin/sh\n"
+            "# Chronolith Pro Evolution Hook\n"
+            "echo '[*] Guarding Pro DNA...'\n"
+            f'"{py}" -m chronolith_pro.chronolith.run_chronolith_cycle check || exit 1\n'
+        )
         hook_path.write_text(hook_content, encoding="utf-8")
         if os.name != "nt": os.chmod(hook_path, 0o755)
         console.log(f"[bold green][✔][/bold green] Pro Push Hook installed.")
@@ -237,7 +250,7 @@ def init(
 @app.command()
 def check(
     repo_root: Path = typer.Option(".", "--repo-root", help="Project root directory."),
-    strict: bool = typer.Option(False, "--strict", help="Fail with exit code 1 if drift detected."),
+    strict: bool = typer.Option(False, "--strict", help="Deprecated no-op: check now fails closed by default. Set CHRONOLITH_MODE=permissive to continue past inconsistencies instead."),
     scan_source: bool = typer.Option(True, "--scan-source/--no-scan-source", help="Scan source code files alongside documentation."),
     accept: bool = typer.Option(False, "--accept", help="Accept the current content as the new canonical baseline (like `git commit`): advances the signed baseline and appends a transparency-chain entry even though the root changed. Without this, an intentional edit is reported as drift and the baseline is NOT advanced."),
 ):
@@ -371,7 +384,14 @@ def check(
         "doc_files": len(doc_files),
         "source_files": len(source_files),
         "doc_parity": doc_parity["status"],
-        "security": "ok" if not secret_scan["findings"] else "danger",
+        # Respect severity. The scanner separates a tracked key in the index
+        # (danger — an actual leak) from an untracked local key (warning — where
+        # keys are supposed to live). Collapsing both into "danger" made the
+        # tool halt on the very sovereign keys `sovereign-init` creates: it
+        # tells you to make a key, then condemns you for having it. Only a
+        # danger-level finding is a security failure.
+        "security": "danger" if any(f.get("status") == "danger" for f in secret_scan["findings"])
+                    else ("warning" if secret_scan["findings"] else "ok"),
         "findings": len(secret_scan["findings"]),
         "dna_drift": dna_drift,
         "signature_tampered": signature_tampered,
@@ -386,27 +406,41 @@ def check(
     report_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
     logger.info("Cycle complete", extra={"merkle_root": merkle_root})
     
+    # Compute the verdict BEFORE printing the status line, so the panel cannot
+    # say OK on a run that is about to halt. The old panel printed a hardcoded
+    # "Status: OK" (doubled label and all) above the fail-closed check, so a
+    # halting run announced OK and then aborted.
+    has_issues = report["doc_parity"] != "ok" or report["security"] == "danger" or dna_drift or signature_tampered or not chain_ok
+    status_word = "INCONSISTENT" if has_issues else "OK"
+    status_colour = "red" if has_issues else "green"
+
     console.print(Panel(
-        f"[bold magenta]Pro Status:[/bold magenta] "
-        f"Status: OK | "
+        f"[bold {status_colour}]Pro Status: {status_word}[/bold {status_colour}] | "
         f"Merkle: `{merkle_root[:16]}...` | "
         f"Nucleotides: {len(all_nucleotides)} "
         f"({len(doc_files)} docs + {len(source_files)} source) | "
         f"Entropy: {total_entropy:.2f}",
         title="Solemne Guardian", expand=False
     ))
-    
+
     if report["security"] == "danger":
         console.print(f"[bold red][!][/bold red] SECURITY ALERT: {len(secret_scan['findings'])} secrets detected in lineage!")
         for finding in secret_scan["findings"]:
             console.print(f"      [red]{finding['type']}[/red] in [italic]{finding['file']}[/italic]")
-    
-    # v3.0.3: Permissive mode — warn but do not halt
-    has_issues = report["doc_parity"] != "ok" or report["security"] == "danger" or dna_drift or signature_tampered or not chain_ok
+
+    # Fail closed by default. The module's own doctrine (Law 3) is "any
+    # inconsistency halts the pipeline with exit 1", and the earlier code did
+    # the opposite: with stock defaults — not permissive, no --strict — this
+    # branch printed the drift and then fell through to exit 0. A CI job
+    # running plain `check` passed on a drifting repository, which is the exact
+    # failure a governance tool exists to prevent.
+    #
+    # Safety is now opt-out, never opt-in: the only way to continue past an
+    # inconsistency is to ask for it explicitly with CHRONOLITH_MODE=permissive.
     if has_issues:
         if PERMISSIVE_MODE:
-            console.print("[bold yellow][!][/bold yellow] PERMISSIVE MODE: Drift detected but pipeline continues. Set CHRONOLITH_MODE=strict for fail-closed.")
-        elif strict:
+            console.print("[bold yellow][!][/bold yellow] PERMISSIVE MODE: inconsistency detected, pipeline continues (CHRONOLITH_MODE=permissive). Unset it for fail-closed.")
+        else:
             console.print("[bold red][!][/bold red] FAIL-CLOSED: Project state inconsistent. Halting.")
             raise typer.Exit(code=1)
 

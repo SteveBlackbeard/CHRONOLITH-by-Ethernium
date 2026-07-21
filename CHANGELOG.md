@@ -2,6 +2,31 @@
 
 All notable changes to the Chronolith ecosystem will be documented in this file.
 
+## [Unreleased]
+### The tool did not enforce its own doctrine
+- **`check` now fails closed by default.** With stock defaults — not permissive,
+  no `--strict` — the old exit logic printed the drift and then fell through to
+  exit 0. A CI job running plain `chronolith-pro check` passed on a drifting
+  repository, the exact failure the tool exists to catch and the opposite of its
+  own Law 3. Safety is now opt-out: `CHRONOLITH_MODE=permissive` is the only way
+  past an inconsistency. `--strict` is a deprecated no-op. Found by an agent
+  running the tool for real, not by reading it.
+- **Severity is respected.** A finding of any kind was collapsed into a security
+  failure, so `check` halted on the very sovereign keys `sovereign-init` creates
+  — it told you to make a key, then condemned you for having it. Only a
+  danger-level finding (a tracked key in the index) now fails the run; an
+  untracked local key is a warning.
+- **The pre-push hook is portable.** It wrote a bare `python` and a hardcoded
+  absolute site-packages path; under git-bash on Windows `python` is often not
+  on PATH, so the hook died with "command not found" and blocked every push
+  regardless of DNA state. It now invokes `sys.executable -m` the module.
+- **The status panel cannot lie.** It printed a hardcoded `Status: Status: OK`
+  above the fail-closed check, announcing OK on a run about to halt. The verdict
+  is computed first; the panel says OK or INCONSISTENT to match the exit code.
+- Regression tests cover all of the above, including the reproduction that
+  exposed the exit-0 bug.
+
+
 ## [3.2.1] - 2026-07-18
 ### Commands that never ran, and checks that never passed
 - **`chain` worked for the first time.** It rendered the transparency chain
