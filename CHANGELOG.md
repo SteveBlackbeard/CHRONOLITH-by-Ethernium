@@ -2,7 +2,18 @@
 
 All notable changes to the Chronolith ecosystem will be documented in this file.
 
-## [Unreleased]
+## [3.2.2] - 2026-07-19
+### The findings an agent hit using the tool for real
+An agent used Chronolith end-to-end while shipping another project and filed a
+reproduction for every defect. This release is those fixes.
+
+Also in this release: package descriptions rewritten to say what each edition
+does instead of advertising adjectives nobody can check ("industrial-grade",
+"Enterprise Oracle", "Shannon Entropy physics"); `.chronolithignore` support so
+a vendored backup tree no longer counts as governed content; a `--quiet` flag
+for clean CI/agent output; a clearer message when `init` runs a second time; and
+`HOW_TO_USE_IT.md` corrected to reference commands that exist.
+
 ### The tool did not enforce its own doctrine
 - **`check` now fails closed by default.** With stock defaults — not permissive,
   no `--strict` — the old exit logic printed the drift and then fell through to

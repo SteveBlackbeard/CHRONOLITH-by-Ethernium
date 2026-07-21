@@ -1,5 +1,5 @@
 {
-  "change_contract": "docs/change-contracts/2026-07-19-honest-descriptions.md",
+  "change_contract": "docs/change-contracts/2026-07-19-release-3-2-2.md",
   "files": {
     ".chronolith/feature-registry.json": {
       "bytes": 2395,
@@ -35,11 +35,11 @@
     },
     "VERSION": {
       "bytes": 6,
-      "sha256": "3822728783049fc2f22a56d1ee74d62352c49fbf81c6b54b50830d6f61c3af22"
+      "sha256": "79b9fb49a71869140833837e3a27ae1722a41faf59746519fde5e1346f9dd5b8"
     },
     "pyproject.toml": {
       "bytes": 1986,
-      "sha256": "0e88dfeaca4c9af1ce5cefbbe2e9e37ff13a62840d029a02eeb788fe55bd04e3"
+      "sha256": "df0b8a4be6095342a351aba8c552c7268952e954f7a49c4f33e11f0a7175c937"
     },
     "scripts/autophagy_report.py": {
       "bytes": 5123,
@@ -54,7 +54,7 @@
       "sha256": "1ea4933b3e1a847ba226e530586f362c75ff92e1df08dd3069d3c6ba23381a71"
     }
   },
-  "generated_at": "2026-07-19T12:56:18+00:00",
+  "generated_at": "2026-07-21T14:10:54+00:00",
   "generated_by": "python scripts/golden_baseline.py refresh",
   "policy": {
     "destructive": false,
