@@ -184,12 +184,45 @@ def _compute_leaves(root: Path, scan_source: bool) -> tuple[list[Path], list[Pat
     return doc_files, source_files, leaves
 
 
+def _load_ignore_patterns(root: Path) -> list[str]:
+    """Read `.chronolithignore`: one fnmatch glob per line, `#` for comments.
+
+    Without this the governed set had no user-facing exclusion. On a repo that
+    vendors backup trees, `check` hashed the dead copies and an edit inside one
+    triggered drift on the live project. Now a user can say what is not
+    canonical, using the syntax they already know from .gitignore.
+    """
+    ignore_file = root / ".chronolithignore"
+    if not ignore_file.exists():
+        return []
+    patterns = []
+    for line in ignore_file.read_text(encoding="utf-8", errors="replace").splitlines():
+        line = line.strip()
+        if line and not line.startswith("#"):
+            patterns.append(line.rstrip("/"))
+    return patterns
+
+
+def _is_ignored(rel_posix: str, patterns: list[str]) -> bool:
+    import fnmatch
+    for pat in patterns:
+        if fnmatch.fnmatch(rel_posix, pat) or fnmatch.fnmatch(rel_posix, f"{pat}/*") or rel_posix.startswith(f"{pat}/"):
+            return True
+    return False
+
+
 def _resolve_scan_paths(root: Path, scan_source: bool) -> tuple[list[Path], list[Path]]:
     """v3.0.3: Resolves documentation and source code files separately for granular reporting."""
     doc_files, source_files = [], []
+    ignore = _load_ignore_patterns(root)
     for r, dirs, files in os.walk(root):
         dirs[:] = [d for d in dirs if d not in [".git", "node_modules", ".chronolith", "outputs", "assets", "banners", "__pycache__", ".venv", ".pytest_cache"]]
+        if ignore:
+            dirs[:] = [d for d in dirs if not _is_ignored((Path(r) / d).relative_to(root).as_posix(), ignore)]
         for f in files:
+            rel = (Path(r) / f).relative_to(root).as_posix()
+            if ignore and _is_ignored(rel, ignore):
+                continue
             ext = Path(f).suffix
             if ext == ".md" and "PROJECT_DNA" not in f:
                 doc_files.append(Path(r) / f)
@@ -218,12 +251,21 @@ def init(
         ".chronolith/TIMELINE.md": "# Project Timeline\n\n- Strategic events.",
     }
     
+    created = 0
     for filename, template in files.items():
         path = root / filename
         if not path.exists():
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(template, encoding="utf-8")
             console.log(f"    [green][✔][/green] Crystallized: [italic]{filename}[/italic]")
+            created += 1
+
+    # Say so when there was nothing to create. A silent second run looked like
+    # a successful re-crystallization but advanced nothing, and the right verb
+    # for an existing project — check --accept — was not obvious.
+    if created == 0:
+        console.print("[yellow][i] Memory core already present — nothing re-created. "
+                      "To record intentional edits, use `check --accept`.[/yellow]")
 
     if not no_hook:
         hook_path = root / ".git" / "hooks" / "pre-push"
@@ -253,9 +295,11 @@ def check(
     strict: bool = typer.Option(False, "--strict", help="Deprecated no-op: check now fails closed by default. Set CHRONOLITH_MODE=permissive to continue past inconsistencies instead."),
     scan_source: bool = typer.Option(True, "--scan-source/--no-scan-source", help="Scan source code files alongside documentation."),
     accept: bool = typer.Option(False, "--accept", help="Accept the current content as the new canonical baseline (like `git commit`): advances the signed baseline and appends a transparency-chain entry even though the root changed. Without this, an intentional edit is reported as drift and the baseline is NOT advanced."),
+    quiet: bool = typer.Option(False, "--quiet", help="Suppress the banner and progress spinner for clean CI/agent output. The status panel and exit code are unaffected."),
 ):
     """Validate full project parity, doc-immunity, and security audits."""
-    console.print(_banner())
+    if not quiet:
+        console.print(_banner())
     root = repo_root.resolve()
     logger = setup_logger(root)
     

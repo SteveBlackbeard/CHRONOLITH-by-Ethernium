@@ -43,9 +43,9 @@ chronolith-lite init
 ```bash
 chronolith init
 ```
-3. **Crystallize**: Si el proyecto ya tiene documentación, el sistema detectará un "DNA Drift". Debes cristalizar el estado inicial:
+3. **Crystallize**: Si el proyecto ya tiene documentación, `check` detectará un "DNA Drift" cuando edites algo. Para aceptar el estado actual como la nueva línea base canónica:
 ```bash
-chronolith status --fix
+chronolith check --accept
 ```
 
 ## 4. 🛰️ Operación del Sentinel Guardian

@@ -196,3 +196,46 @@ class TestVerifyCommand(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestUsabilityFixes(unittest.TestCase):
+    """Fixes for defects an agent found using the tool for real (C-4, C-5, C-8)."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory(ignore_cleanup_errors=True)
+        self.root = Path(self.tmp.name)
+        subprocess.run(["git", "init"], cwd=self.root, capture_output=True)
+        (self.root / "DOC.md").write_text("# Canonical\n", encoding="utf-8")
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def _run(self, *args):
+        return subprocess.run(
+            [sys.executable, str(SCRIPT), *args, "--repo-root", str(self.root)],
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+        )
+
+    def test_init_second_run_says_nothing_was_recreated(self):
+        """C-5: a silent no-op second init read as a successful re-crystallization."""
+        self._run("init", "--no-hook")
+        second = self._run("init", "--no-hook")
+        self.assertIn("already present", second.stdout)
+
+    def test_quiet_suppresses_banner_but_not_the_verdict(self):
+        """C-8: --quiet gives clean CI output; the status panel still prints."""
+        self._run("init", "--no-hook")
+        result = self._run("check", "--no-scan-source", "--quiet")
+        self.assertNotIn("________", result.stdout)  # no ASCII banner
+        self.assertIn("Pro Status:", result.stdout)  # verdict still there
+
+    def test_chronolithignore_excludes_matching_paths(self):
+        """C-4: an edit inside an ignored backup tree must not trigger drift."""
+        (self.root / "BACKUP").mkdir()
+        (self.root / "BACKUP" / "DOC.md").write_text("# dead\n", encoding="utf-8")
+        (self.root / ".chronolithignore").write_text("BACKUP\n", encoding="utf-8")
+        self._run("init", "--no-hook")
+        self._run("check", "--accept", "--quiet")
+        (self.root / "BACKUP" / "DOC.md").write_text("# dead edited\n", encoding="utf-8")
+        result = self._run("check", "--no-scan-source", "--quiet")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
